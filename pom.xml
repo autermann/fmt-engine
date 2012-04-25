@@ -10,14 +10,10 @@
 	<url>http://www.ifgi.de</url>
 	<inceptionYear>2012</inceptionYear>
 	<description>${project.name}</description>
-	<!--
-	<scm>
-		<tag>HEAD</tag>
-		<url>http://svn.52north.org/svn/geostatistics/main/uncertweb/viss/trunk</url>
-		<connection>scm:svn:https://svn.52north.org/svn/geostatistics/main/uncertweb/viss/trunk</connection>
-		<developerConnection>scm:svn:https://svn.52north.org/svn/geostatistics/main/uncertweb/viss/trunk</developerConnection>
-	</scm>
-	-->
+	<!-- <scm> <tag>HEAD</tag> <url>http://svn.52north.org/svn/geostatistics/main/uncertweb/viss/trunk</url> 
+		<connection>scm:svn:https://svn.52north.org/svn/geostatistics/main/uncertweb/viss/trunk</connection> 
+		<developerConnection>scm:svn:https://svn.52north.org/svn/geostatistics/main/uncertweb/viss/trunk</developerConnection> 
+		</scm> -->
 	<licenses>
 		<license>
 			<name>GNU GPLv2</name>
@@ -92,6 +88,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.1</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -158,8 +155,17 @@
 			<artifactId>mongo-java-driver</artifactId>
 			<version>2.6.5</version>
 		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vividsolutions</groupId>
+			<artifactId>jts</artifactId>
+			<version>1.12</version>
+		</dependency>
 	</dependencies>
-
 	<repositories>
 		<repository>
 			<id>java.net</id>
@@ -199,13 +205,21 @@
 		</testResources>
 		<plugins>
 			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.1.1</version>
 				<configuration>
 					<filterDeploymentDescriptors>true</filterDeploymentDescriptors>
 					<webResources>
-						 <resource>
+						<resource>
 							<directory>schema</directory>
 							<targetPath>WEB-INF/classes/schema</targetPath>
 							<filtering>false</filtering>

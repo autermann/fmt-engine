@@ -1,0 +1,104 @@
+package de.ifgi.fmt.utils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Modifier;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.Set;
+
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class Implementations {
+	protected static class InstantiableFilter implements Filter<Class<?>> {
+		public boolean test(Class<?> t) {
+			int mod = t.getModifiers();
+			return !(Modifier.isInterface(mod) 
+					&& Modifier.isAbstract(mod) 
+					&& Modifier.isPublic(mod));
+		}
+	};
+	
+	protected static class AnnotationFilter implements Filter<Class<?>> {
+		private Class<? extends Annotation>[] a;
+		public AnnotationFilter(Class<? extends Annotation>... a) {
+			this.a = a;
+		}
+		public boolean test(Class<?> t) {
+			for (Class<? extends Annotation> c : a) {
+				if (t.getAnnotation(c) == null)
+					return false;
+			}
+			return true;
+		}
+	}
+	
+	protected static final Logger log = LoggerFactory.getLogger(Implementations.class);
+	private static final String PROPERTIES_FILE = "/provider.properties";
+
+	private static Map<String, String> implementations = Utils.map();
+	private static final Reflections r = new Reflections("de.ifgi.hp", new SubTypesScanner());
+
+	static {
+		InputStream is = Implementations.class
+				.getResourceAsStream(PROPERTIES_FILE);
+		if (is != null) {
+			try {
+				Properties p = new Properties();
+				p.load(is);
+				for (Entry<Object, Object> e : p.entrySet()) {
+					implementations.put((String) e.getKey(),
+							(String) e.getValue());
+				}
+			} catch (IOException e) {
+				throw new RuntimeException("can not load properties file: "
+						+ PROPERTIES_FILE, e);
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> Class<? extends T> getSubclass(Class<T> t) {
+
+		Set<Class<? extends T>> classes = getSubclasses(t);
+		if (classes.isEmpty()) {
+			String impl = implementations.get(t.getCanonicalName());
+			if (impl == null) {
+				throw new NullPointerException("can not find implementation for "
+						+ t.getCanonicalName());
+			}
+			try {
+				return (Class<T>) Class.forName(impl);
+			} catch (ClassNotFoundException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		
+		Class<? extends T> c = classes.iterator().next();
+		if (classes.size() > 1 && log.isWarnEnabled()) {
+			StringBuffer buf = new StringBuffer();
+			buf.append("There is more than one implementation of ");
+			buf.append(t.toString()).append("\n");
+			for (Class<? extends T> cl : classes) {
+				buf.append("\t").append(cl.toString()).append("\n");
+			}
+			buf.append("Continuing with ").append(c.getName());
+			log.warn(buf.toString());
+		}
+		return c;
+		
+	}
+	
+	public static <T> Set<Class<? extends T>> getSubclasses(Class<T> t) {
+		return Utils.filter(r.getSubTypesOf(t), new InstantiableFilter());
+	}
+
+	public static <T> Set<Class<? extends T>> getAnnotatedSubclasses(Class<T> clazz, final Class<? extends Annotation>... a) {
+		return Utils.filter(getSubclasses(clazz), new AnnotationFilter(a));
+	}
+}
