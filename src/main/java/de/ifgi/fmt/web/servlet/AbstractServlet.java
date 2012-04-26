@@ -14,13 +14,11 @@ import com.vividsolutions.jts.geom.Point;
 
 import de.ifgi.fmt.Service;
 import de.ifgi.fmt.ServiceError;
-import de.ifgi.fmt.utils.constants.RESTConstants.QueryParams;
+import de.ifgi.fmt.utils.constants.RESTConstants;
 
-public abstract class AbstractServlet {
+public abstract class AbstractServlet implements RESTConstants {
 
 	protected static final String DEFAULT_LIMIT = "20";
-	protected static final String DEFAULT_BOOL = "false";
-	protected static final String DEFAULT_OPENING_STATUS = "BOTH";
 
 	protected static final Logger log = LoggerFactory
 			.getLogger(Root.class);

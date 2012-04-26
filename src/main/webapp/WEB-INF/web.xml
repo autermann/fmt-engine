@@ -14,7 +14,7 @@
 
 		<init-param>
 			<param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
-			<param-value>${filter.request}</param-value>
+			<param-value>de.fmt.web.filter.LogFilter;${filter.request}</param-value>
 		</init-param>
 
 		<init-param>
