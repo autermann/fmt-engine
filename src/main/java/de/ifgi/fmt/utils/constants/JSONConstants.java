@@ -17,7 +17,7 @@ public class JSONConstants {
 	public static final String ROLES_KEY = "roles";
 	public static final String PARTICIPANTS_KEY = "participants";
 	public static final String TITLE_KEY = "title";
-
+	public static final String COMMENTS_KEY = "comments";
 	public static final String FLASHMOBS_KEY = "flashmobs";
 	public static final String SIGNAL_KEY = "signal";
 	public static final String TRIGGERS_KEY = "triggers";

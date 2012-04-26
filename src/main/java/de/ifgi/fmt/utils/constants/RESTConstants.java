@@ -47,6 +47,11 @@ public interface RESTConstants {
 		public static final MediaType TASK_TYPE = MediaType.valueOf(TASK);
 		public static final String TASK_LIST = MIME_TYPE_PREFIX + "task.list" + MIME_TYPE_POSTFIX;
 		public static final MediaType TASK_LIST_TYPE = MediaType.valueOf(TASK);
+		
+		public static final String COMMENT = MIME_TYPE_PREFIX + "comment" + MIME_TYPE_POSTFIX;
+		public static final MediaType COMMENT_TYPE = MediaType.valueOf(COMMENT);
+		public static final String COMMENT_LIST = MIME_TYPE_PREFIX + "comment.list" + MIME_TYPE_POSTFIX;
+		public static final MediaType COMMENT_LIST_TYPE = MediaType.valueOf(COMMENT_LIST);
 	}
 
 	public static abstract class PathParams {

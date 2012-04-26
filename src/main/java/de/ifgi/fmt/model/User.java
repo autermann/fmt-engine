@@ -1,5 +1,7 @@
 package de.ifgi.fmt.model;
 
-public class User {
+import de.ifgi.fmt.mongo.Identifiable;
+
+public class User extends Identifiable {
 
 }

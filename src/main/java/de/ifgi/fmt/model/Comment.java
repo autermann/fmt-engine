@@ -1,5 +1,7 @@
 package de.ifgi.fmt.model;
 
-public class Comment {
+import de.ifgi.fmt.mongo.Identifiable;
+
+public class Comment extends Identifiable {
 
 }

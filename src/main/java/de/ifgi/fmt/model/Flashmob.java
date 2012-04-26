@@ -1,5 +1,7 @@
 package de.ifgi.fmt.model;
 
-public class Flashmob {
+import de.ifgi.fmt.mongo.Identifiable;
+
+public class Flashmob extends Identifiable {
 
 }

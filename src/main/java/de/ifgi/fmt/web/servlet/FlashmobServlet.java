@@ -9,11 +9,13 @@ import javax.ws.rs.QueryParam;
 
 import org.bson.types.ObjectId;
 
-public class Flashmob extends AbstractServlet {
+import de.ifgi.fmt.model.Flashmob;
+
+public class FlashmobServlet extends AbstractServlet {
 
 	@GET
 	@Path(Paths.FLASHMOBS)
-	public List<?> getFlashmobs(@QueryParam(QueryParams.LIMIT) int limit,
+	public List<Flashmob> getFlashmobs(@QueryParam(QueryParams.LIMIT) int limit,
 			@QueryParam(QueryParams.POSITION) String near,
 			@QueryParam(QueryParams.USER) ObjectId user,
 			@QueryParam(QueryParams.BBOX) String bbox,
@@ -29,7 +31,7 @@ public class Flashmob extends AbstractServlet {
 
 	@GET
 	@Path(Paths.FLASHMOB)
-	public Object getFlashmob(@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
+	public Flashmob getFlashmob(@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
 		return null;
 	}
 

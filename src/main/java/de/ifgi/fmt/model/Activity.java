@@ -1,5 +1,7 @@
 package de.ifgi.fmt.model;
 
-public class Activity {
+import de.ifgi.fmt.mongo.Identifiable;
+
+public class Activity extends Identifiable {
 
 }
