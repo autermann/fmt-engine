@@ -1,5 +1,5 @@
 package de.ifgi.fmt.mongo.conv;
-/*
+
 import javax.ws.rs.core.MediaType;
 
 import com.google.code.morphia.converters.SimpleValueConverter;
@@ -29,4 +29,3 @@ public class MediaTypeConverter extends TypeConverter implements
 		return MediaType.valueOf(o.toString());
 	}
 }
-*/
