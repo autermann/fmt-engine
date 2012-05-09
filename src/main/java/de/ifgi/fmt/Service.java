@@ -34,6 +34,8 @@ public class Service {
 	}
 
 	public Flashmob updateFlashmob(ObjectId id, Flashmob flashmob) {
-		return UpdateFactory.getUpdater(Flashmob.class).update(getFlashmob(id), flashmob);
+		Flashmob f = UpdateFactory.getUpdater(Flashmob.class).update(getFlashmob(id), flashmob);
+		getFlashmobStore().save(f);
+		return f;
 	}
 }
