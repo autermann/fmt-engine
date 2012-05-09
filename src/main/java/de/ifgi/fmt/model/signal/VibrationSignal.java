@@ -1,5 +1,8 @@
 package de.ifgi.fmt.model.signal;
 
-public class VibrationSignal {
+import com.google.code.morphia.annotations.Polymorphic;
+
+@Polymorphic
+public class VibrationSignal extends Signal {
 
 }

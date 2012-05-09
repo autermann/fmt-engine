@@ -1,11 +1,15 @@
 package de.ifgi.fmt.web.servlet;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
 
 import org.bson.types.ObjectId;
 
@@ -15,7 +19,9 @@ public class FlashmobServlet extends AbstractServlet {
 
 	@GET
 	@Path(Paths.FLASHMOBS)
-	public List<Flashmob> getFlashmobs(@QueryParam(QueryParams.LIMIT) int limit,
+	@Produces(MediaTypes.FLASHMOB_LIST)
+	public List<Flashmob> getFlashmobs(
+			@QueryParam(QueryParams.LIMIT) int limit,
 			@QueryParam(QueryParams.POSITION) String near,
 			@QueryParam(QueryParams.USER) ObjectId user,
 			@QueryParam(QueryParams.BBOX) String bbox,
@@ -31,8 +37,18 @@ public class FlashmobServlet extends AbstractServlet {
 
 	@GET
 	@Path(Paths.FLASHMOB)
+	@Produces(MediaTypes.FLASHMOB)
 	public Flashmob getFlashmob(@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-		return null;
+		return getService().getFlashmob(flashmob);
 	}
 
+	@POST
+	@Path(Paths.FLASHMOBS)
+	@Produces(MediaTypes.FLASHMOB)
+	public Response createFlashmob(Flashmob f) {
+		Flashmob saved = getService().createFlashmob(f);
+		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.FLASHMOB).build(f.getId());
+		return Response.created(uri).entity(saved).build();
+	}
+	
 }

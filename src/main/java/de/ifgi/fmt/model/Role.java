@@ -22,9 +22,7 @@ public class Role extends Identifiable {
 	public static final String CATEGORY = "category";
 	public static final String DESCRIPTION = "description";
 
-	public enum Category {
-		EASY, HARD, ULTRA;
-	}
+	public enum Category { EASY, HARD, ULTRA; }
 	
 	@Property(Role.ITEMS)
 	private Set<String> items;

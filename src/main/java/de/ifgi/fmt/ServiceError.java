@@ -40,6 +40,10 @@ public class ServiceError extends RuntimeException {
 		return new ServiceError(Status.NOT_FOUND, message);
 	}
 
+	public static ServiceError noSuchFlashmob() {
+		return notFound("nos such flashmob");
+	}
+	
 	public static ServiceError badRequest(String message) {
 		return new ServiceError(Status.BAD_REQUEST, message);
 	}
@@ -53,26 +57,6 @@ public class ServiceError extends RuntimeException {
 		if (cause != null && cause instanceof ServiceError)
 			return (ServiceError) cause;
 		return new ServiceError(Status.INTERNAL_SERVER_ERROR, cause);
-	}
-
-	public static ServiceError noSuchPointOfInterest() {
-		return notFound("No such PointOfInterest!");
-	}
-
-	public static ServiceError noSuchImage() {
-		return notFound("No such Image!");
-	}
-
-	public static ServiceError noSuchUser() {
-		return notFound("No such User!");
-	}
-
-	public static ServiceError noSuchComment() {
-		return notFound("No such Comment!");
-	}
-
-	public static ServiceError noSuchCategory() {
-		return notFound("No such Category!");
 	}
 
 	public static ServiceError invalidParameter(String name) {

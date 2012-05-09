@@ -12,7 +12,6 @@ public interface RESTConstants {
 		public static final String MIME_TYPE_PREFIX = "returns application/vnd.flashmobtoolkit.";
 		public static final String MIME_TYPE_POSTFIX = "+json";
 		
-		
 		public static final String FLASHMOB = MIME_TYPE_PREFIX + "flashmob" + MIME_TYPE_POSTFIX;
 		public static final MediaType FLASHMOB_TYPE = MediaType.valueOf(FLASHMOB);
 		public static final String FLASHMOB_LIST = MIME_TYPE_PREFIX + "flashmob.list" + MIME_TYPE_POSTFIX;
