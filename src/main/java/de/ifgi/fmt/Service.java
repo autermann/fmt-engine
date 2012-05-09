@@ -4,6 +4,7 @@ import org.bson.types.ObjectId;
 
 import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.mongo.store.FlashmobStore;
+import de.ifgi.fmt.update.UpdateFactory;
 
 public class Service {
 
@@ -30,5 +31,9 @@ public class Service {
 	public Flashmob createFlashmob(Flashmob f) {
 		getFlashmobStore().save(f);
 		return f;
+	}
+
+	public Flashmob updateFlashmob(ObjectId id, Flashmob flashmob) {
+		return UpdateFactory.getUpdater(Flashmob.class).update(getFlashmob(id), flashmob);
 	}
 }
