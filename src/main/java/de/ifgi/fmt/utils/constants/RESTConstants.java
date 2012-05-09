@@ -55,15 +55,15 @@ public interface RESTConstants {
 
 	public static abstract class PathParams {
 		public static final String FLASHMOB = "flashmob";
-		public static final String FLASHMOB_P = "{" + FLASHMOB + "}";
 		public static final String ROLE = "role";
-		public static final String ROLE_P = "{" + ROLE + "}";
 		public static final String ACTIVITY = "activity";
-		public static final String ACTIVITY_P = "{" + ACTIVITY + "}";
 		public static final String TRIGGER = "trigger";
-		public static final String TRIGGER_P = "{" + TRIGGER + "}";
 		public static final String USER = "user";
-		public static final String USER_P = "{" + USER + "}";
+		private static final String FLASHMOB_P = "{" + FLASHMOB + "}";
+		private static final String ROLE_P = "{" + ROLE + "}";
+		private static final String ACTIVITY_P = "{" + ACTIVITY + "}";
+		private static final String TRIGGER_P = "{" + TRIGGER + "}";
+		private static final String USER_P = "{" + USER + "}";
 	}
 
 	public static abstract class QueryParams {

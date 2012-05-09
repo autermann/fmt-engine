@@ -1,6 +1,7 @@
 package de.ifgi.fmt.utils.constants;
 
 public class JSONConstants {
+	public static final String HREF_KEY = "href";
 	public static final String ID_KEY = "id";
 	public static final String TYPE_KEY = "type";
 	public static final String PUBLIC_KEY = "public";

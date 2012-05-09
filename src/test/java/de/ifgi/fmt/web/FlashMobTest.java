@@ -21,6 +21,7 @@
  */
 package de.ifgi.fmt.web;
 
+import org.codehaus.jettison.json.JSONObject;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -29,6 +30,9 @@ import org.slf4j.LoggerFactory;
 
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.test.framework.JerseyTest;
+
+import de.ifgi.fmt.model.Flashmob;
+import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
 public class FlashMobTest extends JerseyTest {
 	protected static final Logger log = LoggerFactory.getLogger(FlashMobTest.class);
@@ -59,6 +63,10 @@ public class FlashMobTest extends JerseyTest {
 
 	@Test
 	public void test() {
+		JSONObject f = new JSONObject();
+		
+		Flashmob created = getWebResource().path(Paths.FLASHMOBS).entity(f).post(Flashmob.class);
+		
 	}
 
 }

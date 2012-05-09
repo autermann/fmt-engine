@@ -2,7 +2,6 @@ package de.ifgi.fmt.update.impl;
 
 import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.update.EntityUpdater;
-import de.ifgi.fmt.update.UpdateFactory;
 import de.ifgi.fmt.update.UpdateFactory.Updates;
 
 @Updates(Flashmob.class)
