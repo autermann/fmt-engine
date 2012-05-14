@@ -1,13 +1,13 @@
-package de.ifgi.fmt.mongo.store;
+package de.ifgi.fmt.mongo;
 
-import static de.ifgi.fmt.mongo.store.DaoFactory.getActivityDao;
-import static de.ifgi.fmt.mongo.store.DaoFactory.getCommentDao;
-import static de.ifgi.fmt.mongo.store.DaoFactory.getFlashmobDao;
-import static de.ifgi.fmt.mongo.store.DaoFactory.getRoleDao;
-import static de.ifgi.fmt.mongo.store.DaoFactory.getSignalDao;
-import static de.ifgi.fmt.mongo.store.DaoFactory.getTaskDao;
-import static de.ifgi.fmt.mongo.store.DaoFactory.getTriggerDao;
-import static de.ifgi.fmt.mongo.store.DaoFactory.getUserDao;
+import static de.ifgi.fmt.mongo.DaoFactory.getActivityDao;
+import static de.ifgi.fmt.mongo.DaoFactory.getCommentDao;
+import static de.ifgi.fmt.mongo.DaoFactory.getFlashmobDao;
+import static de.ifgi.fmt.mongo.DaoFactory.getRoleDao;
+import static de.ifgi.fmt.mongo.DaoFactory.getSignalDao;
+import static de.ifgi.fmt.mongo.DaoFactory.getTaskDao;
+import static de.ifgi.fmt.mongo.DaoFactory.getTriggerDao;
+import static de.ifgi.fmt.mongo.DaoFactory.getUserDao;
 
 import java.util.List;
 
@@ -31,7 +31,6 @@ import de.ifgi.fmt.model.signal.VibrationSignal;
 import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.model.trigger.TimeTrigger;
 import de.ifgi.fmt.model.trigger.Trigger;
-import de.ifgi.fmt.mongo.MongoDB;
 import de.ifgi.fmt.utils.Utils;
 
 public class Store {

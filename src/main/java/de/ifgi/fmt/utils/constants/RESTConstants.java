@@ -81,7 +81,12 @@ public interface RESTConstants {
 	}
 
 	public enum Sorting {
-		START_TIME, PARTICIPANTS, CREATION_TIME, TITLE;
+		START_TIME, 
+		PARTICIPANTS, 
+		CREATION_TIME, 
+		TITLE;
+		
+		//TODO private String order;
 	}
 	
 	public enum ShowStatus {

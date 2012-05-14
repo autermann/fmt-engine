@@ -1,4 +1,4 @@
-package de.ifgi.fmt.mongo.store;
+package de.ifgi.fmt.mongo;
 
 import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.model.Comment;

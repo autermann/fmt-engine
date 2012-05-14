@@ -5,7 +5,7 @@ import static de.ifgi.fmt.update.UpdateFactory.getUpdater;
 import org.bson.types.ObjectId;
 
 import de.ifgi.fmt.model.Flashmob;
-import de.ifgi.fmt.mongo.store.Store;
+import de.ifgi.fmt.mongo.Store;
 
 public class Service {
 
