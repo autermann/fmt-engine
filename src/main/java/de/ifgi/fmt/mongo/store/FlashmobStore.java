@@ -26,7 +26,7 @@ public class FlashmobStore {
 		return DaoFactory.getFlashmobDao().get(id);
 	}
 
-	public void save(Flashmob f) {
+	public Flashmob save(Flashmob f) {
 		DaoFactory.getTriggerDao().saveAll(f.getTriggers());
 		DaoFactory.getCommentDao().saveAll(f.getComments());
 		DaoFactory.getRoleDao().saveAll(f.getRoles());
@@ -36,6 +36,7 @@ public class FlashmobStore {
 			DaoFactory.getTaskDao().saveAll(a.getTasks().values());
 		}
 		DaoFactory.getFlashmobDao().save(f);
+		return f;
 	}
 	
 	
