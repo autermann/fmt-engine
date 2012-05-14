@@ -10,10 +10,12 @@
 	<url>http://www.ifgi.de</url>
 	<inceptionYear>2012</inceptionYear>
 	<description>${project.name}</description>
-	<!-- <scm> <tag>HEAD</tag> <url>http://svn.52north.org/svn/geostatistics/main/uncertweb/viss/trunk</url> 
-		<connection>scm:svn:https://svn.52north.org/svn/geostatistics/main/uncertweb/viss/trunk</connection> 
-		<developerConnection>scm:svn:https://svn.52north.org/svn/geostatistics/main/uncertweb/viss/trunk</developerConnection> 
-		</scm> -->
+	<scm>
+		<tag>HEAD</tag>
+		<url>https://fmt.googlecode.com/svn/Engine/trunk</url>
+		<connection>scm:svn:https://fmt.googlecode.com/svn/Engine/trunk</connection>
+		<developerConnection>scm:svn:https://fmt.googlecode.com/svn/Engine/trunk</developerConnection>
+	</scm>
 	<licenses>
 		<license>
 			<name>GNU GPLv2</name>

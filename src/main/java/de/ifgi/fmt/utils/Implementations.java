@@ -42,7 +42,7 @@ public class Implementations {
 	private static final String PROPERTIES_FILE = "/provider.properties";
 
 	private static Map<String, String> implementations = Utils.map();
-	private static final Reflections r = new Reflections("de.ifgi.hp", new SubTypesScanner());
+	private static final Reflections r = new Reflections("de.ifgi.fmt", new SubTypesScanner());
 
 	static {
 		InputStream is = Implementations.class

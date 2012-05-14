@@ -12,7 +12,7 @@ import de.ifgi.fmt.mongo.Identifiable;
 @Polymorphic
 @Entity(Comment.COLLECTION_NAME)
 public class Comment extends Identifiable {
-	
+
 	public static final String COLLECTION_NAME = "comments";
 	public static final String TEXT = "text";
 	public static final String FLASHMOB = "flashmob";
@@ -27,7 +27,7 @@ public class Comment extends Identifiable {
 
 	@Property(Comment.TEXT)
 	private String text;
-	
+
 	@Property(Comment.TIME)
 	private DateTime time;
 

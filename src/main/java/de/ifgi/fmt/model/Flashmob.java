@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
+import com.google.code.morphia.annotations.Reference;
 import com.vividsolutions.jts.geom.Point;
 
 import de.ifgi.fmt.model.trigger.Trigger;
@@ -31,41 +32,41 @@ public class Flashmob extends Identifiable {
 	public static final String ROLES = "roles";
 	public static final String TRIGGERS = "triggers";
 
-	@Property(Flashmob.TRIGGERS)
-	private List<Trigger> triggers = Utils.list();
-
-	@Property(Flashmob.COMMENTS)
-	private List<Comment> comments = Utils.list();
-
 	@Property(Flashmob.TITLE)
 	private String title;
 
 	@Property(Flashmob.DESCRIPTION)
 	private String description;
-
+	
 	@Property(Flashmob.START)
 	private DateTime start;
-
+	
 	@Property(Flashmob.END)
 	private DateTime end;
-
+	
 	@Property(Flashmob.PUBLISH)
 	private DateTime publish;
-
+	
 	@Property(Flashmob.PUBLIC)
 	private boolean isPublic;
-
+	
 	@Property(Flashmob.LOCATION)
 	private Point location;
-
+	
 	@Property(Flashmob.KEY)
 	private String key;
 
-	@Property(Flashmob.ACTIVITIES)
+	@Reference(Flashmob.ACTIVITIES)
 	private List<Activity> activities = Utils.list();
-
-	@Property(Flashmob.ROLES)
+	
+	@Reference(Flashmob.ROLES)
 	private List<Role> roles = Utils.list();
+	
+	@Reference(Flashmob.TRIGGERS)
+	private List<Trigger> triggers = Utils.list();
+
+	@Reference(Flashmob.COMMENTS)
+	private List<Comment> comments = Utils.list();
 
 	public String getDescription() {
 		return description;
@@ -147,7 +148,7 @@ public class Flashmob extends Identifiable {
 		this.activities = activities;
 		return this;
 	}
-	
+
 	public Flashmob addActivity(Activity activity) {
 		getActivities().add(activity.setFlashmob(this));
 		return this;

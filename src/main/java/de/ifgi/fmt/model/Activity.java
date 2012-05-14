@@ -21,20 +21,12 @@ import de.ifgi.fmt.utils.Utils;
 @Polymorphic
 @Entity(Activity.COLLECTION_NAME)
 public class Activity extends Identifiable {
-
 	public static final String COLLECTION_NAME = "activities";
 	public static final String TITLE = "title";
 	public static final String DESCRIPTION = "description";
 	public static final String FLASHMOB = "flashmob";
-	public static final String ROLES = "roles";
 	public static final String TRIGGER = "trigger";
 	public static final String SIGNAL = "signal";
-
-	@Property(Activity.TITLE)
-	private String title;
-
-	@Property(Activity.DESCRIPTION)
-	private String description;
 
 	@Reference(Activity.FLASHMOB)
 	private Flashmob flashmob;
@@ -45,11 +37,17 @@ public class Activity extends Identifiable {
 	@Reference(Activity.SIGNAL)
 	private Signal signal;
 
+	@Property(Activity.TITLE)
+	private String title;
+
+	@Property(Activity.DESCRIPTION)
+	private String description;
+
 	@Transient
 	private Map<Role, Task> tasks = Utils.map();
 
 	private List<TaskForRole> savedTasks = Utils.list();
-	
+
 	@PostLoad
 	public void postLoad() {
 		for (TaskForRole p : savedTasks) {
@@ -58,7 +56,7 @@ public class Activity extends Identifiable {
 	}
 
 	@PrePersist
-	public void presave() {
+	public void prePersist() {
 		for (Entry<Role, Task> e : tasks.entrySet()) {
 			savedTasks.add(new TaskForRole(e.getKey(), e.getValue()));
 		}
@@ -112,7 +110,7 @@ public class Activity extends Identifiable {
 	public Map<Role, Task> getTasks() {
 		return tasks;
 	}
-	
+
 	public Task getTask(Role r) {
 		return getTasks().get(r);
 	}
@@ -130,7 +128,7 @@ public class Activity extends Identifiable {
 		this.tasks.put(role.addAcitivity(this), null);
 		return this;
 	}
-	
+
 	public Activity removeRole(Role r) {
 		this.tasks.remove(r.removeActivity(this));
 		return this;
@@ -138,39 +136,5 @@ public class Activity extends Identifiable {
 
 	public List<Role> getRoles() {
 		return Utils.asList(this.tasks.keySet());
-	}
-
-	public static class TaskForRole {
-		
-		@Reference
-		private Role role;
-		
-		@Property
-		private Task task;
-		
-		public TaskForRole(Role role, Task task) {
-			this.role = role;
-			this.task = task;
-		}
-		
-		public TaskForRole() {
-			
-		}
-		
-		public Task getTask() {
-			return task;
-		}
-		
-		public void setTask(Task task) {
-			this.task = task;
-		}
-		
-		public Role getRole() {
-			return role;
-		}
-		
-		public void setRole(Role role) {
-			this.role = role;
-		}
 	}
 }

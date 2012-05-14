@@ -5,6 +5,7 @@ import java.util.Set;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
+import com.google.code.morphia.annotations.Reference;
 import com.vividsolutions.jts.geom.Point;
 
 import de.ifgi.fmt.mongo.Identifiable;
@@ -24,20 +25,13 @@ public class Role extends Identifiable {
 	public static final String DESCRIPTION = "description";
 	public static final String FLASHMOB = "flashmob";
 	public static final String ACTIVITIES = "activities";
-	
-	public enum Category { EASY, HARD, ULTRA; }
 
-	@Property(Role.ACTIVITIES)
-	private Set<Activity> activites;
-	
+	public enum Category {
+		EASY, HARD, ULTRA;
+	}
+
 	@Property(Role.ITEMS)
 	private Set<String> items;
-	
-	@Property(Role.FLASHMOB)
-	private Flashmob flashmob;
-
-	@Property(Role.USERS)
-	private Set<User> users = Utils.set();
 	
 	@Property(Role.MIN_COUNT)
 	private int minCount;
@@ -53,7 +47,16 @@ public class Role extends Identifiable {
 	
 	@Property(Role.DESCRIPTION)
 	private String description;
+
+	@Reference(Role.ACTIVITIES)
+	private Set<Activity> activites;
 	
+	@Reference(Role.FLASHMOB)
+	private Flashmob flashmob;
+	
+	@Reference(Role.USERS)
+	private Set<User> users = Utils.set();
+
 	public Set<String> getItems() {
 		return items;
 	}
@@ -139,6 +142,7 @@ public class Role extends Identifiable {
 		getActivities().add(activity);
 		return this;
 	}
+
 	public Role removeActivity(Activity activity) {
 		getActivities().remove(activity);
 		return this;

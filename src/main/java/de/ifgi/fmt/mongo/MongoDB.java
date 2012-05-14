@@ -37,7 +37,7 @@ public class MongoDB {
 
 	private static MongoDB instance;
 
-	protected static MongoDB getInstance() {
+	public static MongoDB getInstance() {
 		return (instance == null) ? instance = new MongoDB() : instance;
 	}
 
@@ -70,11 +70,17 @@ public class MongoDB {
 
 			this.morphia = new Morphia();
 			DefaultConverters dc = this.morphia.getMapper().getConverters();
-			Set<Class<? extends TypeConverter>> classes = Implementations.getSubclasses(TypeConverter.class); 
+			Set<Class<? extends TypeConverter>> classes = Implementations
+					.getSubclasses(TypeConverter.class);
 			if (log.isDebugEnabled()) {
-				log.debug("Mongo converter classes found:\n{}",
-						Utils.join(new Stringifier() { public String toString(Object t) { return "  " + t.toString(); } }, "\n", classes));
+				log.debug("{} Mongo converter classes found:\n{}",
+						classes.size(), Utils.join(new Stringifier() {
+							public String toString(Object t) {
+								return "  " + t.toString();
+							}
+						}, "\n", classes));
 			}
+			
 			for (Class<? extends TypeConverter> c : classes) {
 				dc.addConverter(c);
 			}
@@ -99,19 +105,19 @@ public class MongoDB {
 		}
 	}
 
-	Mongo getMongo() {
+	public Mongo getMongo() {
 		return this.mongo;
 	}
 
-	Morphia getMorphia() {
+	public Morphia getMorphia() {
 		return this.morphia;
 	}
 
-	Datastore getDatastore() {
+	public Datastore getDatastore() {
 		return this.datastore;
 	}
 
-	String getDatabase() {
+	public String getDatabase() {
 		return this.database;
 	}
 

@@ -1,5 +1,6 @@
 package de.ifgi.fmt.model.task;
 
+import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.annotations.Reference;
@@ -9,8 +10,9 @@ import de.ifgi.fmt.model.Role;
 import de.ifgi.fmt.mongo.Identifiable;
 
 @Polymorphic
+@Entity(Task.COLLECTION_NAME)
 public class Task extends Identifiable {
-	
+	public static final String COLLECTION_NAME = "tasks";
 	public static final String DESCRIPTION = "description";
 	public static final String ROLE = "role";
 	public static final String ACTIVITY = "activity";

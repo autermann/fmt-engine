@@ -17,29 +17,28 @@ import de.ifgi.fmt.model.signal.VibrationSignal;
 import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.model.trigger.TimeTrigger;
 import de.ifgi.fmt.model.trigger.Trigger;
+import de.ifgi.fmt.mongo.MongoDB;
 import de.ifgi.fmt.utils.Utils;
 
 public class FlashmobStore {
-	
 	
 	public Flashmob getFlashmob(ObjectId id) {
 		return DaoFactory.getFlashmobDao().get(id);
 	}
 
 	public void save(Flashmob f) {
-		
-		
-		
-		
-		DaoFactory.getActivityDao().saveAll(f.getActivities());
+		DaoFactory.getTriggerDao().saveAll(f.getTriggers());
+		DaoFactory.getFlashmobDao().save(f);
 		DaoFactory.getCommentDao().saveAll(f.getComments());
 		DaoFactory.getRoleDao().saveAll(f.getRoles());
-		DaoFactory.getFlashmobDao().save(f);
+		DaoFactory.getActivityDao().saveAll(f.getActivities());
 	}
 	
 	
 	
 	public static void main(String[] args) {
+		MongoDB db = MongoDB.getInstance();
+		db.getMongo().dropDatabase(db.getDatabase());
 		GeometryFactory gf = new GeometryFactory();
 		DateTime begin = new DateTime();
 		
