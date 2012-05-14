@@ -9,7 +9,7 @@ import com.google.code.morphia.annotations.Polymorphic;
 public abstract class Identifiable {
 
 	@Id
-	private ObjectId id;
+	private ObjectId id = new ObjectId();
 
 	public ObjectId getId() {
 		return id;

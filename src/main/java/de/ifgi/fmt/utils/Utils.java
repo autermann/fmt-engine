@@ -221,4 +221,8 @@ public class Utils {
 		}
 	}
 
+	public static <T> List<T> asList(final Iterable<T> set) {
+		return new LinkedList<T>() {{ for (T t : set) { add(t); } }};
+	}
+
 }

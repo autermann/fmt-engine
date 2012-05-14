@@ -22,7 +22,7 @@ import de.ifgi.fmt.utils.Stringifier;
 import de.ifgi.fmt.utils.Utils;
 
 public class MongoDB {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(MongoDB.class);
 
 	private static final String PROPERTIES_FILE = "/mongo.properties";
@@ -33,6 +33,7 @@ public class MongoDB {
 	private static final String USER_PROPERTY = "user";
 	private static final String PASS_PROPERTY = "pass";
 	private static final String DATABASE_PROPERTY = "database";
+	private static final String DEFAULT_DATABASE = "fmt";
 
 	private static MongoDB instance;
 
@@ -64,33 +65,34 @@ public class MongoDB {
 			String port = p.getProperty(PORT_PROPERTY);
 			port = (port == null || port.trim().isEmpty()) ? "27017" : port;
 
-			this.mongo = new Mongo(new ServerAddress(host, Integer.valueOf(port)));
+			this.mongo = new Mongo(new ServerAddress(host,
+					Integer.valueOf(port)));
 
 			this.morphia = new Morphia();
 			DefaultConverters dc = this.morphia.getMapper().getConverters();
-			Set<Class<? extends TypeConverter>> classes = Implementations.getSubclasses(TypeConverter.class);
+			Set<Class<? extends TypeConverter>> classes = Implementations.getSubclasses(TypeConverter.class); 
 			if (log.isDebugEnabled()) {
-				log.debug("Mongo converter classes found:\n{}", Utils.join(new Stringifier() {
-					public String toString(Object t) { return "  " + t.toString(); }
-				},"\n", classes));
+				log.debug("Mongo converter classes found:\n{}",
+						Utils.join(new Stringifier() { public String toString(Object t) { return "  " + t.toString(); } }, "\n", classes));
 			}
 			for (Class<? extends TypeConverter> c : classes) {
 				dc.addConverter(c);
 			}
-		
 
 			String auth = p.getProperty(AUTH_PROPERTY);
 			auth = (auth == null || auth.trim().isEmpty()) ? "false" : auth;
 			String dbna = p.getProperty(DATABASE_PROPERTY);
-			this.database = (auth == null || dbna.trim().isEmpty()) ? "happyparents" : dbna;
+			this.database = (auth == null || dbna.trim().isEmpty()) ? DEFAULT_DATABASE
+					: dbna;
 
 			if (Boolean.valueOf(auth)) {
 				this.datastore = this.morphia.createDatastore(this.mongo,
-				    this.database, p.getProperty(USER_PROPERTY, "mongo"), p
-				        .getProperty(PASS_PROPERTY, "mongo").toCharArray());
+						this.database, p.getProperty(USER_PROPERTY, "mongo"), p
+								.getProperty(PASS_PROPERTY, "mongo")
+								.toCharArray());
 			} else {
-				this.datastore = this.morphia
-				    .createDatastore(this.mongo, this.database);
+				this.datastore = this.morphia.createDatastore(this.mongo,
+						this.database);
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -112,7 +114,7 @@ public class MongoDB {
 	String getDatabase() {
 		return this.database;
 	}
-	
+
 	public static class MongoDao<T> extends BasicDAO<T, ObjectId> {
 
 		protected MongoDao(Class<T> entityClass) {
@@ -120,9 +122,15 @@ public class MongoDB {
 			getDatastore().ensureIndexes();
 		}
 
+		public void saveAll(Iterable<? extends T> col) {
+			for (T t : col) {
+				save(t);
+			}
+		}
+
 		public static <U> MongoDao<U> get(Class<U> entity) {
 			return new MongoDao<U>(entity);
 		}
-		
+
 	}
 }

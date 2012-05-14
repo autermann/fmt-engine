@@ -12,4 +12,5 @@ public abstract class Signal extends Identifiable {
 				.replace(getClass().getPackage().getName() + ".", "")
 				.replace("Signal", "");
 	}
+
 }

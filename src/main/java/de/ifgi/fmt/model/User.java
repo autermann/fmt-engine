@@ -5,6 +5,7 @@ import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 
 import de.ifgi.fmt.mongo.Identifiable;
+import de.ifgi.fmt.utils.BCrypt;
 
 
 @Polymorphic
@@ -29,24 +30,39 @@ public class User extends Identifiable {
 		return username;
 	}
 
-	public void setUsername(String username) {
+	public User setUsername(String username) {
 		this.username = username;
+		return this;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public User setEmail(String email) {
 		this.email = email;
+		return this;
 	}
 
 	public String getPasswordHash() {
 		return passwordHash;
 	}
 
-	public void setPasswordHash(String passwordHash) {
+	public User setPasswordHash(String passwordHash) {
 		this.passwordHash = passwordHash;
+		return this;
+	}
+	
+	public User setPassword(String password) {
+		return setPasswordHash(hash(password));
+	}
+	
+	public boolean isValidPassword(String password) {
+		return BCrypt.checkpw(password, getPasswordHash());
 	}
 
+	private String hash(String unhashed) {
+		return BCrypt.hashpw(unhashed, BCrypt.gensalt());
+	}
+	
 }

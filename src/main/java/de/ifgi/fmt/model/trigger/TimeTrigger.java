@@ -17,7 +17,8 @@ public class TimeTrigger extends Trigger {
 		return time;
 	}
 
-	public void setTime(DateTime time) {
+	public TimeTrigger setTime(DateTime time) {
 		this.time = time;
+		return this;
 	}
 }

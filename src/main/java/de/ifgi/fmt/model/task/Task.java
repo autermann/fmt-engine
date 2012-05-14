@@ -1,6 +1,5 @@
 package de.ifgi.fmt.model.task;
 
-import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.annotations.Reference;
@@ -10,10 +9,8 @@ import de.ifgi.fmt.model.Role;
 import de.ifgi.fmt.mongo.Identifiable;
 
 @Polymorphic
-@Entity(Task.COLLECTION_NAME)
 public class Task extends Identifiable {
 	
-	public static final String COLLECTION_NAME = "tasks";
 	public static final String DESCRIPTION = "description";
 	public static final String ROLE = "role";
 	public static final String ACTIVITY = "activity";
@@ -31,24 +28,27 @@ public class Task extends Identifiable {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public Task setDescription(String description) {
 		this.description = description;
+		return this;
 	}
 
 	public Activity getActivity() {
 		return activity;
 	}
 
-	public void setActivity(Activity activity) {
+	public Task setActivity(Activity activity) {
 		this.activity = activity;
+		return this;
 	}
 
 	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(Role role) {
+	public Task setRole(Role role) {
 		this.role = role;
+		return this;
 	}
 
 }

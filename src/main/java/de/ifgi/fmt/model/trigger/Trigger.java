@@ -12,6 +12,7 @@ import de.ifgi.fmt.mongo.Identifiable;
 public class Trigger extends Identifiable {
 	public static final String COLLECTION_NAME = "triggers";
 	public static final String FLASHMOB = "flashmob";
+	public static final String ACTIVITIES = "activities";
 	
 	@Reference(Trigger.FLASHMOB)
 	private Flashmob flashmob;
@@ -20,8 +21,9 @@ public class Trigger extends Identifiable {
 		return flashmob;
 	}
 
-	public void setFlashmob(Flashmob flashmob) {
+	public Trigger setFlashmob(Flashmob flashmob) {
 		this.flashmob = flashmob;
+		return this;
 	}
 
 }

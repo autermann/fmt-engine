@@ -1,7 +1,9 @@
 package de.ifgi.fmt.model.signal;
 
+import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 
+@Polymorphic
 public class TextSignal extends Signal {
 
 	public static final String TEXT = "text";

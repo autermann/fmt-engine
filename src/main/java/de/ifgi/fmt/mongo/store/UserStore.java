@@ -9,9 +9,11 @@ public class UserStore {
 
 	protected MongoDao<User> uDao = MongoDao.get(User.class);
 	
-	
 	public void saveUser(User u) {
 		this.uDao.save(u);
+	}
+	public void saveUsers(Iterable<User> u) {
+		this.uDao.saveAll(u);
 	}
 	
 	public User getUser(ObjectId id) {
