@@ -3,6 +3,7 @@ package de.ifgi.fmt.model;
 import org.joda.time.DateTime;
 
 import com.google.code.morphia.annotations.Entity;
+import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.annotations.Reference;
@@ -19,15 +20,18 @@ public class Comment extends Identifiable {
 	public static final String USER = "user";
 	public static final String TIME = "time";
 
+	@Indexed
 	@Reference(Comment.FLASHMOB)
 	private Flashmob flashmob;
 	
+	@Indexed
 	@Reference(Comment.USER)
 	private User user;
 
 	@Property(Comment.TEXT)
 	private String text;
-
+	
+	@Indexed
 	@Property(Comment.TIME)
 	private DateTime time;
 

@@ -5,9 +5,11 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import com.google.code.morphia.annotations.Entity;
+import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.annotations.Reference;
+import com.google.code.morphia.utils.IndexDirection;
 import com.vividsolutions.jts.geom.Point;
 
 import de.ifgi.fmt.model.trigger.Trigger;
@@ -49,7 +51,8 @@ public class Flashmob extends Identifiable {
 	
 	@Property(Flashmob.PUBLIC)
 	private boolean isPublic;
-	
+
+	@Indexed(IndexDirection.GEO2D)
 	@Property(Flashmob.LOCATION)
 	private Point location;
 	

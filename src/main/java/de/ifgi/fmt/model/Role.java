@@ -74,6 +74,16 @@ public class Role extends Identifiable {
 		this.users = users;
 		return this;
 	}
+	
+	public Role addUser(User u) {
+		getUsers().add(u);
+		return this;
+	}
+	
+	public Role removeUser(User u) {
+		getUsers().remove(u);
+		return this;
+	}
 
 	public int getMinCount() {
 		return minCount;

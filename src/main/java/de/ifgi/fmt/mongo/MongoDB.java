@@ -133,6 +133,12 @@ public class MongoDB {
 				save(t);
 			}
 		}
+		
+		public void deleteAll(Iterable<? extends T> col) {
+			for (T t : col) {
+				delete(t);
+			}
+		}
 
 		public static <U> MongoDao<U> get(Class<U> entity) {
 			return new MongoDao<U>(entity);

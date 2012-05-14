@@ -1,6 +1,7 @@
 package de.ifgi.fmt.model;
 
 import com.google.code.morphia.annotations.Entity;
+import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 
@@ -18,9 +19,11 @@ public class User extends Identifiable {
 	public static final String USERNAME = "username";
 
 	@Property(User.USERNAME)
+	@Indexed(unique=true)
 	private String username;
 	
 	@Property(User.EMAIL)
+	@Indexed(unique=true)
 	private String email;
 
 	@Property(User.PASSWORD_HASH)

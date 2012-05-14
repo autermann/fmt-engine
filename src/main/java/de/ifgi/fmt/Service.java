@@ -5,7 +5,7 @@ import static de.ifgi.fmt.update.UpdateFactory.getUpdater;
 import org.bson.types.ObjectId;
 
 import de.ifgi.fmt.model.Flashmob;
-import de.ifgi.fmt.mongo.store.FlashmobStore;
+import de.ifgi.fmt.mongo.store.Store;
 
 public class Service {
 
@@ -15,9 +15,9 @@ public class Service {
 		return (service == null) ? service = new Service() : service;
 	}
 	
-	private FlashmobStore fmStore = new FlashmobStore();
+	private Store fmStore = new Store();
 
-	public FlashmobStore getFlashmobStore() {
+	public Store getFlashmobStore() {
 		return fmStore;
 	}
 	
@@ -30,10 +30,10 @@ public class Service {
 	}
 
 	public Flashmob createFlashmob(Flashmob f) {
-		return getFlashmobStore().save(f);
+		return getFlashmobStore().saveFlashmob(f);
 	}
 
 	public Flashmob updateFlashmob(ObjectId id, Flashmob flashmob) {
-		return getFlashmobStore().save(getUpdater(Flashmob.class).update(getFlashmob(id), flashmob));
+		return getFlashmobStore().saveFlashmob(getUpdater(Flashmob.class).update(getFlashmob(id), flashmob));
 	}
 }

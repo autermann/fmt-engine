@@ -1,6 +1,7 @@
 package de.ifgi.fmt.model.trigger;
 
 import com.google.code.morphia.annotations.Entity;
+import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Reference;
 
@@ -14,6 +15,7 @@ public class Trigger extends Identifiable {
 	public static final String FLASHMOB = "flashmob";
 	public static final String ACTIVITIES = "activities";
 	
+	@Indexed
 	@Reference(Trigger.FLASHMOB)
 	private Flashmob flashmob;
 

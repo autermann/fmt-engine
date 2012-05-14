@@ -19,4 +19,22 @@ public abstract class Identifiable {
 		this.id = id;
 	}
 
+	@Override
+	public int hashCode() {
+		return getId().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Identifiable) {
+			return getId().equals(((Identifiable) o).getId());
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return getId().toString();
+	}
+
 }

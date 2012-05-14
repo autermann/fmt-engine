@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.code.morphia.annotations.Entity;
+import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.PostLoad;
 import com.google.code.morphia.annotations.PrePersist;
@@ -28,6 +29,7 @@ public class Activity extends Identifiable {
 	public static final String TRIGGER = "trigger";
 	public static final String SIGNAL = "signal";
 
+	@Indexed
 	@Reference(Activity.FLASHMOB)
 	private Flashmob flashmob;
 
