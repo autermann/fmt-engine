@@ -28,17 +28,23 @@ public class FlashmobStore {
 
 	public void save(Flashmob f) {
 		DaoFactory.getTriggerDao().saveAll(f.getTriggers());
-		DaoFactory.getFlashmobDao().save(f);
 		DaoFactory.getCommentDao().saveAll(f.getComments());
 		DaoFactory.getRoleDao().saveAll(f.getRoles());
 		DaoFactory.getActivityDao().saveAll(f.getActivities());
+		for (Activity a : f.getActivities()) {
+			DaoFactory.getSignalDao().save(a.getSignal());
+			DaoFactory.getTaskDao().saveAll(a.getTasks().values());
+		}
+		DaoFactory.getFlashmobDao().save(f);
 	}
 	
 	
-	
 	public static void main(String[] args) {
+		
 		MongoDB db = MongoDB.getInstance();
 		db.getMongo().dropDatabase(db.getDatabase());
+		
+		
 		GeometryFactory gf = new GeometryFactory();
 		DateTime begin = new DateTime();
 		
@@ -95,6 +101,12 @@ public class FlashmobStore {
 		
 		new UserStore().saveUsers(Utils.list(user1,user2,user3));
 		new FlashmobStore().save(f);
+		
+		
+		ObjectId oid  = f.getId();
+		
+		
+		Flashmob fl = new FlashmobStore().getFlashmob(oid);
 		
 		
 	}
