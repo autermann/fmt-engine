@@ -6,7 +6,9 @@ public class ServiceError extends RuntimeException {
 	private static final long serialVersionUID = 5597652128019474217L;
 
 	public enum Status {
-		BAD_REQUEST(400), NOT_FOUND(404), INTERNAL_SERVER_ERROR(500);
+		BAD_REQUEST(400), 
+		NOT_FOUND(404), 
+		INTERNAL_SERVER_ERROR(500);
 		
 		private int code;
 
@@ -32,16 +34,21 @@ public class ServiceError extends RuntimeException {
 		this.setErrorCode(code);
 	}
 
+	
+	public int getErrorCode() {
+		return errorCode.getCode();
+	}
+
+	public void setErrorCode(Status errorCode) {
+		this.errorCode = errorCode;
+	}
+
 	public static ServiceError internal(String message) {
 		return new ServiceError(Status.INTERNAL_SERVER_ERROR, message);
 	}
 
 	public static ServiceError notFound(String message) {
 		return new ServiceError(Status.NOT_FOUND, message);
-	}
-
-	public static ServiceError noSuchFlashmob() {
-		return notFound("nos such flashmob");
 	}
 	
 	public static ServiceError badRequest(String message) {
@@ -71,12 +78,34 @@ public class ServiceError extends RuntimeException {
 		return badRequest("Missing parameter: '" + name + "'.");
 	}
 
-	public int getErrorCode() {
-		return errorCode.getCode();
-	}
 
-	public void setErrorCode(Status errorCode) {
-		this.errorCode = errorCode;
+	public static ServiceError flashmobNotFound() {
+		return notFound("flashmob not found");
 	}
+	
+	public static ServiceError triggerNotFound() {
+		return notFound("trigger not found");
+	}
+	
+	public static ServiceError userNotFound() {
+		return notFound("user not found");
+	}
+	
+	public static ServiceError roleNotFound() {
+		return notFound("role not found");
+	}
+	
+	public static ServiceError activityNotFound() {
+		return notFound("activity not found");
+	}
+	
+	public static ServiceError signalNotFound() {
+		return notFound("signal not found");
+	}
+	
+	public static ServiceError noSuchFlashmob() {
+		return notFound("no such flashmob");
+	}
+	
 
 }

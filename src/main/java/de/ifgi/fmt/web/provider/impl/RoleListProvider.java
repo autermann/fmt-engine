@@ -7,9 +7,9 @@ import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.web.provider.AbstractJSONListProvider;
 
 @Provider
-public class RoleListEncoder extends AbstractJSONListProvider<Role> {
+public class RoleListProvider extends AbstractJSONListProvider<Role> {
 
-	public RoleListEncoder() {
+	public RoleListProvider() {
 		super(Role.class, JSONConstants.ROLES_KEY);
 	}
 

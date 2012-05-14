@@ -7,10 +7,10 @@ import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.web.provider.AbstractJSONListProvider;
 
 @Provider
-public class ActivityListEncoder extends AbstractJSONListProvider<Activity> {
+public class CommentListProvider extends AbstractJSONListProvider<Activity> {
 
-	public ActivityListEncoder() {
-		super(Activity.class, JSONConstants.ACTIVITIES_KEY);
+	public CommentListProvider() {
+		super(Activity.class, JSONConstants.COMMENTS_KEY);
 	}
 
 }

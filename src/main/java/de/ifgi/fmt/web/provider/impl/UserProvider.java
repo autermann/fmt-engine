@@ -6,9 +6,9 @@ import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 
 @Provider
-public class UserEncoder extends AbstractJSONProvider<User> {
+public class UserProvider extends AbstractJSONProvider<User> {
 
-	public UserEncoder() {
+	public UserProvider() {
 		super(User.class);
 	}
 

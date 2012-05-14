@@ -6,9 +6,9 @@ import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 
 @Provider
-public class ActivityEncoder extends AbstractJSONProvider<Activity> {
+public class ActivityProvider extends AbstractJSONProvider<Activity> {
 
-	public ActivityEncoder() {
+	public ActivityProvider() {
 		super(Activity.class);
 	}
 

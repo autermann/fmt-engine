@@ -6,9 +6,9 @@ import de.ifgi.fmt.model.Role;
 import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 
 @Provider
-public class RoleEncoder extends AbstractJSONProvider<Role> {
+public class RoleProvider extends AbstractJSONProvider<Role> {
 
-	public RoleEncoder() {
+	public RoleProvider() {
 		super(Role.class);
 	}
 

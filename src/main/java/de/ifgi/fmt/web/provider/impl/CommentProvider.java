@@ -6,9 +6,9 @@ import de.ifgi.fmt.model.Comment;
 import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 
 @Provider
-public class CommentEncoder extends AbstractJSONProvider<Comment> {
+public class CommentProvider extends AbstractJSONProvider<Comment> {
 
-	public CommentEncoder() {
+	public CommentProvider() {
 		super(Comment.class);
 	}
 

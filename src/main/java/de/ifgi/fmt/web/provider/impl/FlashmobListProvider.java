@@ -7,9 +7,9 @@ import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.web.provider.AbstractJSONListProvider;
 
 @Provider
-public class FlashmobListEncoder extends AbstractJSONListProvider<Flashmob> {
+public class FlashmobListProvider extends AbstractJSONListProvider<Flashmob> {
 
-	public FlashmobListEncoder() {
+	public FlashmobListProvider() {
 		super(Flashmob.class, JSONConstants.FLASHMOBS_KEY);
 	}
 

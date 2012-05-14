@@ -6,9 +6,9 @@ import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 
 @Provider
-public class FlashmobEncoder extends AbstractJSONProvider<Flashmob> {
+public class FlashmobProvider extends AbstractJSONProvider<Flashmob> {
 
-	public FlashmobEncoder() {
+	public FlashmobProvider() {
 		super(Flashmob.class);
 	}
 
