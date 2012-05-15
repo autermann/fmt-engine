@@ -37,10 +37,10 @@ public class FlashmobActivityServlet extends AbstractServlet {
     @Produces(MediaTypes.ACTIVITY)
     //get a specific activity
     public Activity getActivity(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-            @PathParam(PathParams.ACTIVITY) ObjectId activity) {
-        //@ToDo
-        return null;
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ACTIVITY) ObjectId activity) {
+	//@ToDo
+	return null;
     }
 
     @PUT
@@ -48,10 +48,10 @@ public class FlashmobActivityServlet extends AbstractServlet {
     @Consumes(MediaTypes.ACTIVITY)
     //change the activity
     public Activity updateActivity(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-            @PathParam(PathParams.ACTIVITY) ObjectId activity,
-            Activity a) {
-        //@ToDo
-        return getService().updateActivity(a, activity, flashmob);
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ACTIVITY) ObjectId activity,
+	    Activity a) {
+	//@ToDo
+	return getService().updateActivity(a, activity, flashmob);
     }
 }
