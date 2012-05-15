@@ -38,10 +38,19 @@ public class UsersServlet extends AbstractServlet {
      */
 
     @GET
-    @Produces()
+    @Produces(MediaTypes.USER_LIST)
+    public User getUsers() {
+        //@ToDo
+        return null;
+    }
     
     @POST
-    @Produces()
-    @Consumes()
+    @Produces(MediaTypes.USER)
+    @Consumes(MediaTypes.USER)
+    public Response setUser(User u){
+	User saved = getService().createUser(u);
+        URI uri = getUriInfo().getBaseUriBuilder().path(Paths.USER).build(u.getId());
+        return Response.created(uri).entity(saved).build();
+    }
 	
 }

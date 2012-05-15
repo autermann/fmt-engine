@@ -35,10 +35,10 @@ public class FlashmobRoleUserServlet extends AbstractServlet {
     @DELETE
     //Unregister a User from a role
     public Response unregisterUser(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-            @PathParam(PathParams.ROLE) ObjectId role,
-            @PathParam(PathParams.USER) ObjectId user) {
-        //@ToDo
-        return null;
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ROLE) ObjectId role,
+	    @PathParam(PathParams.USER) ObjectId user) {
+	//@ToDo
+	return null;
     }
 }

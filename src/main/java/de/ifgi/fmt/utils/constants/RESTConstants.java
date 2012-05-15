@@ -123,6 +123,7 @@ public interface RESTConstants {
 		public static final String ROLE_OF_ACTIVITY_OF_FLASHMOB = ACTIVITY_OF_FLASHMOB + ROLE;
 		public static final String TASKS_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB = ROLE_OF_ACTIVITY_OF_FLASHMOB + TASKS;
 		public static final String TRIGGERS_OF_ACTIVITY = ACTIVITIES_OF_FLASHMOB + TRIGGERS;
+		public static final String TRIGGER_OF_ACTIVITY = ACTIVITIES_OF_FLASHMOB + TRIGGER;
 		public static final String SIGNALS_OF_ACTIVITY = ACTIVITIES_OF_FLASHMOB + "/signal";
 		public static final String TRIGGERS_OF_FLASHMOB = FLASHMOB +TRIGGERS;
 		public static final String TRIGGER_OF_FLASHMOB = FLASHMOB +TRIGGER;

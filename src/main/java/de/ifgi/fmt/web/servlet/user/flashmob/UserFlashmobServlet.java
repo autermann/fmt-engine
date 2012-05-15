@@ -38,6 +38,11 @@ public class UserFlashmobServlet extends AbstractServlet {
      */
 
     @GET
-    @Produces()
-
+    @Produces(MediaTypes.FLASHMOB)
+    public User getFlashmob(
+	    @PathParam(PathParams.USER) ObjectId user,
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
+	//@ToDo
+	return getService().getFlashmob(user, flashmob);
+    }
 }

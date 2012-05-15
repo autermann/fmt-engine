@@ -37,9 +37,9 @@ public class FlashmobActivitiesServlet extends AbstractServlet {
     @Produces(MediaTypes.ACTIVITY_LIST)
     //get the activities of a flashmob
     public List<Activity> getActivities(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-        //@ToDo
-        return null;
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
+	//@ToDo
+	return null;
     }
 
     @POST
@@ -47,11 +47,11 @@ public class FlashmobActivitiesServlet extends AbstractServlet {
     @Consumes(MediaTypes.ACTIVITY)
     //add an activity to a flashmob
     public Response addActivity(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-            Activity a) {
-        //@ToDo
-        Task saved = getService().addActivity(a, flashmob);
-        URI uri = getUriInfo().getBaseUriBuilder().path(Paths.ACTIVITIES_OF_FLASHMOB).build(a.getId());
-        return Response.created(uri).entity(saved).build();
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    Activity a) {
+	//@ToDo
+	Task saved = getService().addActivity(a, flashmob);
+	URI uri = getUriInfo().getBaseUriBuilder().path(Paths.ACTIVITY_OF_FLASHMOB).build(a.getId());
+	return Response.created(uri).entity(saved).build();
     }
 }

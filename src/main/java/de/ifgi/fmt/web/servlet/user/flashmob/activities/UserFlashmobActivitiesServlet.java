@@ -27,8 +27,18 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.ACTIVITIES_OF_FLASHMOB_OF_USER)
-public class UserFlashmobActivitiesServlet extends AbstractServlet{
-            ///users/{uid}/flashmobs/{fid}/activities
-	@GET
-        @Produces()
+public class UserFlashmobActivitiesServlet extends AbstractServlet {
+    /*
+     * /users/{uid}/flashmobs/{fid}/activities
+     * 
+     */
+
+    @GET
+    @Produces(MediaTypes.ACTIVITY_LIST)
+    public List<Activity> getActivities(
+	    @PathParam(PathParams.USER) ObjectId user,
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
+	//@ToDo
+	return null;
+    }
 }

@@ -27,7 +27,7 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.ROLES_OF_ACTIVITY_OF_FLASHMOB)
-public class FlashmobActivityRolesServlet extends AbstractServlet{
+public class FlashmobActivityRolesServlet extends AbstractServlet {
     /*
      * /flashmobs/{fid}/activities/{aid}/roles
      * 
@@ -37,10 +37,10 @@ public class FlashmobActivityRolesServlet extends AbstractServlet{
     @Produces(MediaTypes.ROLE_LIST)
     //get the roles involved in an task
     public List<Role> getRoles(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-            @PathParam(PathParams.ACTIVITY) ObjectId activity) {
-        //ToDo
-        return null;
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ACTIVITY) ObjectId activity) {
+	//ToDo
+	return null;
     }
 
     @POST
@@ -48,12 +48,12 @@ public class FlashmobActivityRolesServlet extends AbstractServlet{
     @Consumes(MediaTypes.ROLE)
     //add an role to an activity
     public Response setRole(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-            @PathParam(PathParams.ACTIVITY) ObjectId activity,
-            Role r) {
-        //@ToDo
-        Role saved = getService().addRole(r, activity, flashmob);
-        URI uri = getUriInfo().getBaseUriBuilder().path(Paths.ROLES_OF_ACTIVITY_OF_FLASHMOB).build(r.getId());
-        return Response.created(uri).entity(saved).build();
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ACTIVITY) ObjectId activity,
+	    Role r) {
+	//@ToDo
+	Role saved = getService().addRole(r, activity, flashmob);
+	URI uri = getUriInfo().getBaseUriBuilder().path(Paths.ROLE_OF_ACTIVITY_OF_FLASHMOB).build(r.getId());
+	return Response.created(uri).entity(saved).build();
     }
 }

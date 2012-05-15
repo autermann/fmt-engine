@@ -27,7 +27,7 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.SIGNALS_OF_ACTIVITY)
-public class FlashmobActivitySignalServlet extends AbstractServlet{
+public class FlashmobActivitySignalServlet extends AbstractServlet {
     /*
      * /flashmobs/{fid}/activities/{aid}/signal
      * 
@@ -36,11 +36,10 @@ public class FlashmobActivitySignalServlet extends AbstractServlet{
     @GET
     @Produces(MediaTypes.SIGNAL_LIST)
     public List<Signal> getSignals(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-            @PathParam(PathParams.ACTIVITY) ObjectId activity,
-            ) {
-        //@ToDo
-        return null;
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ACTIVITY) ObjectId activity) {
+	//@ToDo
+	return null;
     }
 
     @POST
@@ -48,25 +47,25 @@ public class FlashmobActivitySignalServlet extends AbstractServlet{
     @Consumes(MediaTypes.SIGNAL)
     //creat a new signal
     public Response setSignal(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-            @PathParam(PathParams.ACTIVITY) ObjectId activity,
-            Signal s) {
-        //@ToDo
-        Signal saved = getService().addSignal(s, activity, flashmob);
-        URI uri = getUriInfo().getBaseUriBuilder().path(Paths.SIGNALS_OF_ACTIVITY_OF_ACTIVITY).build(s.getId());
-        return Response.created(uri).entity(saved).build();
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ACTIVITY) ObjectId activity,
+	    Signal s) {
+	//@ToDo
+	Signal saved = getService().addSignal(s, activity, flashmob);
+	URI uri = getUriInfo().getBaseUriBuilder().path(Paths.SIGNALS_OF_ACTIVITY).build(s.getId());
+	return Response.created(uri).entity(saved).build();
     }
 
     @PUT
     @Produces(MediaTypes.SIGNAL)
     @Consumes(MediaTypes.SIGNAL)
     public Response updateSignal(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-            @PathParam(PathParams.ACTIVITY) ObjectId activity,
-            Signal s) {
-        //@ToDo
-        Signal saved = getService().updateSignal(s, activity, flashmob);
-        URI uri = getUriInfo().getBaseUriBuilder().path(Paths.SIGNALS_OF_ACTIVITY).build(s.getId());
-        return Response.created(uri).entity(saved).build();
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ACTIVITY) ObjectId activity,
+	    Signal s) {
+	//@ToDo
+	Signal saved = getService().updateSignal(s, activity, flashmob);
+	URI uri = getUriInfo().getBaseUriBuilder().path(Paths.SIGNALS_OF_ACTIVITY).build(s.getId());
+	return Response.created(uri).entity(saved).build();
     }
 }

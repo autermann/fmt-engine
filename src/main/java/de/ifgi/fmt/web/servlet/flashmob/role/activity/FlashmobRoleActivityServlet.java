@@ -36,10 +36,10 @@ public class FlashmobRoleActivityServlet extends AbstractServlet {
     @DELETE
     //remove an activity from a role
     public Response removeActivity(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-            @PathParam(PathParams.ROLE) ObjectId role,
-            @PathParam(PathParams.ACTIVITY) ObjectId activity) {
-        //@ToDo
-        return null;
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ROLE) ObjectId role,
+	    @PathParam(PathParams.ACTIVITY) ObjectId activity) {
+	//@ToDo
+	return null;
     }
 }

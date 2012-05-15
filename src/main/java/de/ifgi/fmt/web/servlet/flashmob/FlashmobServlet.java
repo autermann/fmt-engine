@@ -32,7 +32,7 @@ public class FlashmobServlet extends AbstractServlet {
     @GET
     @Produces(MediaTypes.FLASHMOB)
     public Flashmob getFlashmob(@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-        return getService().getFlashmob(flashmob);
+	return getService().getFlashmob(flashmob);
     }
 
     @PUT
@@ -40,8 +40,8 @@ public class FlashmobServlet extends AbstractServlet {
     @Consumes(MediaTypes.FLASHMOB)
     //update a specific flashmob
     public Flashmob updateFlashmob(
-            @PathParam(PathParams.FLASHMOB) ObjectId id,
-            Flashmob flashmob) {
-        return getService().updateFlashmob(id, flashmob);
+	    @PathParam(PathParams.FLASHMOB) ObjectId id,
+	    Flashmob flashmob) {
+	return getService().updateFlashmob(id, flashmob);
     }
 }

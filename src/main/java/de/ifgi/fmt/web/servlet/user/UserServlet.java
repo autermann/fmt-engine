@@ -38,6 +38,27 @@ public class UserServlet extends AbstractServlet {
      */
 
     @GET
-    @Produces()
+    @Produces(MediaTypes.USER)
+    public User getUser(
+	    @PathParam(PathParams.USER) ObjectId user) {
+	//@ToDo
+	return getService().getUser(user);
+    }
 
+    @PUT
+    @Produces(MediaTypes.USER)
+    @Consumes(MediaTypes.USER)
+    public User getUser(
+	    @PathParam(PathParams.USER) ObjectId user,
+	    User u) {
+	//@ToDo
+	return getService().updateUser(u, user);
+    }
+
+    @DELETE
+    public Response deleteUser(
+	    @PathParam(PathParams.USER) ObjectId user) {
+	//@ToDo
+	return null;
+    }
 }

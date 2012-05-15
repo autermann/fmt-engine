@@ -36,20 +36,20 @@ public class FlashmobTriggersServlet extends AbstractServlet {
     @GET
     @Produces(MediaTypes.TRIGGER_LIST)
     public List<Trigger> getTriggers(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-        //@ToDo
-        return null;
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
+	//@ToDo
+	return null;
     }
 
     @POST
     @Produces(MediaTypes.TRIGGER)
     @Consumes(MediaTypes.TRIGGER)
     public Response setTrigger(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-            Trigger t) {
-        //@ToDo
-        Trigger saved = getService().addTrigger(t, flashmob);
-        URI uri = getUriInfo().getBaseUriBuilder().path(Paths.TRIGGERS_OF_FLASHMOB).build(t.getId());
-        return Response.created(uri).entity(saved).build();
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    Trigger t) {
+	//@ToDo
+	Trigger saved = getService().addTrigger(t, flashmob);
+	URI uri = getUriInfo().getBaseUriBuilder().path(Paths.TRIGGER_OF_FLASHMOB).build(t.getId());
+	return Response.created(uri).entity(saved).build();
     }
 }

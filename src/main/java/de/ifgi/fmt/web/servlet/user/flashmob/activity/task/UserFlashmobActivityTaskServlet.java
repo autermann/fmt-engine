@@ -38,6 +38,12 @@ public class UserFlashmobActivityTaskServlet extends AbstractServlet {
      */
 
     @GET
-    @Produces()
-
+    @Produces(MediaTypes.TASK_LIST)
+    public List<Task> getTasks(
+	    @PathParam(PathParams.USER) ObjectId user,
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ACTIVITY) ObjectId activity) {
+	//@ToDo
+	return null;
+    }
 }

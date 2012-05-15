@@ -36,30 +36,30 @@ public class FlashmobActivityTriggersServlet extends AbstractServlet {
     @GET
     @Produces(MediaTypes.TRIGGER_LIST)
     public List<Trigger> getTriggers(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-            @PathParam(PathParams.TRIGGER) ObjectId trigger) {
-        //ToDo
-        return null;
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.TRIGGER) ObjectId trigger) {
+	//ToDo
+	return null;
     }
 
     @POST
     @Produces(MediaTypes.TRIGGER)
-    @Consumes(MediaTypes.Trigger)
+    @Consumes(MediaTypes.TRIGGER)
     public Response setTrigger(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-            @PathParam(PathParams.ACTIVITY) ObjectId activity,
-            Trigger t) {
-        //@ToDo
-        Trigger saved = getService().addTrigger(t, activity, flashmob);
-        URI uri = getUriInfo().getBaseUriBuilder().path(Paths.TRIGGERS_OF_ACTIVITY).build(t.getId());
-        return Response.created(uri).entity(saved).build();
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ACTIVITY) ObjectId activity,
+	    Trigger t) {
+	//@ToDo
+	Trigger saved = getService().addTrigger(t, activity, flashmob);
+	URI uri = getUriInfo().getBaseUriBuilder().path(Paths.TRIGGER_OF_ACTIVITY).build(t.getId());
+	return Response.created(uri).entity(saved).build();
     }
 
     @DELETE
     public Response removeTrigger(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-            @PathParam(PathParams.ACTIVITY) ObjectId activity) {
-        //ToDo
-        return null;
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ACTIVITY) ObjectId activity) {
+	//ToDo
+	return null;
     }
 }

@@ -36,9 +36,10 @@ public class FlashmobRoleUsersServlet extends AbstractServlet {
     @Produces(MediaTypes.USER_LIST)
     //get a list of users in a specific role
     public List<User> getUsers(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-            @PathParam(PathParams.ROLE) ObjectId role) {
-        return null;
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ROLE) ObjectId role) {
+	//@ToDo
+	return null;
     }
 
     @POST
@@ -46,12 +47,12 @@ public class FlashmobRoleUsersServlet extends AbstractServlet {
     @Consumes(MediaTypes.USER)
     //Register a User for a Role
     public Response registerUser(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-            @PathParam(PathParams.ROLE) ObjectId role,
-            User u) {
-        //@ToDo
-        User saved = getService().registerUser(u, role, flashmob);
-        URI uri = getUriInfo().getBaseUriBuilder().path(Paths.USERS_OF_ROLE_OF_FLASHMOB).build(u.getId());
-        return Response.created(uri).entity(saved).build();
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ROLE) ObjectId role,
+	    User u) {
+	//@ToDo
+	User saved = getService().registerUser(u, role, flashmob);
+	URI uri = getUriInfo().getBaseUriBuilder().path(Paths.USER_OF_ROLE_OF_FLASHMOB).build(u.getId());
+	return Response.created(uri).entity(saved).build();
     }
 }

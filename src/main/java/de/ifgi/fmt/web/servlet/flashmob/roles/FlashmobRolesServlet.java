@@ -37,8 +37,9 @@ public class FlashmobRolesServlet extends AbstractServlet {
     @Produces(MediaTypes.ROLE_LIST)
     //get list of roles for a flashmob
     public List<Role> getRoles(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-        return null;
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
+	//@ToDo
+	return null;
     }
 
     @POST
@@ -46,11 +47,11 @@ public class FlashmobRolesServlet extends AbstractServlet {
     @Consumes(MediaTypes.ROLE)
     //create a new role for a flashmob
     public Response setRole(
-            @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-            Role r) {
-        //@ToDo
-        Role saved = getService().addRole(r);
-        URI uri = getUriInfo().getBaseUriBuilder().path(Paths.ROLES_FOR_FLASHMOB).build(r.getId());
-        return Response.created(uri).entity(saved).build();
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    Role r) {
+	//@ToDo
+	Role saved = getService().addRole(r);
+	URI uri = getUriInfo().getBaseUriBuilder().path(Paths.ROLE_FOR_FLASHMOB).build(r.getId());
+	return Response.created(uri).entity(saved).build();
     }
 }
