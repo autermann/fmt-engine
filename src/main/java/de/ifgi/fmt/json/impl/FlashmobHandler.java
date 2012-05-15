@@ -29,7 +29,7 @@ public class FlashmobHandler implements JSONHandler<Flashmob> {
 	@Override
 	public JSONObject encode(Flashmob t, UriInfo uri) throws JSONException {
 		// TODO Auto-generated method stub
-		URI activities = uri.getBaseUriBuilder().path(Paths.ACTIVITES_OF_FLASHMOB).build(t.getId());
+		URI activities = uri.getBaseUriBuilder().path(Paths.ACTIVITIES_OF_FLASHMOB).build(t.getId());
 		JSONObject j = new JSONObject()
 			.put(JSONConstants.ACTIVITIES_KEY, activities);
 		return j;

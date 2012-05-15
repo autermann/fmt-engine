@@ -54,5 +54,9 @@ public class UpdateFactory {
 		}
 		return (EntityUpdater<T>) enc;
 	}
+	
+	public static <T> T update(T original, T changes) {
+		return getUpdater((Class<T>) changes.getClass()).update(original, changes);
+	}
 
 }

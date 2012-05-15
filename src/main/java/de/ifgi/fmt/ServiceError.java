@@ -102,9 +102,13 @@ public class ServiceError extends RuntimeException {
 	public static ServiceError signalNotFound() {
 		return notFound("signal not found");
 	}
+
+	public static ServiceError taskNotFound() {
+		return notFound("no such task");
+	}
 	
-	public static ServiceError noSuchFlashmob() {
-		return notFound("no such flashmob");
+	public static ServiceError commentNotFound() {
+		return notFound("no such comment");
 	}
 	
 

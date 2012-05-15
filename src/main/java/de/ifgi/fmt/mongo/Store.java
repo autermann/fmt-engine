@@ -21,6 +21,7 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
+import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.model.Comment;
 import de.ifgi.fmt.model.Flashmob;
@@ -37,23 +38,231 @@ public class Store {
 	
 	private static final Logger log = LoggerFactory.getLogger(Store.class);
 	
+	/* saving order and responsibilities:
+		Flashmob 
+			-> Triggers
+			-> Activities
+				-> Signal
+				-> Task
+			-> Comments
+			-> Roles
+		User
+	*/
+	
 	public Flashmob getFlashmob(ObjectId id) {
 		log.debug("Getting Flashmob {}", id);
-		return getFlashmobDao().get(id);
+		Flashmob f = getFlashmobDao().get(id);
+		if (f == null) {
+			throw ServiceError.flashmobNotFound();
+		}
+		return f;
 	}
-
+	
 	public Flashmob saveFlashmob(Flashmob f) {
+		log.debug("Saving Flashmob {}", f);
 		getTriggerDao().saveAll(f.getTriggers());
 		getCommentDao().saveAll(f.getComments());
 		getRoleDao().saveAll(f.getRoles());
-		getActivityDao().saveAll(f.getActivities());
-		for (Activity a : f.getActivities()) {
-			getSignalDao().save(a.getSignal());
-			getTaskDao().saveAll(a.getTasks().values());
-		}
+		saveActivities(f.getActivities());
 		getFlashmobDao().save(f);
 		return f;
 	}
+	
+	
+	public void saveFlashmobs(Iterable<Flashmob> flashmobs) {
+		log.debug("Saving Flashmobs");
+		for (Flashmob f : flashmobs) {
+			saveFlashmob(f);
+		}
+	}
+
+	public Activity getActivity(ObjectId id) {
+		log.debug("Getting Activity {}", id);
+		Activity a = getActivityDao().get(id);
+		if (a == null) {
+			throw ServiceError.activityNotFound();
+		}
+		return a;
+	}
+	
+	public Activity saveActivity(Activity a) {
+		log.debug("Saving Acitivity {}", a);
+		getSignalDao().save(a.getSignal());
+		getTaskDao().saveAll(a.getTasks().values());
+		getActivityDao().save(a);
+		return a;
+	}
+	
+	public void saveActivities(Iterable<Activity> activities) {
+		log.debug("Saving Activities");
+		for (Activity a : activities) {
+			saveActivity(a);
+		}
+	}
+
+	public User getUser(ObjectId id) {
+		log.debug("Getting User {}", id);
+		User u = getUserDao().get(id);
+		if (u == null) {
+			throw ServiceError.userNotFound();
+		}
+		return u;
+	}
+	
+	public User saveUser(User u) {
+		log.debug("Saving User {}", u);
+		getUserDao().save(u);
+		return u;
+	}
+
+	public void saveUsers(Iterable<User> u) {
+		log.debug("Saving Users");
+		getUserDao().saveAll(u);
+	}
+	
+	public void deleteUser(User u) {
+		log.debug("Deleting User {}", u);
+		deleteUserFromRoles(u, getRolesOfUser(u));
+		deleteUserFromComments(u, getCommentsOfUser(u));
+		DaoFactory.getUserDao().delete(u);
+	}
+	
+	public void deleteUsers(Iterable<User> users) {
+		log.debug("Deleting Users");
+		for (User u : users) {
+			deleteUser(u);
+		}
+	}
+
+	public Role getRole(ObjectId id) {
+		log.debug("Getting Role {}", id);
+		Role r = getRoleDao().get(id);
+		if (r == null) {
+			throw ServiceError.roleNotFound();
+		}
+		return r;
+	}
+	
+	public Role saveRole(Role role) {
+		log.debug("Saving Role {}", role);
+		getRoleDao().save(role);
+		return role;
+	}
+	
+	public void saveRoles(Iterable<Role> roles) {
+		log.debug("Saving Roles");
+		for (Role r : roles) {
+			saveRole(r);
+		}
+	}
+
+	public Trigger getTrigger(ObjectId id) {
+		log.debug("Getting Trigger {}", id);
+		Trigger t = getTriggerDao().get(id);
+		if (t == null) {
+			throw ServiceError.triggerNotFound();
+		}
+		return t;
+	}
+	
+	public Trigger saveTrigger(Trigger t) {
+		log.debug("Saving Trigger {}", t);
+		getTriggerDao().save(t);
+		return t;
+	}
+	
+	public void saveTriggers(Iterable<Trigger> triggers) {
+		log.debug("Saving Triggers");
+		for (Trigger t : triggers) {
+			saveTrigger(t);
+		}
+	}
+	
+	public void deleteTrigger(Trigger t) {
+		log.debug("Deleting Trigger {}", t);
+		for (Activity a : getActivitiesOfTrigger(t)) {
+			saveActivity(a.setTrigger(null));
+		}
+		getTriggerDao().delete(t);
+	}
+	
+	public void deleteTriggers(List<Trigger> triggers) {
+		log.debug("Deleting Triggers");
+		for (Trigger t : triggers) {
+			deleteTrigger(t);
+		}
+	}
+	
+	public Task getTask(ObjectId id) {
+		log.debug("Getting Task {}", id);
+		Task t = getTaskDao().get(id);
+		if (t == null) {
+			throw ServiceError.taskNotFound();
+		}
+		return t;
+	}
+	
+	public Task saveTask(Task t) {
+		log.debug("Saving Task {}", t);
+		getTaskDao().save(t);
+		return t;
+	}
+	
+	public void saveTasks(Iterable<Task> tasks) {
+		log.debug("Saving Tasks");
+		for (Task t : tasks) {
+			saveTask(t);
+		}
+	}
+	
+	public Comment getComment(ObjectId id) {
+		log.debug("Getting Comment {}", id);
+		Comment c = getCommentDao().get(id);
+		if (c == null) {
+			throw ServiceError.commentNotFound();
+		}
+		return c;
+	}
+	
+	public Comment saveComment(Comment c) {
+		log.debug("Saving comment {}", c);
+		getCommentDao().save(c);
+		return c;
+	}
+	
+	public void saveComments(Iterable<Comment> comments) {
+		log.debug("Saving comments");
+		for (Comment c : comments) {
+			saveComment(c);
+		}
+	}
+	
+	public void deleteComment(Comment c){
+		log.debug("Deleting Comment {}", c);
+		getCommentDao().delete(c);
+	}
+	
+	public void deleteComments(List<Comment> c){
+		log.debug("Deleting Comments");
+		getCommentDao().deleteAll(c);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public List<Trigger> getTriggersOfFlashmob(Flashmob f) {
 		log.debug("Getting Triggers of Flashmob {}", f);
@@ -69,33 +278,12 @@ public class Store {
 		return getActivities(Q.activitiesOfTrigger(t));
 	}
 	
-	public void deleteTrigger(Trigger t) {
-		for (Activity a : getActivitiesOfTrigger(t)) {
-			getActivityDao().save(a.setTrigger(null));
-		}
-		getTriggerDao().delete(t);
-	}
-	
-	public void deleteTriggers(List<Trigger> triggers) {
-		for (Trigger t : triggers) {
-			deleteTrigger(t);
-		}
-	}
-	
 	public List<Comment> getCommentsForFlashmob(Flashmob f) {
 		return getComments(Q.commentsOfFlashmob(f));
 	}
 	
 	public void deleteCommentsForFlashmob(Flashmob f) {
 		getCommentDao().deleteByQuery(Q.commentsOfFlashmob(f));
-	}
-	
-	public void deleteComment(Comment c){
-		getCommentDao().delete(c);
-	}
-	
-	public void deleteComments(List<Comment> c){
-		getCommentDao().deleteAll(c);
 	}
 	
 	public Flashmob deleteFlashmob(Flashmob f) {
@@ -113,25 +301,9 @@ public class Store {
 		return f;
 	}
 	
-	public User saveUser(User u) {
-		log.debug("Saving User {}", u);
-		getUserDao().save(u);
-		return u;
-	}
-
-	public void saveUsers(Iterable<User> u) {
-		log.debug("Saving Users");
-		getUserDao().saveAll(u);
-	}
-	
-	public User getUser(ObjectId id) {
-		log.debug("Getting User {}", id);
-		return getUserDao().get(id);
-	}
-	
 	public void deleteUserFromRole(User u, Role r) {
 		log.debug("Deleting User {} from Role {}", u, r);
-		getRoleDao().save(r.removeUser(u));
+		saveRole(r.removeUser(u));
 	}
 	
 	public void deleteUserFromRoles(User u, List<Role> roles) {
@@ -144,12 +316,6 @@ public class Store {
 	public List<Flashmob> getFlashmobsOfUser(User u) {
 		log.debug("Getting Flashmobs of User {}", u);
 		return getFlashmobs(Q.flashmobsOfUser(u));
-	}
-	
-	public void saveComment(Comment c) {
-		log.debug("Saving comment {}", c);
-		getCommentDao().save(c);
-		
 	}
 	
 	public void deleteUserFromComment(User u, Comment c) {
@@ -174,36 +340,54 @@ public class Store {
 		return getComments(Q.commentsOfUser(u));
 	}
 	
-	public void deleteUser(User u) {
-		log.debug("Deleting User {}", u);
-		deleteUserFromRoles(u, getRolesOfUser(u));
-		deleteUserFromComments(u, getCommentsOfUser(u));
-		DaoFactory.getUserDao().delete(u);
-	}
 	
 	
 	protected static List<Flashmob> getFlashmobs(Query<Flashmob> q) {
 		return getFlashmobDao().find(l(q)).asList();
 	}
 	
+	protected static Flashmob getFlashmob(Query<Flashmob> q) {
+		return getFlashmobDao().find(l(q)).get();
+	}
+	
 	protected static List<Trigger> getTriggers(Query<Trigger> q) {
 		return getTriggerDao().find(l(q)).asList();
+	}
+	
+	protected static Trigger getTrigger(Query<Trigger> q) {
+		return getTriggerDao().find(l(q)).get();
 	}
 	
 	protected static List<User> getUsers(Query<User> q) {
 		return getUserDao().find(l(q)).asList();
 	}
 	
+	protected static User getUser(Query<User> q) {
+		return getUserDao().find(l(q)).get();
+	}
+	
 	protected static List<Role> getRoles(Query<Role> q) {
 		return getRoleDao().find(l(q)).asList();
+	}
+	
+	protected static Role getRole(Query<Role> q) {
+		return getRoleDao().find(l(q)).get();
 	}
 	
 	protected static List<Comment> getComments(Query<Comment> q) {
 		return getCommentDao().find(l(q)).asList();
 	}
+	
+	protected static Comment getComment(Query<Comment> q) {
+		return getCommentDao().find(l(q)).get();
+	}
 
 	protected static List<Activity> getActivities(Query<Activity> q) {
 		return getActivityDao().find(l(q)).asList();
+	}
+	
+	protected static Activity getActivity(Query<Activity> q) {
+		return getActivityDao().find(l(q)).get();
 	}
 
 	protected static <T> Query<T> l(Query<T> q) {
@@ -212,7 +396,7 @@ public class Store {
 		return q;
 	}
 	
-	private static final class Q {
+	public static final class Q {
 		
 		public static Query<Trigger> triggersOfFlashmob(Flashmob f) {
 			return getTriggerDao().createQuery().field(Trigger.FLASHMOB).equal(f);
@@ -238,9 +422,6 @@ public class Store {
 			return getRoleDao().createQuery().field(Role.USERS).hasThisElement(u);
 		}
 	}
-	
-	
-	
 	
 	
 	public static void main(String[] args) {
@@ -314,6 +495,5 @@ public class Store {
 		
 		f = s.getFlashmob(oid);
 	}
-	
 	
 }
