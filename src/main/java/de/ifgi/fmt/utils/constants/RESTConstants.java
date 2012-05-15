@@ -98,6 +98,7 @@ public interface RESTConstants {
 	}
 
 	public static abstract class Paths {
+		public static final String ROOT = "/"; 
 		public static final String FLASHMOBS = "/flashmobs";
 		public static final String FLASHMOB = FLASHMOBS + "/" + PathParams.FLASHMOB_P;
 		private static final String ROLES = "/roles";
@@ -122,7 +123,6 @@ public interface RESTConstants {
 		public static final String ROLES_OF_ACTIVITY_OF_FLASHMOB = ACTIVITY_OF_FLASHMOB + ROLES;
 		public static final String ROLE_OF_ACTIVITY_OF_FLASHMOB = ACTIVITY_OF_FLASHMOB + ROLE;
 		public static final String TASKS_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB = ROLE_OF_ACTIVITY_OF_FLASHMOB + TASKS;
-		public static final String TRIGGERS_OF_ACTIVITY = ACTIVITIES_OF_FLASHMOB + TRIGGERS;
 		public static final String TRIGGER_OF_ACTIVITY = ACTIVITIES_OF_FLASHMOB + TRIGGER;
 		public static final String SIGNALS_OF_ACTIVITY = ACTIVITIES_OF_FLASHMOB + "/signal";
 		public static final String TRIGGERS_OF_FLASHMOB = FLASHMOB +TRIGGERS;
