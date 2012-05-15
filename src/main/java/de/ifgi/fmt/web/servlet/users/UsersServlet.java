@@ -20,7 +20,7 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.USERS)
 public class UsersServlet extends AbstractServlet {
 	/*
-	 * /Users
+	 * /users
 	 */
 
 	@GET
