@@ -88,7 +88,7 @@ public class Store {
 	public Activity saveActivity(Activity a) {
 		log.debug("Saving Acitivity {}", a);
 		getSignalDao().save(a.getSignal());
-		getTaskDao().saveAll(a.getTasks().values());
+		saveTasks(a.getTasks().values());
 		getActivityDao().save(a);
 		return a;
 	}

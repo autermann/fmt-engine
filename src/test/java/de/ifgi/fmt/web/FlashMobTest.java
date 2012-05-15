@@ -65,7 +65,7 @@ public class FlashMobTest extends JerseyTest {
 	public void test() {
 		JSONObject f = new JSONObject();
 		
-		Flashmob created = getWebResource().path(Paths.FLASHMOBS).entity(f).post(Flashmob.class);
+		getWebResource().path(Paths.FLASHMOBS).entity(f).post(Flashmob.class);
 		
 	}
 

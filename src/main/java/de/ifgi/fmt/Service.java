@@ -2,6 +2,8 @@ package de.ifgi.fmt;
 
 import static de.ifgi.fmt.update.UpdateFactory.update;
 
+import javax.ws.rs.core.Response;
+
 import org.bson.types.ObjectId;
 
 import de.ifgi.fmt.model.Activity;
@@ -12,7 +14,6 @@ import de.ifgi.fmt.model.signal.Signal;
 import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.model.trigger.Trigger;
 import de.ifgi.fmt.mongo.Store;
-import de.ifgi.fmt.update.UpdateFactory;
 
 public class Service {
 
@@ -83,8 +84,9 @@ public class Service {
 
 	public Task addTask(Task t, ObjectId role, ObjectId activity, ObjectId flashmob) {
 		Role r = getRole(role, flashmob);
-		
-		return null;
+		Activity a = getActivity(flashmob, activity);
+		getStore().saveActivity(a.addTask(r, t));
+		return t;
 	}
 
 	public Task updateTask(Task t, ObjectId role, ObjectId activity,
@@ -124,6 +126,36 @@ public class Service {
 	}
 
 	public Task addActivity(Activity a, ObjectId flashmob) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Role addRole(ObjectId flashmob, Role r) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public User getFlashmob(ObjectId user, ObjectId flashmob) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public User updateUser(User u, ObjectId user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public User getUser(ObjectId user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Response deleteUser(ObjectId user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public User createUser(User u) {
 		// TODO Auto-generated method stub
 		return null;
 	}
