@@ -11,19 +11,19 @@ import javax.ws.rs.Produces;
 
 import org.bson.types.ObjectId;
 
-import de.ifgi.fmt.model.User;
+import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.FLASHMOB_OF_USER)
 public class FlashmobServlet extends AbstractServlet {
-	/*
+	/* TODO Brauchen wir das?
 	 * /users/{uid}/flashmobs/{fid}
 	 */
 
 	@GET
 	@Produces(MediaTypes.FLASHMOB)
-	public User getFlashmob(@PathParam(PathParams.USER) ObjectId user,
+	public Flashmob getFlashmob(@PathParam(PathParams.USER) ObjectId user,
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
 		// @ToDo
 		return getService().getFlashmob(user, flashmob);

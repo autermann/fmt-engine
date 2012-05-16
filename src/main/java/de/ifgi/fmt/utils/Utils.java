@@ -224,5 +224,17 @@ public class Utils {
 	public static <T> List<T> asList(final Iterable<T> set) {
 		return new LinkedList<T>() {{ for (T t : set) { add(t); } }};
 	}
-
+	
+	public static <T> List<T> sublist(Iterable<T> list, int begin, int end) {
+		int i = 0;
+		List<T> n = list();
+		for (T t : list) {
+			if (end == i)
+				break;
+			if (i >= begin)
+				n.add(t);
+			++i;
+		}
+		return n;
+	}
 }

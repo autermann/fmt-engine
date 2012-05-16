@@ -12,6 +12,7 @@ import static de.ifgi.fmt.mongo.DaoFactory.getUserDao;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.codehaus.jettison.json.JSONException;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
 import de.ifgi.fmt.ServiceError;
+import de.ifgi.fmt.json.JSONFactory;
 import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.model.Comment;
 import de.ifgi.fmt.model.Flashmob;
@@ -109,6 +111,10 @@ public class Store {
 		return u;
 	}
 	
+	public List<User> getUsers(int limit) {
+		return getUserDao().find(getUserDao().createQuery().limit(limit)).asList();
+	}
+	
 	public User saveUser(User u) {
 		log.debug("Saving User {}", u);
 		getUserDao().save(u);
@@ -122,6 +128,11 @@ public class Store {
 	
 	public void deleteUser(User u) {
 		log.debug("Deleting User {}", u);
+		//TODO coordinator
+		
+		
+		deleteFlashmobs(getFlashmobs(getFlashmobDao().createQuery().field(Flashmob.COORDINATOR).equal(u)));
+		
 		deleteUserFromRoles(u, getRolesOfUser(u));
 		deleteUserFromComments(u, getCommentsOfUser(u));
 		DaoFactory.getUserDao().delete(u);
@@ -286,7 +297,7 @@ public class Store {
 		getCommentDao().deleteByQuery(Q.commentsOfFlashmob(f));
 	}
 	
-	public Flashmob deleteFlashmob(Flashmob f) {
+	public void deleteFlashmob(Flashmob f) {
 		
 		deleteTriggers(getTriggersOfFlashmob(f));
 		deleteCommentsForFlashmob(f);
@@ -298,7 +309,12 @@ public class Store {
 			getTaskDao().saveAll(a.getTasks().values());
 		}
 		getFlashmobDao().save(f);
-		return f;
+	}
+	
+	public void deleteFlashmobs(Iterable<Flashmob> flashmobs) {
+		for (Flashmob f : flashmobs) {
+			deleteFlashmob(f);
+		}
 	}
 	
 	public void deleteUserFromRole(User u, Role r) {
@@ -469,6 +485,7 @@ public class Store {
 		
 		Flashmob f = new Flashmob()
 			.addRole(role1)
+			.setCoordinator(user2)
 			.addRole(role2)
 			.addTrigger(t)
 			.addComment(new Comment()
@@ -494,6 +511,19 @@ public class Store {
 		s.deleteUser(user1);
 		
 		f = s.getFlashmob(oid);
+		
+		try {
+			System.err.println(JSONFactory.getEncoder(Flashmob.class).encode(f, null).toString(4));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public List<User> getUsersForRole(Role r, int limit) {
+		
+		
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

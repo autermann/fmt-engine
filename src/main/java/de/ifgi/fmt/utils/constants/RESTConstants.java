@@ -59,6 +59,8 @@ public interface RESTConstants {
 		public static final String ACTIVITY = "activity";
 		public static final String TRIGGER = "trigger";
 		public static final String USER = "user";
+		public static final String COMMENT ="comment";
+		private static final String COMMENT_P = "{" + COMMENT + "}";
 		private static final String FLASHMOB_P = "{" + FLASHMOB + "}";
 		private static final String ROLE_P = "{" + ROLE + "}";
 		private static final String ACTIVITY_P = "{" + ACTIVITY + "}";
@@ -102,6 +104,8 @@ public interface RESTConstants {
 		public static final String FLASHMOBS = "/flashmobs";
 		public static final String FLASHMOB = FLASHMOBS + "/" + PathParams.FLASHMOB_P;
 		private static final String ROLES = "/roles";
+		private static final String COMMENTS = "/comments";
+		private static final String COMMENT = COMMENTS + PathParams.COMMENT_P;
 		private static final String ROLE = ROLES + "/" + PathParams.ROLE_P;
 		private static final String ACTIVITIES = "/activities";
 		private static final String ACTIVITY = ACTIVITIES + "/" + PathParams.ACTIVITY_P;
@@ -112,8 +116,10 @@ public interface RESTConstants {
 		private static final String TASKS = "/task";
 		public static final String ROLES_FOR_FLASHMOB = FLASHMOB + ROLES;
 		public static final String ROLE_FOR_FLASHMOB = FLASHMOB + ROLE;
+		public static final String COMMENTS_FOR_FLASHMOB = FLASHMOB + COMMENTS;
+		public static final String COMMENT_FOR_FLASHMOB = FLASHMOB + COMMENT;
 		public static final String USERS_OF_ROLE_OF_FLASHMOB = ROLE_FOR_FLASHMOB + USERS;
-                public static final String USER_OF_ROLE_OF_FLASHMOB = ROLE_FOR_FLASHMOB + USER;
+		public static final String USER_OF_ROLE_OF_FLASHMOB = ROLE_FOR_FLASHMOB + USER;
 		public static final String ACTIVITIES_OF_ROLE_OF_FLASHMOB = ROLE_FOR_FLASHMOB + ACTIVITIES;
 		public static final String ACTIVITY_OF_ROLE_OF_FLASHMOB = ROLE_FOR_FLASHMOB + ACTIVITY;
 		public static final String TASKS_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB = ACTIVITY_OF_ROLE_OF_FLASHMOB + TASKS;

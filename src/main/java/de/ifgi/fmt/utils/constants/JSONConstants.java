@@ -22,4 +22,5 @@ public class JSONConstants {
 	public static final String FLASHMOBS_KEY = "flashmobs";
 	public static final String SIGNAL_KEY = "signal";
 	public static final String TRIGGERS_KEY = "triggers";
+	public static final String VALIDITY_KEY = "validity";
 }

@@ -47,8 +47,7 @@ public class FlashmobsServlet extends AbstractServlet {
 	// create a new flashmob
 	public Response setFlashmob(Flashmob f) {
 		Flashmob saved = getService().createFlashmob(f);
-		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.FLASHMOB)
-				.build(f.getId());
+		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.FLASHMOB).build(f.getId());
 		return Response.created(uri).entity(saved).build();
 	}
 }

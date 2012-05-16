@@ -33,43 +33,52 @@ public class Flashmob extends Identifiable {
 	public static final String COMMENTS = "comments";
 	public static final String ROLES = "roles";
 	public static final String TRIGGERS = "triggers";
+	public static final String VALIDITY = "validity";
+	public static final String COORDINATOR = "coordinator";
 
 	@Property(Flashmob.TITLE)
 	private String title;
 
 	@Property(Flashmob.DESCRIPTION)
 	private String description;
-	
+
 	@Property(Flashmob.START)
 	private DateTime start;
-	
+
 	@Property(Flashmob.END)
 	private DateTime end;
-	
+
 	@Property(Flashmob.PUBLISH)
 	private DateTime publish;
-	
+
 	@Property(Flashmob.PUBLIC)
 	private boolean isPublic;
 
 	@Indexed(IndexDirection.GEO2D)
 	@Property(Flashmob.LOCATION)
 	private Point location;
-	
+
 	@Property(Flashmob.KEY)
 	private String key;
 
+	@Property(Flashmob.VALIDITY)
+	private Validity validity = Validity.NOT_CHECKED;
+
 	@Reference(Flashmob.ACTIVITIES)
 	private List<Activity> activities = Utils.list();
-	
+
 	@Reference(Flashmob.ROLES)
 	private List<Role> roles = Utils.list();
-	
+
 	@Reference(Flashmob.TRIGGERS)
 	private List<Trigger> triggers = Utils.list();
 
 	@Reference(Flashmob.COMMENTS)
 	private List<Comment> comments = Utils.list();
+	
+	@Reference(Flashmob.COORDINATOR)
+	private User coordinator;
+	
 
 	public String getDescription() {
 		return description;
@@ -199,4 +208,56 @@ public class Flashmob extends Identifiable {
 		return this;
 	}
 
+	public Validity getValidity() {
+		return validity;
+	}
+
+	public Flashmob setValidity(Validity validity) {
+		this.validity = validity;
+		return this;
+	}
+
+	public Flashmob setNotChecked() {
+		setValidity(Validity.NOT_CHECKED);
+		return this;
+	}
+
+	public Flashmob setValid() {
+		setValidity(Validity.VALID);
+		return this;
+	}
+
+	public Flashmob setNotValid() {
+		setValidity(Validity.NOT_VALID);
+		return this;
+	}
+
+	public boolean isNotChecked() {
+		return getValidity() == Validity.NOT_CHECKED;
+	}
+
+	public boolean isValid() {
+		return getValidity() == Validity.VALID;
+	}
+
+	public boolean isNotValid() {
+		return getValidity() == Validity.NOT_VALID;
+	}
+	
+	public boolean hasUser(User u) {
+		for (Role r : getRoles())
+			if (r.getUsers().contains(u)) 
+				return true;
+		return false;
+	}
+
+	public User getCoordinator() {
+		return coordinator;
+	}
+
+	public Flashmob setCoordinator(User coordinator) {
+		this.coordinator = coordinator;
+		return this;
+	}
+	
 }

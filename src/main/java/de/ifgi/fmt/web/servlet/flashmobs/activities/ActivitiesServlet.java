@@ -14,7 +14,6 @@ import javax.ws.rs.core.Response;
 import org.bson.types.ObjectId;
 
 import de.ifgi.fmt.model.Activity;
-import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
@@ -40,7 +39,7 @@ public class ActivitiesServlet extends AbstractServlet {
 	public Response addActivity(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob, Activity a) {
 		// @ToDo
-		Task saved = getService().addActivity(a, flashmob);
+		Activity saved = getService().addActivity(a, flashmob);
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.ACTIVITY_OF_FLASHMOB).build(a.getId());
 		return Response.created(uri).entity(saved).build();

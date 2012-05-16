@@ -1,6 +1,7 @@
 package de.ifgi.fmt.update.impl;
 
 import de.ifgi.fmt.model.Flashmob;
+import de.ifgi.fmt.model.Validity;
 import de.ifgi.fmt.update.EntityUpdater;
 import de.ifgi.fmt.update.UpdateFactory.Updates;
 
@@ -21,7 +22,12 @@ public class FlashmobUpdater extends EntityUpdater<Flashmob>{
 		if (changes.getStart() != null) {
 			old.setEnd(changes.getEnd());
 		}
+		
+		
 		// TODO Auto-generated method stub
+		
+		
+		old.setValidity(Validity.NOT_CHECKED);
 		return null;
 	}
 

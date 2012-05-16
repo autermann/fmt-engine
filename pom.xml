@@ -167,6 +167,11 @@
 			<artifactId>jts</artifactId>
 			<version>1.12</version>
 		</dependency>
+		<dependency>
+			<groupId>org.uncertweb</groupId>
+			<artifactId>gml-api</artifactId>
+			<version>0.0.5-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>

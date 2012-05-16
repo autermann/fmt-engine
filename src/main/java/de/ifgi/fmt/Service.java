@@ -2,7 +2,7 @@ package de.ifgi.fmt;
 
 import static de.ifgi.fmt.update.UpdateFactory.update;
 
-import javax.ws.rs.core.Response;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 
@@ -14,6 +14,7 @@ import de.ifgi.fmt.model.signal.Signal;
 import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.model.trigger.Trigger;
 import de.ifgi.fmt.mongo.Store;
+import de.ifgi.fmt.utils.Utils;
 
 public class Service {
 
@@ -30,7 +31,20 @@ public class Service {
 	}
 	
 	public Flashmob getFlashmob(ObjectId flashmob) {
-		return getStore().getFlashmob(flashmob);
+		Flashmob f = getStore().getFlashmob(flashmob);
+		if (f.isNotChecked()) {
+			if (validateFlashmob(f)) {
+				f.setValid();
+			} else {
+				f.setNotValid();
+			}
+			getStore().saveFlashmob(f);
+		}
+		return f;
+	}
+	
+	private static boolean validateFlashmob(Flashmob f) {
+		return false; //TODO validity check
 	}
 	
 	public Flashmob createFlashmob(Flashmob f) {
@@ -125,39 +139,54 @@ public class Service {
 		return null;
 	}
 
-	public Task addActivity(Activity a, ObjectId flashmob) {
-		// TODO Auto-generated method stub
-		return null;
+	public Activity addActivity(Activity a, ObjectId flashmob) {
+		Flashmob f = getFlashmob(flashmob);
+		getStore().saveFlashmob(f.addActivity(a));
+		return a;
 	}
 
 	public Role addRole(ObjectId flashmob, Role r) {
-		// TODO Auto-generated method stub
-		return null;
+		Flashmob f =getFlashmob(flashmob);
+		getStore().saveFlashmob(f.addRole(r));
+		return r;
 	}
 
-	public User getFlashmob(ObjectId user, ObjectId flashmob) {
-		// TODO Auto-generated method stub
-		return null;
+	public Flashmob getFlashmob(ObjectId user, ObjectId flashmob) {
+		User u = getUser(user);
+		Flashmob f = getFlashmob(flashmob);
+		if (!f.hasUser(u)) {
+			throw ServiceError.flashmobNotFound();
+		}
+		return f;
 	}
 
-	public User updateUser(User u, ObjectId user) {
-		// TODO Auto-generated method stub
-		return null;
+	public User updateUser(User updates, ObjectId user) {
+		return getStore().saveUser(update(getUser(user), updates));
 	}
 
 	public User getUser(ObjectId user) {
-		// TODO Auto-generated method stub
-		return null;
+		return getStore().getUser(user);
 	}
 
-	public Response deleteUser(ObjectId user) {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteUser(ObjectId user) {
+		getStore().deleteUser(getUser(user));
 	}
 
 	public User createUser(User u) {
-		// TODO Auto-generated method stub
-		return null;
+		return getStore().saveUser(u);
+	}
+
+	public List<User> getUsers(int limit) {
+		return getStore().getUsers(limit);
+	}
+
+	public List<User> getUsersForRole(ObjectId flashmob, ObjectId role, int limit) {
+		Flashmob f = getFlashmob(flashmob);
+		Role r = getRole(role);
+		if (!r.getFlashmob().equals(f)) {
+			throw ServiceError.roleNotFound();
+		}
+		return Utils.sublist(r.getUsers(), 0, limit+1);
 	}
 
 }
