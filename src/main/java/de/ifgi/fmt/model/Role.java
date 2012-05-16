@@ -31,7 +31,7 @@ public class Role extends Identifiable {
 	}
 
 	@Property(Role.ITEMS)
-	private Set<String> items;
+	private Set<String> items = Utils.set();
 	
 	@Property(Role.MIN_COUNT)
 	private int minCount;
@@ -49,7 +49,7 @@ public class Role extends Identifiable {
 	private String description;
 
 	@Reference(Role.ACTIVITIES)
-	private Set<Activity> activites;
+	private Set<Activity> activites = Utils.set();
 	
 	@Reference(Role.FLASHMOB)
 	private Flashmob flashmob;

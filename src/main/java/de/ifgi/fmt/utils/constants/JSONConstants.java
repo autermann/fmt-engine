@@ -20,7 +20,12 @@ public class JSONConstants {
 	public static final String TITLE_KEY = "title";
 	public static final String COMMENTS_KEY = "comments";
 	public static final String FLASHMOBS_KEY = "flashmobs";
+	public static final String FLASHMOB_KEY = "flashmobs";
 	public static final String SIGNAL_KEY = "signal";
-	public static final String TRIGGERS_KEY = "triggers";
+	public static final String TRIGGER_KEY = "triggers";
 	public static final String VALIDITY_KEY = "validity";
+	public static final String ITEMS_KEY = "items";
+	public static final String MIN_PARTICIPANTS_KEY = "minParticipants";
+	public static final String MAX_PARTICIPANTS_KEY = "maxParticipants";
+	public static final String CATEGORY_KEY = "category";
 }
