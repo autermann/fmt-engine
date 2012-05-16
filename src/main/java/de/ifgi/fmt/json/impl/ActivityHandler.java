@@ -37,22 +37,28 @@ public class ActivityHandler implements JSONHandler<Activity> {
 
 	@Override
 	public JSONObject encode(Activity t, UriInfo uri) throws JSONException {
+		// will be called at this URL's
+		// - Paths.ACTIVITY_OF_FLASHMOB
+		// - Paths.ACTIVITY_OF_FLASHMOB_OF_USER
+		// - Paths.ACTIVITY_OF_ROLE_OF_FLASHMOB
+		// needs to check which URL was called to adjust links...
+		
 		JSONEncoder<Role> renc = JSONFactory.getEncoder(Role.class);
 		JSONObject j = new JSONObject().put(ID_KEY, t.getId());
 		if (uri != null) {
 			j.put(FLASHMOB_KEY, uri.getBaseUriBuilder().path(Paths.FLASHMOB).build(t.getFlashmob()));
 			if (t.getTrigger() != null) {
-				j.put(TRIGGER_KEY, uri.getBaseUriBuilder().path(Paths.TRIGGER_OF_FLASHMOB).build(t.getFlashmob(),t.getId()));
+				j.put(TRIGGER_KEY, uri.getAbsolutePathBuilder().path(uri.getPath()).path(Paths.TRIGGER).build());
 			}
 			if (t.getSignal() != null) {
-				j.put(SIGNAL_KEY, uri.getBaseUriBuilder().path(Paths.SIGNALS_OF_ACTIVITY).build(t.getFlashmob(),t));
+				j.put(SIGNAL_KEY, uri.getAbsolutePathBuilder().path(uri.getPath()).path(Paths.SIGNAL).build());
 			}
 			
 			JSONArray roles = new JSONArray();
 			for (Role r : t.getRoles()) {
 				roles.put(renc.encodeAsReference(r, uri));
 			}
-			j.put(ROLES_KEY,roles);
+			j.put(ROLES_KEY, roles);
 		}
 		if (t.getTitle() != null) {
 			j.put(TITLE_KEY, t.getTitle());
@@ -66,6 +72,9 @@ public class ActivityHandler implements JSONHandler<Activity> {
 	@Override
 	public JSONObject encodeAsReference(Activity t, UriInfo uriInfo) throws JSONException {
 		//TODO check if its an activity of an user (different urls)
+		//Paths.ACTIVITIES_OF_FLASHMOB
+		//Paths.ACTIVITIES_OF_FLASHMOB_OF_USER
+		//Paths.ACTIVITIES_OF_ROLE_OF_FLASHMOB
 		return new JSONObject().put(HREF_KEY, uriInfo.getBaseUriBuilder().path(Paths.ACTIVITY_OF_FLASHMOB).build(t.getFlashmob(),t)).put(ID_KEY, t);
 	}
 
