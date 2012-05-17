@@ -195,6 +195,19 @@
 			<url>http://reflections.googlecode.com/svn/repo</url>
 		</repository>
 	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>mc-release</id>
+			<name>Local Maven repository of releases</name>
+			<url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
 	<build>
 		<finalName>${project.artifactId}-${project.version}</finalName>
 		<resources>
@@ -280,7 +293,81 @@
 					</includes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>https://fmt.googlecode.com/svn/Engine/tags</tagBase>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<version>1.9.0</version>
+				<configuration>
+					<header>license-header.txt</header>
+					<failIfMissing>true</failIfMissing>
+					<aggregate>true</aggregate>
+					<strictCheck>true</strictCheck>
+					<mapping>
+						<java>SLASHSTAR_STYLE</java>
+					</mapping>
+					<excludes>
+						<exclude>target/**</exclude>
+						<exclude>**/src/main/java/de/ifgi/fmt/utils/BCrypt.java</exclude>
+						<exclude>**/src/test/resources/**</exclude>
+						<exclude>**/src/main/resources/**</exclude>
+						<exclude>**/src/main/webapp/**</exclude>
+						<exclude>**/*.txt</exclude>
+						<exclude>**/*.css</exclude>
+						<exclude>**/*.js</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>license-check</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>license-update</id>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>com.mycila.maven-license-plugin</groupId>
+										<artifactId>maven-license-plugin</artifactId>
+										<versionRange>[1.9.0,)</versionRange>
+										<goals>
+											<goal>format</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>
 	
