@@ -34,9 +34,10 @@ public class RootServlet extends AbstractServlet {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getRoot() throws Exception {
-		JSONObject j = new JSONObject()
-			.put(JSONConstants.USERS_KEY, getUriInfo().getBaseUriBuilder().path(Paths.USERS))
-			.put(JSONConstants.FLASHMOBS_KEY, getUriInfo().getBaseUriBuilder().path(Paths.FLASHMOBS));
+		JSONObject j = new JSONObject().put(JSONConstants.USERS_KEY,
+				getUriInfo().getBaseUriBuilder().path(Paths.USERS)).put(
+				JSONConstants.FLASHMOBS_KEY,
+				getUriInfo().getBaseUriBuilder().path(Paths.FLASHMOBS));
 		return Utils.toString(j);
 	}
 

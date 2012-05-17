@@ -17,9 +17,6 @@
  */
 package de.ifgi.fmt.web.servlet.flashmobs.triggers;
 
-import de.ifgi.fmt.ServiceError;
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -37,34 +34,34 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.TRIGGER_OF_FLASHMOB)
 public class TriggerServlet extends AbstractServlet {
-    /*
-     * /flashmobs/{fid}/triggers/{tid}
-     */
+	/*
+	 * /flashmobs/{fid}/triggers/{tid}
+	 */
 
-    @GET
-    @Produces(MediaTypes.TRIGGER)
-    public Trigger getTrigger(
-	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-	    @PathParam(PathParams.TRIGGER) ObjectId trigger) {
-	
-	return getService().getTrigger(trigger, flashmob);
-    }
+	@GET
+	@Produces(MediaTypes.TRIGGER)
+	public Trigger getTrigger(
+			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+			@PathParam(PathParams.TRIGGER) ObjectId trigger) {
 
-    @PUT
-    @Produces(MediaTypes.TRIGGER)
-    @Consumes(MediaTypes.TRIGGER)
-    public Response updateTriggers(
-	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-	    @PathParam(PathParams.TRIGGER) ObjectId trigger, Trigger t) {
-	// @ToDo
-	return null;
-    }
+		return getService().getTrigger(trigger, flashmob);
+	}
 
-    @DELETE
-    public Response removeTrigger(
-	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-	    @PathParam(PathParams.TRIGGER) ObjectId trigger) {
-	// @ToDo
-	return null;
-    }
+	@PUT
+	@Produces(MediaTypes.TRIGGER)
+	@Consumes(MediaTypes.TRIGGER)
+	public Response updateTriggers(
+			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+			@PathParam(PathParams.TRIGGER) ObjectId trigger, Trigger t) {
+		// @ToDo
+		return null;
+	}
+
+	@DELETE
+	public Response removeTrigger(
+			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+			@PathParam(PathParams.TRIGGER) ObjectId trigger) {
+		// @ToDo
+		return null;
+	}
 }

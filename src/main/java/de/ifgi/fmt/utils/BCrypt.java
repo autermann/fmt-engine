@@ -16,7 +16,6 @@
 package de.ifgi.fmt.utils;
 
 import java.io.UnsupportedEncodingException;
-
 import java.security.SecureRandom;
 
 /**

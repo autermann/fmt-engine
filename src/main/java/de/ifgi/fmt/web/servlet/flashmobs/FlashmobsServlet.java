@@ -55,7 +55,8 @@ public class FlashmobsServlet extends AbstractServlet {
 			@QueryParam(QueryParams.SHOW) ShowStatus show,
 			@QueryParam(QueryParams.SEARCH) String search,
 			@QueryParam(QueryParams.PARTICIPANT) ObjectId participant) {
-		return getService().getFlashmobs(limit, near, user, bbox, from, to, sorting, descending, show, search, participant);
+		return getService().getFlashmobs(limit, near, user, bbox, from, to,
+				sorting, descending, show, search, participant);
 	}
 
 	@POST
@@ -64,7 +65,8 @@ public class FlashmobsServlet extends AbstractServlet {
 	// create a new flashmob
 	public Response setFlashmob(Flashmob f) {
 		Flashmob saved = getService().createFlashmob(f);
-		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.FLASHMOB).build(f.getId());
+		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.FLASHMOB)
+				.build(f.getId());
 		return Response.created(uri).entity(saved).build();
 	}
 }

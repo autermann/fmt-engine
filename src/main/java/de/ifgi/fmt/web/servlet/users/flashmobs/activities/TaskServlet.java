@@ -36,16 +36,16 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.TASKS_OF_ACTIVITY_OF_FLASHMOB_OF_USER)
 public class TaskServlet extends AbstractServlet {
-    /*
-     * /users/{uid}/flashmobs/{fid}/activities/{aid}/task
-     */
+	/*
+	 * /users/{uid}/flashmobs/{fid}/activities/{aid}/task
+	 */
 
-    @GET
-    @Produces(MediaTypes.TASK_LIST)
-    public List<Task> getTasks(@PathParam(PathParams.USER) ObjectId user,
-	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-	    @PathParam(PathParams.ACTIVITY) ObjectId activity) {
-	
-	return getService().getTaskForActivity(activity, flashmob, user);
-    }
+	@GET
+	@Produces(MediaTypes.TASK_LIST)
+	public List<Task> getTasks(@PathParam(PathParams.USER) ObjectId user,
+			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
+
+		return getService().getTaskForActivity(activity, flashmob, user);
+	}
 }

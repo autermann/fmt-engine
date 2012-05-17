@@ -34,16 +34,16 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.ACTIVITY_OF_FLASHMOB_OF_USER)
 public class ActivityServlet extends AbstractServlet {
-    /*
-     * /users/{uid}/flashmobs/{fid}/activities/{aid}
-     */
+	/*
+	 * /users/{uid}/flashmobs/{fid}/activities/{aid}
+	 */
 
-    @GET
-    @Produces(MediaTypes.ACTIVITY)
-    public Activity getActivity(@PathParam(PathParams.USER) ObjectId user,
-	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-	    @PathParam(PathParams.ACTIVITY) ObjectId activity) {
+	@GET
+	@Produces(MediaTypes.ACTIVITY)
+	public Activity getActivity(@PathParam(PathParams.USER) ObjectId user,
+			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
 
-	return getActivity(activity, user, flashmob);
-    }
+		return getActivity(activity, user, flashmob);
+	}
 }

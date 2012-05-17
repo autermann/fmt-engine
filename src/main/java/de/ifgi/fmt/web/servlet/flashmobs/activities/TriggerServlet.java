@@ -57,7 +57,7 @@ public class TriggerServlet extends AbstractServlet {
 		return Response.status(Status.TEMPORARY_REDIRECT).location(redirect)
 				.build();
 	}
-	
+
 	@POST
 	@Produces(MediaTypes.TRIGGER)
 	@Consumes(MediaTypes.TRIGGER)

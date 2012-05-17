@@ -37,7 +37,8 @@ public abstract class AbstractServlet implements RESTConstants {
 
 	protected static final String DEFAULT_LIMIT = "20";
 
-	protected static final Logger log = LoggerFactory.getLogger(RootServlet.class);
+	protected static final Logger log = LoggerFactory
+			.getLogger(RootServlet.class);
 
 	private UriInfo uriInfo;
 	private final Service service = Service.getInstance();

@@ -19,8 +19,6 @@ package de.ifgi.fmt;
 
 import static de.ifgi.fmt.update.UpdateFactory.update;
 
-import de.ifgi.fmt.utils.constants.RESTConstants.ShowStatus;
-import de.ifgi.fmt.utils.constants.RESTConstants.Sorting;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -34,6 +32,8 @@ import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.model.trigger.Trigger;
 import de.ifgi.fmt.mongo.Store;
 import de.ifgi.fmt.utils.Utils;
+import de.ifgi.fmt.utils.constants.RESTConstants.ShowStatus;
+import de.ifgi.fmt.utils.constants.RESTConstants.Sorting;
 
 public class Service {
 
@@ -42,13 +42,13 @@ public class Service {
 	public static Service getInstance() {
 		return (service == null) ? service = new Service() : service;
 	}
-	
+
 	private Store store = new Store();
 
 	public Store getStore() {
 		return this.store;
 	}
-	
+
 	public Flashmob getFlashmob(ObjectId flashmob) {
 		Flashmob f = getStore().getFlashmob(flashmob);
 		if (f.isNotChecked()) {
@@ -61,11 +61,11 @@ public class Service {
 		}
 		return f;
 	}
-	
+
 	private static boolean validateFlashmob(Flashmob f) {
-		return false; //TODO validity check
+		return false; // TODO validity check
 	}
-	
+
 	public Flashmob createFlashmob(Flashmob f) {
 		return getStore().saveFlashmob(f);
 	}
@@ -80,7 +80,7 @@ public class Service {
 		getStore().saveFlashmob(f);
 		return t;
 	}
-	
+
 	public Role getRole(ObjectId role) {
 		return getStore().getRole(role);
 	}
@@ -102,20 +102,22 @@ public class Service {
 		getStore().saveRole(r.addUser(u));
 		return u;
 	}
-	
+
 	public Activity getActivity(Flashmob flashmob, ObjectId activity) {
 		Activity a = getStore().getActivity(activity);
-		if (!flashmob.getActivities().contains(a) || !a.getFlashmob().equals(flashmob)) {
+		if (!flashmob.getActivities().contains(a)
+				|| !a.getFlashmob().equals(flashmob)) {
 			throw ServiceError.activityNotFound();
 		}
 		return a;
 	}
-	
+
 	public Activity getActivity(ObjectId flashmob, ObjectId activity) {
 		return getActivity(getFlashmob(flashmob), activity);
 	}
 
-	public Task addTask(Task t, ObjectId role, ObjectId activity, ObjectId flashmob) {
+	public Task addTask(Task t, ObjectId role, ObjectId activity,
+			ObjectId flashmob) {
 		Role r = getRole(role, flashmob);
 		Activity a = getActivity(flashmob, activity);
 		getStore().saveActivity(a.addTask(r, t));
@@ -124,38 +126,32 @@ public class Service {
 
 	public Task updateTask(Task t, ObjectId role, ObjectId activity,
 			ObjectId flashmob) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	public Activity addActivity(Activity a, ObjectId role, ObjectId flashmob) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	public Role addRole(Role r, ObjectId activity, ObjectId flashmob) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	public Signal addSignal(Signal s, ObjectId activity, ObjectId flashmob) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	public Signal updateSignal(Signal s, ObjectId activity, ObjectId flashmob) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
-	public Activity updateActivity(Activity a, ObjectId activity, ObjectId flashmob) {
-		// TODO Auto-generated method stub
-		return null;
+	public Activity updateActivity(Activity a, ObjectId activity,
+			ObjectId flashmob) {
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	public Trigger addTrigger(Trigger t, ObjectId activity, ObjectId flashmob) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	public Activity addActivity(Activity a, ObjectId flashmob) {
@@ -165,7 +161,7 @@ public class Service {
 	}
 
 	public Role addRole(ObjectId flashmob, Role r) {
-		Flashmob f =getFlashmob(flashmob);
+		Flashmob f = getFlashmob(flashmob);
 		getStore().saveFlashmob(f.addRole(r));
 		return r;
 	}
@@ -199,65 +195,71 @@ public class Service {
 		return getStore().getUsers(limit);
 	}
 
-	public List<User> getUsersForRole(ObjectId flashmob, ObjectId role, int limit) {
+	public List<User> getUsersForRole(ObjectId flashmob, ObjectId role,
+			int limit) {
 		Flashmob f = getFlashmob(flashmob);
 		Role r = getRole(role);
 		if (!r.getFlashmob().equals(f)) {
 			throw ServiceError.roleNotFound();
 		}
-		return Utils.sublist(r.getUsers(), 0, limit+1);
+		return Utils.sublist(r.getUsers(), 0, limit + 1);
 	}
 
-    public List<Role> getRoles(ObjectId flashmob) {
-	throw new UnsupportedOperationException("Not yet implemented");
-    }
+	public List<Role> getRoles(ObjectId flashmob) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
 
-    public List<Task> getTasksForRole(ObjectId role, ObjectId activity, ObjectId flashmob) {
-	throw new UnsupportedOperationException("Not yet implemented");
-    }
+	public List<Task> getTasksForRole(ObjectId role, ObjectId activity,
+			ObjectId flashmob) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
 
-    public List<Role> getRoles(ObjectId activity, ObjectId flashmob) {
-	throw new UnsupportedOperationException("Not yet implemented");
-    }
+	public List<Role> getRoles(ObjectId activity, ObjectId flashmob) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
 
-    public List<Activity> getActivitiesForRole(ObjectId role, ObjectId flashmob) {
-	throw new UnsupportedOperationException("Not yet implemented");
-    }
+	public List<Activity> getActivitiesForRole(ObjectId role, ObjectId flashmob) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
 
-    public Trigger getTrigger(ObjectId trigger, ObjectId flashmob) {
-	throw new UnsupportedOperationException("Not yet implemented");
-    }
+	public Trigger getTrigger(ObjectId trigger, ObjectId flashmob) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
 
-    public List<Trigger> getTriggers(ObjectId flashmob) {
-	throw new UnsupportedOperationException("Not yet implemented");
-    }
+	public List<Trigger> getTriggers(ObjectId flashmob) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
 
-    public List<User> getUsersOfFlashmob() {
-	throw new UnsupportedOperationException("Not yet implemented");
-    }
+	public List<User> getUsersOfFlashmob() {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
 
-    public List<Flashmob> getFlashmobsFromUser(ObjectId user) {
-	throw new UnsupportedOperationException("Not yet implemented");
-    }
+	public List<Flashmob> getFlashmobsFromUser(ObjectId user) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
 
-    public List<Activity> getActivitiesForUser(ObjectId user, ObjectId flashmob) {
-	throw new UnsupportedOperationException("Not yet implemented");
-    }
+	public List<Activity> getActivitiesForUser(ObjectId user, ObjectId flashmob) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
 
-    public List<Task> getTaskForActivity(ObjectId activity, ObjectId flashmob, ObjectId user) {
-	throw new UnsupportedOperationException("Not yet implemented");
-    }
+	public List<Task> getTaskForActivity(ObjectId activity, ObjectId flashmob,
+			ObjectId user) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
 
-    public List<Activity> getActivities(ObjectId flashmob) {
-	throw new UnsupportedOperationException("Not yet implemented");
-    }
+	public List<Activity> getActivities(ObjectId flashmob) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
 
-    public List<Flashmob> getFlashmobs(int limit, String near, ObjectId user, String bbox, String from, String to, Sorting sorting, boolean descending, ShowStatus show, String search, ObjectId participant) {
-	throw new UnsupportedOperationException("Not yet implemented");
-    }
+	public List<Flashmob> getFlashmobs(int limit, String near, ObjectId user,
+			String bbox, String from, String to, Sorting sorting,
+			boolean descending, ShowStatus show, String search,
+			ObjectId participant) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
 
-    public List<Signal> getSignal(ObjectId flashmob, ObjectId activity) {
-	throw new UnsupportedOperationException("Not yet implemented");
-    }
+	public List<Signal> getSignal(ObjectId flashmob, ObjectId activity) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
 
 }

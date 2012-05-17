@@ -44,7 +44,7 @@ public class TriggersServlet extends AbstractServlet {
 	@Produces(MediaTypes.TRIGGER_LIST)
 	public List<Trigger> getTriggers(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-	    
+
 		return getService().getTriggers(flashmob);
 	}
 
