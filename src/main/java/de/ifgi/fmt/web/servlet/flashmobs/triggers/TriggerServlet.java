@@ -30,9 +30,6 @@ public class TriggerServlet extends AbstractServlet {
 	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 	    @PathParam(PathParams.TRIGGER) ObjectId trigger) {
 	
-	if (!getService().getFlashmob(flashmob).getTriggers().getID().equals(trigger)) {
-	    throw ServiceError.roleNotFound();
-	}
 	return getService().getTrigger(trigger, flashmob);
     }
 

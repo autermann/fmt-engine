@@ -33,10 +33,6 @@ public class UsersServlet extends AbstractServlet {
 	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 	    @PathParam(PathParams.ROLE) ObjectId role,
 	    @QueryParam(QueryParams.LIMIT) @DefaultValue(DEFAULT_LIMIT) int limit) {
-	
-	if (!getService().getFlashmob(flashmob).getRoles().getId().equals(role)) {
-	    throw ServiceError.roleNotFound();
-	}
 
 	return getService().getUsersForRole(flashmob, role, limit);
     }

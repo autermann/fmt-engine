@@ -26,18 +26,11 @@ public class ActivityServlet extends AbstractServlet {
 	@GET
 	@Produces(MediaTypes.ACTIVITY)
 	// get a specific activity
-	public Response getActivity(
+	public Activity getActivity(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
                 
-                //@ToDo: Bedingung: passt A zu F
-		if (!false) {
-			throw ServiceError.activityNotFound();
-		}
-		URI redirect = getUriInfo().getBaseUriBuilder()
-				.path(Paths.ACTIVITY_OF_FLASHMOB).build(flashmob, activity);
-		return Response.status(Status.TEMPORARY_REDIRECT).location(redirect)
-				.build();
+		return getService().getActivity(flashmob, activity);
 	}
 
 	@PUT

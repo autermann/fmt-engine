@@ -2,6 +2,8 @@ package de.ifgi.fmt;
 
 import static de.ifgi.fmt.update.UpdateFactory.update;
 
+import de.ifgi.fmt.utils.constants.RESTConstants.ShowStatus;
+import de.ifgi.fmt.utils.constants.RESTConstants.Sorting;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -213,7 +215,7 @@ public class Service {
 	throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public List<User> getUsersFromFlashmob() {
+    public List<User> getUsersOfFlashmob() {
 	throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -226,6 +228,18 @@ public class Service {
     }
 
     public List<Task> getTaskForActivity(ObjectId activity, ObjectId flashmob, ObjectId user) {
+	throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<Activity> getActivities(ObjectId flashmob) {
+	throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<Flashmob> getFlashmobs(int limit, String near, ObjectId user, String bbox, String from, String to, Sorting sorting, boolean descending, ShowStatus show, String search, ObjectId participant) {
+	throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<Signal> getSignal(ObjectId flashmob, ObjectId activity) {
 	throw new UnsupportedOperationException("Not yet implemented");
     }
 

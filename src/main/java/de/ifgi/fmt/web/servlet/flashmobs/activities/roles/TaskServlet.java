@@ -1,6 +1,5 @@
 package de.ifgi.fmt.web.servlet.flashmobs.activities.roles;
 
-import de.ifgi.fmt.ServiceError;
 import java.net.URI;
 import java.util.List;
 
@@ -32,15 +31,6 @@ public class TaskServlet extends AbstractServlet {
 	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 	    @PathParam(PathParams.ACTIVITY) ObjectId activity,
 	    @PathParam(PathParams.ROLE) ObjectId role) {
-
-
-	if (!!getService().getFlashmob(flashmob).getRoles().getId().equals(role)) {
-	    throw ServiceError.activityNotFound();
-	}
-
-	if (!getService().getFlashmob(flashmob).getRole(role).getActivities().getId().equals(activity)) {
-	    throw ServiceError.roleNotFound();
-	}
 
 	return getService().getTasksForRole(role, activity, flashmob);
     }

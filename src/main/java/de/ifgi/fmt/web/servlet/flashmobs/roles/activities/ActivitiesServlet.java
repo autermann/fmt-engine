@@ -30,10 +30,7 @@ public class ActivitiesServlet extends AbstractServlet {
     public List<Activity> getActivities(
 	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 	    @PathParam(PathParams.ROLE) ObjectId role) {
-	//@ToDo: Bedingung: passt R zu f
-	if (!getService().getFlashmob(flashmob).getRole().getId().equals(role)) {
-	    throw ServiceError.roleNotFound();
-	}
+
 	return getService().getActivitiesForRole(role, flashmob);
     }
 

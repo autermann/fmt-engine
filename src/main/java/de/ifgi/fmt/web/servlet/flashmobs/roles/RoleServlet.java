@@ -28,10 +28,6 @@ public class RoleServlet extends AbstractServlet {
     public Role getRoles(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 	    @PathParam(PathParams.ROLE) ObjectId role) {
 
-	// @ToDo: Bedingung: Passt R zu F?
-	if (!getService().getFlashmob(flashmob).getRoles().getId().equals(role)) {
-	    throw ServiceError.triggerNotFound();
-	}
 	return getService().getRole(role, flashmob);
     }
 

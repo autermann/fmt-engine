@@ -34,13 +34,6 @@ public class TaskServlet extends AbstractServlet {
 	    @PathParam(PathParams.ROLE) ObjectId role,
 	    @PathParam(PathParams.ACTIVITY) ObjectId activity) {
 
-	if (!getService().getFlashmob(flashmob).getRoles().getId().equals(role)) {
-	    throw ServiceError.roleNotFound();
-	}
-
-	if (!getService().getFlashmob(flashmob).getRole(role).getActivities().getId().equals(activity)) {
-	    throw ServiceError.activityNotFound();
-	}
 	return getService().getTasksForRole(role, activity, flashmob);
     }
 

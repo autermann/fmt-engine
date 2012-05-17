@@ -1,6 +1,5 @@
 package de.ifgi.fmt.web.servlet.users.flashmobs.activities;
 
-import de.ifgi.fmt.ServiceError;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -25,10 +24,7 @@ public class ActivitiesServlet extends AbstractServlet {
     public List<Activity> getActivities(
 	    @PathParam(PathParams.USER) ObjectId user,
 	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-	
-	if (!getService().getUser(user).getFlashmobs().getId().equals(flashmob)) {
-	    throw ServiceError.flashmobNotFound();
-	}
+
 	return getService().getActivitiesForUser(user, flashmob);
     }
 }
