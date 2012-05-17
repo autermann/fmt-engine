@@ -27,8 +27,8 @@ public class TriggersServlet extends AbstractServlet {
 	@Produces(MediaTypes.TRIGGER_LIST)
 	public List<Trigger> getTriggers(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-		// @ToDo
-		return null;
+	    
+		return getService().getTriggers(flashmob);
 	}
 
 	@POST

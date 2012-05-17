@@ -1,5 +1,6 @@
 package de.ifgi.fmt.web.servlet.users.flashmobs.activities;
 
+import de.ifgi.fmt.ServiceError;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -15,16 +16,19 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.ACTIVITIES_OF_FLASHMOB_OF_USER)
 public class ActivitiesServlet extends AbstractServlet {
-	/*
-	 * /users/{uid}/flashmobs/{fid}/activities
-	 */
+    /*
+     * /users/{uid}/flashmobs/{fid}/activities
+     */
 
-	@GET
-	@Produces(MediaTypes.ACTIVITY_LIST)
-	public List<Activity> getActivities(
-			@PathParam(PathParams.USER) ObjectId user,
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-		// @ToDo
-		return null;
+    @GET
+    @Produces(MediaTypes.ACTIVITY_LIST)
+    public List<Activity> getActivities(
+	    @PathParam(PathParams.USER) ObjectId user,
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
+	
+	if (!getService().getUser(user).getFlashmobs().getId().equals(flashmob)) {
+	    throw ServiceError.flashmobNotFound();
 	}
+	return getService().getActivitiesForUser(user, flashmob);
+    }
 }

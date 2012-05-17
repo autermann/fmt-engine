@@ -23,7 +23,6 @@ public class UsersServlet extends AbstractServlet {
 	@Produces(MediaTypes.USER_LIST)
 	// get the participants of a flashmob
 	public List<User> getUsers(@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-		// @ToDo
-		return null;
+		return getService().getUsersFromFlashmob();
 	}
 }

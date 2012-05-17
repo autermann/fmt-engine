@@ -1,5 +1,6 @@
 package de.ifgi.fmt.web.servlet.flashmobs.roles.activities;
 
+import de.ifgi.fmt.ServiceError;
 import java.net.URI;
 import java.util.List;
 
@@ -21,54 +22,59 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.TASKS_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB)
 public class TaskServlet extends AbstractServlet {
-	/*
-	 * /flashmobs/{fid}/roles/{rid}/acitivities/{aid}/task
-	 */
+    /*
+     * /flashmobs/{fid}/roles/{rid}/acitivities/{aid}/task
+     */
 
-	@GET
-	@Produces(MediaTypes.TASK_LIST)
-	// get the task of a role in an activity
-	public List<Task> getTasks(
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-			@PathParam(PathParams.ROLE) ObjectId role,
-			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-		// @ToDo
-		return null;
+    @GET
+    @Produces(MediaTypes.TASK_LIST)
+    // get the task of a role in an activity
+    public List<Task> getTasks(
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ROLE) ObjectId role,
+	    @PathParam(PathParams.ACTIVITY) ObjectId activity) {
+
+	if (!getService().getFlashmob(flashmob).getRoles().getId().equals(role)) {
+	    throw ServiceError.roleNotFound();
 	}
 
-	@POST
-	@Produces(MediaTypes.TASK)
-	@Consumes(MediaTypes.TASK)
-	// set the task of a role in an activity
-	public Response setTask(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-			@PathParam(PathParams.ROLE) ObjectId role,
-			@PathParam(PathParams.ACTIVITY) ObjectId activity, Task t) {
-		// @ToDo
-		Task saved = getService().addTask(t, role, activity, flashmob);
-		URI uri = getUriInfo().getBaseUriBuilder()
-				.path(Paths.TASKS_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB)
-				.build(t.getId());
-		return Response.created(uri).entity(saved).build();
+	if (!getService().getFlashmob(flashmob).getRole(role).getActivities().getId().equals(activity)) {
+	    throw ServiceError.activityNotFound();
 	}
+	return getService().getTasksForRole(role, activity, flashmob);
+    }
 
-	@PUT
-	@Produces(MediaTypes.TASK)
-	@Consumes(MediaTypes.TASK)
-	// change the task of a role in an activity
-	public Task updateTask(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-			@PathParam(PathParams.ROLE) ObjectId role,
-			@PathParam(PathParams.ACTIVITY) ObjectId activity, Task t) {
-		// @ToDo
-		return getService().updateTask(t, role, activity, flashmob);
-	}
+    @POST
+    @Produces(MediaTypes.TASK)
+    @Consumes(MediaTypes.TASK)
+    // set the task of a role in an activity
+    public Response setTask(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ROLE) ObjectId role,
+	    @PathParam(PathParams.ACTIVITY) ObjectId activity, Task t) {
+	// @ToDo
+	Task saved = getService().addTask(t, role, activity, flashmob);
+	URI uri = getUriInfo().getBaseUriBuilder().path(Paths.TASKS_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB).build(t.getId());
+	return Response.created(uri).entity(saved).build();
+    }
 
-	@DELETE
-	// Delete a Task from a role in an activity
-	public Response removeTask(
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-			@PathParam(PathParams.ROLE) ObjectId role,
-			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-		// @ToDo
-		return null;
-	}
+    @PUT
+    @Produces(MediaTypes.TASK)
+    @Consumes(MediaTypes.TASK)
+    // change the task of a role in an activity
+    public Task updateTask(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ROLE) ObjectId role,
+	    @PathParam(PathParams.ACTIVITY) ObjectId activity, Task t) {
+	// @ToDo
+	return getService().updateTask(t, role, activity, flashmob);
+    }
+
+    @DELETE
+    // Delete a Task from a role in an activity
+    public Response removeTask(
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ROLE) ObjectId role,
+	    @PathParam(PathParams.ACTIVITY) ObjectId activity) {
+	// @ToDo
+	return null;
+    }
 }

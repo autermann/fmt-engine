@@ -189,4 +189,44 @@ public class Service {
 		return Utils.sublist(r.getUsers(), 0, limit+1);
 	}
 
+    public List<Role> getRoles(ObjectId flashmob) {
+	throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<Task> getTasksForRole(ObjectId role, ObjectId activity, ObjectId flashmob) {
+	throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<Role> getRoles(ObjectId activity, ObjectId flashmob) {
+	throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<Activity> getActivitiesForRole(ObjectId role, ObjectId flashmob) {
+	throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public Trigger getTrigger(ObjectId trigger, ObjectId flashmob) {
+	throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<Trigger> getTriggers(ObjectId flashmob) {
+	throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<User> getUsersFromFlashmob() {
+	throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<Flashmob> getFlashmobsFromUser(ObjectId user) {
+	throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<Activity> getActivitiesForUser(ObjectId user, ObjectId flashmob) {
+	throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public List<Task> getTaskForActivity(ObjectId activity, ObjectId flashmob, ObjectId user) {
+	throw new UnsupportedOperationException("Not yet implemented");
+    }
+
 }

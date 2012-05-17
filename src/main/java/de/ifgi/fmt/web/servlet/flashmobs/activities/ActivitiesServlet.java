@@ -28,8 +28,7 @@ public class ActivitiesServlet extends AbstractServlet {
 	// get the activities of a flashmob
 	public List<Activity> getActivities(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-		// @ToDo
-		return null;
+		return getService().getActivities(flashmob);
 	}
 
 	@POST

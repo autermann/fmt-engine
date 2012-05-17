@@ -1,5 +1,6 @@
 package de.ifgi.fmt.web.servlet.flashmobs.activities;
 
+import de.ifgi.fmt.ServiceError;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -12,6 +13,9 @@ import org.bson.types.ObjectId;
 import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
+import java.net.URI;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 @Path(Paths.ACTIVITY_OF_FLASHMOB)
 public class ActivityServlet extends AbstractServlet {
@@ -22,11 +26,18 @@ public class ActivityServlet extends AbstractServlet {
 	@GET
 	@Produces(MediaTypes.ACTIVITY)
 	// get a specific activity
-	public Activity getActivity(
+	public Response getActivity(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-		// @ToDo
-		return null;
+                
+                //@ToDo: Bedingung: passt A zu F
+		if (!false) {
+			throw ServiceError.activityNotFound();
+		}
+		URI redirect = getUriInfo().getBaseUriBuilder()
+				.path(Paths.ACTIVITY_OF_FLASHMOB).build(flashmob, activity);
+		return Response.status(Status.TEMPORARY_REDIRECT).location(redirect)
+				.build();
 	}
 
 	@PUT

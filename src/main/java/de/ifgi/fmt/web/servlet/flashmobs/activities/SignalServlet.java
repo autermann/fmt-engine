@@ -29,8 +29,7 @@ public class SignalServlet extends AbstractServlet {
 	public List<Signal> getSignals(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-		// @ToDo
-		return null;
+		return getService().getSignal(flashmob, activity);
 	}
 
 	@POST

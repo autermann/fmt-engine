@@ -27,7 +27,6 @@ public class UserServlet extends AbstractServlet {
 	@GET
 	@Produces(MediaTypes.USER)
 	public User getUser(@PathParam(PathParams.USER) ObjectId user) {
-		// @ToDo
 		return getService().getUser(user);
 	}
 

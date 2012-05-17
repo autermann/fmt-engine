@@ -1,5 +1,6 @@
 package de.ifgi.fmt.web.servlet.flashmobs.roles;
 
+import de.ifgi.fmt.ServiceError;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -17,37 +18,41 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.ROLE_FOR_FLASHMOB)
 public class RoleServlet extends AbstractServlet {
-	/*
-	 * /flashmobs/{fid}/roles/{rid}
-	 */
+    /*
+     * /flashmobs/{fid}/roles/{rid}
+     */
 
-	@GET
-	@Produces(MediaTypes.ROLE)
-	// get a specific role
-	public Role getRoles(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-			@PathParam(PathParams.ROLE) ObjectId role) {
-		// @ToDo
-		return getService().getRole(role, flashmob);
-	}
+    @GET
+    @Produces(MediaTypes.ROLE)
+    // get a specific role
+    public Role getRoles(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ROLE) ObjectId role) {
 
-	@PUT
-	@Path(Paths.ROLE_FOR_FLASHMOB)
-	@Produces(MediaTypes.ROLE)
-	@Consumes(MediaTypes.ROLE)
-	// modify a role
-	public Role updateRole(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-			@PathParam(PathParams.ROLE) ObjectId roleID, Role r) {
-		// @ToDo
-		return getService().updateRole(r, roleID, flashmob);
+	// @ToDo: Bedingung: Passt R zu F?
+	if (!getService().getFlashmob(flashmob).getRoles().getId().equals(role)) {
+	    throw ServiceError.triggerNotFound();
 	}
+	return getService().getRole(role, flashmob);
+    }
 
-	@DELETE
-	@Path(Paths.ROLE_FOR_FLASHMOB)
-	// delete a role
-	public Response removeRole(
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-			@PathParam(PathParams.ROLE) ObjectId role) {
-		// @ToDo
-		return null;
-	}
+    @PUT
+    @Path(Paths.ROLE_FOR_FLASHMOB)
+    @Produces(MediaTypes.ROLE)
+    @Consumes(MediaTypes.ROLE)
+    // modify a role
+    public Role updateRole(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ROLE) ObjectId roleID, Role r) {
+	// @ToDo
+	return getService().updateRole(r, roleID, flashmob);
+    }
+
+    @DELETE
+    @Path(Paths.ROLE_FOR_FLASHMOB)
+    // delete a role
+    public Response removeRole(
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ROLE) ObjectId role) {
+	// @ToDo
+	return null;
+    }
 }

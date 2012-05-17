@@ -38,7 +38,7 @@ public class FlashmobsServlet extends AbstractServlet {
 			@QueryParam(QueryParams.SHOW) ShowStatus show,
 			@QueryParam(QueryParams.SEARCH) String search,
 			@QueryParam(QueryParams.PARTICIPANT) ObjectId participant) {
-		return null;
+		return getService().getFlashmobs(limit, near, user, bbox, from, to, sorting, descending, show, search, participant);
 	}
 
 	@POST

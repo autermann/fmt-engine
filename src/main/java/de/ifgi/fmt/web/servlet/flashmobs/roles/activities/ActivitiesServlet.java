@@ -1,5 +1,6 @@
 package de.ifgi.fmt.web.servlet.flashmobs.roles.activities;
 
+import de.ifgi.fmt.ServiceError;
 import java.net.URI;
 import java.util.List;
 
@@ -19,31 +20,33 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.ACTIVITIES_OF_ROLE_OF_FLASHMOB)
 public class ActivitiesServlet extends AbstractServlet {
-	/*
-	 * /flashmobs/{fid}/roles/{rid}/acitivities
-	 */
+    /*
+     * /flashmobs/{fid}/roles/{rid}/acitivities
+     */
 
-	@GET
-	@Produces(MediaTypes.ACTIVITY_LIST)
-	// get the activities a role is involved in
-	public List<Activity> getActivities(
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-			@PathParam(PathParams.ROLE) ObjectId role) {
-		// @ToDo
-		return null;
+    @GET
+    @Produces(MediaTypes.ACTIVITY_LIST)
+    // get the activities a role is involved in
+    public List<Activity> getActivities(
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ROLE) ObjectId role) {
+	//@ToDo: Bedingung: passt R zu f
+	if (!getService().getFlashmob(flashmob).getRole().getId().equals(role)) {
+	    throw ServiceError.roleNotFound();
 	}
+	return getService().getActivitiesForRole(role, flashmob);
+    }
 
-	@POST
-	@Produces(MediaTypes.ACTIVITY)
-	@Consumes(MediaTypes.ACTIVITY)
-	// add a role to a activity
-	public Response setActivity(
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-			@PathParam(PathParams.ROLE) ObjectId role, Activity a) {
-		// @ToDo
-		Activity saved = getService().addActivity(a, role, flashmob);
-		URI uri = getUriInfo().getBaseUriBuilder()
-				.path(Paths.ACTIVITY_OF_ROLE_OF_FLASHMOB).build(a.getId());
-		return Response.created(uri).entity(saved).build();
-	}
+    @POST
+    @Produces(MediaTypes.ACTIVITY)
+    @Consumes(MediaTypes.ACTIVITY)
+    // add a role to a activity
+    public Response setActivity(
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ROLE) ObjectId role, Activity a) {
+	// @ToDo
+	Activity saved = getService().addActivity(a, role, flashmob);
+	URI uri = getUriInfo().getBaseUriBuilder().path(Paths.ACTIVITY_OF_ROLE_OF_FLASHMOB).build(a.getId());
+	return Response.created(uri).entity(saved).build();
+    }
 }

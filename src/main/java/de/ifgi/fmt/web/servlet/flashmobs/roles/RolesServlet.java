@@ -27,8 +27,7 @@ public class RolesServlet extends AbstractServlet {
 	@Produces(MediaTypes.ROLE_LIST)
 	// get list of roles for a flashmob
 	public List<Role> getRoles(@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-		// @ToDo
-		return null;
+		return getService().getRoles(flashmob);
 	}
 
 	@POST

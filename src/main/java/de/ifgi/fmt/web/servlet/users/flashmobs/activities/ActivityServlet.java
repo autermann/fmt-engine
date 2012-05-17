@@ -4,6 +4,7 @@
  */
 package de.ifgi.fmt.web.servlet.users.flashmobs.activities;
 
+import de.ifgi.fmt.ServiceError;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -17,17 +18,23 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.ACTIVITY_OF_FLASHMOB_OF_USER)
 public class ActivityServlet extends AbstractServlet {
-	/*
-	 * /users/{uid}/flashmobs/{fid}/activities/{aid}
-	 */
+    /*
+     * /users/{uid}/flashmobs/{fid}/activities/{aid}
+     */
 
-	@GET
-	@Produces(MediaTypes.ACTIVITY)
-	public Activity getActivity(@PathParam(PathParams.USER) ObjectId user,
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-		// @ToDo
-		return getActivity(activity, user, flashmob);
+    @GET
+    @Produces(MediaTypes.ACTIVITY)
+    public Activity getActivity(@PathParam(PathParams.USER) ObjectId user,
+	    @PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	    @PathParam(PathParams.ACTIVITY) ObjectId activity) {
+
+	if (!getService().getUser(user).getFlashmobs().getId().equals(flashmob)) {
+	    throw ServiceError.flashmobNotFound();
 	}
-
+	
+	if (!getService().getUser(user).getFlashmob(flashmob).getActivities().getId().equals(activity)) {
+	    throw ServiceError.activityNotFound();
+	}
+	return getActivity(activity, user, flashmob);
+    }
 }
