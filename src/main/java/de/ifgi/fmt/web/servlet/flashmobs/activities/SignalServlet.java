@@ -18,7 +18,6 @@
 package de.ifgi.fmt.web.servlet.flashmobs.activities;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -35,15 +34,15 @@ import de.ifgi.fmt.model.signal.Signal;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
-@Path(Paths.SIGNALS_OF_ACTIVITY)
+@Path(Paths.SIGNAL_OF_ACTIVITY)
 public class SignalServlet extends AbstractServlet {
 	/*
 	 * /flashmobs/{fid}/activities/{aid}/signal
 	 */
 
 	@GET
-	@Produces(MediaTypes.SIGNAL_LIST)
-	public List<Signal> getSignals(
+	@Produces(MediaTypes.SIGNAL)
+	public Signal getSignals(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
 		return getService().getSignal(flashmob, activity);
@@ -56,10 +55,8 @@ public class SignalServlet extends AbstractServlet {
 	public Response setSignal(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity, Signal s) {
-		// @ToDo
 		Signal saved = getService().addSignal(s, activity, flashmob);
-		URI uri = getUriInfo().getBaseUriBuilder()
-				.path(Paths.SIGNALS_OF_ACTIVITY).build(s.getId());
+		URI uri = getUriInfo().getBaseUriBuilder().path(getUriInfo().getPath()).build();
 		return Response.created(uri).entity(saved).build();
 	}
 
@@ -69,10 +66,8 @@ public class SignalServlet extends AbstractServlet {
 	public Response updateSignal(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity, Signal s) {
-		// @ToDo
 		Signal saved = getService().updateSignal(s, activity, flashmob);
-		URI uri = getUriInfo().getBaseUriBuilder()
-				.path(Paths.SIGNALS_OF_ACTIVITY).build(s.getId());
+		URI uri = getUriInfo().getBaseUriBuilder().path(getUriInfo().getPath()).build();
 		return Response.created(uri).entity(saved).build();
 	}
 }

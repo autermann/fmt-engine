@@ -44,7 +44,7 @@ public class RoleServlet extends AbstractServlet {
 	public Role getRoles(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role) {
 
-		return getService().getRole(role, flashmob);
+		return getService().getRole(flashmob, role);
 	}
 
 	@PUT

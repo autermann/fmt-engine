@@ -20,6 +20,7 @@ package de.ifgi.fmt;
 import static de.ifgi.fmt.update.UpdateFactory.update;
 
 import java.util.List;
+import java.util.Set;
 
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
@@ -85,24 +86,25 @@ public class Service {
 		return t;
 	}
 
-	public Role getRole(ObjectId role) {
-		return getStore().getRole(role);
+	public Role getRole(Flashmob f, ObjectId role) {
+		Role r = getStore().getRole(role);
+		if (!r.getFlashmob().equals(f) || !f.getRoles().contains(r)) {
+			throw ServiceError.roleNotFound();
+		}
+		return r;
 	}
 
 	public Role getRole(ObjectId role, ObjectId flashmob) {
 		Flashmob f = getFlashmob(flashmob);
-		Role r = getRole(role);
-		if (!f.getRoles().contains(r))
-			throw ServiceError.roleNotFound();
-		return r;
+		return getRole(f, role);
 	}
 
-	public Role updateRole(Role changes, ObjectId roleID, ObjectId flashmob) {
-		return getStore().saveRole(update(getRole(roleID, flashmob), changes));
+	public Role updateRole(Role changes, ObjectId role, ObjectId flashmob) {
+		return getStore().saveRole(update(getRole(flashmob, role), changes));
 	}
 
 	public User registerUser(User u, ObjectId role, ObjectId flashmob) {
-		Role r = getRole(role, flashmob);
+		Role r = getRole(flashmob, role);
 		getStore().saveRole(r.addUser(u));
 		return u;
 	}
@@ -122,15 +124,24 @@ public class Service {
 
 	public Task addTask(Task t, ObjectId role, ObjectId activity,
 			ObjectId flashmob) {
-		Role r = getRole(role, flashmob);
+		Role r = getRole(flashmob,role);
 		Activity a = getActivity(flashmob, activity);
 		getStore().saveActivity(a.addTask(r, t));
 		return t;
 	}
 
-	public Task updateTask(Task t, ObjectId role, ObjectId activity,
+	public Task updateTask(Task task, ObjectId role, ObjectId activity,
 			ObjectId flashmob) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		Flashmob f = getFlashmob(flashmob);
+		Activity a = getActivity(f, activity);
+		Role r = getRole(f, role);
+		Task t = a.getTask(r);
+		if (t == null) {
+			throw ServiceError.taskNotFound();
+		}
+		update(t, task);
+		getStore().saveActivity(a);
+		return t;
 	}
 
 	public Activity addActivity(Activity a, ObjectId role, ObjectId flashmob) {
@@ -204,58 +215,74 @@ public class Service {
 
 	public List<User> getUsersForRole(ObjectId flashmob, ObjectId role,
 			int limit) {
-		Flashmob f = getFlashmob(flashmob);
-		Role r = getRole(role);
-		if (!r.getFlashmob().equals(f)) {
-			throw ServiceError.roleNotFound();
-		}
+		Role r = getRole(flashmob, role);
 		return Utils.sublist(r.getUsers(), 0, limit + 1);
 	}
 
 	public List<Role> getRoles(ObjectId flashmob) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return getFlashmob(flashmob).getRoles();
 	}
 
-	public List<Task> getTasksForRole(ObjectId role, ObjectId activity,
-			ObjectId flashmob) {
-		throw new UnsupportedOperationException("Not yet implemented");
+	public Task getTask(ObjectId flashmob, ObjectId role, ObjectId activity) {
+		Flashmob f = getFlashmob(flashmob);
+		Task t = getActivity(f, activity).getTask(getRole(f, role));
+		if (t == null) {
+			throw ServiceError.taskNotFound();
+		}
+		return t;
 	}
 
 	public List<Role> getRoles(ObjectId activity, ObjectId flashmob) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return getActivity(getFlashmob(flashmob), activity).getRoles();
 	}
 
 	public List<Activity> getActivitiesForRole(ObjectId role, ObjectId flashmob) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return Utils.asList(getRole(getFlashmob(flashmob), role).getActivities());
 	}
 
 	public Trigger getTrigger(ObjectId trigger, ObjectId flashmob) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		Flashmob f = getFlashmob(flashmob);
+		Trigger t = getStore().getTrigger(trigger);
+		if (!f.getTriggers().contains(t) || !t.getFlashmob().equals(flashmob)) {
+			throw ServiceError.triggerNotFound();
+		}
+		return t;
 	}
 
 	public List<Trigger> getTriggers(ObjectId flashmob) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return getStore().getTriggersOfFlashmob(getFlashmob(flashmob));
 	}
 
-	public List<User> getUsersOfFlashmob() {
-		throw new UnsupportedOperationException("Not yet implemented");
+	public List<User> getUsersOfFlashmob(ObjectId flashmob) {
+		Flashmob f = getFlashmob(flashmob);
+		Set<User> users = Utils.set();
+		for (Role r : f.getRoles()) {
+			users.addAll(r.getUsers());
+		}
+		return Utils.asList(users);
 	}
 
 	public List<Flashmob> getFlashmobsFromUser(ObjectId user) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return getStore().getFlashmobsOfUser(getUser(user));
 	}
 
 	public List<Activity> getActivitiesForUser(ObjectId user, ObjectId flashmob) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return getStore().getActivitiesForUser(getFlashmob(flashmob), getUser(user));
 	}
 
-	public List<Task> getTaskForActivity(ObjectId activity, ObjectId flashmob,
-			ObjectId user) {
-		throw new UnsupportedOperationException("Not yet implemented");
+	public Task getTaskForActivity(ObjectId activity, ObjectId flashmob, ObjectId user) {
+		User u = getUser(user);
+		Flashmob f = getFlashmob(flashmob);
+		Activity a = getActivity(f, activity);
+		Role r = getStore().getRoleOfUserInFlashmob(f, u);
+		if (r == null) {
+			throw ServiceError.roleNotFound();
+		}
+		return a.getTask(r);
 	}
 
 	public List<Activity> getActivities(ObjectId flashmob) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return getFlashmob(flashmob).getActivities();
 	}
 
 	public List<Flashmob> getFlashmobs(int limit, Point near, ObjectId user,
@@ -266,8 +293,8 @@ public class Service {
 				to, sorting, descending, show, search, getUser(participant));
 	}
 
-	public List<Signal> getSignal(ObjectId flashmob, ObjectId activity) {
-		throw new UnsupportedOperationException("Not yet implemented");
+	public Signal getSignal(ObjectId flashmob, ObjectId activity) {
+		return getActivity(getFlashmob(flashmob), activity).getSignal();
 	}
 
 }

@@ -18,7 +18,6 @@
 package de.ifgi.fmt.web.servlet.flashmobs.activities.roles;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -36,41 +35,43 @@ import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
-@Path(Paths.TASKS_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB)
+@Path(Paths.TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB)
 public class TaskServlet extends AbstractServlet {
 	/*
 	 * /flashmobs/{fid}/activities/{aid}/roles/{rid}/task
 	 */
 
 	@GET
-	@Produces(MediaTypes.TASK_LIST)
-	public List<Task> getTasks(
+	@Produces(MediaTypes.TASK)
+	public Task getTasks(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity,
 			@PathParam(PathParams.ROLE) ObjectId role) {
 
-		return getService().getTasksForRole(role, activity, flashmob);
+		return getService().getTask(flashmob, role, activity);
 	}
 
 	@POST
 	@Produces(MediaTypes.TASK)
 	@Consumes(MediaTypes.TASK)
 	// set the task of an activity o a role
-	public Response setTask(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	public Response setTask(
+			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity,
 			@PathParam(PathParams.ROLE) ObjectId role, Task t) {
 		// @ToDo
 		Task saved = getService().addTask(t, role, activity, flashmob);
 		URI uri = getUriInfo().getBaseUriBuilder()
-				.path(Paths.TASKS_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB)
-				.build(t.getId());
+				.path(Paths.TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB)
+				.build(flashmob, activity, role);
 		return Response.created(uri).entity(saved).build();
 	}
 
 	@PUT
 	@Produces(MediaTypes.TASK)
 	@Consumes(MediaTypes.TASK)
-	public Task updateTask(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	public Task updateTask(
+			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity,
 			@PathParam(PathParams.ROLE) ObjectId role, Task t) {
 		// @ToDo

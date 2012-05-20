@@ -376,7 +376,10 @@ public class Store {
 		return getComments(Q.commentsOfUser(u));
 	}
 	
-	
+	public Role getRoleOfUserInFlashmob(Flashmob f, User u) {
+		log.debug("Getting Role of User {} in Flashmob", f);
+		return Q.rolesOfUser(u).field(Role.FLASHMOB).equal(f).get();
+	}
 	
 	protected static List<Flashmob> getFlashmobs(Query<Flashmob> q) {
 		return getFlashmobDao().find(l(q)).asList();
@@ -643,5 +646,13 @@ public class Store {
 		q.limit(limit);
 		return getFlashmobs(q);
 	}
-	
+
+	public List<Activity> getActivitiesForUser(Flashmob flashmob, User user) {
+		return getActivities(getActivityDao().createQuery()
+				.field(Activity.FLASHMOB)
+				.equal(flashmob)
+				.field(Activity.TASKS + "." + Task.ROLE + "." + Role.USERS)
+				.hasThisElement(user));
+	}
+
 }

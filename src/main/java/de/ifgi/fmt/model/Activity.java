@@ -45,6 +45,8 @@ public class Activity extends Identifiable {
 	public static final String FLASHMOB = "flashmob";
 	public static final String TRIGGER = "trigger";
 	public static final String SIGNAL = "signal";
+	
+	public static final String TASKS = "savedTasks";
 
 	@Indexed
 	@Reference(Activity.FLASHMOB)

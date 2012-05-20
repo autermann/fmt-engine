@@ -18,7 +18,6 @@
 package de.ifgi.fmt.web.servlet.flashmobs.roles.activities;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -36,21 +35,20 @@ import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
-@Path(Paths.TASKS_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB)
+@Path(Paths.TASK_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB)
 public class TaskServlet extends AbstractServlet {
 	/*
 	 * /flashmobs/{fid}/roles/{rid}/acitivities/{aid}/task
 	 */
 
 	@GET
-	@Produces(MediaTypes.TASK_LIST)
+	@Produces(MediaTypes.TASK)
 	// get the task of a role in an activity
-	public List<Task> getTasks(
+	public Task getTasks(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-
-		return getService().getTasksForRole(role, activity, flashmob);
+		return getService().getTask(flashmob, role, activity);
 	}
 
 	@POST
@@ -63,8 +61,8 @@ public class TaskServlet extends AbstractServlet {
 		// @ToDo
 		Task saved = getService().addTask(t, role, activity, flashmob);
 		URI uri = getUriInfo().getBaseUriBuilder()
-				.path(Paths.TASKS_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB)
-				.build(t.getId());
+				.path(Paths.TASK_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB)
+				.build(flashmob, role, activity);
 		return Response.created(uri).entity(saved).build();
 	}
 
