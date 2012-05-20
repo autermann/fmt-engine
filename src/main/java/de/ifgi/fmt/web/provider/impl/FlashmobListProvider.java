@@ -17,17 +17,20 @@
  */
 package de.ifgi.fmt.web.provider.impl;
 
+import javax.ws.rs.Produces;
 import javax.ws.rs.ext.Provider;
 
 import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.utils.constants.JSONConstants;
+import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONListProvider;
 
 @Provider
+@Produces(MediaTypes.FLASHMOB_LIST)
 public class FlashmobListProvider extends AbstractJSONListProvider<Flashmob> {
 
 	public FlashmobListProvider() {
-		super(Flashmob.class, JSONConstants.FLASHMOBS_KEY);
+		super(Flashmob.class, JSONConstants.FLASHMOBS_KEY, MediaTypes.FLASHMOB_LIST_TYPE);
 	}
 
 }

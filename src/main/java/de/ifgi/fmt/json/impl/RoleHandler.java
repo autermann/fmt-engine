@@ -50,8 +50,8 @@ public class RoleHandler implements JSONHandler<Role>{
 	
 	@Override
 	public Role decode(JSONObject j) throws JSONException {
-		// TODO decoding
-		throw ServiceError.internal("Not yet implemented");
+		//TODO
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	@Override

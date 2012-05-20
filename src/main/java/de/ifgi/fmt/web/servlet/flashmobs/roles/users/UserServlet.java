@@ -27,7 +27,7 @@ import org.bson.types.ObjectId;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
-@Path(Paths.USERS_OF_ROLE_OF_FLASHMOB)
+@Path(Paths.USER_OF_ROLE_OF_FLASHMOB)
 public class UserServlet extends AbstractServlet {
 
 	/*

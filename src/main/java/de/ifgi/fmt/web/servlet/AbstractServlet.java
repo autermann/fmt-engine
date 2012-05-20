@@ -22,9 +22,13 @@ import java.lang.reflect.Method;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sun.jersey.api.ParamException;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
@@ -36,9 +40,11 @@ import de.ifgi.fmt.utils.constants.RESTConstants;
 public abstract class AbstractServlet implements RESTConstants {
 
 	protected static final String DEFAULT_LIMIT = "20";
+	protected static final String TRUE = "true";
+	protected static final String FALSE = "false";
 
-	protected static final Logger log = LoggerFactory
-			.getLogger(RootServlet.class);
+	protected static final Logger log = LoggerFactory	.getLogger(RootServlet.class);
+	private static final DateTimeFormatter ISO8601 = ISODateTimeFormat.dateTime();
 
 	private UriInfo uriInfo;
 	private final Service service = Service.getInstance();
@@ -66,13 +72,21 @@ public abstract class AbstractServlet implements RESTConstants {
 		return this.service;
 	}
 
-	protected Point parsePoint(String position) {
+	protected DateTime parseDateTime(String time, String paramName) {
+		try {
+			return ISO8601.parseDateTime(time);
+		} catch (Exception e) {
+			throw new ParamException.QueryParamException(e, paramName, null);
+		}
+	}
+
+	protected Point parsePoint(String position, String paramName) {
 		if (position == null || position.isEmpty()) {
 			return null;
 		}
 		String[] lonLat = position.split(",");
 		if (lonLat.length != 2) {
-			throw ServiceError.invalidParameter(QueryParams.POSITION);
+			throw new ParamException.QueryParamException(null, paramName, null);
 		}
 		double lon = Double.parseDouble(lonLat[0]);
 		double lat = Double.parseDouble(lonLat[1]);

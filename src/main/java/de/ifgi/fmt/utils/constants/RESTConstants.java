@@ -26,43 +26,43 @@ public interface RESTConstants {
 		public static final String IMAGE_GIF = "image/gif";
 		public static final String IMAGE_JPEG = "image/jpeg";
 		
-		public static final String MIME_TYPE_PREFIX = "returns application/vnd.flashmobtoolkit.";
+		public static final String MIME_TYPE_PREFIX = "application/vnd.flashmobtoolkit.";
 		public static final String MIME_TYPE_POSTFIX = "+json";
 		
 		public static final String FLASHMOB = MIME_TYPE_PREFIX + "flashmob" + MIME_TYPE_POSTFIX;
 		public static final MediaType FLASHMOB_TYPE = MediaType.valueOf(FLASHMOB);
 		public static final String FLASHMOB_LIST = MIME_TYPE_PREFIX + "flashmob.list" + MIME_TYPE_POSTFIX;
-		public static final MediaType FLASHMOB_LIST_TYPE = MediaType.valueOf(FLASHMOB);
+		public static final MediaType FLASHMOB_LIST_TYPE = MediaType.valueOf(FLASHMOB_LIST);
 
 		public static final String ACTIVITY = MIME_TYPE_PREFIX + "activity" + MIME_TYPE_POSTFIX;
 		public static final MediaType ACTIVITY_TYPE = MediaType.valueOf(ACTIVITY);
 		public static final String ACTIVITY_LIST = MIME_TYPE_PREFIX + "activity.list" + MIME_TYPE_POSTFIX;
-		public static final MediaType ACTIVITY_LIST_TYPE = MediaType.valueOf(ACTIVITY);
+		public static final MediaType ACTIVITY_LIST_TYPE = MediaType.valueOf(ACTIVITY_LIST);
 		
 		public static final String TRIGGER = MIME_TYPE_PREFIX + "trigger" + MIME_TYPE_POSTFIX;
 		public static final MediaType TRIGGER_TYPE = MediaType.valueOf(TRIGGER);
 		public static final String TRIGGER_LIST = MIME_TYPE_PREFIX + "trigger.list" + MIME_TYPE_POSTFIX;
-		public static final MediaType TRIGGER_LIST_TYPE = MediaType.valueOf(TRIGGER);
+		public static final MediaType TRIGGER_LIST_TYPE = MediaType.valueOf(TRIGGER_LIST);
 		
 		public static final String ROLE = MIME_TYPE_PREFIX + "role" + MIME_TYPE_POSTFIX;
 		public static final MediaType ROLE_TYPE = MediaType.valueOf(ROLE);
 		public static final String ROLE_LIST = MIME_TYPE_PREFIX + "role.list" + MIME_TYPE_POSTFIX;
-		public static final MediaType ROLE_LIST_TYPE = MediaType.valueOf(ROLE);
+		public static final MediaType ROLE_LIST_TYPE = MediaType.valueOf(ROLE_LIST);
 		
 		public static final String SIGNAL = MIME_TYPE_PREFIX + "signal" + MIME_TYPE_POSTFIX;
 		public static final MediaType SIGNAL_TYPE = MediaType.valueOf(SIGNAL);
 		public static final String SIGNAL_LIST = MIME_TYPE_PREFIX + "signal.list" + MIME_TYPE_POSTFIX;
-		public static final MediaType SIGNAL_LIST_TYPE = MediaType.valueOf(SIGNAL);
+		public static final MediaType SIGNAL_LIST_TYPE = MediaType.valueOf(SIGNAL_LIST);
 		
 		public static final String USER = MIME_TYPE_PREFIX + "user" + MIME_TYPE_POSTFIX;
 		public static final MediaType USER_TYPE = MediaType.valueOf(USER);
 		public static final String USER_LIST = MIME_TYPE_PREFIX + "user.list" + MIME_TYPE_POSTFIX;
-		public static final MediaType USER_LIST_TYPE = MediaType.valueOf(USER);
+		public static final MediaType USER_LIST_TYPE = MediaType.valueOf(USER_LIST);
 
 		public static final String TASK = MIME_TYPE_PREFIX + "task" + MIME_TYPE_POSTFIX;
 		public static final MediaType TASK_TYPE = MediaType.valueOf(TASK);
 		public static final String TASK_LIST = MIME_TYPE_PREFIX + "task.list" + MIME_TYPE_POSTFIX;
-		public static final MediaType TASK_LIST_TYPE = MediaType.valueOf(TASK);
+		public static final MediaType TASK_LIST_TYPE = MediaType.valueOf(TASK_LIST);
 		
 		public static final String COMMENT = MIME_TYPE_PREFIX + "comment" + MIME_TYPE_POSTFIX;
 		public static final MediaType COMMENT_TYPE = MediaType.valueOf(COMMENT);
@@ -76,7 +76,7 @@ public interface RESTConstants {
 		public static final String ACTIVITY = "activity";
 		public static final String TRIGGER = "trigger";
 		public static final String USER = "user";
-		public static final String COMMENT ="comment";
+		public static final String COMMENT = "comment";
 		private static final String COMMENT_P = "{" + COMMENT + "}";
 		private static final String FLASHMOB_P = "{" + FLASHMOB + "}";
 		private static final String ROLE_P = "{" + ROLE + "}";
@@ -102,7 +102,8 @@ public interface RESTConstants {
 	public enum Sorting {
 		START_TIME, 
 		PARTICIPANTS, 
-		CREATION_TIME, 
+		CREATION_TIME,
+		DISTANCE,
 		TITLE;
 		
 		//TODO private String order;
@@ -149,8 +150,8 @@ public interface RESTConstants {
 		public static final String TRIGGER_OF_ACTIVITY = ACTIVITIES_OF_FLASHMOB + TRIGGER;
 		public static final String SIGNAL = "/signal";
 		public static final String SIGNALS_OF_ACTIVITY = ACTIVITIES_OF_FLASHMOB + SIGNAL;
-		public static final String TRIGGERS_OF_FLASHMOB = FLASHMOB +TRIGGERS;
-		public static final String TRIGGER_OF_FLASHMOB = FLASHMOB +TRIGGER;
+		public static final String TRIGGERS_OF_FLASHMOB = FLASHMOB + TRIGGERS;
+		public static final String TRIGGER_OF_FLASHMOB = FLASHMOB + TRIGGER;
 		public static final String FLASHMOBS_OF_USER = USER + FLASHMOBS;
 		public static final String FLASHMOB_OF_USER = USER + FLASHMOB;
 		public static final String ACTIVITIES_OF_FLASHMOB_OF_USER = FLASHMOB_OF_USER + ACTIVITIES;

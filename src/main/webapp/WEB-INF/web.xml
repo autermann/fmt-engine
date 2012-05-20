@@ -14,12 +14,12 @@
 
 		<init-param>
 			<param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
-			<param-value>de.fmt.web.filter.LogFilter;${filter.request}</param-value>
+			<param-value>de.ifgi.fmt.web.filter.LogFilter;${filter.request}</param-value>
 		</init-param>
 
 		<init-param>
 			<param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>
-			<param-value>de.fmt.web.filter.CorsFilter;${filter.response}</param-value>
+			<param-value>de.ifgi.fmt.web.filter.CorsFilter;${filter.response}</param-value>
 		</init-param>
 		
 		<load-on-startup>1</load-on-startup>

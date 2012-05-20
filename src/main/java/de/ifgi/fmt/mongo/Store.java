@@ -42,6 +42,7 @@ import com.vividsolutions.jts.geom.Point;
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.json.JSONFactory;
 import de.ifgi.fmt.model.Activity;
+import de.ifgi.fmt.model.BoundingBox;
 import de.ifgi.fmt.model.Comment;
 import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.model.Role;
@@ -52,6 +53,8 @@ import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.model.trigger.TimeTrigger;
 import de.ifgi.fmt.model.trigger.Trigger;
 import de.ifgi.fmt.utils.Utils;
+import de.ifgi.fmt.utils.constants.RESTConstants.ShowStatus;
+import de.ifgi.fmt.utils.constants.RESTConstants.Sorting;
 
 public class Store {
 	
@@ -424,8 +427,9 @@ public class Store {
 	}
 
 	protected static <T> Query<T> l(Query<T> q) {
-		if (log.isDebugEnabled())
-			log.debug("Mongo query: {}", q.toString());
+		if (log.isDebugEnabled()) {
+			log.debug("Querying for {}: {}", q.getEntityClass(), q.toString());
+		}
 		return q;
 	}
 	
@@ -448,12 +452,59 @@ public class Store {
 		}
 		
 		public static Query<Flashmob> flashmobsOfUser(User u) {
-			return getFlashmobDao().createQuery().field(Flashmob.ROLES + "." + Role.USERS).hasThisElement(u);
+			return hasUser(getFlashmobDao().createQuery(), u);
 		}
 		
 		public static Query<Role> rolesOfUser(User u) {
-			return getRoleDao().createQuery().field(Role.USERS).hasThisElement(u);
+			return getRoleDao().createQuery().field(Role.USERS)
+					.hasThisElement(u);
 		}
+
+		public static Query<Flashmob> near(Query<Flashmob> q, Point p) {
+			return q.field(Flashmob.LOCATION).near(p.getX(), p.getY(), true);
+		}
+
+		public static Query<Flashmob> in(Query<Flashmob> q, BoundingBox bbox) {
+			return q.field(Flashmob.LOCATION).within(bbox.getLeft(), bbox.getBottom(),
+					bbox.getRight(), bbox.getTop());
+		}
+
+		public static Query<Flashmob> coordinatedBy(Query<Flashmob> q, User u) {
+			return q.field(Flashmob.COORDINATOR).equal(u);
+		}
+
+		public static Query<Flashmob> after(Query<Flashmob> q, DateTime dt) {
+			return q.field(Flashmob.START).greaterThanOrEq(dt);
+		}
+
+		public static Query<Flashmob> before(Query<Flashmob> q, DateTime dt) {
+			return q.field(Flashmob.END).lessThanOrEq(dt);
+		}
+
+		public static Query<Flashmob> search(Query<Flashmob> q, String search) {
+			q.or(
+				q.criteria(Flashmob.TITLE).containsIgnoreCase(search),
+				q.criteria(Flashmob.DESCRIPTION).containsIgnoreCase(search)
+			);
+			return q;
+		}
+		
+		public static Query<Flashmob> hasUser(Query<Flashmob> q, User u) {
+			return q.field(Flashmob.ROLES + "." + Role.USERS).hasThisElement(u);
+		}
+		
+		public static Query<Flashmob> isPublic(Query<Flashmob> q, ShowStatus showStatus) {
+			switch (showStatus) {
+			case PUBLIC:
+				q.field(Flashmob.PUBLIC).equal(true);
+				break;
+			case PRIVATE:
+				q.field(Flashmob.PUBLIC).equal(false);
+				break;
+			}
+			return q;
+		}
+		
 	}
 	
 	
@@ -541,6 +592,56 @@ public class Store {
 		
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public List<Flashmob> getFlashmobs(int limit, Point near, User user, BoundingBox bbox,
+			DateTime from, DateTime to, Sorting sorting, boolean descending,
+			ShowStatus show, String search, User participant) {
+		
+		Query<Flashmob> q = getFlashmobDao().createQuery();
+		if (bbox != null) {
+			Q.in(q, bbox);
+		}
+		if (near != null) {
+			Q.near(q, near);
+		}
+		if (user != null) {
+			Q.coordinatedBy(q, user);
+		}
+		if (from != null) {
+			Q.after(q, from);
+		}
+		if (to != null) {
+			Q.before(q, to);
+		}
+	
+		if (show != null) {
+			Q.isPublic(q, show);
+		}
+		
+		if (search != null) {
+			Q.search(q, search);
+		}
+		
+		if (sorting != null) {
+			//TODO sorting
+			switch(sorting) {
+			case CREATION_TIME:
+			case START_TIME:
+			case TITLE:
+			case PARTICIPANTS:
+			case DISTANCE: 
+			}
+		}
+		
+		if (participant != null) {
+			Q.hasUser(q, participant);
+		}
+		if (descending) {
+			//TODO
+		}
+		q.limit(limit);
+		return getFlashmobs(q);
 	}
 	
 }

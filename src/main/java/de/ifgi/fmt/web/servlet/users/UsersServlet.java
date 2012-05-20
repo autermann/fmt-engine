@@ -52,7 +52,7 @@ public class UsersServlet extends AbstractServlet {
 	@POST
 	@Produces(MediaTypes.USER)
 	@Consumes(MediaTypes.USER)
-	public Response setUser(User u) {
+	public Response createUser(User u) {
 		User saved = getService().createUser(u);
 		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.USER)
 				.build(u.getId());

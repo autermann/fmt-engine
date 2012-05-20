@@ -17,17 +17,20 @@
  */
 package de.ifgi.fmt.web.provider.impl;
 
+import javax.ws.rs.Produces;
 import javax.ws.rs.ext.Provider;
 
 import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.utils.constants.JSONConstants;
+import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONListProvider;
 
 @Provider
+@Produces(MediaTypes.ACTIVITY_LIST)
 public class ActivityListProvider extends AbstractJSONListProvider<Activity> {
 
 	public ActivityListProvider() {
-		super(Activity.class, JSONConstants.ACTIVITIES_KEY);
+		super(Activity.class, JSONConstants.ACTIVITIES_KEY, MediaTypes.ACTIVITY_LIST_TYPE);
 	}
 
 }

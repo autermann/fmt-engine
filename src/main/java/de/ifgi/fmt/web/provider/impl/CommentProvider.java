@@ -17,16 +17,21 @@
  */
 package de.ifgi.fmt.web.provider.impl;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 import javax.ws.rs.ext.Provider;
 
 import de.ifgi.fmt.model.Comment;
+import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 
 @Provider
+@Produces(MediaTypes.COMMENT)
+@Consumes(MediaTypes.COMMENT)
 public class CommentProvider extends AbstractJSONProvider<Comment> {
 
 	public CommentProvider() {
-		super(Comment.class);
+		super(Comment.class, MediaTypes.COMMENT_TYPE);
 	}
 
 }

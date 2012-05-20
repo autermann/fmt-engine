@@ -43,8 +43,8 @@ public abstract class AbstractJSONListProvider<T> extends
 	private String collectionName;
 	private JSONEncoder<T> enc;
 
-	public AbstractJSONListProvider(Class<T> clazz, String collectionName) {
-		super(clazz, true, MediaType.APPLICATION_JSON_TYPE);
+	public AbstractJSONListProvider(Class<T> clazz, String collectionName, MediaType mt) {
+		super(clazz, true, mt);
 		this.collectionName = collectionName;
 		this.enc = JSONFactory.getEncoder(clazz);
 	}

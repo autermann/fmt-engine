@@ -17,17 +17,20 @@
  */
 package de.ifgi.fmt.web.provider.impl;
 
+import javax.ws.rs.Produces;
 import javax.ws.rs.ext.Provider;
 
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.JSONConstants;
+import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONListProvider;
 
 @Provider
+@Produces(MediaTypes.USER_LIST)
 public class UserListProvider extends AbstractJSONListProvider<User> {
 
 	public UserListProvider() {
-		super(User.class, JSONConstants.USERS_KEY);
+		super(User.class, JSONConstants.USERS_KEY, MediaTypes.USER_LIST_TYPE);
 	}
 
 }

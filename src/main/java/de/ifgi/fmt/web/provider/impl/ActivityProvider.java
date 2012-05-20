@@ -17,16 +17,21 @@
  */
 package de.ifgi.fmt.web.provider.impl;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 import javax.ws.rs.ext.Provider;
 
 import de.ifgi.fmt.model.Activity;
+import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 
 @Provider
+@Produces(MediaTypes.ACTIVITY)
+@Consumes(MediaTypes.ACTIVITY)
 public class ActivityProvider extends AbstractJSONProvider<Activity> {
 
 	public ActivityProvider() {
-		super(Activity.class);
+		super(Activity.class, MediaTypes.ACTIVITY_TYPE);
 	}
 
 }

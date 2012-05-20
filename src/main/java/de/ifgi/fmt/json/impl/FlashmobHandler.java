@@ -43,6 +43,8 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.uncertweb.api.gml.io.JSONGeometryDecoder;
 import org.uncertweb.api.gml.io.JSONGeometryEncoder;
 
@@ -59,6 +61,7 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 @Decodes(Flashmob.class)
 @Encodes(Flashmob.class)
 public class FlashmobHandler implements JSONHandler<Flashmob> {
+	private static final Logger log = LoggerFactory.getLogger(FlashmobHandler.class);
 
 	private static final DateTimeFormatter dtFormat = ISODateTimeFormat.dateTime();
 	private final JSONGeometryEncoder geomenc = new JSONGeometryEncoder();
@@ -66,15 +69,17 @@ public class FlashmobHandler implements JSONHandler<Flashmob> {
 	
 	@Override
 	public Flashmob decode(JSONObject j) throws JSONException {
+		log.debug("Decoding Flashmob {}", j);
 		Flashmob f = new Flashmob();
 
-		f.setTitle(j.optString(TITLE_KEY));
+		f.setTitle(j.optString(TITLE_KEY, null));
 		f.setPublic(j.optBoolean(PUBLIC_KEY));
-		f.setDescription(j.optString(DESCRIPTION_KEY));
-		f.setKey(j.optString(KEY_KEY));
+		f.setDescription(j.optString(DESCRIPTION_KEY, null));
+		f.setKey(j.optString(KEY_KEY, null));
 		
-		String geom = j.optString(LOCATION_KEY);
+		String geom = j.optString(LOCATION_KEY, null);
 		if (geom != null) {
+			log.debug("Decoding Geometry {}", geom);
 			try {
 				f.setLocation((Point) geomdec.parseUwGeometry(geom));
 			} catch (Exception e) {
@@ -82,9 +87,9 @@ public class FlashmobHandler implements JSONHandler<Flashmob> {
 			}
 		}
 		
-		String start = j.optString(START_TIME_KEY);
-		String end = j.optString(END_TIME_KEY);
-		String publish = j.optString(PUBLISH_TIME_KEY);
+		String start = j.optString(START_TIME_KEY, null);
+		String end = j.optString(END_TIME_KEY, null);
+		String publish = j.optString(PUBLISH_TIME_KEY, null);
 
 		if (start != null) { f.setStart(dtFormat.parseDateTime(start)); }
 		if (end != null) { f.setEnd(dtFormat.parseDateTime(end)); }

@@ -22,8 +22,12 @@ import static de.ifgi.fmt.update.UpdateFactory.update;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.joda.time.DateTime;
+
+import com.vividsolutions.jts.geom.Point;
 
 import de.ifgi.fmt.model.Activity;
+import de.ifgi.fmt.model.BoundingBox;
 import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.model.Role;
 import de.ifgi.fmt.model.User;
@@ -180,6 +184,9 @@ public class Service {
 	}
 
 	public User getUser(ObjectId user) {
+		if (user == null) {
+			return null;
+		}
 		return getStore().getUser(user);
 	}
 
@@ -251,11 +258,12 @@ public class Service {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
-	public List<Flashmob> getFlashmobs(int limit, String near, ObjectId user,
-			String bbox, String from, String to, Sorting sorting,
+	public List<Flashmob> getFlashmobs(int limit, Point near, ObjectId user,
+			BoundingBox bbox, DateTime from, DateTime to, Sorting sorting,
 			boolean descending, ShowStatus show, String search,
 			ObjectId participant) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return getStore().getFlashmobs(limit, near, getUser(user), bbox, from,
+				to, sorting, descending, show, search, getUser(participant));
 	}
 
 	public List<Signal> getSignal(ObjectId flashmob, ObjectId activity) {

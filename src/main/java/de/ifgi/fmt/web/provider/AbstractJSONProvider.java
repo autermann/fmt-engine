@@ -44,8 +44,8 @@ public class AbstractJSONProvider<T> extends AbstractReaderWriterProvider<T> {
 	private JSONEncoder<T> enc;
 	private JSONDecoder<T> dec;
 
-	public AbstractJSONProvider(Class<T> itemClass) {
-		super(itemClass, MediaType.APPLICATION_JSON_TYPE);
+	public AbstractJSONProvider(Class<T> itemClass, MediaType mt) {
+		super(itemClass, mt);
 		this.enc = JSONFactory.getEncoder(itemClass);
 		this.dec = JSONFactory.getDecoder(itemClass);
 	}
