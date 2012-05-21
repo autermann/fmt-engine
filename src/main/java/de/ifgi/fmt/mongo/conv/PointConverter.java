@@ -51,24 +51,27 @@ public class PointConverter extends TypeConverter implements
 	@Override
 	public Point decode(Class c, Object o, MappedField i)
 			throws MappingException {
+		Point p = null;
 		if (o == null) {
 			return null;
 		} else if (o instanceof Point) {
 			return (Point) o;
 		} else if (o instanceof Point2D) {
-			Point2D p = (Point2D) o;
-			return f.createPoint(new Coordinate(p.getX(), p.getY()));
+			Point2D a = (Point2D) o;
+			p = f.createPoint(new Coordinate(a.getX(), a.getY()));
 		} else if (o instanceof double[]) {
 			double[] a = (double[]) o;
-			return f.createPoint(new Coordinate(a[0], a[1]));
+			p =  f.createPoint(new Coordinate(a[0], a[1]));
 		} else if (o instanceof BasicDBList) {
 			BasicDBList list = (BasicDBList) o;
-			return f.createPoint(new Coordinate((Double) list.get(0),
+			p = f.createPoint(new Coordinate((Double) list.get(0),
 					(Double) list.get(1)));
 		} else {
 			throw new RuntimeException("Can not decode "
 					+ o.getClass().toString());
 		}
+		p.setSRID(4326);
+		return p;
 	}
 
 }

@@ -32,9 +32,6 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.FLASHMOB)
 public class FlashmobServlet extends AbstractServlet {
-	/*
-	 * /flashmobs/{fid}
-	 */
 
 	@GET
 	@Produces(MediaTypes.FLASHMOB)
@@ -46,7 +43,6 @@ public class FlashmobServlet extends AbstractServlet {
 	@PUT
 	@Produces(MediaTypes.FLASHMOB)
 	@Consumes(MediaTypes.FLASHMOB)
-	// update a specific flashmob
 	public Flashmob updateFlashmob(@PathParam(PathParams.FLASHMOB) ObjectId id,
 			Flashmob flashmob) {
 		return getService().updateFlashmob(id, flashmob);

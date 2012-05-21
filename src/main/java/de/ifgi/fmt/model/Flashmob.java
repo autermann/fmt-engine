@@ -48,7 +48,6 @@ public class Flashmob extends Identifiable {
 	public static final String LOCATION = "location";
 	public static final String KEY = "key";
 	public static final String ACTIVITIES = "activities";
-	public static final String COMMENTS = "comments";
 	public static final String ROLES = "roles";
 	public static final String TRIGGERS = "triggers";
 	public static final String VALIDITY = "validity";
@@ -91,9 +90,6 @@ public class Flashmob extends Identifiable {
 	@Reference(Flashmob.TRIGGERS)
 	private List<Trigger> triggers = Utils.list();
 
-	@Reference(Flashmob.COMMENTS)
-	private List<Comment> comments = Utils.list();
-	
 	@Reference(Flashmob.COORDINATOR)
 	private User coordinator;
 	
@@ -192,20 +188,6 @@ public class Flashmob extends Identifiable {
 
 	public Flashmob addActivity(Activity activity) {
 		getActivities().add(activity.setFlashmob(this));
-		return this;
-	}
-
-	public List<Comment> getComments() {
-		return comments;
-	}
-
-	public Flashmob setComments(List<Comment> comments) {
-		this.comments = comments;
-		return this;
-	}
-
-	public Flashmob addComment(Comment comment) {
-		getComments().add(comment.setFlashmob(this));
 		return this;
 	}
 

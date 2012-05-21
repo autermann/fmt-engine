@@ -50,7 +50,7 @@ public class RoleHandler extends JSONHandler<Role>{
 	
 	@Override
 	public Role decode(JSONObject j) throws JSONException {
-		//TODO
+		//TODO role decoding
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -85,11 +85,13 @@ public class RoleHandler extends JSONHandler<Role>{
 		if (t.getCategory() != null) {
 			j.put(CATEGORY_KEY, t.getCategory());
 		}
-		if (t.getFlashmob() != null) {
-			j.put(FLASHMOB_KEY, (uri != null) ? JSONFactory.getEncoder(Flashmob.class).encodeAsReference(t.getFlashmob(), uri) : t.getFlashmob());
-		}
+		
 		
 		if (uri != null) {
+			if (t.getFlashmob() != null) {
+				j.put(FLASHMOB_KEY, JSONFactory.getEncoder(Flashmob.class).encodeAsRef(t.getFlashmob(), uri));
+			}
+			
 			j.put(ACTIVITIES_KEY, uri.getAbsolutePathBuilder().path(Paths.ACTIVITIES).build());
 			j.put(USERS_KEY, uri.getAbsolutePathBuilder().path(Paths.USERS).build());
 		}
@@ -98,7 +100,7 @@ public class RoleHandler extends JSONHandler<Role>{
 	}
 
 	@Override
-	public JSONObject encodeAsReference(Role t, UriInfo uriInfo) throws JSONException {
+	public JSONObject encodeAsRef(Role t, UriInfo uriInfo) throws JSONException {
 		//TODO check if its an role of an activity (different urls)
 		return new JSONObject()
 			.put(ID_KEY, t.getId())

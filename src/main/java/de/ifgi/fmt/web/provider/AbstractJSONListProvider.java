@@ -56,7 +56,7 @@ public abstract class AbstractJSONListProvider<T> extends
 		try {
 			JSONArray array = new JSONArray();
 			for (T o : list) {
-				array.put(enc.encodeAsReference(o, getUriInfo()));
+				array.put(enc.encodeAsRef(o, getUriInfo()));
 			}
 			JSONObject j = new JSONObject().put(collectionName, array);
 			ReaderWriter.writeToAsString(Utils.toString(j), os, mt);

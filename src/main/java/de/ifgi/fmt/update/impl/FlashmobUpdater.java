@@ -41,7 +41,7 @@ public class FlashmobUpdater extends EntityUpdater<Flashmob>{
 		}
 		
 		
-		// TODO Auto-generated method stub
+		// TODO update flashmob
 		
 		
 		old.setValidity(Validity.NOT_CHECKED);

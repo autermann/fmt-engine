@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2012  Christian Autermann, Dustin Demuth, Maurin Radtke
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ */
 package de.ifgi.fmt.json.impl;
 
 import static de.ifgi.fmt.utils.constants.JSONConstants.ID_KEY;
@@ -9,12 +26,16 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import de.ifgi.fmt.ServiceError;
+import de.ifgi.fmt.json.JSONFactory.Decodes;
+import de.ifgi.fmt.json.JSONFactory.Encodes;
 import de.ifgi.fmt.json.JSONHandler;
 import de.ifgi.fmt.model.signal.Signal;
 import de.ifgi.fmt.model.signal.SoundSignal;
 import de.ifgi.fmt.model.signal.TextSignal;
 import de.ifgi.fmt.model.signal.VibrationSignal;
 
+@Encodes(Signal.class)
+@Decodes(Signal.class)
 public class SignalHandler extends JSONHandler<Signal> {
 
 	@Override
@@ -42,10 +63,10 @@ public class SignalHandler extends JSONHandler<Signal> {
 	}
 
 	@Override
-	public JSONObject encodeAsReference(Signal t, UriInfo uriInfo)
+	public JSONObject encodeAsRef(Signal t, UriInfo uriInfo)
 			throws JSONException {
 		/* do we really need this one? */
-		// TODO
+		// TODO signal as ref encoding
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 

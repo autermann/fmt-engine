@@ -145,11 +145,11 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 		j.put(PUBLIC_KEY, f.isPublic());
 		j.put(VALIDITY_KEY, f.getValidity());
 		
-		if (f.getCoordinator() != null) {
-			j.put(COORDINATOR_KEY, (uri != null) ? JSONFactory.getEncoder(User.class).encodeAsReference(f.getCoordinator(), uri) : f.getCoordinator());
-		}
 		
 		if (uri != null) {
+			if (f.getCoordinator() != null) {
+				j.put(COORDINATOR_KEY, JSONFactory.getEncoder(User.class).encodeAsRef(f.getCoordinator(), uri));
+			}
 			j.put(ACTIVITIES_KEY, uri.getAbsolutePathBuilder().path(Paths.ACTIVITIES).build());
 			j.put(ROLES_KEY, uri.getAbsolutePathBuilder().path(Paths.ROLES).build());
 			j.put(TRIGGERS_KEY, uri.getAbsolutePathBuilder().path(Paths.TRIGGERS).build());
@@ -160,10 +160,8 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 	}
 
 	@Override
-	public JSONObject encodeAsReference(Flashmob t, UriInfo uriInfo) throws JSONException {
-		return encode(t, null)
-				.put(HREF_KEY, uriInfo.getBaseUriBuilder().path(Paths.FLASHMOB)
-				.build(t.getId()));
+	public JSONObject encodeAsRef(Flashmob t, UriInfo uriInfo) throws JSONException {
+		return encode(t, null).put(HREF_KEY, uriInfo.getBaseUriBuilder().path(Paths.FLASHMOB).build(t));
 	}
 
 }

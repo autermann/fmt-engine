@@ -139,7 +139,7 @@ public interface RESTConstants {
 		public static final String FLASHMOB = FLASHMOBS + "/" + PathParams.FLASHMOB_P;
 		public static final String ROLES = "/roles";
 		public static final String COMMENTS = "/comments";
-		public static final String COMMENT = COMMENTS + PathParams.COMMENT_P;
+		public static final String COMMENT = COMMENTS + "/" + PathParams.COMMENT_P;
 		public static final String ROLE = ROLES + "/" + PathParams.ROLE_P;
 		public static final String ACTIVITIES = "/activities";
 		public static final String ACTIVITY = ACTIVITIES + "/" + PathParams.ACTIVITY_P;

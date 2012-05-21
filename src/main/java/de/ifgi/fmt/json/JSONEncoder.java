@@ -25,5 +25,5 @@ import org.codehaus.jettison.json.JSONObject;
 public interface JSONEncoder<T> {
 
 	public JSONObject encode(T t, UriInfo uri) throws JSONException;
-	public JSONObject encodeAsReference(T t, UriInfo uriInfo) throws JSONException;
+	public JSONObject encodeAsRef(T t, UriInfo uriInfo) throws JSONException;
 }

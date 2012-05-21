@@ -56,7 +56,7 @@ public class UserProvider extends JSONHandler<User> {
 	}
 
 	@Override
-	public JSONObject encodeAsReference(User t, UriInfo uriInfo)
+	public JSONObject encodeAsRef(User t, UriInfo uriInfo)
 			throws JSONException {
 		return new JSONObject()
 				.put(JSONConstants.ID_KEY, t.getId())

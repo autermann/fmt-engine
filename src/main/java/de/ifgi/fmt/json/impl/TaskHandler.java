@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2012  Christian Autermann, Dustin Demuth, Maurin Radtke
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ */
 package de.ifgi.fmt.json.impl;
 
 import static de.ifgi.fmt.utils.constants.JSONConstants.ACTIVITY_KEY;
@@ -18,6 +35,8 @@ import com.vividsolutions.jts.geom.LineString;
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.json.JSONEncoder;
 import de.ifgi.fmt.json.JSONFactory;
+import de.ifgi.fmt.json.JSONFactory.Decodes;
+import de.ifgi.fmt.json.JSONFactory.Encodes;
 import de.ifgi.fmt.json.JSONHandler;
 import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.model.Role;
@@ -25,11 +44,13 @@ import de.ifgi.fmt.model.task.LineTask;
 import de.ifgi.fmt.model.task.LinkTask;
 import de.ifgi.fmt.model.task.Task;
 
+@Encodes(Task.class)
+@Decodes(Task.class)
 public class TaskHandler extends JSONHandler<Task> {
 
 	@Override
 	public Task decode(JSONObject j) throws JSONException {
-		// TODO
+		// TODO task decoding
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -42,11 +63,11 @@ public class TaskHandler extends JSONHandler<Task> {
 		if (uri != null) {
 			if (t.getActivity() != null) {
 				JSONEncoder<Activity> aenc = JSONFactory.getEncoder(Activity.class);
-				j.put(ACTIVITY_KEY, aenc.encodeAsReference(t.getActivity(), uri));
+				j.put(ACTIVITY_KEY, aenc.encodeAsRef(t.getActivity(), uri));
 			}
 			if (t.getRole() != null) {
 				JSONEncoder<Role> renc = JSONFactory.getEncoder(Role.class);
-				j.put(ROLE_KEY, renc.encodeAsReference(t.getRole(), uri));
+				j.put(ROLE_KEY, renc.encodeAsRef(t.getRole(), uri));
 			}
 		}
 		
@@ -73,10 +94,10 @@ public class TaskHandler extends JSONHandler<Task> {
 	}
 
 	@Override
-	public JSONObject encodeAsReference(Task t, UriInfo uriInfo)
+	public JSONObject encodeAsRef(Task t, UriInfo uriInfo)
 			throws JSONException {
 		/* i don't think we need this one */
-		// TODO
+		// TODO task as ref encoding
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 

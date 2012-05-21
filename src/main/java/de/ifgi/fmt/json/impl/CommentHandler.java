@@ -73,18 +73,20 @@ public class CommentHandler extends JSONHandler<Comment> {
 		if (t.getText() != null) {
 			j.put(TEXT_KEY, t.getText());
 		}
-		if (t.getFlashmob() != null) {
-			j.put(FLASHMOB_KEY, (uri != null) ? JSONFactory.getEncoder(Flashmob.class).encodeAsReference(t.getFlashmob(), uri) : t.getFlashmob());
-		}
-		if (t.getUser() != null) {
-			j.put(USER_KEY, (uri != null) ? JSONFactory.getEncoder(User.class).encodeAsReference(t.getUser(), uri) : t.getUser());
-		}
+		if (uri != null) {
+			if (t.getFlashmob() != null) {
+				j.put(FLASHMOB_KEY, JSONFactory.getEncoder(Flashmob.class).encodeAsRef(t.getFlashmob(), uri));
+			}
+			if (t.getUser() != null) {
+				j.put(USER_KEY, JSONFactory.getEncoder(User.class).encodeAsRef(t.getUser(), uri));
+			}
+		}			
 
 		return j;
 	}
 
 	@Override
-	public JSONObject encodeAsReference(Comment t, UriInfo uriInfo)
+	public JSONObject encodeAsRef(Comment t, UriInfo uriInfo)
 			throws JSONException {
 		return new JSONObject()
 			.put(ID_KEY, t.getId())

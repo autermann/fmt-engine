@@ -75,28 +75,31 @@ public class ActivityHandler extends JSONHandler<Activity> {
 		if (t.getDescription() != null) {
 			j.put(DESCRIPTION_KEY, t.getDescription());
 		}
-		if (t.getFlashmob() != null) {
-			j.put(FLASHMOB_KEY, (uri != null) ? JSONFactory.getEncoder(Flashmob.class).encodeAsReference(t.getFlashmob(), uri) : t.getFlashmob());
-		}
-		if (t.getTrigger() != null) {
-			j.put(TRIGGER_KEY, (uri != null) ? JSONFactory.getEncoder(Trigger.class).encodeAsReference(t.getTrigger(), uri) : t.getTrigger());
-		}
-		if (t.getSignal() != null) {
-			j.put(SIGNAL_KEY, (uri != null) ? JSONFactory.getEncoder(Signal.class).encodeAsReference(t.getSignal(), uri) : t.getSignal());
-		}
-		if (t.getRoles() != null) {
-			JSONEncoder<Role> renc = JSONFactory.getEncoder(Role.class);
-			JSONArray roles = new JSONArray();
-			for (Role r : t.getRoles()) {
-				roles.put((uri != null) ? renc.encodeAsReference(r, uri) : r);
+		
+		if (uri != null) {
+			if (t.getFlashmob() != null) {
+				j.put(FLASHMOB_KEY, JSONFactory.getEncoder(Flashmob.class).encodeAsRef(t.getFlashmob(), uri));
 			}
-			j.put(ROLES_KEY, roles);
+			if (t.getTrigger() != null) {
+				j.put(TRIGGER_KEY, JSONFactory.getEncoder(Trigger.class).encodeAsRef(t.getTrigger(), uri));
+			}
+			if (t.getSignal() != null) {
+				j.put(SIGNAL_KEY, JSONFactory.getEncoder(Signal.class).encodeAsRef(t.getSignal(), uri));
+			}
+			if (t.getRoles() != null) {
+				JSONEncoder<Role> renc = JSONFactory.getEncoder(Role.class);
+				JSONArray roles = new JSONArray();
+				for (Role r : t.getRoles()) {
+					roles.put(renc.encodeAsRef(r, uri));
+				}
+				j.put(ROLES_KEY, roles);
+			}
 		}
 		return j;
 	}
 
 	@Override
-	public JSONObject encodeAsReference(Activity t, UriInfo uri) throws JSONException {
+	public JSONObject encodeAsRef(Activity t, UriInfo uri) throws JSONException {
 		return new JSONObject()
 			.put(ID_KEY, t)
 			.put(HREF_KEY, uri.getAbsolutePathBuilder().path(Paths.ACTIVITY).build(t));
