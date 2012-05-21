@@ -1,4 +1,4 @@
-package de.ifgi.fmt.mongo;
+package de.ifgi.fmt.mongo.stores;
 
 import static de.ifgi.fmt.mongo.DaoFactory.getFlashmobDao;
 
@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.code.morphia.query.Query;
 import com.vividsolutions.jts.geom.Point;
@@ -14,27 +16,23 @@ import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.BoundingBox;
 import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.model.User;
+import de.ifgi.fmt.mongo.ExtendedDao;
+import de.ifgi.fmt.mongo.Store;
 import de.ifgi.fmt.mongo.Store.Queries;
 import de.ifgi.fmt.utils.constants.RESTConstants.ShowStatus;
 import de.ifgi.fmt.utils.constants.RESTConstants.Sorting;
 
 public class Flashmobs implements ExtendedDao<Flashmob> {
-
-	/**
-	 * 
-	 */
+	private static final Logger log = LoggerFactory.getLogger(Flashmobs.class);
 	private final Store store;
 
-	/**
-	 * @param store
-	 */
-	Flashmobs(Store store) {
+	public Flashmobs(Store store) {
 		this.store = store;
 	}
 
 	@Override
 	public Flashmob get(ObjectId id) {
-		Store.log.debug("Getting Flashmob {}", id);
+		log.debug("Getting Flashmob {}", id);
 		Flashmob f = getFlashmobDao().get(id);
 		if (f == null) {
 			throw ServiceError.flashmobNotFound();
@@ -44,7 +42,7 @@ public class Flashmobs implements ExtendedDao<Flashmob> {
 
 	@Override
 	public Flashmob save(Flashmob f) {
-		Store.log.debug("Saving Flashmob {}", f);
+		log.debug("Saving Flashmob {}", f);
 		this.store.triggers().save(f.getTriggers());
 		this.store.roles().save(f.getRoles());
 		this.store.activities().save(f.getActivities());
@@ -54,7 +52,7 @@ public class Flashmobs implements ExtendedDao<Flashmob> {
 
 	@Override
 	public void save(Iterable<Flashmob> flashmobs) {
-		Store.log.debug("Saving Flashmobs");
+		log.debug("Saving Flashmobs");
 		for (Flashmob f : flashmobs) {
 			save(f);
 		}
@@ -77,7 +75,7 @@ public class Flashmobs implements ExtendedDao<Flashmob> {
 	}
 
 	public List<Flashmob> get(User u) {
-		Store.log.debug("Getting Flashmobs of User {}", u);
+		log.debug("Getting Flashmobs of User {}", u);
 		return get(Queries.flashmobsOfUser(u));
 	}
 

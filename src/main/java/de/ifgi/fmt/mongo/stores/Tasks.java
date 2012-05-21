@@ -1,26 +1,31 @@
-package de.ifgi.fmt.mongo;
+package de.ifgi.fmt.mongo.stores;
 
 import static de.ifgi.fmt.mongo.DaoFactory.getTaskDao;
 
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.code.morphia.query.Query;
 
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.task.Task;
+import de.ifgi.fmt.mongo.ExtendedDao;
+import de.ifgi.fmt.mongo.Store;
 
 public class Tasks implements ExtendedDao<Task>{
+	private static final Logger log = LoggerFactory.getLogger(Tasks.class);
 	@SuppressWarnings("unused")
 	private final Store store;
 
-	Tasks(Store store) {
+	public Tasks(Store store) {
 		this.store = store;
 	}
 
 	public Task get(ObjectId id) {
-		Store.log.debug("Getting Task {}", id);
+		log.debug("Getting Task {}", id);
 		Task t = getTaskDao().get(id);
 		if (t == null) {
 			throw ServiceError.taskNotFound();
@@ -29,13 +34,13 @@ public class Tasks implements ExtendedDao<Task>{
 	}
 
 	public Task save(Task t) {
-		Store.log.debug("Saving Task {}", t);
+		log.debug("Saving Task {}", t);
 		getTaskDao().save(t);
 		return t;
 	}
 
 	public void save(Iterable<Task> tasks) {
-		Store.log.debug("Saving Tasks");
+		log.debug("Saving Tasks");
 		for (Task t : tasks) {
 			save(t);
 		}
@@ -50,7 +55,7 @@ public class Tasks implements ExtendedDao<Task>{
 
 	@Override
 	public void delete(Iterable<Task> ts) {
-		Store.log.debug("Deleting Tasks");
+		log.debug("Deleting Tasks");
 		for (Task t : ts) {
 			delete(t);
 		}

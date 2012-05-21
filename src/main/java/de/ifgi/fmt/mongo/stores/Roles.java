@@ -1,10 +1,12 @@
-package de.ifgi.fmt.mongo;
+package de.ifgi.fmt.mongo.stores;
 
 import static de.ifgi.fmt.mongo.DaoFactory.getRoleDao;
 
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.code.morphia.query.Query;
 
@@ -12,18 +14,21 @@ import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.model.Role;
 import de.ifgi.fmt.model.User;
+import de.ifgi.fmt.mongo.ExtendedDao;
+import de.ifgi.fmt.mongo.Store;
 import de.ifgi.fmt.mongo.Store.Queries;
 
-public class Roles implements ExtendedDao<Role>{
+public class Roles implements ExtendedDao<Role> {
+	private static final Logger log = LoggerFactory.getLogger(Roles.class);
 	@SuppressWarnings("unused")
 	private final Store store;
 
-	Roles(Store store) {
+	public Roles(Store store) {
 		this.store = store;
 	}
 
 	public Role get(ObjectId id) {
-		Store.log.debug("Getting Role {}", id);
+		log.debug("Getting Role {}", id);
 		Role r = getRoleDao().get(id);
 		if (r == null) {
 			throw ServiceError.roleNotFound();
@@ -36,20 +41,20 @@ public class Roles implements ExtendedDao<Role>{
 	}
 
 	public Role save(Role role) {
-		Store.log.debug("Saving Role {}", role);
+		log.debug("Saving Role {}", role);
 		getRoleDao().save(role);
 		return role;
 	}
 
 	public void save(Iterable<Role> roles) {
-		Store.log.debug("Saving Roles");
+		log.debug("Saving Roles");
 		for (Role r : roles) {
 			save(r);
 		}
 	}
 
 	public List<Role> get(User u) {
-		Store.log.debug("Getting Roles of User {}", u);
+		log.debug("Getting Roles of User {}", u);
 		return get(Queries.rolesOfUser(u));
 	}
 
@@ -63,13 +68,13 @@ public class Roles implements ExtendedDao<Role>{
 
 	@Override
 	public void delete(Role t) {
-		Store.log.debug("Deleting Role {}", t);
+		log.debug("Deleting Role {}", t);
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	@Override
 	public void delete(Iterable<Role> ts) {
-		Store.log.debug("Deleting Roles");
+		log.debug("Deleting Roles");
 		for (Role r : ts) {
 			delete(r);
 		}
@@ -89,9 +94,9 @@ public class Roles implements ExtendedDao<Role>{
 	public Query<Role> all() {
 		return getRoleDao().createQuery();
 	}
-	
+
 	public Role get(Flashmob f, User u) {
-		Store.log.debug("Getting Role of User {} in Flashmob", f);
+		log.debug("Getting Role of User {} in Flashmob", f);
 		return getOne(Queries.rolesOfUserInFlashmob(u, f));
 	}
 }

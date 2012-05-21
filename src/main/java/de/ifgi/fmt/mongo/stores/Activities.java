@@ -1,4 +1,4 @@
-package de.ifgi.fmt.mongo;
+package de.ifgi.fmt.mongo.stores;
 
 import static de.ifgi.fmt.mongo.DaoFactory.getActivityDao;
 import static de.ifgi.fmt.mongo.DaoFactory.getSignalDao;
@@ -6,6 +6,8 @@ import static de.ifgi.fmt.mongo.DaoFactory.getSignalDao;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.code.morphia.query.Query;
 
@@ -17,17 +19,20 @@ import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.model.signal.Signal;
 import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.model.trigger.Trigger;
+import de.ifgi.fmt.mongo.ExtendedDao;
+import de.ifgi.fmt.mongo.Store;
 import de.ifgi.fmt.mongo.Store.Queries;
 
 public class Activities implements ExtendedDao<Activity> {
+	private static final Logger log = LoggerFactory.getLogger(Activities.class);
 	private final Store store;
 
-	Activities(Store store) {
+	public Activities(Store store) {
 		this.store = store;
 	}
 
 	public Activity get(ObjectId id) {
-		Store.log.debug("Getting Activity {}", id);
+		log.debug("Getting Activity {}", id);
 		Activity a = getActivityDao().get(id);
 		if (a == null) {
 			throw ServiceError.activityNotFound();
@@ -36,7 +41,7 @@ public class Activities implements ExtendedDao<Activity> {
 	}
 
 	public Activity save(Activity a) {
-		Store.log.debug("Saving Acitivity {}", a);
+		log.debug("Saving Acitivity {}", a);
 		getSignalDao().save(a.getSignal());
 		this.store.tasks().save(a.getTasks().values());
 		getActivityDao().save(a);
@@ -44,7 +49,7 @@ public class Activities implements ExtendedDao<Activity> {
 	}
 
 	public void save(Iterable<Activity> activities) {
-		Store.log.debug("Saving Activities");
+		log.debug("Saving Activities");
 		for (Activity a : activities) {
 			save(a);
 		}
@@ -79,14 +84,14 @@ public class Activities implements ExtendedDao<Activity> {
 
 	@Override
 	public void delete(Activity t) {
-		Store.log.debug("Deleting Activity {}", t);
+		log.debug("Deleting Activity {}", t);
 		// TODO activity deletion
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	@Override
 	public void delete(Iterable<Activity> ts) {
-		Store.log.debug("Deleting Activities");
+		log.debug("Deleting Activities");
 		for (Activity a : ts) {
 			delete(a);
 		}

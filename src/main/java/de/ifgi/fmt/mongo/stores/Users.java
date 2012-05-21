@@ -1,10 +1,12 @@
-package de.ifgi.fmt.mongo;
+package de.ifgi.fmt.mongo.stores;
 
 import static de.ifgi.fmt.mongo.DaoFactory.getUserDao;
 
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.code.morphia.query.Query;
 
@@ -12,24 +14,21 @@ import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.Comment;
 import de.ifgi.fmt.model.Role;
 import de.ifgi.fmt.model.User;
+import de.ifgi.fmt.mongo.DaoFactory;
+import de.ifgi.fmt.mongo.ExtendedDao;
+import de.ifgi.fmt.mongo.Store;
 import de.ifgi.fmt.mongo.Store.Queries;
 
 public class Users implements ExtendedDao<User>{
-
-	/**
-	 * 
-	 */
+	private static final Logger log = LoggerFactory.getLogger(Users.class);
 	private final Store store;
 
-	/**
-	 * @param store
-	 */
-	Users(Store store) {
+	public Users(Store store) {
 		this.store = store;
 	}
 
 	public User get(ObjectId id) {
-		Store.log.debug("Getting User {}", id);
+		log.debug("Getting User {}", id);
 		User u = getUserDao().get(id);
 		if (u == null) {
 			throw ServiceError.userNotFound();
@@ -43,18 +42,18 @@ public class Users implements ExtendedDao<User>{
 	}
 
 	public User save(User u) {
-		Store.log.debug("Saving User {}", u);
+		log.debug("Saving User {}", u);
 		getUserDao().save(u);
 		return u;
 	}
 
 	public void save(Iterable<User> u) {
-		Store.log.debug("Saving Users");
+		log.debug("Saving Users");
 		getUserDao().saveAll(u);
 	}
 
 	public void delete(User u) {
-		Store.log.debug("Deleting User {}", u);
+		log.debug("Deleting User {}", u);
 		this.store.flashmobs().delete(Queries.flashmobsByUser(u));
 		deleteFromRoles(u, this.store.roles().get(u));
 		deleteFromComments(u, this.store.comments().get(u));
@@ -62,31 +61,31 @@ public class Users implements ExtendedDao<User>{
 	}
 
 	public void delete(Iterable<User> users) {
-		Store.log.debug("Deleting Users");
+		log.debug("Deleting Users");
 		for (User u : users) {
 			delete(u);
 		}
 	}
 
 	public void deleteFromRole(User u, Role r) {
-		Store.log.debug("Deleting User {} from Role {}", u, r);
+		log.debug("Deleting User {} from Role {}", u, r);
 		this.store.roles().save(r.removeUser(u));
 	}
 
 	public void deleteFromRoles(User u, List<Role> roles) {
-		Store.log.debug("Deleting User {} from Roles", u);
+		log.debug("Deleting User {} from Roles", u);
 		for (Role r : roles) {
 			deleteFromRole(u, r);
 		}
 	}
 
 	public void deleteFromComment(User u, Comment c) {
-		Store.log.debug("Deleting User {} from Comment {}", u, c);
+		log.debug("Deleting User {} from Comment {}", u, c);
 		this.store.comments().save(c.setUser(null));
 	}
 
 	public void deleteFromComments(User u, List<Comment> comments) {
-		Store.log.debug("Deleting User {} from Comments", u);
+		log.debug("Deleting User {} from Comments", u);
 		for (Comment c : comments) {
 			deleteFromComment(u, c);
 		}

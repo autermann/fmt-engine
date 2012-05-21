@@ -17,8 +17,6 @@
  */
 package de.ifgi.fmt.mongo;
 
-
-
 import static de.ifgi.fmt.mongo.DaoFactory.getActivityDao;
 import static de.ifgi.fmt.mongo.DaoFactory.getCommentDao;
 import static de.ifgi.fmt.mongo.DaoFactory.getFlashmobDao;
@@ -48,12 +46,19 @@ import de.ifgi.fmt.model.signal.VibrationSignal;
 import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.model.trigger.TimeTrigger;
 import de.ifgi.fmt.model.trigger.Trigger;
+import de.ifgi.fmt.mongo.stores.Activities;
+import de.ifgi.fmt.mongo.stores.Comments;
+import de.ifgi.fmt.mongo.stores.Flashmobs;
+import de.ifgi.fmt.mongo.stores.Roles;
+import de.ifgi.fmt.mongo.stores.Tasks;
+import de.ifgi.fmt.mongo.stores.Triggers;
+import de.ifgi.fmt.mongo.stores.Users;
 import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.RESTConstants.ShowStatus;
 
 public class Store {
 
-	static final Logger log = LoggerFactory.getLogger(Store.class);
+	private static final Logger log = LoggerFactory.getLogger(Store.class);
 	
 	public static final class Queries {
 
@@ -148,14 +153,14 @@ public class Store {
 	 * Signal -> Task -> Comments -> Roles User
 	 */
 
-	protected static <T> Query<T> g(Query<T> q) {
+	public static <T> Query<T> g(Query<T> q) {
 		if (log.isDebugEnabled()) {
 			log.debug("Querying for {}: {}", q.getEntityClass(), q.toString());
 		}
 		return q;
 	}
 
-	protected static <T> Query<T> r(Query<T> q) {
+	public static <T> Query<T> r(Query<T> q) {
 		if (log.isDebugEnabled()) {
 			log.debug("Deleting results for query for {}: {}",
 					q.getEntityClass(), q.toString());
@@ -170,7 +175,6 @@ public class Store {
 	private Roles roles;
 	private Tasks tasks;
 	private Comments comments;
-	
 	
 	public Flashmobs flashmobs() {
 		return (flashmobs == null) ? flashmobs = new Flashmobs(this) : flashmobs;

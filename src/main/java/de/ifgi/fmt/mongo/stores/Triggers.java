@@ -1,10 +1,12 @@
-package de.ifgi.fmt.mongo;
+package de.ifgi.fmt.mongo.stores;
 
 import static de.ifgi.fmt.mongo.DaoFactory.getTriggerDao;
 
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.code.morphia.query.Query;
 
@@ -12,23 +14,20 @@ import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.model.trigger.Trigger;
+import de.ifgi.fmt.mongo.ExtendedDao;
+import de.ifgi.fmt.mongo.Store;
 import de.ifgi.fmt.mongo.Store.Queries;
 
 public class Triggers implements ExtendedDao<Trigger> {
-	/**
-	 * 
-	 */
+	private static final Logger log = LoggerFactory.getLogger(Triggers.class);
 	private final Store store;
 
-	/**
-	 * @param store
-	 */
-	Triggers(Store store) {
+	public Triggers(Store store) {
 		this.store = store;
 	}
 
 	public Trigger get(ObjectId id) {
-		Store.log.debug("Getting Trigger {}", id);
+		log.debug("Getting Trigger {}", id);
 		Trigger t = getTriggerDao().get(id);
 		if (t == null) {
 			throw ServiceError.triggerNotFound();
@@ -37,20 +36,20 @@ public class Triggers implements ExtendedDao<Trigger> {
 	}
 
 	public Trigger save(Trigger t) {
-		Store.log.debug("Saving Trigger {}", t);
+		log.debug("Saving Trigger {}", t);
 		getTriggerDao().save(t);
 		return t;
 	}
 
 	public void save(Iterable<Trigger> triggers) {
-		Store.log.debug("Saving Triggers");
+		log.debug("Saving Triggers");
 		for (Trigger t : triggers) {
 			save(t);
 		}
 	}
 
 	public void delete(Trigger t) {
-		Store.log.debug("Deleting Trigger {}", t);
+		log.debug("Deleting Trigger {}", t);
 		for (Activity a : this.store.activities().get(t)) {
 			this.store.activities().save(a.setTrigger(null));
 		}
@@ -58,19 +57,19 @@ public class Triggers implements ExtendedDao<Trigger> {
 	}
 
 	public void delete(List<Trigger> triggers) {
-		Store.log.debug("Deleting Triggers");
+		log.debug("Deleting Triggers");
 		for (Trigger t : triggers) {
 			delete(t);
 		}
 	}
 
 	public List<Trigger> get(Flashmob f) {
-		Store.log.debug("Getting Triggers of Flashmob {}", f);
+		log.debug("Getting Triggers of Flashmob {}", f);
 		return get(Queries.triggersOfFlashmob(f));
 	}
 
 	public void delete(Flashmob f) {
-		Store.log.debug("Getting Triggers of Flashmob {}", f);
+		log.debug("Getting Triggers of Flashmob {}", f);
 		delete(Queries.triggersOfFlashmob(f));
 	}
 
@@ -91,7 +90,7 @@ public class Triggers implements ExtendedDao<Trigger> {
 
 	@Override
 	public void delete(Iterable<Trigger> ts) {
-		Store.log.debug("Deleting Triggers");
+		log.debug("Deleting Triggers");
 		for (Trigger t : ts) {
 			delete(t);
 		}
