@@ -82,6 +82,9 @@ public class User extends Identifiable {
 	}
 
 	private String hash(String unhashed) {
+		if (unhashed == null) {
+			return null;
+		}
 		return BCrypt.hashpw(unhashed, BCrypt.gensalt());
 	}
 	

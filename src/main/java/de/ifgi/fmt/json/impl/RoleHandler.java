@@ -45,7 +45,7 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
 @Encodes(Role.class)
 @Decodes(Role.class)
-public class RoleHandler implements JSONHandler<Role>{
+public class RoleHandler extends JSONHandler<Role>{
 	private final JSONGeometryEncoder geomenc = new JSONGeometryEncoder();
 	
 	@Override

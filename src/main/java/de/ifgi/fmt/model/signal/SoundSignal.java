@@ -17,10 +17,17 @@
  */
 package de.ifgi.fmt.model.signal;
 
+import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
+
+import de.ifgi.fmt.ServiceError;
+import de.ifgi.fmt.utils.constants.JSONConstants;
 
 @Polymorphic
 public class SoundSignal extends Signal {
@@ -37,4 +44,27 @@ public class SoundSignal extends Signal {
 	public void setLink(URL link) {
 		this.link = link;
 	}
+
+	@Override
+	public Signal encode(JSONObject j) throws JSONException {
+		if (getLink() != null) {
+			j.put(JSONConstants.HREF_KEY, getLink());
+		}
+		return this;
+	}
+
+	@Override
+	public Signal decode(JSONObject j) {
+		String l = j.optString(JSONConstants.HREF_KEY, null);
+		if (l != null) {
+			try {
+				setLink(new URL(l));
+			} catch (MalformedURLException e) {
+				throw ServiceError.badRequest(e);
+			}
+		}
+		return this;
+	}
+	
+	
 }

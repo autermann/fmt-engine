@@ -15,14 +15,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package de.ifgi.fmt.model.signal;
+package de.ifgi.fmt.web.provider.impl;
 
-import org.codehaus.jettison.json.JSONObject;
+import javax.ws.rs.Produces;
+import javax.ws.rs.ext.Provider;
 
-import com.google.code.morphia.annotations.Polymorphic;
+import de.ifgi.fmt.model.trigger.Trigger;
+import de.ifgi.fmt.utils.constants.JSONConstants;
+import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
+import de.ifgi.fmt.web.provider.AbstractJSONListProvider;
 
-@Polymorphic
-public class VibrationSignal extends Signal {
-	@Override public Signal encode(JSONObject j) {return this;}
-	@Override public Signal decode(JSONObject j) {return this;}
+@Provider
+@Produces(MediaTypes.TRIGGER_LIST)
+public class TriggerListProvider extends AbstractJSONListProvider<Trigger> {
+
+	public TriggerListProvider() {
+		super(Trigger.class, JSONConstants.TRIGGERS_KEY, MediaTypes.TRIGGER_LIST_TYPE);
+	}
+
 }

@@ -33,7 +33,7 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.REQUIRED_USERS_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.ROLES_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.START_TIME_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.TITLE_KEY;
-import static de.ifgi.fmt.utils.constants.JSONConstants.TRIGGER_KEY;
+import static de.ifgi.fmt.utils.constants.JSONConstants.TRIGGERS_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.USERS_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.VALIDITY_KEY;
 
@@ -41,12 +41,8 @@ import javax.ws.rs.core.UriInfo;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.uncertweb.api.gml.io.JSONGeometryDecoder;
-import org.uncertweb.api.gml.io.JSONGeometryEncoder;
 
 import com.vividsolutions.jts.geom.Point;
 
@@ -60,13 +56,9 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
 @Decodes(Flashmob.class)
 @Encodes(Flashmob.class)
-public class FlashmobHandler implements JSONHandler<Flashmob> {
+public class FlashmobHandler extends JSONHandler<Flashmob> {
 	private static final Logger log = LoggerFactory.getLogger(FlashmobHandler.class);
 
-	private static final DateTimeFormatter dtFormat = ISODateTimeFormat.dateTime();
-	private final JSONGeometryEncoder geomenc = new JSONGeometryEncoder();
-	private final JSONGeometryDecoder geomdec = new JSONGeometryDecoder();
-	
 	@Override
 	public Flashmob decode(JSONObject j) throws JSONException {
 		log.debug("Decoding Flashmob {}", j);
@@ -81,7 +73,7 @@ public class FlashmobHandler implements JSONHandler<Flashmob> {
 		if (geom != null) {
 			log.debug("Decoding Geometry {}", geom);
 			try {
-				f.setLocation((Point) geomdec.parseUwGeometry(geom));
+				f.setLocation((Point) getGeometryDecoder().parseUwGeometry(geom));
 			} catch (Exception e) {
 				throw ServiceError.badRequest(e);
 			}
@@ -91,9 +83,9 @@ public class FlashmobHandler implements JSONHandler<Flashmob> {
 		String end = j.optString(END_TIME_KEY, null);
 		String publish = j.optString(PUBLISH_TIME_KEY, null);
 
-		if (start != null) { f.setStart(dtFormat.parseDateTime(start)); }
-		if (end != null) { f.setEnd(dtFormat.parseDateTime(end)); }
-		if (publish != null) { f.setPublish(dtFormat.parseDateTime(publish)); }
+		if (start != null) { f.setStart(getDateTimeFormat().parseDateTime(start)); }
+		if (end != null) { f.setEnd(getDateTimeFormat().parseDateTime(end)); }
+		if (publish != null) { f.setPublish(getDateTimeFormat().parseDateTime(publish)); }
 		return f;
 	}
 		
@@ -104,7 +96,7 @@ public class FlashmobHandler implements JSONHandler<Flashmob> {
 		
 		if (f.getLocation() != null) {
 			try {
-				j.put(LOCATION_KEY, new JSONObject(geomenc.encodeGeometry(f.getLocation())));
+				j.put(LOCATION_KEY, new JSONObject(getGeometryEncoder().encodeGeometry(f.getLocation())));
 			} catch (Exception e) {
 				throw ServiceError.internal(e);
 			}
@@ -117,13 +109,13 @@ public class FlashmobHandler implements JSONHandler<Flashmob> {
 			j.put(DESCRIPTION_KEY, f.getDescription());
 		}
 		if (f.getStart() != null) {
-			j.put(START_TIME_KEY, dtFormat.print(f.getStart()));
+			j.put(START_TIME_KEY, getDateTimeFormat().print(f.getStart()));
 		}
 		if (f.getEnd() != null) {
-			j.put(END_TIME_KEY, dtFormat.print(f.getEnd()));
+			j.put(END_TIME_KEY, getDateTimeFormat().print(f.getEnd()));
 		}
 		if (f.getPublish() != null) {
-			j.put(PUBLISH_TIME_KEY, dtFormat.print(f.getPublish()));
+			j.put(PUBLISH_TIME_KEY, getDateTimeFormat().print(f.getPublish()));
 		}
 		if (f.getKey() != null) {
 			j.put(KEY_KEY, f.getKey());
@@ -154,7 +146,7 @@ public class FlashmobHandler implements JSONHandler<Flashmob> {
 		if (uri != null) {
 			j.put(ACTIVITIES_KEY, uri.getBaseUriBuilder().path(Paths.ACTIVITIES_OF_FLASHMOB).build(f.getId()));
 			j.put(ROLES_KEY, uri.getBaseUriBuilder().path(Paths.ROLES_FOR_FLASHMOB).build(f.getId()));
-			j.put(TRIGGER_KEY, uri.getBaseUriBuilder().path(Paths.TRIGGERS_OF_FLASHMOB).build(f.getId()));
+			j.put(TRIGGERS_KEY, uri.getBaseUriBuilder().path(Paths.TRIGGERS_OF_FLASHMOB).build(f.getId()));
 			j.put(COMMENTS_KEY, uri.getBaseUriBuilder().path(Paths.COMMENTS_FOR_FLASHMOB).build(f.getId()));
 			j.put(PARTICIPANTS_KEY, uri.getBaseUriBuilder().path(Paths.USERS_OF_FLASHMOB).build(f.getId()));
 		}

@@ -17,8 +17,13 @@
  */
 package de.ifgi.fmt.model.signal;
 
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
+
+import de.ifgi.fmt.utils.constants.JSONConstants;
 
 @Polymorphic
 public class TextSignal extends Signal {
@@ -34,6 +39,20 @@ public class TextSignal extends Signal {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	@Override
+	public Signal encode(JSONObject j) throws JSONException {
+		if (getText() != null) {
+			j.put(JSONConstants.TEXT_KEY, getText());
+		}
+		return this;
+	}
+
+	@Override
+	public Signal decode(JSONObject j) {
+		setText(j.optString(JSONConstants.TEXT_KEY, null));
+		return this;
 	}
 
 }

@@ -17,6 +17,9 @@
  */
 package de.ifgi.fmt.model.signal;
 
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Polymorphic;
 
@@ -33,5 +36,8 @@ public abstract class Signal extends Identifiable {
 				.replace(getClass().getPackage().getName() + ".", "")
 				.replace("Signal", "");
 	}
+	
+	public abstract Signal encode(JSONObject j) throws JSONException;
+	public abstract Signal decode(JSONObject j);
 
 }

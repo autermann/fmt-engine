@@ -18,15 +18,24 @@
 package de.ifgi.fmt.mongo;
 
 import org.bson.types.ObjectId;
+import org.joda.time.DateTime;
 
 import com.google.code.morphia.annotations.Id;
+import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Polymorphic;
+import com.google.code.morphia.annotations.Property;
 
 @Polymorphic
 public abstract class Identifiable {
 
+	public static final String CREATION_TIME = "creationTime";
+	
 	@Id
 	private ObjectId id = new ObjectId();
+	
+	@Indexed
+	@Property(Identifiable.CREATION_TIME)
+	private DateTime creationTime = new DateTime();
 
 	public ObjectId getId() {
 		return id;
@@ -36,6 +45,14 @@ public abstract class Identifiable {
 		this.id = id;
 	}
 
+	public DateTime getCreationTime() {
+		return creationTime;
+	}
+
+	public void setCreationTime(DateTime creationTime) {
+		this.creationTime = creationTime;
+	}
+	
 	@Override
 	public int hashCode() {
 		return getId().hashCode();

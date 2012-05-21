@@ -24,7 +24,7 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.ID_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.ROLES_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.SIGNAL_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.TITLE_KEY;
-import static de.ifgi.fmt.utils.constants.JSONConstants.TRIGGER_KEY;
+import static de.ifgi.fmt.utils.constants.JSONConstants.TRIGGERS_KEY;
 
 import javax.ws.rs.core.UriInfo;
 
@@ -44,7 +44,7 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
 @Decodes(Activity.class)
 @Encodes(Activity.class)
-public class ActivityHandler implements JSONHandler<Activity> {
+public class ActivityHandler extends JSONHandler<Activity> {
 
 	@Override
 	public Activity decode(JSONObject j) throws JSONException {
@@ -65,7 +65,7 @@ public class ActivityHandler implements JSONHandler<Activity> {
 		if (uri != null) {
 			j.put(FLASHMOB_KEY, uri.getBaseUriBuilder().path(Paths.FLASHMOB).build(t.getFlashmob()));
 			if (t.getTrigger() != null) {
-				j.put(TRIGGER_KEY, uri.getAbsolutePathBuilder().path(uri.getPath()).path(Paths.TRIGGER).build());
+				j.put(TRIGGERS_KEY, uri.getAbsolutePathBuilder().path(uri.getPath()).path(Paths.TRIGGERS).build());
 			}
 			if (t.getSignal() != null) {
 				j.put(SIGNAL_KEY, uri.getAbsolutePathBuilder().path(uri.getPath()).path(Paths.SIGNAL).build());

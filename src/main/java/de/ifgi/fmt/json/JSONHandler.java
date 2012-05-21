@@ -17,4 +17,26 @@
  */
 package de.ifgi.fmt.json;
 
-public interface JSONHandler<T> extends JSONDecoder<T>, JSONEncoder<T>{}
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+import org.uncertweb.api.gml.io.JSONGeometryDecoder;
+import org.uncertweb.api.gml.io.JSONGeometryEncoder;
+
+public abstract class JSONHandler<T> implements JSONDecoder<T>, JSONEncoder<T> {
+
+	private final DateTimeFormatter dtf = ISODateTimeFormat.dateTime();
+	private final JSONGeometryEncoder geomenc = new JSONGeometryEncoder();
+	private final JSONGeometryDecoder geomdec = new JSONGeometryDecoder();
+
+	protected DateTimeFormatter getDateTimeFormat() {
+		return dtf;
+	}
+
+	protected JSONGeometryDecoder getGeometryDecoder() {
+		return geomdec;
+	}
+
+	protected JSONGeometryEncoder getGeometryEncoder() {
+		return geomenc;
+	}
+}
