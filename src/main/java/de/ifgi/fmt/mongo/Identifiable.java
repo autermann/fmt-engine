@@ -29,13 +29,25 @@ import com.google.code.morphia.annotations.Property;
 public abstract class Identifiable {
 
 	public static final String CREATION_TIME = "creationTime";
-	
+
 	@Id
-	private ObjectId id = new ObjectId();
-	
+	private ObjectId id;
+
 	@Indexed
 	@Property(Identifiable.CREATION_TIME)
 	private DateTime creationTime = new DateTime();
+
+	public Identifiable(String s) {
+		this(new ObjectId(s));
+	}
+
+	public Identifiable(ObjectId id) {
+		setId(id);
+	}
+
+	public Identifiable() {
+		setId(new ObjectId());
+	}
 
 	public ObjectId getId() {
 		return id;
@@ -52,7 +64,7 @@ public abstract class Identifiable {
 	public void setCreationTime(DateTime creationTime) {
 		this.creationTime = creationTime;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return getId().hashCode();

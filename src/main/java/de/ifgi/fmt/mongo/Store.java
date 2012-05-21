@@ -511,7 +511,65 @@ public class Store {
 	}
 	
 	
-	public static void main(String[] args) {
+	public List<Flashmob> getFlashmobs(int limit, Point near, User user, BoundingBox bbox,
+			DateTime from, DateTime to, Sorting sorting, boolean descending,
+			ShowStatus show, String search, User participant) {
+		
+		Query<Flashmob> q = getFlashmobDao().createQuery();
+		if (bbox != null) {
+			Q.in(q, bbox);
+		}
+		if (near != null) {
+			Q.near(q, near);
+		}
+		if (user != null) {
+			Q.coordinatedBy(q, user);
+		}
+		if (from != null) {
+			Q.after(q, from);
+		}
+		if (to != null) {
+			Q.before(q, to);
+		}
+	
+		if (show != null) {
+			Q.isPublic(q, show);
+		}
+		
+		if (search != null) {
+			Q.search(q, search);
+		}
+		
+		if (sorting != null) {
+			//TODO sorting
+			switch(sorting) {
+			case CREATION_TIME:
+			case START_TIME:
+			case TITLE:
+			case PARTICIPANTS:
+			case DISTANCE: 
+			}
+		}
+		
+		if (participant != null) {
+			Q.hasUser(q, participant);
+		}
+		if (descending) {
+			//TODO
+		}
+		q.limit(limit);
+		return getFlashmobs(q);
+	}
+
+	public List<Activity> getActivitiesForUser(Flashmob flashmob, User user) {
+		return getActivities(getActivityDao().createQuery()
+				.field(Activity.FLASHMOB)
+				.equal(flashmob)
+				.field(Activity.TASKS + "." + Task.ROLE + "." + Role.USERS)
+				.hasThisElement(user));
+	}
+
+public static void main(String[] args) {
 		
 		MongoDB db = MongoDB.getInstance();
 		db.getMongo().dropDatabase(db.getDatabase());
@@ -589,70 +647,4 @@ public class Store {
 			e.printStackTrace();
 		}
 	}
-
-	public List<User> getUsersForRole(Role r, int limit) {
-		
-		
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public List<Flashmob> getFlashmobs(int limit, Point near, User user, BoundingBox bbox,
-			DateTime from, DateTime to, Sorting sorting, boolean descending,
-			ShowStatus show, String search, User participant) {
-		
-		Query<Flashmob> q = getFlashmobDao().createQuery();
-		if (bbox != null) {
-			Q.in(q, bbox);
-		}
-		if (near != null) {
-			Q.near(q, near);
-		}
-		if (user != null) {
-			Q.coordinatedBy(q, user);
-		}
-		if (from != null) {
-			Q.after(q, from);
-		}
-		if (to != null) {
-			Q.before(q, to);
-		}
-	
-		if (show != null) {
-			Q.isPublic(q, show);
-		}
-		
-		if (search != null) {
-			Q.search(q, search);
-		}
-		
-		if (sorting != null) {
-			//TODO sorting
-			switch(sorting) {
-			case CREATION_TIME:
-			case START_TIME:
-			case TITLE:
-			case PARTICIPANTS:
-			case DISTANCE: 
-			}
-		}
-		
-		if (participant != null) {
-			Q.hasUser(q, participant);
-		}
-		if (descending) {
-			//TODO
-		}
-		q.limit(limit);
-		return getFlashmobs(q);
-	}
-
-	public List<Activity> getActivitiesForUser(Flashmob flashmob, User user) {
-		return getActivities(getActivityDao().createQuery()
-				.field(Activity.FLASHMOB)
-				.equal(flashmob)
-				.field(Activity.TASKS + "." + Task.ROLE + "." + Role.USERS)
-				.hasThisElement(user));
-	}
-
 }

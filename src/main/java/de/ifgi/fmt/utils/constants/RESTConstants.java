@@ -117,6 +117,22 @@ public interface RESTConstants {
 		public static final String CONTENT_TYPE = "Content-Type";
 	}
 
+	
+	/*
+	 * TODO refactor URL's to enable access to resource params.
+	 * e.g 
+	 * 	ROLES="/roles"
+	 *  ROLE ="/{role}"
+	 *	servlet subresources 
+	 *	@Path(ROLES)
+	 *	class RolesServlet {
+	 *		@Path(ROLE)
+	 *		public Role getRole(@PathParam(PathParams.ROLE) ObjectId role) {
+	 *			return bla;
+	 *		}
+	 *	}
+	 * 
+	 */
 	public static abstract class Paths {
 		public static final String ROOT = "/"; 
 		public static final String FLASHMOBS = "/flashmobs";

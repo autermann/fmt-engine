@@ -19,6 +19,7 @@ package de.ifgi.fmt.model;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 
 import com.google.code.morphia.annotations.Entity;
@@ -96,6 +97,17 @@ public class Flashmob extends Identifiable {
 	@Reference(Flashmob.COORDINATOR)
 	private User coordinator;
 	
+	public Flashmob(ObjectId id) {
+		super(id);
+	}
+
+	public Flashmob(String id) {
+		super(id);
+	}
+
+	public Flashmob() {
+		super();
+	}
 
 	public String getDescription() {
 		return description;

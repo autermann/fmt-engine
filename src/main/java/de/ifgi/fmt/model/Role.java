@@ -19,6 +19,8 @@ package de.ifgi.fmt.model;
 
 import java.util.Set;
 
+import org.bson.types.ObjectId;
+
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
@@ -49,30 +51,42 @@ public class Role extends Identifiable {
 
 	@Property(Role.ITEMS)
 	private Set<String> items = Utils.set();
-	
+
 	@Property(Role.MIN_COUNT)
 	private int minCount;
-	
+
 	@Property(Role.MAX_COUNT)
 	private int maxCount;
-	
+
 	@Property(Role.START_POINT)
 	private Point startPoint;
-	
+
 	@Property(Role.CATEGORY)
 	private Category category;
-	
+
 	@Property(Role.DESCRIPTION)
 	private String description;
 
 	@Reference(Role.ACTIVITIES)
 	private Set<Activity> activites = Utils.set();
-	
+
 	@Reference(Role.FLASHMOB)
 	private Flashmob flashmob;
-	
+
 	@Reference(Role.USERS)
 	private Set<User> users = Utils.set();
+
+	public Role(ObjectId id) {
+		super(id);
+	}
+
+	public Role(String id) {
+		super(id);
+	}
+
+	public Role() {
+		super();
+	}
 
 	public Set<String> getItems() {
 		return items;
@@ -91,12 +105,12 @@ public class Role extends Identifiable {
 		this.users = users;
 		return this;
 	}
-	
+
 	public Role addUser(User u) {
 		getUsers().add(u);
 		return this;
 	}
-	
+
 	public Role removeUser(User u) {
 		getUsers().remove(u);
 		return this;

@@ -17,6 +17,7 @@
  */
 package de.ifgi.fmt.model.signal;
 
+import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -30,6 +31,18 @@ import de.ifgi.fmt.mongo.Identifiable;
 public abstract class Signal extends Identifiable {
 	
 	public static final String COLLECTION_NAME = "signals";
+
+	public Signal(ObjectId id) {
+		super(id);
+	}
+
+	public Signal(String id) {
+		super(id);
+	}
+
+	public Signal() {
+		super();
+	}
 	
 	public String getType() {
 		return getClass().getName()

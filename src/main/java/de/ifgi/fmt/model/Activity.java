@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.bson.types.ObjectId;
+
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Polymorphic;
@@ -45,7 +47,7 @@ public class Activity extends Identifiable {
 	public static final String FLASHMOB = "flashmob";
 	public static final String TRIGGER = "trigger";
 	public static final String SIGNAL = "signal";
-	
+
 	public static final String TASKS = "savedTasks";
 
 	@Indexed
@@ -81,6 +83,18 @@ public class Activity extends Identifiable {
 		for (Entry<Role, Task> e : tasks.entrySet()) {
 			savedTasks.add(new TaskForRole(e.getKey(), e.getValue()));
 		}
+	}
+
+	public Activity(ObjectId id) {
+		super(id);
+	}
+
+	public Activity(String id) {
+		super(id);
+	}
+
+	public Activity() {
+		super();
 	}
 
 	public String getTitle() {

@@ -17,6 +17,8 @@
  */
 package de.ifgi.fmt.model.trigger;
 
+import org.bson.types.ObjectId;
+
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Polymorphic;
@@ -36,6 +38,17 @@ public class Trigger extends Identifiable {
 	@Reference(Trigger.FLASHMOB)
 	private Flashmob flashmob;
 	
+	public Trigger(ObjectId id) {
+		super(id);
+	}
+
+	public Trigger(String id) {
+		super(id);
+	}
+
+	public Trigger() {
+		super();
+	}
 
 	public Flashmob getFlashmob() {
 		return flashmob;

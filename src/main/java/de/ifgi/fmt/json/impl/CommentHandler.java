@@ -29,7 +29,6 @@ import javax.ws.rs.core.UriInfo;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import de.ifgi.fmt.json.JSONEncoder;
 import de.ifgi.fmt.json.JSONFactory;
 import de.ifgi.fmt.json.JSONFactory.Decodes;
 import de.ifgi.fmt.json.JSONFactory.Encodes;
@@ -45,28 +44,41 @@ public class CommentHandler extends JSONHandler<Comment> {
 
 	@Override
 	public Comment decode(JSONObject j) throws JSONException {
-		// TODO
-		throw new UnsupportedOperationException("Not yet implemented");
+		Comment c = new Comment();
+		c.setText(j.optString(TEXT_KEY, null));
+
+		String flashmob = j.optString(FLASHMOB_KEY, null);
+		if (flashmob != null) {
+			c.setFlashmob(new Flashmob(flashmob));
+		}
+
+		String time = j.optString(TIME_KEY, null);
+		if (time != null) {
+			c.setTime(getDateTimeFormat().parseDateTime(time));
+		}
+		
+		String user = j.optString(USER_KEY, null);
+		if (user != null) {
+			c.setUser(new User(user));
+		}
+		return c;
 	}
 
 	@Override
 	public JSONObject encode(Comment t, UriInfo uri) throws JSONException {
 		JSONObject j = new JSONObject().put(ID_KEY, t.getId());
-		if (uri != null) {
-			if (t.getFlashmob() != null) {
-				JSONEncoder<Flashmob> fenc = JSONFactory
-						.getEncoder(Flashmob.class);
-				j.put(FLASHMOB_KEY,
-						fenc.encodeAsReference(t.getFlashmob(), uri));
-			}
-			if (t.getUser() != null) {
-				JSONEncoder<User> uenc = JSONFactory.getEncoder(User.class);
-				j.put(USER_KEY, uenc.encodeAsReference(t.getUser(), uri));
-			}
+		if (t.getTime() != null) {
+			j.put(TIME_KEY, getDateTimeFormat().print(t.getTime()));
 		}
-
-		j.put(TIME_KEY, getDateTimeFormat().print(t.getTime()));
-		j.put(TEXT_KEY, t.getText());
+		if (t.getText() != null) {
+			j.put(TEXT_KEY, t.getText());
+		}
+		if (t.getFlashmob() != null) {
+			j.put(FLASHMOB_KEY, (uri != null) ? JSONFactory.getEncoder(Flashmob.class).encodeAsReference(t.getFlashmob(), uri) : t.getFlashmob());
+		}
+		if (t.getUser() != null) {
+			j.put(USER_KEY, (uri != null) ? JSONFactory.getEncoder(User.class).encodeAsReference(t.getUser(), uri) : t.getUser());
+		}
 
 		return j;
 	}
@@ -74,8 +86,9 @@ public class CommentHandler extends JSONHandler<Comment> {
 	@Override
 	public JSONObject encodeAsReference(Comment t, UriInfo uriInfo)
 			throws JSONException {
-		return new JSONObject().put(ID_KEY, t.getId()).put(HREF_KEY,
-				uriInfo.getAbsolutePathBuilder().path(Paths.COMMENT).build(t));
+		return new JSONObject()
+			.put(ID_KEY, t.getId())
+			.put(HREF_KEY, uriInfo.getAbsolutePathBuilder().path(Paths.COMMENT).build(t));
 	}
 
 }

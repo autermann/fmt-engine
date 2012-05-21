@@ -49,9 +49,11 @@ import com.vividsolutions.jts.geom.Point;
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.json.JSONFactory.Decodes;
 import de.ifgi.fmt.json.JSONFactory.Encodes;
+import de.ifgi.fmt.json.JSONFactory;
 import de.ifgi.fmt.json.JSONHandler;
 import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.model.Role;
+import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
 @Decodes(Flashmob.class)
@@ -78,14 +80,21 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 				throw ServiceError.badRequest(e);
 			}
 		}
-		
-		String start = j.optString(START_TIME_KEY, null);
-		String end = j.optString(END_TIME_KEY, null);
-		String publish = j.optString(PUBLISH_TIME_KEY, null);
 
-		if (start != null) { f.setStart(getDateTimeFormat().parseDateTime(start)); }
-		if (end != null) { f.setEnd(getDateTimeFormat().parseDateTime(end)); }
-		if (publish != null) { f.setPublish(getDateTimeFormat().parseDateTime(publish)); }
+		String start = j.optString(START_TIME_KEY, null);
+		if (start != null) {
+			f.setStart(getDateTimeFormat().parseDateTime(start));
+		}
+
+		String end = j.optString(END_TIME_KEY, null);
+		if (end != null) {
+			f.setEnd(getDateTimeFormat().parseDateTime(end));
+		}
+		
+		String publish = j.optString(PUBLISH_TIME_KEY, null);
+		if (publish != null) {
+			f.setPublish(getDateTimeFormat().parseDateTime(publish));
+		}
 		return f;
 	}
 		
@@ -135,27 +144,26 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 		
 		j.put(PUBLIC_KEY, f.isPublic());
 		j.put(VALIDITY_KEY, f.getValidity());
+		
 		if (f.getCoordinator() != null) {
-			if (uri != null) {
-				j.put(COORDINATOR_KEY, uri.getBaseUriBuilder().path(Paths.USER).build(f.getCoordinator().getId()));
-			} else {
-				j.put(COORDINATOR_KEY, f.getCoordinator().getId());
-			}
+			j.put(COORDINATOR_KEY, (uri != null) ? JSONFactory.getEncoder(User.class).encodeAsReference(f.getCoordinator(), uri) : f.getCoordinator());
 		}
 		
 		if (uri != null) {
-			j.put(ACTIVITIES_KEY, uri.getBaseUriBuilder().path(Paths.ACTIVITIES_OF_FLASHMOB).build(f.getId()));
-			j.put(ROLES_KEY, uri.getBaseUriBuilder().path(Paths.ROLES_FOR_FLASHMOB).build(f.getId()));
-			j.put(TRIGGERS_KEY, uri.getBaseUriBuilder().path(Paths.TRIGGERS_OF_FLASHMOB).build(f.getId()));
-			j.put(COMMENTS_KEY, uri.getBaseUriBuilder().path(Paths.COMMENTS_FOR_FLASHMOB).build(f.getId()));
-			j.put(PARTICIPANTS_KEY, uri.getBaseUriBuilder().path(Paths.USERS_OF_FLASHMOB).build(f.getId()));
+			j.put(ACTIVITIES_KEY, uri.getAbsolutePathBuilder().path(Paths.ACTIVITIES).build());
+			j.put(ROLES_KEY, uri.getAbsolutePathBuilder().path(Paths.ROLES).build());
+			j.put(TRIGGERS_KEY, uri.getAbsolutePathBuilder().path(Paths.TRIGGERS).build());
+			j.put(COMMENTS_KEY, uri.getAbsolutePathBuilder().path(Paths.COMMENTS).build());
+			j.put(PARTICIPANTS_KEY, uri.getAbsolutePathBuilder().path(Paths.USERS).build());
 		}
 		return j;
 	}
 
 	@Override
 	public JSONObject encodeAsReference(Flashmob t, UriInfo uriInfo) throws JSONException {
-		return encode(t, null).put(HREF_KEY, uriInfo.getBaseUriBuilder().path(Paths.FLASHMOB).build(t.getId()));
+		return encode(t, null)
+				.put(HREF_KEY, uriInfo.getBaseUriBuilder().path(Paths.FLASHMOB)
+				.build(t.getId()));
 	}
 
 }

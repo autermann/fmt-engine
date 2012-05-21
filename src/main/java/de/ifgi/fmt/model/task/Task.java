@@ -17,6 +17,8 @@
  */
 package de.ifgi.fmt.model.task;
 
+import org.bson.types.ObjectId;
+
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Polymorphic;
@@ -45,6 +47,18 @@ public class Task extends Identifiable {
 	@Indexed
 	@Reference(Task.ACTIVITY)
 	private Activity activity;
+	
+	public Task(ObjectId id) {
+		super(id);
+	}
+
+	public Task(String id) {
+		super(id);
+	}
+
+	public Task() {
+		super();
+	}
 	
 	public String getDescription() {
 		return description;

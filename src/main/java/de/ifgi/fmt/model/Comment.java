@@ -17,6 +17,7 @@
  */
 package de.ifgi.fmt.model;
 
+import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 
 import com.google.code.morphia.annotations.Entity;
@@ -51,6 +52,18 @@ public class Comment extends Identifiable {
 	@Indexed
 	@Property(Comment.TIME)
 	private DateTime time;
+
+	public Comment(ObjectId id) {
+		super(id);
+	}
+
+	public Comment(String id) {
+		super(id);
+	}
+
+	public Comment() {
+		super();
+	}
 
 	public Flashmob getFlashmob() {
 		return flashmob;

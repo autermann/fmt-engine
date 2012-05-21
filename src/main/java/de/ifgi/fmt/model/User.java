@@ -17,6 +17,8 @@
  */
 package de.ifgi.fmt.model;
 
+import org.bson.types.ObjectId;
+
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Polymorphic;
@@ -45,6 +47,18 @@ public class User extends Identifiable {
 
 	@Property(User.PASSWORD_HASH)
 	private String passwordHash;
+	
+	public User(ObjectId id) {
+		super(id);
+	}
+
+	public User(String id) {
+		super(id);
+	}
+
+	public User() {
+		super();
+	}
 
 	public String getUsername() {
 		return username;

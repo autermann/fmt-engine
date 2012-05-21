@@ -34,19 +34,19 @@ import javax.ws.rs.core.UriInfo;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.uncertweb.api.gml.io.JSONGeometryEncoder;
 
 import de.ifgi.fmt.ServiceError;
+import de.ifgi.fmt.json.JSONFactory;
 import de.ifgi.fmt.json.JSONFactory.Decodes;
 import de.ifgi.fmt.json.JSONFactory.Encodes;
 import de.ifgi.fmt.json.JSONHandler;
+import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.model.Role;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
 @Encodes(Role.class)
 @Decodes(Role.class)
 public class RoleHandler extends JSONHandler<Role>{
-	private final JSONGeometryEncoder geomenc = new JSONGeometryEncoder();
 	
 	@Override
 	public Role decode(JSONObject j) throws JSONException {
@@ -57,18 +57,26 @@ public class RoleHandler extends JSONHandler<Role>{
 	@Override
 	public JSONObject encode(Role t, UriInfo uri) throws JSONException {
 		JSONObject j = new JSONObject().put(ID_KEY, t.getId());
-		JSONArray items = new JSONArray();
-		for (String item : t.getItems()) {
-			items.put(item);
-		}
-		j.put(ITEMS_KEY, items);
-		j.put(MIN_PARTICIPANTS_KEY, t.getMinCount());
-		j.put(MAX_PARTICIPANTS_KEY, t.getMaxCount());
-		j.put(DESCRIPTION_KEY, t.getDescription());
 		
+		if (t.getItems() != null) {
+			JSONArray items = new JSONArray();
+			for (String item : t.getItems()) {
+				items.put(item);
+			}
+			j.put(ITEMS_KEY, items);
+		}
+		if (t.getMinCount() >= 0) {
+		j.put(MIN_PARTICIPANTS_KEY, t.getMinCount());
+		}
+		if (t.getMaxCount() >= 0) {
+			j.put(MAX_PARTICIPANTS_KEY, t.getMaxCount());
+		}
+		if (t.getDescription() != null) {
+			j.put(DESCRIPTION_KEY, t.getDescription());
+		}
 		if (t.getStartPoint() != null) {
 			try {
-				j.put(LOCATION_KEY, new JSONObject(geomenc.encodeGeometry(t.getStartPoint())));
+				j.put(LOCATION_KEY, new JSONObject(getGeometryEncoder().encodeGeometry(t.getStartPoint())));
 			} catch (Exception e) {
 				throw ServiceError.internal(e);
 			}
@@ -77,10 +85,13 @@ public class RoleHandler extends JSONHandler<Role>{
 		if (t.getCategory() != null) {
 			j.put(CATEGORY_KEY, t.getCategory());
 		}
+		if (t.getFlashmob() != null) {
+			j.put(FLASHMOB_KEY, (uri != null) ? JSONFactory.getEncoder(Flashmob.class).encodeAsReference(t.getFlashmob(), uri) : t.getFlashmob());
+		}
+		
 		if (uri != null) {
-			j.put(FLASHMOB_KEY, uri.getBaseUriBuilder().path(Paths.FLASHMOB).build(t.getFlashmob()));
-			j.put(ACTIVITIES_KEY, uri.getBaseUriBuilder().path(Paths.ACTIVITIES_OF_ROLE_OF_FLASHMOB).build(t.getFlashmob(),t));
-			j.put(USERS_KEY, uri.getBaseUriBuilder().path(Paths.USER_OF_ROLE_OF_FLASHMOB).build(t.getFlashmob(),t));
+			j.put(ACTIVITIES_KEY, uri.getAbsolutePathBuilder().path(Paths.ACTIVITIES).build());
+			j.put(USERS_KEY, uri.getAbsolutePathBuilder().path(Paths.USERS).build());
 		}
 		
 		return j;
@@ -91,7 +102,7 @@ public class RoleHandler extends JSONHandler<Role>{
 		//TODO check if its an role of an activity (different urls)
 		return new JSONObject()
 			.put(ID_KEY, t.getId())
-			.put(HREF_KEY, uriInfo.getBaseUriBuilder().path(Paths.ROLE_FOR_FLASHMOB).build(t.getFlashmob(),t));
+			.put(HREF_KEY, uriInfo.getAbsolutePathBuilder().path(Paths.ROLE).build(t));
 	}
 
 }
