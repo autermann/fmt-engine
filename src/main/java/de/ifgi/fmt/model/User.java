@@ -27,7 +27,6 @@ import com.google.code.morphia.annotations.Property;
 import de.ifgi.fmt.mongo.Identifiable;
 import de.ifgi.fmt.utils.BCrypt;
 
-
 @Polymorphic
 @Entity(User.COLLECTION_NAME)
 public class User extends Identifiable {
@@ -38,16 +37,16 @@ public class User extends Identifiable {
 	public static final String USERNAME = "username";
 
 	@Property(User.USERNAME)
-	@Indexed(unique=true)
+	@Indexed(unique = true, sparse = true)
 	private String username;
-	
+
 	@Property(User.EMAIL)
-	@Indexed(unique=true)
+	@Indexed(unique = true, sparse = true)
 	private String email;
 
 	@Property(User.PASSWORD_HASH)
 	private String passwordHash;
-	
+
 	public User(ObjectId id) {
 		super(id);
 	}
@@ -86,11 +85,11 @@ public class User extends Identifiable {
 		this.passwordHash = passwordHash;
 		return this;
 	}
-	
+
 	public User setPassword(String password) {
 		return setPasswordHash(hash(password));
 	}
-	
+
 	public boolean isValidPassword(String password) {
 		return BCrypt.checkpw(password, getPasswordHash());
 	}
@@ -101,5 +100,5 @@ public class User extends Identifiable {
 		}
 		return BCrypt.hashpw(unhashed, BCrypt.gensalt());
 	}
-	
+
 }

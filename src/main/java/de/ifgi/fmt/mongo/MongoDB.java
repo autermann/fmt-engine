@@ -33,6 +33,7 @@ import com.google.code.morphia.converters.TypeConverter;
 import com.google.code.morphia.dao.BasicDAO;
 import com.mongodb.Mongo;
 import com.mongodb.ServerAddress;
+import com.mongodb.WriteConcern;
 
 import de.ifgi.fmt.utils.Implementations;
 import de.ifgi.fmt.utils.Stringifier;
@@ -142,6 +143,8 @@ public class MongoDB {
 
 		protected MongoDao(Class<T> entityClass) {
 			super(entityClass, getInstance().getDatastore());
+			getDatastore().setDefaultWriteConcern(WriteConcern.SAFE);
+			getDatastore().ensureCaps();
 			getDatastore().ensureIndexes();
 		}
 

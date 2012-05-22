@@ -25,13 +25,18 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sun.jersey.api.client.ClientHandlerException;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.test.framework.JerseyTest;
 
+import de.ifgi.fmt.mongo.MongoDB;
 import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.HeaderParams;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
@@ -56,9 +61,15 @@ public class FlashMobTest extends JerseyTest {
 	public void setUp() throws Exception {
 		try {
 			super.setUp();
+			clearDatabase();
 		} catch(Throwable t) {
 			t.printStackTrace();
 		}
+	}
+	
+	private void clearDatabase() {
+		MongoDB db = MongoDB.getInstance();
+		db.getMongo().dropDatabase(db.getDatabase());
 	}
 	
 	@Test
@@ -117,17 +128,77 @@ public class FlashMobTest extends JerseyTest {
 	
 
 	@Test
-	public void testPOSTUsers() throws JSONException {
-		getWebResource()
+	public void testCreateUser() throws JSONException {
+		addUser(createUser(getUsername(), getMail(), getPassword()));
+	}
+
+	public String getPassword() {
+		return Long.toString(System.currentTimeMillis());
+	}
+	
+	public String getUsername() {
+//		return Long.toString(System.currentTimeMillis());
+		return "user" + (int) Math.floor(Math.random()*1e6);
+	}
+	
+	public String getMail() {
+		return System.currentTimeMillis() + "@email.tld";
+	}
+	
+	public JSONObject createUser(String username, String mail, String password) throws JSONException {
+		JSONObject j = new JSONObject();
+		if (username != null) {
+			j.put(JSONConstants.USERNAME_KEY, username);
+		}
+		if (mail != null) {
+			j.put(JSONConstants.EMAIL_KEY, mail);
+		}
+		if (password != null) {
+			j.put(JSONConstants.PASSWORD_KEY, getPassword());
+		}
+		return j;
+	}
+	
+	public ClientResponse getUsers() {
+		return getWebResource()
+				.path(Paths.USERS)
+				.accept(MediaTypes.USER_LIST)
+				.get(ClientResponse.class);
+	}
+	
+	public void printUsers() throws ClientHandlerException, UniformInterfaceException, JSONException {
+//		JSONArray a = getUsers().getEntity(JSONObject.class).getJSONArray(JSONConstants.USERS_KEY);
+//		Set<String> ids = Utils.set();
+//		for (int i = 0; i< a.length();++i) {
+//			ids.add(a.getJSONObject(i).getString(JSONConstants.ID_KEY));
+//		}
+//		System.err.println("Users: " + Utils.join(", ", ids));
+		System.err.println(getUsers().getEntity(JSONObject.class).toString(4));
+	}
+	
+	/* if this single test case is executed everything is fine. for the entire class it fails */
+	@Ignore@Test
+	public void testCreateUserWithDuplicateMailAddress() throws JSONException {
+		String mail = getMail();
+		assertEquals(201, addUser(createUser(getUsername(), mail, getPassword())).getStatus());
+		assertEquals(400, addUser(createUser(getUsername(), mail, getPassword())).getStatus());
+	}
+	
+	/* if this single test case is executed everything is fine. for the entire class it fails */
+	@Ignore@Test
+	public void testCreateUserWithDuplicateUsername() throws JSONException {
+		String username = getUsername();
+		assertEquals(201, addUser(createUser(username, getMail(), getPassword())).getStatus());
+		assertEquals(400, addUser(createUser(username, getMail(), getPassword())).getStatus());
+	}
+	
+	public ClientResponse addUser(JSONObject u) {
+		return getWebResource()
 				.path(Paths.USERS)
 				.accept(MediaTypes.USER)
 				.header(HeaderParams.CONTENT_TYPE, MediaTypes.USER)
-				.entity(new JSONObject()
-					.put(JSONConstants.USERNAME_KEY, "user" + System.currentTimeMillis())
-					.put(JSONConstants.EMAIL_KEY, System.currentTimeMillis() + "@email.tld")
-					.put(JSONConstants.PASSWORD_KEY, Long.toString(System.currentTimeMillis()))
-				)
-				.post(JSONObject.class);
+				.entity(u)
+				.post(ClientResponse.class);
 	}
 	@Test
 	public void testGetUsers() {
