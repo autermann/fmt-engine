@@ -172,7 +172,7 @@ public interface RESTConstants {
 		public static final String FLASHMOB_OF_USER = USER + FLASHMOB;
 		public static final String ACTIVITIES_OF_FLASHMOB_OF_USER = FLASHMOB_OF_USER + ACTIVITIES;
 		public static final String ACTIVITY_OF_FLASHMOB_OF_USER = FLASHMOB_OF_USER + ACTIVITY;
-		public static final String TASK_OF_ACTIVITY_OF_FLASHMOB_OF_USER = ACTIVITIES_OF_FLASHMOB_OF_USER + TASK;
+		public static final String TASK_OF_ACTIVITY_OF_FLASHMOB_OF_USER = ACTIVITY_OF_FLASHMOB_OF_USER + TASK;
 		
 	}
 }
