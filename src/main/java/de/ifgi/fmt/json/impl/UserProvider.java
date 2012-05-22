@@ -44,7 +44,7 @@ public class UserProvider extends JSONHandler<User> {
 		User u = new User().setEmail(j.optString(EMAIL_KEY, null))
 				.setPassword(j.optString(PASSWORD_KEY, null))
 				.setUsername(j.optString(USERNAME_KEY, null));
-		String id = j.optString(ID_KEY);
+		String id = j.optString(ID_KEY, null);
 		if (id != null) {
 			u.setId(new ObjectId(id));
 		}

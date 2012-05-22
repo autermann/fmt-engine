@@ -46,7 +46,7 @@ public class CommentHandler extends JSONHandler<Comment> {
 	@Override
 	public Comment decode(JSONObject j) throws JSONException {
 		Comment c = new Comment();
-		String id = j.optString(ID_KEY);
+		String id = j.optString(ID_KEY, null);
 		if (id != null) {
 			c.setId(new ObjectId(id));
 		}

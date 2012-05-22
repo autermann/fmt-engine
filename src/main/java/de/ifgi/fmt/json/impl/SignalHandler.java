@@ -52,7 +52,7 @@ public class SignalHandler extends JSONHandler<Signal> {
 			s = new VibrationSignal();
 		else
 			throw ServiceError.badRequest(String.format("Signal type %s is unknown.", type));
-		String id = j.optString(ID_KEY);
+		String id = j.optString(ID_KEY, null);
 		if (id != null) {
 			s.setId(new ObjectId(id));
 		}

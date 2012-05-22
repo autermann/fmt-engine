@@ -86,7 +86,7 @@ public class TriggerHandler extends JSONHandler<Trigger> {
 			throw ServiceError.badRequest("trigger not specified");
 		}
 		
-		String id = j.optString(ID_KEY);
+		String id = j.optString(ID_KEY, null);
 		if (id != null) {
 			t.setId(new ObjectId(id));
 		}

@@ -59,7 +59,7 @@ public class RoleHandler extends JSONHandler<Role>{
 	@Override
 	public Role decode(JSONObject j) throws JSONException {
 		Role r = new Role();
-		String id = j.optString(ID_KEY);
+		String id = j.optString(ID_KEY, null);
 		if (id != null) {
 			r.setId(new ObjectId(id));
 		}

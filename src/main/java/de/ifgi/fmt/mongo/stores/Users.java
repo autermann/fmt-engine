@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.code.morphia.query.Query;
+import com.mongodb.MongoException;
 
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.Comment;
@@ -60,7 +61,11 @@ public class Users implements ExtendedDao<User>{
 
 	public User save(User u) {
 		log.debug("Saving User {}", u);
-		getUserDao().save(u);
+		try {
+			getUserDao().save(u);
+		} catch (MongoException.DuplicateKey e) {
+			throw ServiceError.badRequest("Duplicate username or email address");
+		}
 		return u;
 	}
 

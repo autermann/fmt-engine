@@ -17,10 +17,11 @@
  */
 package de.ifgi.fmt.web;
 
+import static org.junit.Assert.assertEquals;
+
 import javax.ws.rs.core.MediaType;
 
-import static org.junit.Assert.*;
-
+import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -31,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.test.framework.JerseyTest;
 
+import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.HeaderParams;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
@@ -115,12 +117,16 @@ public class FlashMobTest extends JerseyTest {
 	
 
 	@Test
-	public void testPOSTUsers() {
+	public void testPOSTUsers() throws JSONException {
 		getWebResource()
 				.path(Paths.USERS)
 				.accept(MediaTypes.USER)
 				.header(HeaderParams.CONTENT_TYPE, MediaTypes.USER)
-				.entity(new JSONObject())
+				.entity(new JSONObject()
+					.put(JSONConstants.USERNAME_KEY, "user" + System.currentTimeMillis())
+					.put(JSONConstants.EMAIL_KEY, System.currentTimeMillis() + "@email.tld")
+					.put(JSONConstants.PASSWORD_KEY, Long.toString(System.currentTimeMillis()))
+				)
 				.post(JSONObject.class);
 	}
 	@Test

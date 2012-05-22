@@ -92,7 +92,7 @@ public class TaskHandler extends JSONHandler<Task> {
 		}
 		
 		
-		String id = j.optString(ID_KEY);
+		String id = j.optString(ID_KEY, null);
 		if (id != null) {
 			t.setId(new ObjectId(id));
 		}

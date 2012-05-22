@@ -66,7 +66,7 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 	public Flashmob decode(JSONObject j) throws JSONException {
 		log.debug("Decoding Flashmob {}", j);
 		Flashmob f = new Flashmob();
-		String id = j.optString(ID_KEY);
+		String id = j.optString(ID_KEY, null);
 		if (id != null) {
 			f.setId(new ObjectId(id));
 		}
