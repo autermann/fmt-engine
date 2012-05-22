@@ -23,6 +23,7 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.*;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -39,27 +40,30 @@ public class UserProvider extends JSONHandler<User> {
 
 	@Override
 	public User decode(JSONObject j) throws JSONException {
-		return new User()
-			.setEmail(j.optString(EMAIL_KEY, null))
-			.setPassword(j.optString(PASSWORD_KEY, null))
-			.setUsername(j.optString(USERNAME_KEY, null));
+
+		User u = new User().setEmail(j.optString(EMAIL_KEY, null))
+				.setPassword(j.optString(PASSWORD_KEY, null))
+				.setUsername(j.optString(USERNAME_KEY, null));
+		String id = j.optString(ID_KEY);
+		if (id != null) {
+			u.setId(new ObjectId(id));
+		}
+		return u;
 	}
 
 	@Override
 	public JSONObject encode(User t, UriInfo uri) throws JSONException {
-		JSONObject j = new JSONObject()
-			.put(ID_KEY, t.getId())
-			.put(USERNAME_KEY, t.getUsername())
-			.put(EMAIL_KEY, t.getEmail());
+		JSONObject j = new JSONObject().put(ID_KEY, t.getId())
+				.put(USERNAME_KEY, t.getUsername())
+				.put(EMAIL_KEY, t.getEmail());
 		return j;
 
 	}
 
 	@Override
-	public JSONObject encodeAsRef(User t, UriInfo uriInfo)
-			throws JSONException {
-		return new JSONObject()
-				.put(JSONConstants.ID_KEY, t.getId())
-				.put(JSONConstants.HREF_KEY, uriInfo.getBaseUriBuilder().path(Paths.USER).build(t));
+	public JSONObject encodeAsRef(User t, UriInfo uriInfo) throws JSONException {
+		return new JSONObject().put(JSONConstants.ID_KEY, t.getId()).put(
+				JSONConstants.HREF_KEY,
+				uriInfo.getBaseUriBuilder().path(Paths.USER).build(t));
 	}
 }

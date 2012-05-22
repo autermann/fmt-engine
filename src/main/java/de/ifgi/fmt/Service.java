@@ -49,65 +49,141 @@ public class Service {
 		return (service == null) ? service = new Service() : service;
 	}
 
-	private Store store = new Store();
-
-	public Store getStore() {
-		return this.store;
-	}
-
-	public Flashmob getFlashmob(ObjectId flashmob) {
-		Flashmob f = getStore().flashmobs().get(flashmob);
-		if (f.isNotChecked()) {
-			if (validateFlashmob(f)) {
-				f.setValid();
-			} else {
-				f.setNotValid();
-			}
-			getStore().flashmobs().save(f);
-		}
-		return f;
-	}
-
 	private static boolean validateFlashmob(Flashmob f) {
 		return false; // TODO validity check
+	}
+
+	private Store store = new Store();
+
+	public Activity addActivity(Activity a, ObjectId flashmob) {
+		Flashmob f = getFlashmob(flashmob);
+		getStore().flashmobs().save(f.addActivity(a));
+		return a;
+	}
+
+	public Comment addComment(ObjectId flashmob, Comment comment) {
+		getStore().comments().save(comment.setFlashmob(getFlashmob(flashmob)));
+		return comment;
+	}
+
+	public Role addRole(ObjectId flashmob, Role r) {
+		Flashmob f = getFlashmob(flashmob);
+		getStore().flashmobs().save(f.addRole(r));
+		return r;
+	}
+
+	public Activity addRoleToActivity(Activity activity, ObjectId role,
+			ObjectId flashmob) {
+		Flashmob f = getFlashmob(flashmob);
+		Role r = getRole(f, role);
+		Activity a = getActivity(f, activity.getId());
+		addRoleToActivity(a, r, f);
+		return a;
+	}
+
+	public void addRoleToActivity(Activity activity, Role role,
+			Flashmob flashmob) {
+		activity.addRole(role);
+		getStore().roles().save(role);
+		getStore().activities().save(activity);
+	}
+
+	public Role addRoleToActivity(ObjectId activity, Role role,
+			ObjectId flashmob) {
+		Flashmob f = getFlashmob(flashmob);
+		Activity a = getActivity(f, activity);
+		Role r = getRole(f, role.getId());
+		addRoleToActivity(a, r, f);
+		return r;
+	}
+
+	public Signal addSignal(Signal s, ObjectId activity, ObjectId flashmob) {
+		Flashmob f = getFlashmob(flashmob);
+		Activity a = getActivity(f, activity);
+		getStore().activities().save(a.setSignal(s));
+		return s;
+	}
+
+	public Task addTask(Task t, ObjectId role, ObjectId activity,
+			ObjectId flashmob) {
+		Flashmob f = getFlashmob(flashmob);
+		return addTask(t, getRole(f, role), getActivity(f, activity));
+	}
+
+	public Task addTask(Task t, Role role, Activity activity) {
+		getStore().activities().save(activity.addTask(role, t));
+		return t;
+	}
+
+	public Trigger addTrigger(Trigger t, Flashmob flashmob) {
+		getStore().flashmobs().save(flashmob.addTrigger(t));
+		return t;
+	}
+
+	public Trigger addTrigger(Trigger t, ObjectId flashmob) {
+		return addTrigger(t, getFlashmob(flashmob));
 	}
 
 	public Flashmob createFlashmob(Flashmob f) {
 		return getStore().flashmobs().save(f);
 	}
 
-	public Flashmob updateFlashmob(ObjectId id, Flashmob flashmob) {
-		return getStore().flashmobs().save(update(getFlashmob(id), flashmob));
+	public User createUser(User u) {
+		return getStore().users().save(u);
 	}
 
-	public Trigger addTrigger(Trigger t, ObjectId flashmob) {
-		Flashmob f = getFlashmob(flashmob);
-		f.addTrigger(t);
-		getStore().flashmobs().save(f);
-		return t;
+	public void deleteActivity(Flashmob flashmob, Activity activity) {
+		getStore().activities().delete(activity);
 	}
 
-	public Role getRole(Flashmob f, ObjectId role) {
-		Role r = getStore().roles().get(role);
-		if (!r.getFlashmob().equals(f) || !f.getRoles().contains(r)) {
-			throw ServiceError.roleNotFound();
-		}
-		return r;
+	public void deleteActivity(Flashmob flashmob, ObjectId activity) {
+		deleteActivity(flashmob, getActivity(flashmob, activity));
 	}
 
-	public Role getRole(ObjectId role, ObjectId flashmob) {
-		Flashmob f = getFlashmob(flashmob);
-		return getRole(f, role);
+	public void deleteActivity(ObjectId flashmob, ObjectId activity) {
+		deleteActivity(getFlashmob(flashmob), activity);
 	}
 
-	public Role updateRole(Role changes, ObjectId role, ObjectId flashmob) {
-		return getStore().roles().save(update(getRole(flashmob, role), changes));
+	public void deleteFlashmob(Flashmob flashmob) {
+		getStore().flashmobs().delete(flashmob);
 	}
 
-	public User registerUser(User u, ObjectId role, ObjectId flashmob) {
-		Role r = getRole(flashmob, role);
-		getStore().roles().save(r.addUser(u));
-		return u;
+	public void deleteFlashmob(ObjectId flashmob) {
+		deleteFlashmob(getFlashmob(flashmob));
+	}
+
+	public void deleteTrigger(Flashmob flashmob, ObjectId trigger) {
+		deleteTrigger(flashmob, getTrigger(flashmob, trigger));
+	}
+
+	public void deleteTrigger(Flashmob flashmob, Trigger trigger) {
+		getStore().triggers().delete(trigger);
+	}
+
+	public void deleteTrigger(ObjectId flashmob, ObjectId trigger) {
+		deleteTrigger(getFlashmob(flashmob), trigger);
+	}
+
+	public void deleteUser(ObjectId user) {
+		deleteUser(getUser(user));
+	}
+
+	public void deleteUser(User user) {
+		getStore().users().delete(user);
+	}
+
+	public List<Activity> getActivities(ObjectId flashmob) {
+		return getFlashmob(flashmob).getActivities();
+	}
+
+	public List<Activity> getActivitiesForRole(ObjectId role, ObjectId flashmob) {
+		return Utils.asList(getRole(getFlashmob(flashmob), role)
+				.getActivities());
+	}
+
+	public List<Activity> getActivitiesForUser(ObjectId user, ObjectId flashmob) {
+		return getStore().activities()
+				.get(getFlashmob(flashmob), getUser(user));
 	}
 
 	public Activity getActivity(Flashmob flashmob, ObjectId activity) {
@@ -123,12 +199,188 @@ public class Service {
 		return getActivity(getFlashmob(flashmob), activity);
 	}
 
-	public Task addTask(Task t, ObjectId role, ObjectId activity,
-			ObjectId flashmob) {
-		Role r = getRole(flashmob,role);
-		Activity a = getActivity(flashmob, activity);
-		getStore().activities().save(a.addTask(r, t));
+	public List<Comment> getCommentsForFlashmob(ObjectId flashmob) {
+		return getStore().comments().get(getFlashmob(flashmob));
+	}
+
+	public Flashmob getFlashmob(ObjectId flashmob) {
+		Flashmob f = getStore().flashmobs().get(flashmob);
+		if (f.isNotChecked()) {
+			if (validateFlashmob(f)) {
+				f.setValid();
+			} else {
+				f.setNotValid();
+			}
+			getStore().flashmobs().save(f);
+		}
+		return f;
+	}
+
+	public Flashmob getFlashmob(ObjectId user, ObjectId flashmob) {
+		User u = getUser(user);
+		Flashmob f = getFlashmob(flashmob);
+		if (!f.hasUser(u)) {
+			throw ServiceError.flashmobNotFound();
+		}
+		return f;
+	}
+
+	public List<Flashmob> getFlashmobs(int limit, Point near, ObjectId user,
+			BoundingBox bbox, DateTime from, DateTime to, Sorting sorting,
+			boolean descending, ShowStatus show, String search,
+			ObjectId participant) {
+		return getStore().flashmobs().get(limit, near, getUser(user), bbox,
+				from, to, sorting, descending, show, search,
+				getUser(participant));
+	}
+
+	public List<Flashmob> getFlashmobsFromUser(ObjectId user) {
+		return getStore().flashmobs().get(getUser(user));
+	}
+
+	public Role getRole(Flashmob f, ObjectId role) {
+		Role r = getStore().roles().get(role);
+		if (!r.getFlashmob().equals(f) || !f.getRoles().contains(r)) {
+			throw ServiceError.roleNotFound();
+		}
+		return r;
+	}
+
+	public Role getRole(ObjectId role, ObjectId flashmob) {
+		Flashmob f = getFlashmob(flashmob);
+		return getRole(f, role);
+	}
+
+	public List<Role> getRoles(ObjectId flashmob) {
+		return getFlashmob(flashmob).getRoles();
+	}
+
+	public List<Role> getRoles(ObjectId activity, ObjectId flashmob) {
+		return getActivity(getFlashmob(flashmob), activity).getRoles();
+	}
+
+	public Signal getSignal(ObjectId flashmob, ObjectId activity) {
+		return getStore().activities().getSignalOfActivity(
+				getActivity(getFlashmob(flashmob), activity));
+	}
+
+	public Store getStore() {
+		return this.store;
+	}
+
+	public Task getTask(ObjectId flashmob, ObjectId role, ObjectId activity) {
+		Flashmob f = getFlashmob(flashmob);
+		Task t = getActivity(f, activity).getTask(getRole(f, role));
+		if (t == null) {
+			throw ServiceError.taskNotFound();
+		}
 		return t;
+	}
+
+	public Task getTaskForActivity(ObjectId activity, ObjectId flashmob,
+			ObjectId user) {
+		User u = getUser(user);
+		Flashmob f = getFlashmob(flashmob);
+		Activity a = getActivity(f, activity);
+		Role r = getStore().roles().get(f, u);
+		if (r == null) {
+			throw ServiceError.roleNotFound();
+		}
+		return a.getTask(r);
+	}
+
+	public Trigger getTrigger(Flashmob flashmob, ObjectId trigger) {
+		Trigger t = getStore().triggers().get(trigger);
+		if (!flashmob.getTriggers().contains(t)
+				|| !t.getFlashmob().equals(flashmob)) {
+			throw ServiceError.triggerNotFound();
+		}
+		return t;
+	}
+
+	public Trigger getTrigger(ObjectId trigger, ObjectId flashmob) {
+		return getTrigger(getFlashmob(flashmob), trigger);
+	}
+
+	public Trigger getTriggerOfActivity(ObjectId flashmob, ObjectId activity) {
+		return getActivity(getFlashmob(flashmob), activity).getTrigger();
+	}
+
+	public List<Trigger> getTriggers(ObjectId flashmob) {
+		return getStore().triggers().get(getFlashmob(flashmob));
+	}
+
+	public User getUser(ObjectId user) {
+		if (user == null) {
+			return null;
+		}
+		return getStore().users().get(user);
+	}
+
+	public List<User> getUsers(int limit) {
+		return getStore().users().get(limit);
+	}
+
+	public List<User> getUsersForRole(ObjectId flashmob, ObjectId role,
+			int limit) {
+		Role r = getRole(flashmob, role);
+		return Utils.sublist(r.getUsers(), 0, limit + 1);
+	}
+
+	public List<User> getUsersOfFlashmob(ObjectId flashmob) {
+		Flashmob f = getFlashmob(flashmob);
+		Set<User> users = Utils.set();
+		for (Role r : f.getRoles()) {
+			users.addAll(r.getUsers());
+		}
+		return Utils.asList(users);
+	}
+
+	public User registerUser(User u, ObjectId role, ObjectId flashmob) {
+		Role r = getRole(flashmob, role);
+		getStore().roles().save(r.addUser(u));
+		return u;
+	}
+
+	public void removeTriggerFromActivity(ObjectId flashmob, ObjectId activity) {
+		Flashmob f = getFlashmob(flashmob);
+		Activity a = getActivity(f, activity);
+		a.setTrigger(null);
+		getStore().activities().save(a);
+	}
+
+	public Trigger setTriggerForActivity(ObjectId flashmob, ObjectId activity,
+			Trigger t) {
+		Flashmob f = getFlashmob(flashmob);
+		Activity a = getActivity(f, activity);
+		t = getTrigger(f, t.getId());
+		a.setTrigger(t);
+		getStore().activities().save(a);
+		return t;
+	}
+
+	public Activity updateActivity(Activity changes, ObjectId activity,
+			ObjectId flashmob) {
+		return getStore().activities().save(
+				update(getActivity(flashmob, activity), changes));
+	}
+
+	public Flashmob updateFlashmob(ObjectId id, Flashmob flashmob) {
+		return getStore().flashmobs().save(update(getFlashmob(id), flashmob));
+	}
+
+	public Role updateRole(Role changes, ObjectId role, ObjectId flashmob) {
+		return getStore().roles()
+				.save(update(getRole(flashmob, role), changes));
+	}
+
+	public Signal updateSignal(Signal signal, ObjectId activity,
+			ObjectId flashmob) {
+		Activity a = getActivity(flashmob, activity);
+		Signal s = getStore().activities().getSignalOfActivity(a);
+		update(s, signal);
+		getStore().activities().save(a);
+		return s;
 	}
 
 	public Task updateTask(Task task, ObjectId role, ObjectId activity,
@@ -145,173 +397,8 @@ public class Service {
 		return t;
 	}
 
-	public Activity addActivity(Activity a, ObjectId role, ObjectId flashmob) {
-		// TODO add activity
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
-
-	public Role addRole(Role r, ObjectId activity, ObjectId flashmob) {
-		// TODO add role
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
-
-	public Signal addSignal(Signal s, ObjectId activity, ObjectId flashmob) {
-		// TODO add signal
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
-
-	public Signal updateSignal(Signal signal, ObjectId activity, ObjectId flashmob) {
-		Activity a = getActivity(flashmob, activity);
-		Signal s = getStore().activities().getSignalOfActivity(a);
-		update(s, signal);
-		getStore().activities().save(a);
-		return s;
-	}
-
-	public Activity updateActivity(Activity changes, ObjectId activity, ObjectId flashmob) {
-		return getStore().activities().save(update(getActivity(flashmob, activity), changes));
-	}
-
-	public Trigger addTrigger(Trigger t, ObjectId activity, ObjectId flashmob) {
-		// TODO add trigger
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
-
-	public Activity addActivity(Activity a, ObjectId flashmob) {
-		Flashmob f = getFlashmob(flashmob);
-		getStore().flashmobs().save(f.addActivity(a));
-		return a;
-	}
-
-	public Role addRole(ObjectId flashmob, Role r) {
-		Flashmob f = getFlashmob(flashmob);
-		getStore().flashmobs().save(f.addRole(r));
-		return r;
-	}
-
-	public Flashmob getFlashmob(ObjectId user, ObjectId flashmob) {
-		User u = getUser(user);
-		Flashmob f = getFlashmob(flashmob);
-		if (!f.hasUser(u)) {
-			throw ServiceError.flashmobNotFound();
-		}
-		return f;
-	}
-
 	public User updateUser(User updates, ObjectId user) {
 		return getStore().users().save(update(getUser(user), updates));
-	}
-
-	public User getUser(ObjectId user) {
-		if (user == null) {
-			return null;
-		}
-		return getStore().users().get(user);
-	}
-
-	public void deleteUser(ObjectId user) {
-		getStore().users().delete(getUser(user));
-	}
-
-	public User createUser(User u) {
-		return getStore().users().save(u);
-	}
-
-	public List<User> getUsers(int limit) {
-		return getStore().users().get(limit);
-	}
-
-	public List<User> getUsersForRole(ObjectId flashmob, ObjectId role,
-			int limit) {
-		Role r = getRole(flashmob, role);
-		return Utils.sublist(r.getUsers(), 0, limit + 1);
-	}
-
-	public List<Role> getRoles(ObjectId flashmob) {
-		return getFlashmob(flashmob).getRoles();
-	}
-
-	public Task getTask(ObjectId flashmob, ObjectId role, ObjectId activity) {
-		Flashmob f = getFlashmob(flashmob);
-		Task t = getActivity(f, activity).getTask(getRole(f, role));
-		if (t == null) {
-			throw ServiceError.taskNotFound();
-		}
-		return t;
-	}
-
-	public List<Role> getRoles(ObjectId activity, ObjectId flashmob) {
-		return getActivity(getFlashmob(flashmob), activity).getRoles();
-	}
-
-	public List<Activity> getActivitiesForRole(ObjectId role, ObjectId flashmob) {
-		return Utils.asList(getRole(getFlashmob(flashmob), role).getActivities());
-	}
-
-	public Trigger getTrigger(ObjectId trigger, ObjectId flashmob) {
-		Flashmob f = getFlashmob(flashmob);
-		Trigger t = getStore().triggers().get(trigger);
-		if (!f.getTriggers().contains(t) || !t.getFlashmob().equals(flashmob)) {
-			throw ServiceError.triggerNotFound();
-		}
-		return t;
-	}
-
-	public List<Trigger> getTriggers(ObjectId flashmob) {
-		return getStore().triggers().get(getFlashmob(flashmob));
-	}
-
-	public List<User> getUsersOfFlashmob(ObjectId flashmob) {
-		Flashmob f = getFlashmob(flashmob);
-		Set<User> users = Utils.set();
-		for (Role r : f.getRoles()) {
-			users.addAll(r.getUsers());
-		}
-		return Utils.asList(users);
-	}
-
-	public List<Flashmob> getFlashmobsFromUser(ObjectId user) {
-		return getStore().flashmobs().get(getUser(user));
-	}
-
-	public List<Activity> getActivitiesForUser(ObjectId user, ObjectId flashmob) {
-		return getStore().activities().get(getFlashmob(flashmob), getUser(user));
-	}
-
-	public Task getTaskForActivity(ObjectId activity, ObjectId flashmob, ObjectId user) {
-		User u = getUser(user);
-		Flashmob f = getFlashmob(flashmob);
-		Activity a = getActivity(f, activity);
-		Role r = getStore().roles().get(f, u);
-		if (r == null) {
-			throw ServiceError.roleNotFound();
-		}
-		return a.getTask(r);
-	}
-
-	public List<Activity> getActivities(ObjectId flashmob) {
-		return getFlashmob(flashmob).getActivities();
-	}
-
-	public List<Flashmob> getFlashmobs(int limit, Point near, ObjectId user,
-			BoundingBox bbox, DateTime from, DateTime to, Sorting sorting,
-			boolean descending, ShowStatus show, String search,
-			ObjectId participant) {
-		return getStore().flashmobs().get(limit, near, getUser(user), bbox, from,
-				to, sorting, descending, show, search, getUser(participant));
-	}
-
-	public Signal getSignal(ObjectId flashmob, ObjectId activity) {
-		return getStore().activities().getSignalOfActivity(getActivity(getFlashmob(flashmob), activity));
-	}
-
-	public List<Comment> getCommentsForFlashmob(ObjectId flashmob) {
-		return getStore().comments().get(getFlashmob(flashmob));
-	}
-
-	public Comment addComment(ObjectId flashmob, Comment comment) {
-		getStore().comments().save(comment.setFlashmob(getFlashmob(flashmob)));
-		return comment;
 	}
 
 }

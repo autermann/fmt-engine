@@ -18,6 +18,7 @@
 package de.ifgi.fmt.web.servlet.flashmobs;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -46,5 +47,9 @@ public class FlashmobServlet extends AbstractServlet {
 	public Flashmob updateFlashmob(@PathParam(PathParams.FLASHMOB) ObjectId id,
 			Flashmob flashmob) {
 		return getService().updateFlashmob(id, flashmob);
+	}
+	@DELETE
+	public void deleteFlashmob(@PathParam(PathParams.FLASHMOB) ObjectId id) {
+		getService().deleteFlashmob(id);
 	}
 }

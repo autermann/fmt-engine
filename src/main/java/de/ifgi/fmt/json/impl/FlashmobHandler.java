@@ -39,6 +39,7 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.VALIDITY_KEY;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
@@ -65,9 +66,12 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 	public Flashmob decode(JSONObject j) throws JSONException {
 		log.debug("Decoding Flashmob {}", j);
 		Flashmob f = new Flashmob();
+		String id = j.optString(ID_KEY);
+		if (id != null) {
+			f.setId(new ObjectId(id));
+		}
 
 		f.setTitle(j.optString(TITLE_KEY, null));
-		f.setPublic(j.optBoolean(PUBLIC_KEY));
 		f.setDescription(j.optString(DESCRIPTION_KEY, null));
 		f.setKey(j.optString(KEY_KEY, null));
 		
@@ -79,6 +83,11 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 			} catch (Exception e) {
 				throw ServiceError.badRequest(e);
 			}
+		}
+		
+		String isPublic = j.optString(PUBLIC_KEY, null);
+		if (isPublic != null) {
+			f.setPublic(Boolean.valueOf(isPublic));
 		}
 
 		String start = j.optString(START_TIME_KEY, null);
@@ -141,9 +150,12 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 		j.put(REQUIRED_USERS_KEY, requiredUsers);
 		j.put(USERS_KEY, users);
 		
-		
-		j.put(PUBLIC_KEY, f.isPublic());
-		j.put(VALIDITY_KEY, f.getValidity());
+		if (f.isPublic() != null) {
+			j.put(PUBLIC_KEY, f.isPublic());
+		}
+		if (f.getValidity() != null) {
+			j.put(VALIDITY_KEY, f.getValidity());
+		}
 		
 		
 		if (uri != null) {

@@ -25,8 +25,12 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.LINE_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.ROLE_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.TYPE_KEY;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javax.ws.rs.core.UriInfo;
 
+import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -42,6 +46,7 @@ import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.model.Role;
 import de.ifgi.fmt.model.task.LineTask;
 import de.ifgi.fmt.model.task.LinkTask;
+import de.ifgi.fmt.model.task.LinkTask.Type;
 import de.ifgi.fmt.model.task.Task;
 
 @Encodes(Task.class)
@@ -50,8 +55,50 @@ public class TaskHandler extends JSONHandler<Task> {
 
 	@Override
 	public Task decode(JSONObject j) throws JSONException {
-		// TODO task decoding
-		throw new UnsupportedOperationException("Not yet implemented");
+		Task t = null;
+		String href = j.optString(HREF_KEY, null);
+		String line = j.optString(LINE_KEY, null);
+		String type = j.optString(TYPE_KEY, null);
+		if (line != null && (href != null || type != null)) {
+			throw ServiceError.badRequest("tasks can only hold a link or a line");
+		}
+		if (line != null) {
+			LineTask lt = new LineTask();
+			try {
+				lt.setLine((LineString) getGeometryDecoder().parseUwGeometry(line));
+			} catch (Exception e) {
+				throw ServiceError.badRequest(e);
+			}
+			t = lt;
+		} else if (href != null || type != null) {
+			LinkTask lt = new LinkTask();
+			if (href != null) {
+				try {
+					lt.setLink(new URI(href));
+				} catch (URISyntaxException e) {
+					throw ServiceError.badRequest(e);
+				}
+			}
+			if (type != null) {
+				try {
+					lt.setType(Type.valueOf(type));
+				} catch(IllegalArgumentException e) {
+					throw ServiceError.badRequest(e);
+				}
+			}
+			t = lt;
+		} else {
+			t = new Task();
+		}
+		
+		
+		String id = j.optString(ID_KEY);
+		if (id != null) {
+			t.setId(new ObjectId(id));
+		}
+		t.setDescription(j.optString(DESCRIPTION_KEY, null));
+		
+		return t;
 	}
 
 	@Override

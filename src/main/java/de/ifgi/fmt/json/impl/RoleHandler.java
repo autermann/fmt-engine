@@ -29,11 +29,17 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.MAX_PARTICIPANTS_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.MIN_PARTICIPANTS_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.USERS_KEY;
 
+import java.util.Set;
+
 import javax.ws.rs.core.UriInfo;
 
+import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.Point;
 
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.json.JSONFactory;
@@ -42,6 +48,8 @@ import de.ifgi.fmt.json.JSONFactory.Encodes;
 import de.ifgi.fmt.json.JSONHandler;
 import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.model.Role;
+import de.ifgi.fmt.model.Role.Category;
+import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
 @Encodes(Role.class)
@@ -50,8 +58,47 @@ public class RoleHandler extends JSONHandler<Role>{
 	
 	@Override
 	public Role decode(JSONObject j) throws JSONException {
-		//TODO role decoding
-		throw new UnsupportedOperationException("Not yet implemented");
+		Role r = new Role();
+		String id = j.optString(ID_KEY);
+		if (id != null) {
+			r.setId(new ObjectId(id));
+		}
+		r.setDescription(j.optString(DESCRIPTION_KEY, null));
+
+		String category = j.optString(CATEGORY_KEY, null);
+		if (category != null) {
+			try {
+				r.setCategory(Category.valueOf(category));
+			}catch (IllegalArgumentException e) {
+				throw ServiceError.badRequest(e);
+			}
+		}
+		String location = j.optString(LOCATION_KEY, null);
+		if (location != null) {
+			Geometry g;
+			try {
+				g = getGeometryDecoder().parseUwGeometry(location);
+			} catch (Exception e) {
+				throw ServiceError.badRequest(e);
+			}
+			if (!(g instanceof Point)) {
+				throw ServiceError.badRequest("only points are allowed");
+			}
+			r.setStartPoint((Point) g);
+		}
+		
+		r.setMinCount(j.optInt(MIN_PARTICIPANTS_KEY, -1));
+		r.setMaxCount(j.optInt(MAX_PARTICIPANTS_KEY, -1));
+		JSONArray jtems = j.optJSONArray(ITEMS_KEY);
+		if (jtems != null) {
+			Set<String> items = Utils.set();
+			for (int i = 0; i < jtems.length(); ++i) {
+				items.add(jtems.getString(i));
+			}
+			r.setItems(items);
+		}
+		
+		return r;
 	}
 
 	@Override
@@ -66,7 +113,7 @@ public class RoleHandler extends JSONHandler<Role>{
 			j.put(ITEMS_KEY, items);
 		}
 		if (t.getMinCount() >= 0) {
-		j.put(MIN_PARTICIPANTS_KEY, t.getMinCount());
+			j.put(MIN_PARTICIPANTS_KEY, t.getMinCount());
 		}
 		if (t.getMaxCount() >= 0) {
 			j.put(MAX_PARTICIPANTS_KEY, t.getMaxCount());

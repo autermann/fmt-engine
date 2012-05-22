@@ -52,6 +52,11 @@ public class ActivityHandler extends JSONHandler<Activity> {
 	@Override
 	public Activity decode(JSONObject j) throws JSONException {
 		Activity a = new Activity();
+		String id = j.optString(ID_KEY);
+		if (id != null) {
+			a.setId(new ObjectId(id));
+		}
+		
 		a.setDescription(j.optString(DESCRIPTION_KEY, null));
 		a.setTitle(j.optString(TITLE_KEY, null));
 		

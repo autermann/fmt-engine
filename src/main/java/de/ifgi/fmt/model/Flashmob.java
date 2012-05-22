@@ -69,7 +69,7 @@ public class Flashmob extends Identifiable {
 	private DateTime publish;
 
 	@Property(Flashmob.PUBLIC)
-	private boolean isPublic;
+	private Boolean isPublic;
 
 	@Indexed(IndexDirection.GEO2D)
 	@Property(Flashmob.LOCATION)
@@ -129,7 +129,7 @@ public class Flashmob extends Identifiable {
 		return this;
 	}
 
-	public Flashmob setPublic(boolean isPublic) {
+	public Flashmob setPublic(Boolean isPublic) {
 		this.isPublic = isPublic;
 		return this;
 	}
@@ -165,7 +165,7 @@ public class Flashmob extends Identifiable {
 		return publish;
 	}
 
-	public boolean isPublic() {
+	public Boolean isPublic() {
 		return isPublic;
 	}
 

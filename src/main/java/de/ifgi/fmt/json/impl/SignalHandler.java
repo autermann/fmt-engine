@@ -22,6 +22,7 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.TYPE_KEY;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -41,6 +42,7 @@ public class SignalHandler extends JSONHandler<Signal> {
 	@Override
 	public Signal decode(JSONObject j) throws JSONException {
 		String type = j.getString(TYPE_KEY);
+		
 		Signal s = null;
 		if (type.equalsIgnoreCase("sound"))
 			s = new SoundSignal();
@@ -50,6 +52,10 @@ public class SignalHandler extends JSONHandler<Signal> {
 			s = new VibrationSignal();
 		else
 			throw ServiceError.badRequest(String.format("Signal type %s is unknown.", type));
+		String id = j.optString(ID_KEY);
+		if (id != null) {
+			s.setId(new ObjectId(id));
+		}
 		return s.decode(j);
 	}
 

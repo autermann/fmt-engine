@@ -254,4 +254,18 @@ public class Utils {
 		}
 		return n;
 	}
+
+	public static boolean moreThanOneNotNull(Object... os) {
+		boolean nulled = false;
+		for (Object o : os) {
+			if (o != null) {
+				if (nulled) {
+					return true;
+				} else {
+					nulled = true;
+				}
+			}
+		}
+		return false;
+	}
 }

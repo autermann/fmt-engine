@@ -43,7 +43,7 @@ public class ActivitiesServlet extends AbstractServlet {
 	@GET
 	@Produces(MediaTypes.ACTIVITY_LIST)
 	// get the activities a role is involved in
-	public List<Activity> getActivities(
+	public List<Activity> getActivitiesOfRole(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role) {
 
@@ -54,11 +54,11 @@ public class ActivitiesServlet extends AbstractServlet {
 	@Produces(MediaTypes.ACTIVITY)
 	@Consumes(MediaTypes.ACTIVITY)
 	// add a role to a activity
-	public Response setActivity(
+	public Response setActivityOfRole(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role, Activity a) {
 		// @ToDo
-		Activity saved = getService().addActivity(a, role, flashmob);
+		Activity saved = getService().addRoleToActivity(a, role, flashmob);
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.ACTIVITY_OF_ROLE_OF_FLASHMOB).build(a.getId());
 		return Response.created(uri).entity(saved).build();

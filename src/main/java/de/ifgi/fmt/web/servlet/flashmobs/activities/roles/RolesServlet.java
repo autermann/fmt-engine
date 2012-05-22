@@ -53,10 +53,11 @@ public class RolesServlet extends AbstractServlet {
 	@Produces(MediaTypes.ROLE)
 	@Consumes(MediaTypes.ROLE)
 	// add an role to an activity
-	public Response setRole(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	public Response setRole(
+			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity, Role r) {
-		// @ToDo
-		Role saved = getService().addRole(r, activity, flashmob);
+		
+		Role saved = getService().addRoleToActivity(activity, r, flashmob);
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.ROLE_OF_ACTIVITY_OF_FLASHMOB).build(r.getId());
 		return Response.created(uri).entity(saved).build();

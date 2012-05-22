@@ -26,6 +26,7 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.USER_KEY;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -45,6 +46,10 @@ public class CommentHandler extends JSONHandler<Comment> {
 	@Override
 	public Comment decode(JSONObject j) throws JSONException {
 		Comment c = new Comment();
+		String id = j.optString(ID_KEY);
+		if (id != null) {
+			c.setId(new ObjectId(id));
+		}
 		c.setText(j.optString(TEXT_KEY, null));
 
 		String flashmob = j.optString(FLASHMOB_KEY, null);

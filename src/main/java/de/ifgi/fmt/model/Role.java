@@ -53,10 +53,10 @@ public class Role extends Identifiable {
 	private Set<String> items = Utils.set();
 
 	@Property(Role.MIN_COUNT)
-	private int minCount;
+	private int minCount = -1;
 
 	@Property(Role.MAX_COUNT)
-	private int maxCount;
+	private int maxCount = -1;
 
 	@Property(Role.START_POINT)
 	private Point startPoint;

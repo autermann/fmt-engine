@@ -26,8 +26,11 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.TIME_KEY;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+
+import com.vividsolutions.jts.geom.Point;
 
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.json.JSONFactory;
@@ -39,6 +42,7 @@ import de.ifgi.fmt.model.trigger.EventTrigger;
 import de.ifgi.fmt.model.trigger.LocationTrigger;
 import de.ifgi.fmt.model.trigger.TimeTrigger;
 import de.ifgi.fmt.model.trigger.Trigger;
+import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
 @Encodes(Trigger.class)
@@ -47,8 +51,46 @@ public class TriggerHandler extends JSONHandler<Trigger> {
 
 	@Override
 	public Trigger decode(JSONObject j) throws JSONException {
-		// TODO trigger decoding
-		throw new UnsupportedOperationException("Not yet implemented");
+		Trigger t = null;
+		String time = j.optString(TIME_KEY, null);
+		String geom = j.optString(LOCATION_KEY, null);
+		String desc = j.optString(DESCRIPTION_KEY, null);
+		
+		if (Utils.moreThanOneNotNull(time, geom, desc)) {
+			throw ServiceError.badRequest(String.format(
+					"Only one of %s, %s and %s can be present", 
+					TIME_KEY, LOCATION_KEY, DESCRIPTION_KEY));
+		}
+		
+		if (time != null) {
+			TimeTrigger tt = new TimeTrigger();
+			try {
+				tt.setTime(getDateTimeFormat().parseDateTime(time));
+			} catch (Exception e) {
+				throw ServiceError.badRequest(e);
+			}
+			t = tt;
+		} else if (geom != null) {
+			LocationTrigger tt = new LocationTrigger();
+			try {
+				tt.setLocation((Point) getGeometryDecoder().parseUwGeometry(geom));
+			} catch (Exception e) {
+				throw ServiceError.badRequest(e);
+			}
+			t = tt;
+		} else if (desc != null) {
+			EventTrigger tt = new EventTrigger();
+			tt.setDescription(desc);
+			t = tt;
+		} else {
+			throw ServiceError.badRequest("trigger not specified");
+		}
+		
+		String id = j.optString(ID_KEY);
+		if (id != null) {
+			t.setId(new ObjectId(id));
+		}
+		return t;
 	}
 
 	@Override
@@ -61,8 +103,7 @@ public class TriggerHandler extends JSONHandler<Trigger> {
 			}
 		}
 		if (t instanceof TimeTrigger) {
-			j.put(TIME_KEY,
-					getDateTimeFormat().print(((TimeTrigger) t).getTime()));
+			j.put(TIME_KEY, getDateTimeFormat().print(((TimeTrigger) t).getTime()));
 		} else if (t instanceof EventTrigger) {
 			j.put(DESCRIPTION_KEY, ((EventTrigger) t).getDescription());
 		} else if (t instanceof LocationTrigger) {

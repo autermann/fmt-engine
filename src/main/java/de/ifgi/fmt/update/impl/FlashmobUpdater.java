@@ -39,13 +39,20 @@ public class FlashmobUpdater extends EntityUpdater<Flashmob>{
 		if (changes.getStart() != null) {
 			old.setEnd(changes.getEnd());
 		}
-		
-		
-		// TODO update flashmob
-		
-		
+		if (changes.isPublic() != null) {
+			old.setPublic(changes.isPublic());
+		}
+		if (changes.getKey() != null) {
+			old.setKey(changes.getKey());
+		}
+		if (changes.getLocation() != null) {
+			old.setLocation(changes.getLocation());
+		}
+		if (changes.getTitle() != null) {
+			old.setTitle(changes.getTitle());
+		}
 		old.setValidity(Validity.NOT_CHECKED);
-		return null;
+		return old;
 	}
 
 }
