@@ -58,7 +58,6 @@ public class AuthFilter implements ContainerResponseFilter, ContainerRequestFilt
 	
 	@Override
 	public ContainerRequest filter(ContainerRequest cr) {
-		log.debug("Filtering request.");
 		if (!cookieLogin(cr)) {
 			if (!headerLogin(cr)) {
 				cr.setSecurityContext(new FmtSecurityContext(null));
@@ -69,7 +68,6 @@ public class AuthFilter implements ContainerResponseFilter, ContainerRequestFilt
 	
 	@Override
 	public ContainerResponse filter(ContainerRequest rq, ContainerResponse rs) {
-		log.debug("Filtering response.");
 		HttpSession s = sr.getSession(true);
 		if (s.getAttribute(USER_SESSION_ATTRIBUTE) != null && rq.getCookies().get(COOKIE_NAME) == null) {
 			ResponseBuilder rb = Response.fromResponse(rs.getResponse());

@@ -26,7 +26,7 @@
 			<param-name>com.sun.jersey.spi.container.ResourceFilters</param-name>
 			<param-value>com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFacto‌​ry</param-value>
 		</init-param>
-		
+
 		<init-param>
 			<param-name>com.sun.jersey.config.feature.logging.DisableEntitylogging</param-name>
 			<param-value>true</param-value>
@@ -38,4 +38,7 @@
 		<servlet-name>jersey</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
+	<listener>
+		<listener-class>de.ifgi.fmt.utils.JerseyLoggingListener</listener-class>
+	</listener>
 </web-app>
