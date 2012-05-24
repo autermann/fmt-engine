@@ -29,30 +29,30 @@ public class ConstantsTest extends AbstractFlashMobTest {
 	
 	@Test
 	public void testMimeTypes()  {
-		assertEquals("application/vnd.fmt.user+json", MediaTypes.USER);
-		assertEquals("application/vnd.fmt.activity+json", MediaTypes.ACTIVITY);
-		assertEquals("application/vnd.fmt.comment+json", MediaTypes.COMMENT);
-		assertEquals("application/vnd.fmt.flashmob+json", MediaTypes.FLASHMOB);
-		assertEquals("application/vnd.fmt.role+json", MediaTypes.ROLE);
-		assertEquals("application/vnd.fmt.task+json", MediaTypes.TASK);
-		assertEquals("application/vnd.fmt.user-list+json", MediaTypes.USER_LIST);
-		assertEquals("application/vnd.fmt.activity-list+json", MediaTypes.ACTIVITY_LIST);
-		assertEquals("application/vnd.fmt.comment-list+json", MediaTypes.COMMENT_LIST);
-		assertEquals("application/vnd.fmt.flashmob-list+json", MediaTypes.FLASHMOB_LIST);
-		assertEquals("application/vnd.fmt.role-list+json", MediaTypes.ROLE_LIST);
-		assertEquals("application/vnd.fmt.task-list+json", MediaTypes.TASK_LIST);
-		assertEquals(MediaType.valueOf("application/vnd.fmt.user-list+json"), MediaTypes.USER_LIST_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.fmt.activity-list+json"), MediaTypes.ACTIVITY_LIST_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.fmt.comment-list+json"), MediaTypes.COMMENT_LIST_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.fmt.flashmob-list+json"), MediaTypes.FLASHMOB_LIST_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.fmt.role-list+json"), MediaTypes.ROLE_LIST_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.fmt.task-list+json"), MediaTypes.TASK_LIST_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.fmt.user+json"), MediaTypes.USER_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.fmt.activity+json"), MediaTypes.ACTIVITY_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.fmt.comment+json"), MediaTypes.COMMENT_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.fmt.flashmob+json"), MediaTypes.FLASHMOB_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.fmt.role+json"), MediaTypes.ROLE_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.fmt.task+json"), MediaTypes.TASK_TYPE);
+		assertEquals("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/user\"", MediaTypes.USER);
+		assertEquals("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/activity\"", MediaTypes.ACTIVITY);
+		assertEquals("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/comment\"", MediaTypes.COMMENT);
+		assertEquals("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/flashmob\"", MediaTypes.FLASHMOB);
+		assertEquals("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/role\"", MediaTypes.ROLE);
+		assertEquals("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/task\"", MediaTypes.TASK);
+		assertEquals("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/user-list\"", MediaTypes.USER_LIST);
+		assertEquals("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/activity-list\"", MediaTypes.ACTIVITY_LIST);
+		assertEquals("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/comment-list\"", MediaTypes.COMMENT_LIST);
+		assertEquals("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/flashmob-list\"", MediaTypes.FLASHMOB_LIST);
+		assertEquals("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/role-list\"", MediaTypes.ROLE_LIST);
+		assertEquals("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/task-list\"", MediaTypes.TASK_LIST);
+		assertEquals(MediaType.valueOf("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/user-list\""), MediaTypes.USER_LIST_TYPE);
+		assertEquals(MediaType.valueOf("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/activity-list\""), MediaTypes.ACTIVITY_LIST_TYPE);
+		assertEquals(MediaType.valueOf("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/comment-list\""), MediaTypes.COMMENT_LIST_TYPE);
+		assertEquals(MediaType.valueOf("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/flashmob-list\""), MediaTypes.FLASHMOB_LIST_TYPE);
+		assertEquals(MediaType.valueOf("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/role-list\""), MediaTypes.ROLE_LIST_TYPE);
+		assertEquals(MediaType.valueOf("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/task-list\""), MediaTypes.TASK_LIST_TYPE);
+		assertEquals(MediaType.valueOf("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/user\""), MediaTypes.USER_TYPE);
+		assertEquals(MediaType.valueOf("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/activity\""), MediaTypes.ACTIVITY_TYPE);
+		assertEquals(MediaType.valueOf("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/comment\""), MediaTypes.COMMENT_TYPE);
+		assertEquals(MediaType.valueOf("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/flashmob\""), MediaTypes.FLASHMOB_TYPE);
+		assertEquals(MediaType.valueOf("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/role\""), MediaTypes.ROLE_TYPE);
+		assertEquals(MediaType.valueOf("application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/task\""), MediaTypes.TASK_TYPE);
 
 	}
 

@@ -44,11 +44,6 @@
 		<geotools.version>8.0-M1</geotools.version>
 		<jersey.version>1.12</jersey.version>
 		<morphia.version>0.99</morphia.version>
-
-		<filter.logs>com.sun.jersey.api.container.filter.LoggingFilter</filter.logs>
-		<filter.gzip>com.sun.jersey.api.container.filter.GZIPContentEncodingFilter</filter.gzip>
-		<filter.response>${filter.gzip}</filter.response>
-		<filter.request>${filter.gzip}</filter.request>
 	</properties>
 
 	<dependencies>
@@ -62,6 +57,11 @@
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-server</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-core</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
 		<dependency>

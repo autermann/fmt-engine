@@ -27,53 +27,38 @@ public interface RESTConstants {
 	}
 	
 	public static abstract class MediaTypes {
-		public static final String IMAGE_PNG = "image/png";
-		public static final String IMAGE_GIF = "image/gif";
-		public static final String IMAGE_JPEG = "image/jpeg";
-			
-		public static final String SCHEMA_BASE_URL = "http://giv-flashmob.uni-muenster.de/schema/";
+		public static final String FLASHMOB = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/flashmob\"";
+		public static final String FLASHMOB_LIST = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/flashmob-list\"";
+		public static final String ACTIVITY = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/activity\"";
+		public static final String ACTIVITY_LIST = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/activity-list\"";
+		public static final String TRIGGER = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/trigger\"";
+		public static final String TRIGGER_LIST = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/trigger-list\"";
+		public static final String ROLE = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/role\"";
+		public static final String ROLE_LIST = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/role-list\"";
+		public static final String SIGNAL = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/signal\"";
+		public static final String SIGNAL_LIST = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/signal-list\"";
+		public static final String USER = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/user\"";
+		public static final String USER_LIST = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/user-list\"";
+		public static final String TASK = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/task\"";
+		public static final String TASK_LIST = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/task-list\"";
+		public static final String COMMENT = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/comment\"";
+		public static final String COMMENT_LIST = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/comment-list\"";
 		
-		public static final String MIME_TYPE_PREFIX = "application/json; profile=\"" + SCHEMA_BASE_URL;
-		public static final String MIME_TYPE_POSTFIX = "\"";
-		
-		public static final String FLASHMOB = MIME_TYPE_PREFIX + "flashmob" + MIME_TYPE_POSTFIX;
 		public static final MediaType FLASHMOB_TYPE = MediaType.valueOf(FLASHMOB);
-		public static final String FLASHMOB_LIST = MIME_TYPE_PREFIX + "flashmob-list" + MIME_TYPE_POSTFIX;
 		public static final MediaType FLASHMOB_LIST_TYPE = MediaType.valueOf(FLASHMOB_LIST);
-
-		public static final String ACTIVITY = MIME_TYPE_PREFIX + "activity" + MIME_TYPE_POSTFIX;
 		public static final MediaType ACTIVITY_TYPE = MediaType.valueOf(ACTIVITY);
-		public static final String ACTIVITY_LIST = MIME_TYPE_PREFIX + "activity-list" + MIME_TYPE_POSTFIX;
 		public static final MediaType ACTIVITY_LIST_TYPE = MediaType.valueOf(ACTIVITY_LIST);
-		
-		public static final String TRIGGER = MIME_TYPE_PREFIX + "trigger" + MIME_TYPE_POSTFIX;
 		public static final MediaType TRIGGER_TYPE = MediaType.valueOf(TRIGGER);
-		public static final String TRIGGER_LIST = MIME_TYPE_PREFIX + "trigger-list" + MIME_TYPE_POSTFIX;
 		public static final MediaType TRIGGER_LIST_TYPE = MediaType.valueOf(TRIGGER_LIST);
-		
-		public static final String ROLE = MIME_TYPE_PREFIX + "role" + MIME_TYPE_POSTFIX;
 		public static final MediaType ROLE_TYPE = MediaType.valueOf(ROLE);
-		public static final String ROLE_LIST = MIME_TYPE_PREFIX + "role-list" + MIME_TYPE_POSTFIX;
 		public static final MediaType ROLE_LIST_TYPE = MediaType.valueOf(ROLE_LIST);
-		
-		public static final String SIGNAL = MIME_TYPE_PREFIX + "signal" + MIME_TYPE_POSTFIX;
 		public static final MediaType SIGNAL_TYPE = MediaType.valueOf(SIGNAL);
-		public static final String SIGNAL_LIST = MIME_TYPE_PREFIX + "signal-list" + MIME_TYPE_POSTFIX;
 		public static final MediaType SIGNAL_LIST_TYPE = MediaType.valueOf(SIGNAL_LIST);
-		
-		public static final String USER = MIME_TYPE_PREFIX + "user" + MIME_TYPE_POSTFIX;
 		public static final MediaType USER_TYPE = MediaType.valueOf(USER);
-		public static final String USER_LIST = MIME_TYPE_PREFIX + "user-list" + MIME_TYPE_POSTFIX;
 		public static final MediaType USER_LIST_TYPE = MediaType.valueOf(USER_LIST);
-
-		public static final String TASK = MIME_TYPE_PREFIX + "task" + MIME_TYPE_POSTFIX;
 		public static final MediaType TASK_TYPE = MediaType.valueOf(TASK);
-		public static final String TASK_LIST = MIME_TYPE_PREFIX + "task-list" + MIME_TYPE_POSTFIX;
 		public static final MediaType TASK_LIST_TYPE = MediaType.valueOf(TASK_LIST);
-		
-		public static final String COMMENT = MIME_TYPE_PREFIX + "comment" + MIME_TYPE_POSTFIX;
 		public static final MediaType COMMENT_TYPE = MediaType.valueOf(COMMENT);
-		public static final String COMMENT_LIST = MIME_TYPE_PREFIX + "comment-list" + MIME_TYPE_POSTFIX;
 		public static final MediaType COMMENT_LIST_TYPE = MediaType.valueOf(COMMENT_LIST);
 	}
 
@@ -121,10 +106,7 @@ public interface RESTConstants {
 	}
 
 	public static abstract class HeaderParams {
-		public static final String CONTENT_TYPE = "Content-Type";
 		public static final String AUTHORIZATION = "Authorization";
-		public static final String COOKIE = "Cookie";
-		public static final String SET_COOKIE = "Set-Cookie";
 	}
 	
 	/*

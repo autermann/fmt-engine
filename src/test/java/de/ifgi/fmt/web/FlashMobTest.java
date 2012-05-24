@@ -33,7 +33,6 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
 
 import de.ifgi.fmt.utils.constants.JSONConstants;
-import de.ifgi.fmt.utils.constants.RESTConstants.HeaderParams;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.filter.auth.AuthFilter;
@@ -54,8 +53,8 @@ public class FlashMobTest extends AbstractFlashMobTest {
 	public void testPOSTFlashmobs() {
 		getWebResource()
 				.path(Paths.FLASHMOBS)
-				.accept(MediaTypes.FLASHMOB)
-				.header(HeaderParams.CONTENT_TYPE, MediaTypes.FLASHMOB)
+				.accept(MediaTypes.FLASHMOB_TYPE)
+				.type(MediaTypes.FLASHMOB_TYPE)
 				.entity(new JSONObject())
 				.post(JSONObject.class);
 	}

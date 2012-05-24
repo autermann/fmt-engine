@@ -26,9 +26,6 @@ import javax.ws.rs.ext.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import de.ifgi.fmt.utils.constants.RESTConstants.HeaderParams;
-
 @Provider
 public class UnsupportedOperationExceptionMapper implements
 		ExceptionMapper<UnsupportedOperationException> {
@@ -42,7 +39,7 @@ public class UnsupportedOperationExceptionMapper implements
 		log.warn("NOT YET IMPLEMENTED: {}", elem);
 		return Response
 				.status(Status.INTERNAL_SERVER_ERROR)
-				.header(HeaderParams.CONTENT_TYPE, MediaType.TEXT_PLAIN)
+				.type(MediaType.TEXT_PLAIN)
 				.entity("Method " + elem + " not yet implemented")
 				.build();
 	}
