@@ -1,0 +1,19 @@
+{
+    "$id": "http://giv-flashmob.uni-muenster.de/schema/user#", 
+    "$schema": "http://json-schema.org/draft-03/schema", 
+    "properties": {
+        "email": {
+            "type": "string"
+        }, 
+        "id": {
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid"
+        }, 
+        "password": {
+            "type": "string"
+        }, 
+        "username": {
+            "type": "string"
+        }
+    }, 
+    "type": "object"
+}

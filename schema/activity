@@ -1,0 +1,28 @@
+{
+    "$id": "http://giv-flashmob.uni-muenster.de/schema/activity#", 
+    "$schema": "http://json-schema.org/draft-03/schema", 
+    "properties": {
+        "description": {
+            "type": "string"
+        }, 
+        "flashmob": {
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref"
+        }, 
+        "id": {
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid"
+        }, 
+        "roles": {
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref-list"
+        }, 
+        "signal": {
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref"
+        }, 
+        "title": {
+            "type": "string"
+        }, 
+        "trigger": {
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref"
+        }
+    }, 
+    "type": "object"
+}

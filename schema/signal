@@ -1,0 +1,25 @@
+{
+    "$id": "http://giv-flashmob.uni-muenster.de/schema/signal#", 
+    "$schema": "http://json-schema.org/draft-03/schema", 
+    "properties": {
+        "id": {
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid"
+        }, 
+        "link": {
+            "format": "uri", 
+            "type": "string"
+        }, 
+        "text": {
+            "type": "string"
+        }, 
+        "type": {
+            "enum": [
+                "sound", 
+                "text", 
+                "vibration"
+            ], 
+            "type": "string"
+        }
+    }, 
+    "type": "object"
+}

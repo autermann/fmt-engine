@@ -1,0 +1,51 @@
+{
+    "$id": "http://giv-flashmob.uni-muenster.de/schema/role#", 
+    "$schema": "http://json-schema.org/draft-03/schema", 
+    "properties": {
+        "activities": {
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref"
+        }, 
+        "category": {
+            "enum": [
+                "EASY", 
+                "HARD", 
+                "ULTRA"
+            ], 
+            "type": "string"
+        }, 
+        "description": {
+            "type": "string"
+        }, 
+        "flashmob": {
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/flashmob"
+        }, 
+        "id": {
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid"
+        }, 
+        "items": {
+            "items": {
+                "type": "string"
+            }, 
+            "minItems": 0, 
+            "type": "array"
+        }, 
+        "location": {
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/point"
+        }, 
+        "maxParticipants": {
+            "minimum": 0, 
+            "type": "integer"
+        }, 
+        "minParticipants": {
+            "minimum": 0, 
+            "type": "integer"
+        }, 
+        "title": {
+            "type": "string"
+        }, 
+        "users": {
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref"
+        }
+    }, 
+    "type": "object"
+}

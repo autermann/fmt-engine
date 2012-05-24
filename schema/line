@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema", 
+    "extends": "http://giv-flashmob.uni-muenster.de/schema/geometry", 
+    "id": "http://giv-flashmob.uni-muenster.de/schema/line", 
+    "properties": {
+        "coordinates": {
+            "items": {
+                "items": "number", 
+                "maxLength": 2,
+                "minLength": 2
+            }
+        }, 
+        "type": {
+            "enum": [
+                "LineString"
+            ]
+        }
+    }
+}

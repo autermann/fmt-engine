@@ -1,0 +1,10 @@
+{
+    "$id": "http://giv-flashmob.uni-muenster.de/schema/role-list#", 
+    "$schema": "http://json-schema.org/draft-03/schema", 
+    "properties": {
+        "roles": {
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref-list"
+        }
+    }, 
+    "type": "object"
+}
