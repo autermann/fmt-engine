@@ -17,11 +17,14 @@
  */
 package de.ifgi.fmt.web.servlet;
 
-import java.lang.reflect.Method;
+import java.security.Principal;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
+import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -34,9 +37,11 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
 import de.ifgi.fmt.Service;
-import de.ifgi.fmt.ServiceError;
+import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants;
+import de.ifgi.fmt.web.filter.auth.FmtPrinciple;
 
+@PermitAll
 public abstract class AbstractServlet implements RESTConstants {
 
 	protected static final String DEFAULT_LIMIT = "20";
@@ -45,25 +50,51 @@ public abstract class AbstractServlet implements RESTConstants {
 
 	protected static final Logger log = LoggerFactory	.getLogger(RootServlet.class);
 	private static final DateTimeFormatter ISO8601 = ISODateTimeFormat.dateTime();
-
-	private UriInfo uriInfo;
+	
 	private final Service service = Service.getInstance();
 	private final GeometryFactory geomFactory = new GeometryFactory();
 
-	protected static Method getMethod(Class<?> c, String name) {
-		for (Method m : c.getMethods()) {
-			if (name.equals(m.getName())) {
-				return m;
-			}
+	private @Context UriInfo uriInfo;
+	private @Context SecurityContext securityContext;
+
+	protected boolean hasRole(String role) {
+		if (getSecurityContext() == null) {
+			log.warn("No security context available for this request!");
+			return false;
 		}
-		throw ServiceError.internal("No method called " + name);
+		return getSecurityContext().isUserInRole(role);
 	}
-
-	@Context
-	public void setUriInfo(UriInfo uriInfo) {
-		this.uriInfo = uriInfo;
+	
+	protected User getUser() {
+		Principal p = getSecurityContext().getUserPrincipal();
+		if (p != null && p instanceof FmtPrinciple) {
+			return ((FmtPrinciple) p).getUser();
+		}
+		return null;
 	}
-
+	
+	protected boolean isAdminOrUserWithId(ObjectId id) {
+		return isAdmin() || getUser().getId().equals(id);
+	}
+	
+	protected boolean isLoggedIn() {
+		return isUser() || isAdmin();
+	}
+	
+	protected boolean isAdmin() {
+		return hasRole(Roles.ADMIN);
+	}
+	protected boolean isUser() {
+		return hasRole(Roles.USER);
+	}
+	protected boolean isGuest() {
+		return hasRole(Roles.GUEST) || !(isUser() || isAdmin());
+	}
+	
+	protected SecurityContext getSecurityContext(){
+		return securityContext;
+	}
+	
 	protected UriInfo getUriInfo() {
 		return this.uriInfo;
 	}

@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
-import de.ifgi.fmt.utils.constants.RESTConstants;
+import de.ifgi.fmt.utils.constants.RESTConstants.HeaderParams;
 
 public class LogFilter implements ContainerRequestFilter {
 	private static final Logger log = LoggerFactory.getLogger(LogFilter.class);
@@ -31,16 +31,22 @@ public class LogFilter implements ContainerRequestFilter {
 	@Override
 	public ContainerRequest filter(ContainerRequest request) {
 		if (log.isDebugEnabled()) {
-			String ct = request
-					.getHeaderValue(RESTConstants.HeaderParams.CONTENT_TYPE);
-			if (ct != null) {
-				log.debug("{} {}\n\tContent-Type: {}", new Object[] { 
-						request.getMethod(), request.getRequestUri(), ct });
-			} else {
-				log.debug("{} {}", request.getMethod(), request.getRequestUri());
-			}
+			StringBuilder sb = new StringBuilder("Logging request")
+				.append(request.getMethod())
+				.append(" ")
+				.append(request.getRequestUri());
+			appendHeaders(request, sb, HeaderParams.CONTENT_TYPE, HeaderParams.AUTHORIZATION, HeaderParams.COOKIE);
+			log.debug(sb.toString());
 		}
 		return request;
 	}
 
+	private void appendHeaders(ContainerRequest rq, StringBuilder sb, String... headers) {
+		for (String s : headers) {
+			String val = rq.getHeaderValue(s);
+			if (val != null) {
+				sb.append("\n\t").append(s).append(": ").append(val);
+			}
+		}
+	}
 }

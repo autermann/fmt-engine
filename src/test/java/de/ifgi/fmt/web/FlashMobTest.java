@@ -18,97 +18,31 @@
 package de.ifgi.fmt.web;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.Response.Status;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.test.framework.JerseyTest;
 
-import de.ifgi.fmt.mongo.MongoDB;
 import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.HeaderParams;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
+import de.ifgi.fmt.web.filter.auth.AuthFilter;
 
-public class FlashMobTest extends JerseyTest {
-	protected static final Logger log = LoggerFactory
-			.getLogger(FlashMobTest.class);
-
-	@BeforeClass
-	public static void initLogger() {
-		java.util.logging.Logger rootLogger = java.util.logging.LogManager
-				.getLogManager().getLogger("");
-		java.util.logging.Handler[] handlers = rootLogger.getHandlers();
-		for (int i = 0; i < handlers.length; i++) {
-			rootLogger.removeHandler(handlers[i]);
-		}
-		org.slf4j.bridge.SLF4JBridgeHandler.install();
-	}
-
-	@Before
-	public void setUp() throws Exception {
-		try {
-			super.setUp();
-			clearDatabase();
-		} catch(Throwable t) {
-			t.printStackTrace();
-		}
-	}
+public class FlashMobTest extends AbstractFlashMobTest {
 	
-	private void clearDatabase() {
-		MongoDB db = MongoDB.getInstance();
-		db.getMongo().dropDatabase(db.getDatabase());
-	}
-	
-	@Test
-	public void testMimeTypes()  {
-		assertEquals("application/vnd.flashmobtoolkit.user+json", MediaTypes.USER);
-		assertEquals("application/vnd.flashmobtoolkit.activity+json", MediaTypes.ACTIVITY);
-		assertEquals("application/vnd.flashmobtoolkit.comment+json", MediaTypes.COMMENT);
-		assertEquals("application/vnd.flashmobtoolkit.flashmob+json", MediaTypes.FLASHMOB);
-		assertEquals("application/vnd.flashmobtoolkit.role+json", MediaTypes.ROLE);
-		assertEquals("application/vnd.flashmobtoolkit.task+json", MediaTypes.TASK);
-		
-		assertEquals(MediaType.valueOf("application/vnd.flashmobtoolkit.user+json"), MediaTypes.USER_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.flashmobtoolkit.activity+json"), MediaTypes.ACTIVITY_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.flashmobtoolkit.comment+json"), MediaTypes.COMMENT_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.flashmobtoolkit.flashmob+json"), MediaTypes.FLASHMOB_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.flashmobtoolkit.role+json"), MediaTypes.ROLE_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.flashmobtoolkit.task+json"), MediaTypes.TASK_TYPE);
-		
-		assertEquals("application/vnd.flashmobtoolkit.user.list+json", MediaTypes.USER_LIST);
-		assertEquals("application/vnd.flashmobtoolkit.activity.list+json", MediaTypes.ACTIVITY_LIST);
-		assertEquals("application/vnd.flashmobtoolkit.comment.list+json", MediaTypes.COMMENT_LIST);
-		assertEquals("application/vnd.flashmobtoolkit.flashmob.list+json", MediaTypes.FLASHMOB_LIST);
-		assertEquals("application/vnd.flashmobtoolkit.role.list+json", MediaTypes.ROLE_LIST);
-		assertEquals("application/vnd.flashmobtoolkit.task.list+json", MediaTypes.TASK_LIST);
-		
-		assertEquals(MediaType.valueOf("application/vnd.flashmobtoolkit.user.list+json"), MediaTypes.USER_LIST_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.flashmobtoolkit.activity.list+json"), MediaTypes.ACTIVITY_LIST_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.flashmobtoolkit.comment.list+json"), MediaTypes.COMMENT_LIST_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.flashmobtoolkit.flashmob.list+json"), MediaTypes.FLASHMOB_LIST_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.flashmobtoolkit.role.list+json"), MediaTypes.ROLE_LIST_TYPE);
-		assertEquals(MediaType.valueOf("application/vnd.flashmobtoolkit.task.list+json"), MediaTypes.TASK_LIST_TYPE);
-	}
 
-	protected WebResource getWebResource() {
-		return this.client().resource(getBaseURI());
-	}
-
-	public FlashMobTest() throws Exception {
-		super("de.ifgi.fmt");
+	public FlashMobTest() {
+		super();
 	}
 
 	@Test
@@ -128,44 +62,24 @@ public class FlashMobTest extends JerseyTest {
 	
 
 	@Test
-	public void testCreateUser() throws JSONException {
-		addUser(createUser(getUsername(), getMail(), getPassword()));
+	public void testCreateUserGetTokenAndChangeUser() throws JSONException {
+		ClientResponse cr = addUser(createUserJson(getRandomUsername(), getRandomMail(), getRandomPassword()));
+		assertEquals(Status.CREATED.getStatusCode(), cr.getStatus());
+		Cookie token = null;
+		for (Cookie c : cr.getCookies()) {
+			if (c.getName().equals(AuthFilter.COOKIE_NAME)) {
+				token  = c;
+			}
+		}
+		assertNotNull(token.getValue());
+		String id = cr.getEntity(JSONObject.class).optString(JSONConstants.ID_KEY, null);
+		assertNotNull(id);
+		
+		cr = changeUser(id, createUserJson(null, null, "neuespassword"), token);
+		assertEquals(Status.OK.getStatusCode(), cr.getStatus());
+		
 	}
 
-	public String getPassword() {
-		return Long.toString(System.currentTimeMillis());
-	}
-	
-	public String getUsername() {
-//		return Long.toString(System.currentTimeMillis());
-		return "user" + (int) Math.floor(Math.random()*1e6);
-	}
-	
-	public String getMail() {
-		return System.currentTimeMillis() + "@email.tld";
-	}
-	
-	public JSONObject createUser(String username, String mail, String password) throws JSONException {
-		JSONObject j = new JSONObject();
-		if (username != null) {
-			j.put(JSONConstants.USERNAME_KEY, username);
-		}
-		if (mail != null) {
-			j.put(JSONConstants.EMAIL_KEY, mail);
-		}
-		if (password != null) {
-			j.put(JSONConstants.PASSWORD_KEY, getPassword());
-		}
-		return j;
-	}
-	
-	public ClientResponse getUsers() {
-		return getWebResource()
-				.path(Paths.USERS)
-				.accept(MediaTypes.USER_LIST)
-				.get(ClientResponse.class);
-	}
-	
 	public void printUsers() throws ClientHandlerException, UniformInterfaceException, JSONException {
 //		JSONArray a = getUsers().getEntity(JSONObject.class).getJSONArray(JSONConstants.USERS_KEY);
 //		Set<String> ids = Utils.set();
@@ -179,27 +93,19 @@ public class FlashMobTest extends JerseyTest {
 	/* if this single test case is executed everything is fine. for the entire class it fails */
 	@Ignore@Test
 	public void testCreateUserWithDuplicateMailAddress() throws JSONException {
-		String mail = getMail();
-		assertEquals(201, addUser(createUser(getUsername(), mail, getPassword())).getStatus());
-		assertEquals(400, addUser(createUser(getUsername(), mail, getPassword())).getStatus());
+		String mail = getRandomMail();
+		assertEquals(Status.CREATED.getStatusCode(), addUser(createUserJson(getRandomUsername(), mail, getRandomPassword())).getStatus());
+		assertEquals(Status.BAD_REQUEST.getStatusCode(), addUser(createUserJson(getRandomUsername(), mail, getRandomPassword())).getStatus());
 	}
 	
 	/* if this single test case is executed everything is fine. for the entire class it fails */
 	@Ignore@Test
 	public void testCreateUserWithDuplicateUsername() throws JSONException {
-		String username = getUsername();
-		assertEquals(201, addUser(createUser(username, getMail(), getPassword())).getStatus());
-		assertEquals(400, addUser(createUser(username, getMail(), getPassword())).getStatus());
+		String username = getRandomUsername();
+		assertEquals(Status.CREATED.getStatusCode(), addUser(createUserJson(username, getRandomMail(), getRandomPassword())).getStatus());
+		assertEquals(Status.BAD_REQUEST.getStatusCode(), addUser(createUserJson(username, getRandomMail(), getRandomPassword())).getStatus());
 	}
 	
-	public ClientResponse addUser(JSONObject u) {
-		return getWebResource()
-				.path(Paths.USERS)
-				.accept(MediaTypes.USER)
-				.header(HeaderParams.CONTENT_TYPE, MediaTypes.USER)
-				.entity(u)
-				.post(ClientResponse.class);
-	}
 	@Test
 	public void testGetUsers() {
 		getWebResource().path(Paths.USERS).accept(MediaTypes.USER_LIST).get(JSONObject.class);

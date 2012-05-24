@@ -149,7 +149,7 @@ public class Utils {
 	}
 
 	public static String join(String sep, Object... col) {
-		return join(null, col);
+		return join(null, sep, col);
 	}
 
 	public static String join(Stringifier s, String sep, Object... col) {

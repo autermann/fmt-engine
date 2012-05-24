@@ -25,6 +25,8 @@ public class ServiceError extends RuntimeException {
 	public enum Status {
 		BAD_REQUEST(400), 
 		NOT_FOUND(404), 
+		NOT_AUTHORIZED(401),
+		FORBIDDEN(403),
 		INTERNAL_SERVER_ERROR(500);
 		
 		private int code;
@@ -66,6 +68,14 @@ public class ServiceError extends RuntimeException {
 
 	public static ServiceError notFound(String message) {
 		return new ServiceError(Status.NOT_FOUND, message);
+	}
+	
+	public static ServiceError notAuthorized(String message) {
+		return new ServiceError(Status.NOT_AUTHORIZED, message);
+	}
+	
+	public static ServiceError forbidden(String message) {
+		return new ServiceError(Status.FORBIDDEN, message);
 	}
 	
 	public static ServiceError badRequest(String message) {
@@ -127,6 +137,6 @@ public class ServiceError extends RuntimeException {
 	public static ServiceError commentNotFound() {
 		return notFound("no such comment");
 	}
-	
+
 
 }

@@ -21,52 +21,58 @@ import javax.ws.rs.core.MediaType;
 
 
 public interface RESTConstants {
+	public static abstract class Roles {
+		public static final String GUEST = "GUEST";
+		public static final String USER = "USER";
+		public static final String ADMIN = "ADMIN";
+	}
+	
 	public static abstract class MediaTypes {
 		public static final String IMAGE_PNG = "image/png";
 		public static final String IMAGE_GIF = "image/gif";
 		public static final String IMAGE_JPEG = "image/jpeg";
 		
-		public static final String MIME_TYPE_PREFIX = "application/vnd.flashmobtoolkit.";
+		public static final String MIME_TYPE_PREFIX = "application/vnd.fmt.";
 		public static final String MIME_TYPE_POSTFIX = "+json";
 		
 		public static final String FLASHMOB = MIME_TYPE_PREFIX + "flashmob" + MIME_TYPE_POSTFIX;
 		public static final MediaType FLASHMOB_TYPE = MediaType.valueOf(FLASHMOB);
-		public static final String FLASHMOB_LIST = MIME_TYPE_PREFIX + "flashmob.list" + MIME_TYPE_POSTFIX;
+		public static final String FLASHMOB_LIST = MIME_TYPE_PREFIX + "flashmob-list" + MIME_TYPE_POSTFIX;
 		public static final MediaType FLASHMOB_LIST_TYPE = MediaType.valueOf(FLASHMOB_LIST);
 
 		public static final String ACTIVITY = MIME_TYPE_PREFIX + "activity" + MIME_TYPE_POSTFIX;
 		public static final MediaType ACTIVITY_TYPE = MediaType.valueOf(ACTIVITY);
-		public static final String ACTIVITY_LIST = MIME_TYPE_PREFIX + "activity.list" + MIME_TYPE_POSTFIX;
+		public static final String ACTIVITY_LIST = MIME_TYPE_PREFIX + "activity-list" + MIME_TYPE_POSTFIX;
 		public static final MediaType ACTIVITY_LIST_TYPE = MediaType.valueOf(ACTIVITY_LIST);
 		
 		public static final String TRIGGER = MIME_TYPE_PREFIX + "trigger" + MIME_TYPE_POSTFIX;
 		public static final MediaType TRIGGER_TYPE = MediaType.valueOf(TRIGGER);
-		public static final String TRIGGER_LIST = MIME_TYPE_PREFIX + "trigger.list" + MIME_TYPE_POSTFIX;
+		public static final String TRIGGER_LIST = MIME_TYPE_PREFIX + "trigger-list" + MIME_TYPE_POSTFIX;
 		public static final MediaType TRIGGER_LIST_TYPE = MediaType.valueOf(TRIGGER_LIST);
 		
 		public static final String ROLE = MIME_TYPE_PREFIX + "role" + MIME_TYPE_POSTFIX;
 		public static final MediaType ROLE_TYPE = MediaType.valueOf(ROLE);
-		public static final String ROLE_LIST = MIME_TYPE_PREFIX + "role.list" + MIME_TYPE_POSTFIX;
+		public static final String ROLE_LIST = MIME_TYPE_PREFIX + "role-list" + MIME_TYPE_POSTFIX;
 		public static final MediaType ROLE_LIST_TYPE = MediaType.valueOf(ROLE_LIST);
 		
 		public static final String SIGNAL = MIME_TYPE_PREFIX + "signal" + MIME_TYPE_POSTFIX;
 		public static final MediaType SIGNAL_TYPE = MediaType.valueOf(SIGNAL);
-		public static final String SIGNAL_LIST = MIME_TYPE_PREFIX + "signal.list" + MIME_TYPE_POSTFIX;
+		public static final String SIGNAL_LIST = MIME_TYPE_PREFIX + "signal-list" + MIME_TYPE_POSTFIX;
 		public static final MediaType SIGNAL_LIST_TYPE = MediaType.valueOf(SIGNAL_LIST);
 		
 		public static final String USER = MIME_TYPE_PREFIX + "user" + MIME_TYPE_POSTFIX;
 		public static final MediaType USER_TYPE = MediaType.valueOf(USER);
-		public static final String USER_LIST = MIME_TYPE_PREFIX + "user.list" + MIME_TYPE_POSTFIX;
+		public static final String USER_LIST = MIME_TYPE_PREFIX + "user-list" + MIME_TYPE_POSTFIX;
 		public static final MediaType USER_LIST_TYPE = MediaType.valueOf(USER_LIST);
 
 		public static final String TASK = MIME_TYPE_PREFIX + "task" + MIME_TYPE_POSTFIX;
 		public static final MediaType TASK_TYPE = MediaType.valueOf(TASK);
-		public static final String TASK_LIST = MIME_TYPE_PREFIX + "task.list" + MIME_TYPE_POSTFIX;
+		public static final String TASK_LIST = MIME_TYPE_PREFIX + "task-list" + MIME_TYPE_POSTFIX;
 		public static final MediaType TASK_LIST_TYPE = MediaType.valueOf(TASK_LIST);
 		
 		public static final String COMMENT = MIME_TYPE_PREFIX + "comment" + MIME_TYPE_POSTFIX;
 		public static final MediaType COMMENT_TYPE = MediaType.valueOf(COMMENT);
-		public static final String COMMENT_LIST = MIME_TYPE_PREFIX + "comment.list" + MIME_TYPE_POSTFIX;
+		public static final String COMMENT_LIST = MIME_TYPE_PREFIX + "comment-list" + MIME_TYPE_POSTFIX;
 		public static final MediaType COMMENT_LIST_TYPE = MediaType.valueOf(COMMENT_LIST);
 	}
 
@@ -108,15 +114,17 @@ public interface RESTConstants {
 		
 		//TODO private String order;
 	}
-	
+
 	public enum ShowStatus {
 		PUBLIC, PRIVATE;
 	}
 
 	public static abstract class HeaderParams {
 		public static final String CONTENT_TYPE = "Content-Type";
+		public static final String AUTHORIZATION = "Authorization";
+		public static final String COOKIE = "Cookie";
+		public static final String SET_COOKIE = "Set-Cookie";
 	}
-
 	
 	/*
 	 * TODO refactor URL's to enable access to resource params.
@@ -173,6 +181,5 @@ public interface RESTConstants {
 		public static final String ACTIVITIES_OF_FLASHMOB_OF_USER = FLASHMOB_OF_USER + ACTIVITIES;
 		public static final String ACTIVITY_OF_FLASHMOB_OF_USER = FLASHMOB_OF_USER + ACTIVITY;
 		public static final String TASK_OF_ACTIVITY_OF_FLASHMOB_OF_USER = ACTIVITY_OF_FLASHMOB_OF_USER + TASK;
-		
 	}
 }

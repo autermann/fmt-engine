@@ -84,8 +84,7 @@ public class FlashmobsServlet extends AbstractServlet {
 	@POST
 	@Produces(MediaTypes.FLASHMOB)
 	@Consumes(MediaTypes.FLASHMOB)
-	// create a new flashmob
-	public Response setFlashmob(Flashmob f) {
+	public Response createFlashmob(Flashmob f) {
 		Flashmob saved = getService().createFlashmob(f);
 		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.FLASHMOB).build(f);
 		return Response.created(uri).entity(saved).build();

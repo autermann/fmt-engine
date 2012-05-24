@@ -24,6 +24,9 @@ package de.ifgi.fmt.web.servlet.users;
 import java.net.URI;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -31,31 +34,36 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+
+import com.sun.jersey.spi.container.ContainerRequest;
 
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
+import de.ifgi.fmt.web.filter.auth.AuthFilter;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.USERS)
 public class UsersServlet extends AbstractServlet {
-	/*
-	 * /users
-	 */
+
 	@GET
+	@PermitAll
 	@Produces(MediaTypes.USER_LIST)
-	public List<User> getUsers(
-			@QueryParam(QueryParams.LIMIT) @DefaultValue(DEFAULT_LIMIT) int limit) {
+	public List<User> getUsers(@QueryParam(QueryParams.LIMIT) @DefaultValue(DEFAULT_LIMIT) int limit) {
 		return getService().getUsers(limit);
 	}
 
 	@POST
+	@RolesAllowed({ Roles.GUEST, Roles.ADMIN })
 	@Produces(MediaTypes.USER)
 	@Consumes(MediaTypes.USER)
-	public Response createUser(User u) {
+	public Response createUser(User u, @Context HttpServletRequest sr) {
 		User saved = getService().createUser(u);
-		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.USER)
-				.build(u.getId());
+		if (!isAdmin()) {
+			AuthFilter.authSession((ContainerRequest) getSecurityContext(), sr, saved);
+		}
+		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.USER).build(u.getId());
 		return Response.created(uri).entity(saved).build();
 	}
 

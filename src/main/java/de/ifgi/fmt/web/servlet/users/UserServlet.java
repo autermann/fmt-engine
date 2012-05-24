@@ -21,6 +21,9 @@
  */
 package de.ifgi.fmt.web.servlet.users;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -28,36 +31,62 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 
 import org.bson.types.ObjectId;
 
+import com.sun.jersey.spi.container.ContainerRequest;
+
+import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
+import de.ifgi.fmt.web.filter.auth.AuthFilter;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.USER)
 public class UserServlet extends AbstractServlet {
-	/*
-	 * /users/{uid}
-	 */
 
 	@GET
+	@PermitAll
 	@Produces(MediaTypes.USER)
 	public User getUser(@PathParam(PathParams.USER) ObjectId user) {
 		return getService().getUser(user);
 	}
 
 	@PUT
+	@RolesAllowed({Roles.USER, Roles.ADMIN})
 	@Produces(MediaTypes.USER)
 	@Consumes(MediaTypes.USER)
-	public User getUser(@PathParam(PathParams.USER) ObjectId user, User u) {
-		// @ToDo
+	public User updateeUser(@PathParam(PathParams.USER) ObjectId user, User u) {
+
+//		getUser()
+//		isAdmin()
+//		isGuest()
+//		isUser()
+//		hasRole(role)
+//		isAdminOrUserWithId(user)
+		
+		if (!isAdminOrUserWithId(user)) {
+			throw ServiceError.forbidden("can only change yourself");
+		}
+		
 		return getService().updateUser(u, user);
 	}
 
 	@DELETE
-	public void deleteUser(@PathParam(PathParams.USER) ObjectId user) {
-		// @ToDo
+	@RolesAllowed({Roles.USER, Roles.ADMIN})
+	public void deleteUser(@PathParam(PathParams.USER) ObjectId user,
+			ContainerRequest cr, @Context HttpServletRequest sr) {
+		
+		if (!isAdminOrUserWithId(user)) {
+			throw ServiceError.forbidden("can only delete yourself");
+		}
+		
 		getService().deleteUser(user);
+		
+		// do not log out the admin...
+		if (isUser()) {
+			AuthFilter.deauthSession(cr, sr);
+		}
 	}
 }

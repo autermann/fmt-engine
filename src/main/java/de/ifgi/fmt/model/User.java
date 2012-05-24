@@ -17,6 +17,8 @@
  */
 package de.ifgi.fmt.model;
 
+import java.util.Set;
+
 import org.bson.types.ObjectId;
 
 import com.google.code.morphia.annotations.Entity;
@@ -26,6 +28,8 @@ import com.google.code.morphia.annotations.Property;
 
 import de.ifgi.fmt.mongo.Identifiable;
 import de.ifgi.fmt.utils.BCrypt;
+import de.ifgi.fmt.utils.Utils;
+import de.ifgi.fmt.utils.constants.RESTConstants.Roles;
 
 @Polymorphic
 @Entity(User.COLLECTION_NAME)
@@ -35,7 +39,9 @@ public class User extends Identifiable {
 	public static final String PASSWORD_HASH = "password";
 	public static final String EMAIL = "email";
 	public static final String USERNAME = "username";
-
+	public static final String AUTH_TOKEN = "authToken";
+	public static final String ROLES = "roles";
+	
 	@Property(User.USERNAME)
 	@Indexed(unique = true, sparse = true)
 	private String username;
@@ -46,7 +52,13 @@ public class User extends Identifiable {
 
 	@Property(User.PASSWORD_HASH)
 	private String passwordHash;
-
+	
+	@Property(User.AUTH_TOKEN)
+	private String authToken;
+	
+	@Property(User.ROLES)
+	private Set<String> roles = Utils.set(Roles.USER);
+	
 	public User(ObjectId id) {
 		super(id);
 	}
@@ -99,6 +111,38 @@ public class User extends Identifiable {
 			return null;
 		}
 		return BCrypt.hashpw(unhashed, BCrypt.gensalt());
+	}
+
+	public String getAuthToken() {
+		return authToken;
+	}
+
+	public User setAuthToken(String authToken) {
+		this.authToken = authToken;
+		return this;
+	}
+
+	public Set<String> getRoles() {
+		return roles;
+	}
+
+	public User setRoles(Set<String> roles) {
+		this.roles = roles;
+		return this;
+	}
+	
+	public User addRole(String role) {
+		getRoles().add(role);
+		return this;
+	}
+	
+	public boolean hasRole(String role) {
+		for (String r : getRoles()) {
+			if (r.equalsIgnoreCase(role)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

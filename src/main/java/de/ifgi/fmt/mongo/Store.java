@@ -22,6 +22,7 @@ import static de.ifgi.fmt.mongo.DaoFactory.getCommentDao;
 import static de.ifgi.fmt.mongo.DaoFactory.getFlashmobDao;
 import static de.ifgi.fmt.mongo.DaoFactory.getRoleDao;
 import static de.ifgi.fmt.mongo.DaoFactory.getTriggerDao;
+import static de.ifgi.fmt.mongo.DaoFactory.getUserDao;
 
 import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
@@ -144,6 +145,14 @@ public class Store {
 				break;
 			}
 			return q;
+		}
+
+		public static Query<User> userByAuthToken(String token) {
+			return getUserDao().createQuery().field(User.AUTH_TOKEN).equal(token);
+		}
+
+		public static Query<User> userByName(String username) {
+			return getUserDao().createQuery().field(User.USERNAME).equal(username);
 		}
 
 	}

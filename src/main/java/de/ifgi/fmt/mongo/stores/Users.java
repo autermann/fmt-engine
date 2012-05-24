@@ -131,4 +131,12 @@ public class Users implements ExtendedDao<User>{
 		return getUserDao().createQuery();
 	}
 
+	public User getByAuthToken(String token) {
+		return getOne(Queries.userByAuthToken(token));
+	}
+	
+	public User get(String username) {
+		return getOne(Queries.userByName(username));
+	}
+
 }
