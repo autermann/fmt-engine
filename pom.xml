@@ -320,6 +320,7 @@
 						<java>SLASHSTAR_STYLE</java>
 					</mapping>
 					<excludes>
+						<exclude>schema/**</exclude>
 						<exclude>target/**</exclude>
 						<exclude>**/src/main/java/de/ifgi/fmt/utils/BCrypt.java</exclude>
 						<exclude>**/src/test/resources/**</exclude>
