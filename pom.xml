@@ -42,7 +42,7 @@
 
 	<properties>
 		<geotools.version>8.0-M1</geotools.version>
-		<jersey.version>1.8</jersey.version>
+		<jersey.version>1.12</jersey.version>
 		<morphia.version>0.99</morphia.version>
 
 		<filter.logs>com.sun.jersey.api.container.filter.LoggingFilter</filter.logs>

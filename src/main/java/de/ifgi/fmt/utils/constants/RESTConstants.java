@@ -19,7 +19,6 @@ package de.ifgi.fmt.utils.constants;
 
 import javax.ws.rs.core.MediaType;
 
-
 public interface RESTConstants {
 	public static abstract class Roles {
 		public static final String GUEST = "GUEST";
@@ -31,9 +30,11 @@ public interface RESTConstants {
 		public static final String IMAGE_PNG = "image/png";
 		public static final String IMAGE_GIF = "image/gif";
 		public static final String IMAGE_JPEG = "image/jpeg";
+			
+		public static final String SCHEMA_BASE_URL = "http://giv-flashmob.uni-muenster.de/schema/";
 		
-		public static final String MIME_TYPE_PREFIX = "application/vnd.fmt.";
-		public static final String MIME_TYPE_POSTFIX = "+json";
+		public static final String MIME_TYPE_PREFIX = "application/json; profile=\"" + SCHEMA_BASE_URL;
+		public static final String MIME_TYPE_POSTFIX = "\"";
 		
 		public static final String FLASHMOB = MIME_TYPE_PREFIX + "flashmob" + MIME_TYPE_POSTFIX;
 		public static final MediaType FLASHMOB_TYPE = MediaType.valueOf(FLASHMOB);
