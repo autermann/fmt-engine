@@ -34,7 +34,7 @@ import de.ifgi.fmt.mongo.Store;
 
 public class Tasks implements ExtendedDao<Task>{
 	private static final Logger log = LoggerFactory.getLogger(Tasks.class);
-	@SuppressWarnings("unused")
+
 	private final Store store;
 
 	public Tasks(Store store) {
@@ -65,9 +65,8 @@ public class Tasks implements ExtendedDao<Task>{
 
 	@Override
 	public void delete(Task t) {
-		// TODO task deletion
-		throw new UnsupportedOperationException("Not yet implemented");
-		
+		store.activities().save(t.getActivity().addTask(t.getRole(), null));
+		getTaskDao().delete(t);
 	}
 
 	@Override

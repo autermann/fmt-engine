@@ -158,6 +158,14 @@ public class Activity extends Identifiable {
 		this.tasks.put(role, task.setActivity(this).setRole(role));
 		return this;
 	}
+	
+	public Activity removeTask(Role role) {
+		Task t = this.tasks.put(role, null);
+		if (t != null) {
+			t.setActivity(null);
+		}
+		return this;
+	}
 
 	public Activity addRole(Role role) {
 		this.tasks.put(role.addAcitivity(this), null);

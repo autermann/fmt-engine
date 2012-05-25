@@ -86,7 +86,6 @@ public class AbstractFlashMobTest extends JerseyTest {
 	}
 
 	public AbstractFlashMobTest() {
-		// TODO package?
 		super(new GrizzlyWebTestContainerFactory());
 	}
 	
