@@ -17,6 +17,43 @@
  */
 package de.ifgi.fmt.web.servlet.flashmobs;
 
-public class CommentServlet {
+import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+
+import org.bson.types.ObjectId;
+
+import de.ifgi.fmt.ServiceError;
+import de.ifgi.fmt.model.Comment;
+import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
+import de.ifgi.fmt.web.servlet.AbstractServlet;
+
+@Path(Paths.COMMENT_FOR_FLASHMOB)
+public class CommentServlet extends AbstractServlet {
+
+	@GET
+	@Produces(MediaTypes.COMMENT)
+	public Comment getComment(
+			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+			@PathParam(PathParams.COMMENT) ObjectId comment) {
+		return getService().getCommentForFlashmob(flashmob, comment);
+	}
+
+	@PUT
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
+	@Consumes(MediaTypes.COMMENT)
+	@Produces(MediaTypes.COMMENT)
+	public Comment changeComment(
+			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+			@PathParam(PathParams.COMMENT) ObjectId comment, Comment changes) {
+		if (!isAdminOrUserWithId(getComment(flashmob, comment).getUser().getId())) {
+			throw ServiceError.forbidden("You can only change your own comments");
+		}
+		return getService().updateComment(flashmob, comment, changes);
+	}
 
 }

@@ -422,4 +422,17 @@ public class Service {
 		return fa;
 	}
 
+	public Comment getCommentForFlashmob(ObjectId flashmob, ObjectId comment) {
+		Flashmob f = getFlashmob(flashmob);
+		Comment c = getStore().comments().get(comment);
+		if (!c.getFlashmob().equals(f)) {
+			throw ServiceError.commentNotFound();
+		}
+		return c;
+	}
+
+	public Comment updateComment(ObjectId flashmob, ObjectId comment, Comment changes) {
+		return getStore().comments().save(update(getCommentForFlashmob(flashmob, comment), changes));
+	}
+
 }
