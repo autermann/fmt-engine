@@ -21,6 +21,7 @@
  */
 package de.ifgi.fmt.web.servlet.users.flashmobs.activities;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -28,21 +29,23 @@ import javax.ws.rs.Produces;
 
 import org.bson.types.ObjectId;
 
+import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.TASK_OF_ACTIVITY_OF_FLASHMOB_OF_USER)
 public class TaskServlet extends AbstractServlet {
-	/*
-	 * /users/{uid}/flashmobs/{fid}/activities/{aid}/task
-	 */
 
 	@GET
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.TASK)
 	public Task getTasks(@PathParam(PathParams.USER) ObjectId user,
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
+		if (!isAdminOrUserWithId(user)) {
+			throw ServiceError.flashmobNotFound();
+		}
 		return getService().getTaskForActivity(activity, flashmob, user);
 	}
 }

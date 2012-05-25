@@ -43,13 +43,13 @@ import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants.HeaderParams;
 
-public class AuthFilter implements ContainerResponseFilter, ContainerRequestFilter {
+public class Authentication implements ContainerResponseFilter, ContainerRequestFilter {
 	
 	public static final String COOKIE_NAME = "fmt_oid";
 	public static final String USER_SESSION_ATTRIBUTE = "user";
 	public static final String REMOVE_COOKIE_SESSION_ATTRIBUTE = "remove-cookie";
 	
-	private static final Logger log = LoggerFactory.getLogger(AuthFilter.class);
+	private static final Logger log = LoggerFactory.getLogger(Authentication.class);
 	
 	
 	private final SecureRandom random = new SecureRandom();
@@ -78,6 +78,11 @@ public class AuthFilter implements ContainerResponseFilter, ContainerRequestFilt
 			rs.setResponse(rb.build());
 		} else if (sr.getAttribute(REMOVE_COOKIE_SESSION_ATTRIBUTE) != null) {
 			sr.removeAttribute(REMOVE_COOKIE_SESSION_ATTRIBUTE);
+			User u = (User) s.getAttribute(USER_SESSION_ATTRIBUTE);
+			if (u != null) {
+				u.setAuthToken(null);
+				Service.getInstance().getStore().users().save(u);
+			}
 			rs.setResponse(Response.fromResponse(rs.getResponse()).cookie(getInvalidCookie()).build());
 		}
 		return rs;
@@ -100,7 +105,7 @@ public class AuthFilter implements ContainerResponseFilter, ContainerRequestFilt
 		
 		User u = Service.getInstance().getStore().users().get(uap[0]);
 		if (u == null) {
-			throw ServiceError.notAuthorized("no such username");
+			throw ServiceError.forbidden("no such username");//TODO 401 or 403?
 		}
 		if (u.isValidPassword(uap[1])) {
 			authSession(cr, u);
@@ -135,18 +140,6 @@ public class AuthFilter implements ContainerResponseFilter, ContainerRequestFilt
 		deauthSession(cr, sr);
 	}
 
-	public static void deauthSession(ContainerRequest cr, HttpServletRequest sr) {
-		sr.getSession(true).removeAttribute(USER_SESSION_ATTRIBUTE);
-		sr.getSession(true).setAttribute(REMOVE_COOKIE_SESSION_ATTRIBUTE, new Boolean(true));
-		cr.setSecurityContext(new FmtSecurityContext(null));
-	}
-	
-	public static void authSession(ContainerRequest cr, HttpServletRequest sr, User u) {
-		log.debug("Authorizing session for user {}", u);
-		sr.getSession(true).setAttribute(USER_SESSION_ATTRIBUTE, u);
-		cr.setSecurityContext(new FmtSecurityContext(u));
-	}
-	
 	private NewCookie getInvalidCookie() {
 		return new NewCookie(COOKIE_NAME, "", uri.getBaseUri().getPath(), uri
 				.getBaseUri().getHost(), 1, null, 0, false);
@@ -175,6 +168,26 @@ public class AuthFilter implements ContainerResponseFilter, ContainerRequestFilt
 			.append(u.getCreationTime())
 			.toString();
 		return new String(Base64.encodeBase64(t.getBytes()));
+	}
+
+	public static void deauthSession(ContainerRequest cr, HttpServletRequest sr) {
+		if (sr != null) {
+			sr.getSession(true).removeAttribute(USER_SESSION_ATTRIBUTE);
+			sr.getSession(true).setAttribute(REMOVE_COOKIE_SESSION_ATTRIBUTE, new Boolean(true));
+		}
+		if (cr != null) {
+			cr.setSecurityContext(new FmtSecurityContext(null));
+		}
+	}
+	
+	public static void authSession(ContainerRequest cr, HttpServletRequest sr, User u) {
+		log.debug("Authorizing session for user {}", u);
+		if (sr != null) {
+			sr.getSession(true).setAttribute(USER_SESSION_ATTRIBUTE, u);
+		}
+		if (cr != null) {
+			cr.setSecurityContext(new FmtSecurityContext(u));
+		}
 	}
 	
 }

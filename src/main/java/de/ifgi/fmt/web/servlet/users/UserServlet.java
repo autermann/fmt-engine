@@ -40,7 +40,7 @@ import com.sun.jersey.spi.container.ContainerRequest;
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
-import de.ifgi.fmt.web.filter.auth.AuthFilter;
+import de.ifgi.fmt.web.filter.auth.Authentication;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.USER)
@@ -86,7 +86,7 @@ public class UserServlet extends AbstractServlet {
 		
 		// do not log out the admin...
 		if (isUser()) {
-			AuthFilter.deauthSession(cr, sr);
+			Authentication.deauthSession(cr, sr);
 		}
 	}
 }

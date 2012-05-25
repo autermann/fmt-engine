@@ -217,9 +217,12 @@ public class Service {
 	}
 
 	public Flashmob getFlashmob(ObjectId user, ObjectId flashmob) {
-		User u = getUser(user);
+		return getFlashmob(getUser(user), flashmob);
+	}
+	
+	public Flashmob getFlashmob(User user, ObjectId flashmob) {
 		Flashmob f = getFlashmob(flashmob);
-		if (!f.hasUser(u)) {
+		if (!f.hasUser(user)) {
 			throw ServiceError.flashmobNotFound();
 		}
 		return f;
@@ -399,6 +402,24 @@ public class Service {
 
 	public User updateUser(User updates, ObjectId user) {
 		return getStore().users().save(update(getUser(user), updates));
+	}
+
+	public Activity getActivityForUser(ObjectId user, ObjectId flashmob,
+			ObjectId activity) {
+		User u = getUser(user);
+		getFlashmob(u, flashmob);
+		List<Activity> ac = getActivitiesForUser(user, flashmob);
+		Activity fa = null;
+		for (Activity a : ac) {
+			if (a.getId().equals(activity)) {
+				fa = a;
+				break;
+			}
+		}
+		if (fa == null) {
+			throw ServiceError.activityNotFound();
+		}
+		return fa;
 	}
 
 }

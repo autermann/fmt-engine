@@ -41,7 +41,7 @@ import com.sun.jersey.spi.container.ContainerRequest;
 
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
-import de.ifgi.fmt.web.filter.auth.AuthFilter;
+import de.ifgi.fmt.web.filter.auth.Authentication;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.USERS)
@@ -61,7 +61,7 @@ public class UsersServlet extends AbstractServlet {
 	public Response createUser(User u, @Context HttpServletRequest sr) {
 		User saved = getService().createUser(u);
 		if (!isAdmin()) {
-			AuthFilter.authSession((ContainerRequest) getSecurityContext(), sr, saved);
+			Authentication.authSession((ContainerRequest) getSecurityContext(), sr, saved);
 		}
 		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.USER).build(u.getId());
 		return Response.created(uri).entity(saved).build();

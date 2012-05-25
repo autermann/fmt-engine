@@ -35,7 +35,7 @@ import com.sun.jersey.api.client.UniformInterfaceException;
 import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
-import de.ifgi.fmt.web.filter.auth.AuthFilter;
+import de.ifgi.fmt.web.filter.auth.Authentication;
 
 public class FlashMobTest extends AbstractFlashMobTest {
 	
@@ -66,7 +66,7 @@ public class FlashMobTest extends AbstractFlashMobTest {
 		assertEquals(Status.CREATED.getStatusCode(), cr.getStatus());
 		Cookie token = null;
 		for (Cookie c : cr.getCookies()) {
-			if (c.getName().equals(AuthFilter.COOKIE_NAME)) {
+			if (c.getName().equals(Authentication.COOKIE_NAME)) {
 				token  = c;
 			}
 		}
