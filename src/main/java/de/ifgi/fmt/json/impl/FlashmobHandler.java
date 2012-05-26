@@ -104,6 +104,13 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 		if (publish != null) {
 			f.setPublish(getDateTimeFormat().parseDateTime(publish));
 		}
+		
+		String coordinator = j.optString(COORDINATOR_KEY, null);
+		if (coordinator != null) {
+			User c = new User();
+			c.setId(new ObjectId(coordinator));
+			f.setCoordinator(c);
+		}
 		return f;
 	}
 		

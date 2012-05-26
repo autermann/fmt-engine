@@ -36,7 +36,7 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
 @Encodes(User.class)
 @Decodes(User.class)
-public class UserProvider extends JSONHandler<User> {
+public class UserHandler extends JSONHandler<User> {
 
 	@Override
 	public User decode(JSONObject j) throws JSONException {

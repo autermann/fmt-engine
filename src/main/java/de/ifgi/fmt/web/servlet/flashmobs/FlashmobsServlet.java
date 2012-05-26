@@ -37,6 +37,7 @@ import com.vividsolutions.jts.geom.Point;
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.BoundingBox;
 import de.ifgi.fmt.model.Flashmob;
+import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
@@ -85,6 +86,10 @@ public class FlashmobsServlet extends AbstractServlet {
 	@Produces(MediaTypes.FLASHMOB)
 	@Consumes(MediaTypes.FLASHMOB)
 	public Response createFlashmob(Flashmob f) {
+		User u = getUser();
+		if (u != null && f.getCoordinator() == null) {
+			f.setCoordinator(u);
+		}
 		Flashmob saved = getService().createFlashmob(f);
 		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.FLASHMOB).build(f);
 		return Response.created(uri).entity(saved).build();
