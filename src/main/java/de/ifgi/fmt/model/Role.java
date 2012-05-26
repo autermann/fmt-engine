@@ -135,10 +135,8 @@ public class Role extends Identifiable {
 	}
 
 	public Role setMinCount(Integer minCount) {
-		if (getMaxCount() != null) {
-			if (getMaxCount().intValue() <= minCount.intValue()) {
-				throw new IllegalArgumentException("min count can not be bigger than max count");
-			}
+		if (getMaxCount() != null && getMaxCount().intValue() <= minCount.intValue()) {
+			throw new IllegalArgumentException("min count can not be bigger than max count. "+getMaxCount() +"<="+getMinCount());
 		}
 		this.minCount = minCount;
 		return this;
@@ -149,7 +147,8 @@ public class Role extends Identifiable {
 	}
 
 	public Role setMaxCount(Integer maxCount) {
-		if (getMinCount().intValue() <= maxCount.intValue()) {
+		if (getMinCount() != null &&
+				getMinCount().intValue() <= maxCount.intValue()) {
 			throw new IllegalArgumentException("min count can not be bigger than max count");
 		}
 		this.maxCount = maxCount;

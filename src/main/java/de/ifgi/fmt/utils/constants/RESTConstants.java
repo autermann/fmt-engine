@@ -60,6 +60,9 @@ public interface RESTConstants {
 		public static final MediaType TASK_LIST_TYPE = MediaType.valueOf(TASK_LIST);
 		public static final MediaType COMMENT_TYPE = MediaType.valueOf(COMMENT);
 		public static final MediaType COMMENT_LIST_TYPE = MediaType.valueOf(COMMENT_LIST);
+		
+		public static final String ERRORS = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/errors\"";
+		public static final MediaType ERRORS_TYPE = MediaType.valueOf(ERRORS);
 	}
 
 	public static abstract class PathParams {

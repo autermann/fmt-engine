@@ -69,13 +69,13 @@ public class Flashmob extends Identifiable {
 
 	@NotNull
 	@Property(Flashmob.START)
-	private DateTime start;
+	private DateTime startTime;
 
 	@Property(Flashmob.END)
-	private DateTime end;
+	private DateTime endTime;
 
 	@Property(Flashmob.PUBLISH)
-	private DateTime publish;
+	private DateTime publishTime;
 
 	@Property(Flashmob.PUBLIC)
 	private Boolean isPublic;
@@ -92,21 +92,21 @@ public class Flashmob extends Identifiable {
 	private Validity validity = Validity.NOT_CHECKED;
 
 	@NotNull
-	@Reference(Flashmob.ACTIVITIES)
+	@Reference(value = Flashmob.ACTIVITIES, lazy = true)
 	private List<Activity> activities = Utils.list();
-	
+
 	@NotNull
-	@Reference(Flashmob.ROLES)
+	@Reference(value = Flashmob.ROLES, lazy = true)
 	private List<Role> roles = Utils.list();
-	
+
 	@NotNull
-	@Reference(Flashmob.TRIGGERS)
+	@Reference(value = Flashmob.TRIGGERS, lazy = true)
 	private List<Trigger> triggers = Utils.list();
 
 	@NotNull
-	@Reference(Flashmob.COORDINATOR)
+	@Reference(value = Flashmob.COORDINATOR, lazy = true)
 	private User coordinator;
-	
+
 	public Flashmob(ObjectId id) {
 		super(id);
 	}
@@ -129,17 +129,17 @@ public class Flashmob extends Identifiable {
 	}
 
 	public Flashmob setStart(DateTime start) {
-		this.start = start;
+		this.startTime = start;
 		return this;
 	}
 
 	public Flashmob setEnd(DateTime end) {
-		this.end = end;
+		this.endTime = end;
 		return this;
 	}
 
 	public Flashmob setPublish(DateTime publish) {
-		this.publish = publish;
+		this.publishTime = publish;
 		return this;
 	}
 
@@ -168,15 +168,15 @@ public class Flashmob extends Identifiable {
 	}
 
 	public DateTime getStart() {
-		return start;
+		return startTime;
 	}
 
 	public DateTime getEnd() {
-		return end;
+		return endTime;
 	}
 
 	public DateTime getPublish() {
-		return publish;
+		return publishTime;
 	}
 
 	public Boolean isPublic() {

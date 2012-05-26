@@ -177,12 +177,12 @@
 		<!-- MongoDB & Morphia ############################################# -->
 		<dependency>
 			<groupId>com.google.code.morphia</groupId>
-			<artifactId>morphia-logging-slf4j</artifactId>
+			<artifactId>morphia</artifactId>
 			<version>${morphia.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.morphia</groupId>
-			<artifactId>morphia</artifactId>
+			<artifactId>morphia-logging-slf4j</artifactId>
 			<version>${morphia.version}</version>
 		</dependency>
 		<dependency>
@@ -199,6 +199,18 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.3.0.Final</version>
+		</dependency>
+
+		<!-- used for lazy dereferencing -->
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.proxytoys</groupId>
+			<artifactId>proxytoys</artifactId>
+			<version>1.0</version>
 		</dependency>
 
 		<!-- Testing ####################################################### -->

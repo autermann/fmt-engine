@@ -67,4 +67,11 @@ public class JSONConstants {
 	public static final String PASSWORD_KEY = "password";
 	public static final String USERNAME_KEY = "username";
 	public static final String EMAIL_KEY = "email";
+	
+	public static final String ERRORS_KEY = "errors";
+	public static final String MESSAGE = "message";
+	public static final String CLASS = "class";
+	public static final String PROPERTY = "property";
+	public static final String VALUE = "value";
+	
 }

@@ -17,14 +17,20 @@
  */
 package de.ifgi.fmt.web.filter;
 
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.ifgi.fmt.ServiceError;
+import de.ifgi.fmt.utils.constants.JSONConstants;
+import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 
 @Provider
 public class UnsupportedOperationExceptionMapper implements
@@ -35,13 +41,18 @@ public class UnsupportedOperationExceptionMapper implements
 
 	@Override
 	public Response toResponse(UnsupportedOperationException e) {
-		StackTraceElement elem = e.getStackTrace()[0];
-		log.warn("NOT YET IMPLEMENTED: {}", elem);
-		return Response
-				.status(Status.INTERNAL_SERVER_ERROR)
-				.type(MediaType.TEXT_PLAIN)
-				.entity("Method " + elem + " not yet implemented")
-				.build();
+		try {
+			StackTraceElement elem = e.getStackTrace()[0];
+			log.warn("Not yet implemented: {}", elem);
+			JSONObject j = new JSONObject().put(JSONConstants.ERRORS_KEY,
+					new JSONArray().put(new JSONObject().put(
+							JSONConstants.MESSAGE, elem
+									+ " is not yet implemented.")));
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(j)
+					.type(MediaTypes.ERRORS).build();
+		} catch (JSONException e1) {
+			throw ServiceError.internal(e);
+		}
 	}
 
 }

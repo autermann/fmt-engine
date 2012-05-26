@@ -17,16 +17,23 @@
  */
 package de.ifgi.fmt.web.filter;
 
-import javax.ws.rs.core.MediaType;
+import javax.validation.ConstraintViolation;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.code.morphia.validation.VerboseJSR303ConstraintViolationException;
+
+import de.ifgi.fmt.ServiceError;
+import de.ifgi.fmt.utils.constants.JSONConstants;
+import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 
 @Provider
 public class ValidationExceptionMapper implements
@@ -35,10 +42,24 @@ public class ValidationExceptionMapper implements
 			.getLogger(ValidationExceptionMapper.class);
 
 	@Override
-	public Response toResponse(VerboseJSR303ConstraintViolationException e) {
-		log.warn("Validation: {}", e.getMessage());
-		return Response.status(Status.BAD_REQUEST)
-				.type(MediaType.TEXT_PLAIN_TYPE).entity(e.getMessage()).build();
+	public Response toResponse(VerboseJSR303ConstraintViolationException ex) {
+		try {
+			JSONArray a = new JSONArray();
+			for (ConstraintViolation<?> cv : ex.getConstraintViolations()) {
+				JSONObject e = new JSONObject();
+				e.put(JSONConstants.CLASS, cv.getRootBeanClass().getSimpleName());
+				e.put(JSONConstants.PROPERTY, cv.getPropertyPath());
+				e.put(JSONConstants.VALUE, cv.getInvalidValue());
+				e.put(JSONConstants.MESSAGE, cv.getMessage());
+				a.put(e);
+			}
+			JSONObject j = new JSONObject().put(JSONConstants.ERRORS_KEY, a);
+			log.warn("Validation: {}", ex.getMessage());
+			return Response.status(Status.BAD_REQUEST)
+					.type(MediaTypes.ERRORS_TYPE).entity(j).build();
+		} catch (JSONException e) {
+			throw ServiceError.internal(e);
+		}
 	}
 
 }

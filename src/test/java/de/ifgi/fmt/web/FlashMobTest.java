@@ -49,14 +49,18 @@ public class FlashMobTest extends AbstractFlashMobTest {
 		getWebResource().path(Paths.FLASHMOBS).accept(MediaTypes.FLASHMOB_LIST).get(JSONObject.class);
 	}
 	
-	@Test(expected=UniformInterfaceException.class)
-	public void testEmptyFlashmob() {
-		getWebResource()
+	@Test
+	public void testEmptyFlashmob() throws JSONException {
+		ClientResponse cr = getWebResource()
 				.path(Paths.FLASHMOBS)
 				.accept(MediaTypes.FLASHMOB_TYPE)
 				.type(MediaTypes.FLASHMOB_TYPE)
 				.entity(new JSONObject())
-				.post(JSONObject.class);
+				.post(ClientResponse.class);
+		assertEquals(Status.BAD_REQUEST.getStatusCode(), cr.getStatus());
+		JSONObject j = cr.getEntity(JSONObject.class);
+		assertNotNull(j);
+		System.err.println(j.toString(4));
 	}
 	
 
@@ -109,5 +113,5 @@ public class FlashMobTest extends AbstractFlashMobTest {
 	public void testGetUsers() {
 		getWebResource().path(Paths.USERS).accept(MediaTypes.USER_LIST).get(JSONObject.class);
 	}
-
+	
 }
