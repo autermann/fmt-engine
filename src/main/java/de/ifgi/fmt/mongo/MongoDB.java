@@ -31,6 +31,9 @@ import com.google.code.morphia.Morphia;
 import com.google.code.morphia.converters.DefaultConverters;
 import com.google.code.morphia.converters.TypeConverter;
 import com.google.code.morphia.dao.BasicDAO;
+import com.google.code.morphia.logging.MorphiaLoggerFactory;
+import com.google.code.morphia.logging.slf4j.SLF4JLogrImplFactory;
+import com.google.code.morphia.validation.MorphiaValidation;
 import com.mongodb.Mongo;
 import com.mongodb.ServerAddress;
 import com.mongodb.WriteConcern;
@@ -66,7 +69,7 @@ public class MongoDB {
 
 	protected MongoDB() {
 		try {
-
+			MorphiaLoggerFactory.registerLogger(SLF4JLogrImplFactory.class);
 			InputStream is = getClass().getResourceAsStream(PROPERTIES_FILE);
 			Properties p = new Properties();
 
@@ -103,6 +106,8 @@ public class MongoDB {
 				dc.addConverter(c);
 			}
 
+			new MorphiaValidation().applyTo(this.morphia);
+			
 			String auth = p.getProperty(AUTH_PROPERTY);
 			auth = (auth == null || auth.trim().isEmpty()) ? "false" : auth;
 			String dbna = p.getProperty(DATABASE_PROPERTY);

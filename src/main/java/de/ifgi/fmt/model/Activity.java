@@ -21,8 +21,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.bson.types.ObjectId;
+import javax.validation.constraints.NotNull;
 
+import org.bson.types.ObjectId;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
+
+import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Polymorphic;
@@ -50,25 +55,31 @@ public class Activity extends Identifiable {
 
 	public static final String TASKS = "savedTasks";
 
-	@Indexed
-	@Reference(Activity.FLASHMOB)
-	private Flashmob flashmob;
-
-	@Reference(Activity.TRIGGER)
-	private Trigger trigger;
-
-	@Reference(Activity.SIGNAL)
-	private Signal signal;
-
+	@NotBlank
+	@SafeHtml
 	@Property(Activity.TITLE)
 	private String title;
-
+	
+	@NotBlank
+	@SafeHtml
 	@Property(Activity.DESCRIPTION)
 	private String description;
+	
+	@Indexed
+	@NotNull
+	@Reference(value = Activity.FLASHMOB, lazy = true)
+	private Flashmob flashmob;
+
+	@Reference(value = Activity.TRIGGER, lazy = true)
+	private Trigger trigger;
+
+	@Reference(value = Activity.SIGNAL, lazy = true)
+	private Signal signal;
 
 	@Transient
 	private Map<Role, Task> tasks = Utils.map();
 
+	@Embedded
 	private List<TaskForRole> savedTasks = Utils.list();
 
 	@PostLoad
@@ -158,13 +169,21 @@ public class Activity extends Identifiable {
 		this.tasks.put(role, task.setActivity(this).setRole(role));
 		return this;
 	}
-	
+
 	public Activity removeTask(Role role) {
 		Task t = this.tasks.put(role, null);
 		if (t != null) {
 			t.setActivity(null);
 		}
 		return this;
+	}
+
+	public Activity removeTask(Task t) {
+		if (!t.getActivity().equals(this)) {
+			throw new IllegalArgumentException(
+					"Task is not part of this activity.");
+		}
+		return removeTask(t.getRole());
 	}
 
 	public Activity addRole(Role role) {

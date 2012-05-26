@@ -73,14 +73,17 @@ public class Activities implements ExtendedDao<Activity> {
 	}
 
 	public void delete(Flashmob f) {
+		log.debug("Deleting Actitvties of Flashmob {}", f);
 		delete(Queries.activitiesOfFlashmob(f));
 	}
 
 	public List<Activity> get(Trigger t) {
+		log.debug("Getting Actitvties of Trigger {}", t);
 		return get(Queries.activitiesOfTrigger(t));
 	}
 
 	public List<Activity> get(Flashmob flashmob, User user) {
+		log.debug("Getting Actitvties of User {} in Flashmob {}", user, flashmob);
 		return get(all()
 				.field(Activity.FLASHMOB).equal(flashmob)
 				.field(Activity.TASKS + "." + Task.ROLE + "." + Role.USERS)
@@ -88,6 +91,7 @@ public class Activities implements ExtendedDao<Activity> {
 	}
 
 	public Signal getSignalOfActivity(Activity activity) {
+		log.debug("Getting Signal of Activity {}", activity);
 		return activity.getSignal(); //TODO get the signal from the DB
 	}
 
@@ -102,6 +106,9 @@ public class Activities implements ExtendedDao<Activity> {
 	@Override
 	public void delete(Activity t) {
 		log.debug("Deleting Activity {}", t);
+		store.tasks().delete(t.getTasks().values());
+		getActivityDao().delete(t);
+		
 		// TODO activity deletion
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -112,7 +119,6 @@ public class Activities implements ExtendedDao<Activity> {
 		for (Activity a : ts) {
 			delete(a);
 		}
-
 	}
 
 	@Override

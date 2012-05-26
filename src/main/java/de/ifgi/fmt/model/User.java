@@ -18,16 +18,22 @@
 package de.ifgi.fmt.model;
 
 import java.util.Set;
-import java.util.regex.Pattern;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.bson.types.ObjectId;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.SafeHtml;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 
-import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.mongo.Identifiable;
 import de.ifgi.fmt.utils.BCrypt;
 import de.ifgi.fmt.utils.Utils;
@@ -37,38 +43,40 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Roles;
 @Polymorphic
 @Entity(User.COLLECTION_NAME)
 public class User extends Identifiable {
-	private static final Pattern PASSWORD_PATTERN = Pattern.compile(Regex.PASSWORD);
-	private static final Pattern EMAIL_PATTERN = Pattern.compile(Regex.EMAIL);
-	private static final Pattern USERNAME_PATTERN = Pattern.compile(Regex.USERNAME);
-
-	private static final String PASSWORD_ERROR = String.format("Invalid Password. Has to match '%s'", PASSWORD_PATTERN.pattern());
-	private static final String USERNAME_ERROR = String.format("Invalid Password. Has to match '%s'", USERNAME_PATTERN.pattern());
-	private static final String EMAIL_ERROR = String.format("Invalid Password. Has to match '%s'", EMAIL_PATTERN.pattern());
-	
 	public static final String COLLECTION_NAME = "users";
 	public static final String PASSWORD_HASH = "password";
 	public static final String EMAIL = "email";
 	public static final String USERNAME = "username";
 	public static final String AUTH_TOKEN = "authToken";
 	public static final String ROLES = "roles";
-	
+
+	@NotBlank
+	@SafeHtml
+	@Length(min = 4, max = 128)
+	@Pattern(regexp = "^[\\w]+$")
 	@Property(User.USERNAME)
 	@Indexed(unique = true, sparse = true)
 	private String username;
-
+	
+	@Email
+	@SafeHtml
+	@NotEmpty
 	@Property(User.EMAIL)
 	@Indexed(unique = true, sparse = true)
 	private String email;
 
+	@NotEmpty
+	@NotNull
 	@Property(User.PASSWORD_HASH)
 	private String passwordHash;
-	
+
 	@Property(User.AUTH_TOKEN)
 	private String authToken;
-	
+
+	@NotNull
 	@Property(User.ROLES)
 	private Set<String> roles = Utils.set(Roles.USER);
-	
+
 	public User(ObjectId id) {
 		super(id);
 	}
@@ -86,12 +94,6 @@ public class User extends Identifiable {
 	}
 
 	public User setUsername(String s) {
-		if (s != null) {
-			s = s.trim();
-			if (!USERNAME_PATTERN.matcher(s).matches()) {
-				throw ServiceError.badRequest(USERNAME_ERROR);
-			}
-		}
 		this.username = s;
 		return this;
 	}
@@ -103,9 +105,6 @@ public class User extends Identifiable {
 	public User setEmail(String s) {
 		if (s != null) {
 			s = s.trim();
-			if (!EMAIL_PATTERN.matcher(s).matches()) {
-				throw ServiceError.badRequest(EMAIL_ERROR);
-			}
 		}
 		this.email = s;
 		return this;
@@ -119,12 +118,12 @@ public class User extends Identifiable {
 		this.passwordHash = passwordHash;
 		return this;
 	}
-	
-	
+
 	public User setPassword(String s) {
 		if (s != null) {
-			if (!PASSWORD_PATTERN.matcher(s).matches()) {
-				throw ServiceError.badRequest(PASSWORD_ERROR);
+			if (!Regex.PASSWORD.matcher(s).matches()) {
+				throw new IllegalArgumentException("password does not match '"
+						+ Regex.PASSWORD.pattern() + "'");
 			}
 		}
 		return setPasswordHash(hash(s));
@@ -158,12 +157,12 @@ public class User extends Identifiable {
 		this.roles = roles;
 		return this;
 	}
-	
+
 	public User addRole(String role) {
 		getRoles().add(role);
 		return this;
 	}
-	
+
 	public boolean hasRole(String role) {
 		for (String r : getRoles()) {
 			if (r.equalsIgnoreCase(role)) {

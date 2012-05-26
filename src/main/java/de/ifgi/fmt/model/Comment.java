@@ -17,7 +17,12 @@
  */
 package de.ifgi.fmt.model;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
 import org.bson.types.ObjectId;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.joda.time.DateTime;
 
 import com.google.code.morphia.annotations.Entity;
@@ -38,18 +43,24 @@ public class Comment extends Identifiable {
 	public static final String USER = "user";
 	public static final String TIME = "time";
 
+	@NotNull
 	@Indexed
-	@Reference(Comment.FLASHMOB)
+	@Reference(value = Comment.FLASHMOB, lazy = true)
 	private Flashmob flashmob;
-	
-	@Indexed
-	@Reference(Comment.USER)
-	private User user;
 
+	@NotNull
+	@Indexed
+	@Reference(value = Comment.USER, lazy = true)
+	private User user;
+	
+	@SafeHtml
+	@NotBlank
 	@Property(Comment.TEXT)
 	private String text;
-	
+
+	@NotNull
 	@Indexed
+	@Past
 	@Property(Comment.TIME)
 	private DateTime time;
 

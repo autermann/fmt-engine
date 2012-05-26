@@ -49,8 +49,8 @@ public class FlashMobTest extends AbstractFlashMobTest {
 		getWebResource().path(Paths.FLASHMOBS).accept(MediaTypes.FLASHMOB_LIST).get(JSONObject.class);
 	}
 	
-	@Test
-	public void testPOSTFlashmobs() {
+	@Test(expected=UniformInterfaceException.class)
+	public void testEmptyFlashmob() {
 		getWebResource()
 				.path(Paths.FLASHMOBS)
 				.accept(MediaTypes.FLASHMOB_TYPE)

@@ -17,6 +17,8 @@
  */
 package de.ifgi.fmt.model;
 
+import javax.validation.constraints.NotNull;
+
 import com.google.code.morphia.annotations.Reference;
 
 import de.ifgi.fmt.model.task.Task;
@@ -24,10 +26,13 @@ import de.ifgi.fmt.model.task.Task;
 public class TaskForRole {
 	public static final String ROLE = "role";
 	public static final String TASK = "task";
-	
-	@Reference(TaskForRole.ROLE)
+
+	@NotNull
+	@Reference(value = TaskForRole.ROLE, lazy = true)
 	private Role role;
-	@Reference(TaskForRole.TASK)
+	
+	@NotNull
+	@Reference(value = TaskForRole.TASK, lazy = true)
 	private Task task;
 
 	public TaskForRole(Role role, Task task) {

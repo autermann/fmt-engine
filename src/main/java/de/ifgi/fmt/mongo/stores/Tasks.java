@@ -65,7 +65,8 @@ public class Tasks implements ExtendedDao<Task>{
 
 	@Override
 	public void delete(Task t) {
-		store.activities().save(t.getActivity().addTask(t.getRole(), null));
+		log.debug("Deleting Task {}", t);
+		store.activities().save(t.getActivity().removeTask(t));
 		getTaskDao().delete(t);
 	}
 
@@ -79,6 +80,7 @@ public class Tasks implements ExtendedDao<Task>{
 
 	@Override
 	public List<Task> get(int limit) {
+		log.debug("Getting {} taks.", limit);
 		return get(all().limit(limit));
 	}
 

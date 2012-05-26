@@ -17,6 +17,9 @@
  */
 package de.ifgi.fmt.mongo;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 
@@ -30,9 +33,12 @@ public abstract class Identifiable {
 
 	public static final String CREATION_TIME = "creationTime";
 
+	@NotNull	
 	@Id
 	private ObjectId id;
 
+	@NotNull
+	@Past
 	@Indexed
 	@Property(Identifiable.CREATION_TIME)
 	private DateTime creationTime = new DateTime();

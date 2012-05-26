@@ -17,7 +17,11 @@
  */
 package de.ifgi.fmt.model.task;
 
+import javax.validation.constraints.NotNull;
+
 import org.bson.types.ObjectId;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Indexed;
@@ -37,17 +41,21 @@ public class Task extends Identifiable {
 	public static final String ROLE = "role";
 	public static final String ACTIVITY = "activity";
 
+	@NotBlank
+	@SafeHtml
 	@Property(Task.DESCRIPTION)
 	private String description;
 
+	@NotNull
 	@Indexed
-	@Reference(Task.ROLE)
+	@Reference(value = Task.ROLE, lazy = true)
 	private Role role;
 	
+	@NotNull
 	@Indexed
-	@Reference(Task.ACTIVITY)
+	@Reference(value = Task.ACTIVITY, lazy = true)
 	private Activity activity;
-	
+
 	public Task(ObjectId id) {
 		super(id);
 	}
@@ -59,7 +67,7 @@ public class Task extends Identifiable {
 	public Task() {
 		super();
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}

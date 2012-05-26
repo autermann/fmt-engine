@@ -17,6 +17,9 @@
  */
 package de.ifgi.fmt.model.trigger;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
+
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 
@@ -25,6 +28,8 @@ public class EventTrigger extends Trigger {
 
 	public static final String DESCRIPTION = "description";
 
+	@NotBlank
+	@SafeHtml
 	@Property(EventTrigger.DESCRIPTION)
 	private String description;
 

@@ -17,6 +17,8 @@
  */
 package de.ifgi.fmt.model.trigger;
 
+import javax.validation.constraints.NotNull;
+
 import org.bson.types.ObjectId;
 
 import com.google.code.morphia.annotations.Entity;
@@ -32,12 +34,13 @@ import de.ifgi.fmt.mongo.Identifiable;
 public class Trigger extends Identifiable {
 	public static final String COLLECTION_NAME = "triggers";
 	public static final String FLASHMOB = "flashmob";
-//	public static final String ACTIVITIES = "activities";
-	
+	// public static final String ACTIVITIES = "activities";
+
+	@NotNull
 	@Indexed
-	@Reference(Trigger.FLASHMOB)
+	@Reference(value = Trigger.FLASHMOB, lazy = true)
 	private Flashmob flashmob;
-	
+
 	public Trigger(ObjectId id) {
 		super(id);
 	}

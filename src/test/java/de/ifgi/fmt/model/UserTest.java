@@ -20,6 +20,7 @@ package de.ifgi.fmt.model;
 import static org.junit.Assert.fail;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class UserTest {
@@ -38,7 +39,8 @@ public class UserTest {
 		testInvalidPassword("abcde");
 	}
 	
-	@Test
+	/* is tested while persisting */
+	@Ignore@Test
 	public void testUsername() {
 		testValidUsername("auti");
 		testValidUsername("autermann");
@@ -48,7 +50,8 @@ public class UserTest {
 		testInvalidUsername("Christian Autermann");
 	}
 	
-	@Test
+	/* is tested while persisting */
+	@Ignore@Test
 	public void testEmail() {
 		testValidEmail("autermann@uni-muenster.de");
 		testValidEmail("autermann@math.uni-muenster.de");

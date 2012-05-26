@@ -17,6 +17,8 @@
  */
 package de.ifgi.fmt.model.trigger;
 
+import javax.validation.constraints.NotNull;
+
 import org.joda.time.DateTime;
 
 import com.google.code.morphia.annotations.Polymorphic;
@@ -27,6 +29,7 @@ public class TimeTrigger extends Trigger {
 
 	public static final String TIME = "time";
 
+	@NotNull
 	@Property(TimeTrigger.TIME)
 	private DateTime time;
 

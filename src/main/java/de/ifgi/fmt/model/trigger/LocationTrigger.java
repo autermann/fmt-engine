@@ -17,6 +17,8 @@
  */
 package de.ifgi.fmt.model.trigger;
 
+import javax.validation.constraints.NotNull;
+
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 import com.vividsolutions.jts.geom.Point;
@@ -26,6 +28,7 @@ public class LocationTrigger extends Trigger {
 
 	public static final String LOCATION = "location";
 
+	@NotNull
 	@Property(LocationTrigger.LOCATION)
 	private Point location;
 

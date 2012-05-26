@@ -19,7 +19,12 @@ package de.ifgi.fmt.model;
 
 import java.util.Set;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import org.bson.types.ObjectId;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Polymorphic;
@@ -49,31 +54,40 @@ public class Role extends Identifiable {
 		EASY, HARD, ULTRA;
 	}
 
+	@NotNull
 	@Property(Role.ITEMS)
 	private Set<String> items = Utils.set();
-
+	
+	@Min(0)
 	@Property(Role.MIN_COUNT)
-	private int minCount = -1;
+	private Integer minCount = new Integer(0);
 
+	@Min(0)
 	@Property(Role.MAX_COUNT)
-	private int maxCount = -1;
+	private Integer maxCount;
 
+	@NotNull
 	@Property(Role.START_POINT)
 	private Point startPoint;
 
 	@Property(Role.CATEGORY)
 	private Category category;
 
+	@NotBlank
+	@SafeHtml
 	@Property(Role.DESCRIPTION)
 	private String description;
 
-	@Reference(Role.ACTIVITIES)
+	@NotNull
+	@Reference(value = Role.ACTIVITIES, lazy = true)
 	private Set<Activity> activites = Utils.set();
 
-	@Reference(Role.FLASHMOB)
+	@NotNull
+	@Reference(value = Role.FLASHMOB, lazy = true)
 	private Flashmob flashmob;
 
-	@Reference(Role.USERS)
+	@NotNull
+	@Reference(value = Role.USERS, lazy = true)
 	private Set<User> users = Utils.set();
 
 	public Role(ObjectId id) {
@@ -116,20 +130,28 @@ public class Role extends Identifiable {
 		return this;
 	}
 
-	public int getMinCount() {
+	public Integer getMinCount() {
 		return minCount;
 	}
 
-	public Role setMinCount(int minCount) {
+	public Role setMinCount(Integer minCount) {
+		if (getMaxCount() != null) {
+			if (getMaxCount().intValue() <= minCount.intValue()) {
+				throw new IllegalArgumentException("min count can not be bigger than max count");
+			}
+		}
 		this.minCount = minCount;
 		return this;
 	}
 
-	public int getMaxCount() {
+	public Integer getMaxCount() {
 		return maxCount;
 	}
 
-	public Role setMaxCount(int maxCount) {
+	public Role setMaxCount(Integer maxCount) {
+		if (getMinCount().intValue() <= maxCount.intValue()) {
+			throw new IllegalArgumentException("min count can not be bigger than max count");
+		}
 		this.maxCount = maxCount;
 		return this;
 	}

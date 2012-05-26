@@ -17,12 +17,14 @@
  */
 package de.ifgi.fmt.utils.constants;
 
+import java.util.regex.Pattern;
+
 public abstract class Constants {
 	public static abstract class Regex {
-		public static final String USERNAME = "^[\\w]{4,}$";
-		public static final String EMAIL = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$";
-		public static final String PASSWORD = "[^:]{6,}";
-		
+		public static final Pattern USERNAME = Pattern.compile("^[\\w]{4,}$");
+		public static final Pattern EMAIL = Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$");
+		public static final Pattern PASSWORD = Pattern.compile("[^:]{6,}");
+
 	}
 
 }

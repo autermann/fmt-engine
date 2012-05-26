@@ -17,6 +17,8 @@
  */
 package de.ifgi.fmt.web;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.UriBuilder;
 
@@ -54,6 +56,8 @@ public class AbstractFlashMobTest extends JerseyTest {
 	private static final String CORS = CorsFilter.class.getName();
 	private static final String ROLES_ALLOWED = RolesAllowedResourceFilterFactory.class.getName();
 	private static final String PACKAGES = "de.ifgi.fmt";
+	
+	private final AtomicInteger i = new AtomicInteger(100000);
 
 	@BeforeClass
 	public static void initLogger() {
@@ -99,19 +103,19 @@ public class AbstractFlashMobTest extends JerseyTest {
 	}
 
 	protected String getRandomPassword() {
-		return String.valueOf(getRandomInt());
+		return String.valueOf(getNextInt());
 	}
 	
 	protected String getRandomUsername() {
-		return "user" + getRandomInt();
+		return "user" + getNextInt();
 	}
 	
-	private int getRandomInt() {
-		return (int) Math.floor(Math.random()*1e6);
+	private int getNextInt() {
+		return i.getAndIncrement();
 	}
 	
 	protected String getRandomMail() {
-		return getRandomInt() + "@email.tld";
+		return getNextInt() + "@email.tld";
 	}
 	
 	protected JSONObject createUserJson(String username, String mail, String password) throws JSONException {

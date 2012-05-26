@@ -19,7 +19,11 @@ package de.ifgi.fmt.model;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.bson.types.ObjectId;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.joda.time.DateTime;
 
 import com.google.code.morphia.annotations.Entity;
@@ -53,12 +57,17 @@ public class Flashmob extends Identifiable {
 	public static final String VALIDITY = "validity";
 	public static final String COORDINATOR = "coordinator";
 
+	@NotBlank
+	@SafeHtml
 	@Property(Flashmob.TITLE)
 	private String title;
-
+	
+	@NotBlank
+	@SafeHtml
 	@Property(Flashmob.DESCRIPTION)
 	private String description;
 
+	@NotNull
 	@Property(Flashmob.START)
 	private DateTime start;
 
@@ -70,7 +79,8 @@ public class Flashmob extends Identifiable {
 
 	@Property(Flashmob.PUBLIC)
 	private Boolean isPublic;
-
+	
+	@NotNull
 	@Indexed(IndexDirection.GEO2D)
 	@Property(Flashmob.LOCATION)
 	private Point location;
@@ -81,15 +91,19 @@ public class Flashmob extends Identifiable {
 	@Property(Flashmob.VALIDITY)
 	private Validity validity = Validity.NOT_CHECKED;
 
+	@NotNull
 	@Reference(Flashmob.ACTIVITIES)
 	private List<Activity> activities = Utils.list();
-
+	
+	@NotNull
 	@Reference(Flashmob.ROLES)
 	private List<Role> roles = Utils.list();
-
+	
+	@NotNull
 	@Reference(Flashmob.TRIGGERS)
 	private List<Trigger> triggers = Utils.list();
 
+	@NotNull
 	@Reference(Flashmob.COORDINATOR)
 	private User coordinator;
 	
