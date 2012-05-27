@@ -34,13 +34,9 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.ROLE_FOR_FLASHMOB)
 public class RoleServlet extends AbstractServlet {
-	/*
-	 * /flashmobs/{fid}/roles/{rid}
-	 */
 
 	@GET
 	@Produces(MediaTypes.ROLE)
-	// get a specific role
 	public Role getRoles(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role) {
 
@@ -48,23 +44,17 @@ public class RoleServlet extends AbstractServlet {
 	}
 
 	@PUT
-	@Path(Paths.ROLE_FOR_FLASHMOB)
 	@Produces(MediaTypes.ROLE)
 	@Consumes(MediaTypes.ROLE)
-	// modify a role
 	public Role updateRole(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId roleID, Role r) {
-		// @ToDo
 		return getService().updateRole(r, roleID, flashmob);
 	}
 
 	@DELETE
-	@Path(Paths.ROLE_FOR_FLASHMOB)
-	// delete a role
 	public Response removeRole(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role) {
-		// @ToDo
 		return null;
 	}
 }
