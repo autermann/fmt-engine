@@ -6,7 +6,7 @@
         "coordinates": {
             "items": {
                 "items": "number", 
-                "maxLength": 2,
+                "maxLength": 2, 
                 "minLength": 2
             }
         }, 

@@ -3,9 +3,14 @@
     "$schema": "http://json-schema.org/draft-03/schema", 
     "properties": {
         "flashmobs": {
-            "items": {
-                "$ref": "http://giv-flashmob.uni-muenster.de/schema/flashmob"
-            }, 
+            "items": [
+                {
+                    "$ref": "http://giv-flashmob.uni-muenster.de/schema/flashmob"
+                }, 
+                {
+                    "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid"
+                }
+            ], 
             "required": true, 
             "type": "array"
         }

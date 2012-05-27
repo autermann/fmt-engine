@@ -2,9 +2,14 @@
     "$id": "http://giv-flashmob.uni-muenster.de/schema/comment#", 
     "$schema": "http://json-schema.org/draft-03/schema", 
     "properties": {
-        "flashmob": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/flashmob"
-        }, 
+        "flashmob": [
+            {
+                "$ref": "http://giv-flashmob.uni-muenster.de/schema/flashmob"
+            }, 
+            {
+                "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid"
+            }
+        ], 
         "id": {
             "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid"
         }, 

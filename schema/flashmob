@@ -7,8 +7,7 @@
             "type": "string"
         }, 
         "coordinator": {
-            "format": "uri", 
-            "type": "string"
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref"
         }, 
         "description": {
             "required": "true", 
@@ -20,7 +19,7 @@
             "type": "string"
         }, 
         "id": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid#"
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid"
         }, 
         "key": {
             "required": "false", 
