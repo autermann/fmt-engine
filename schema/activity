@@ -1,6 +1,6 @@
 {
-    "$id": "http://giv-flashmob.uni-muenster.de/schema/activity#", 
     "$schema": "http://json-schema.org/draft-03/schema", 
+    "id": "http://giv-flashmob.uni-muenster.de/schema/activity#", 
     "properties": {
         "description": {
             "type": "string"

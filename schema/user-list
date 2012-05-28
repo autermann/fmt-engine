@@ -1,6 +1,6 @@
 {
-    "$id": "http://giv-flashmob.uni-muenster.de/schema/user-list#", 
     "$schema": "http://json-schema.org/draft-03/schema", 
+    "id": "http://giv-flashmob.uni-muenster.de/schema/user-list#", 
     "properties": {
         "users": {
             "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref-list"

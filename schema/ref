@@ -1,7 +1,9 @@
 {
-    "$extends": "http://giv-flashmob.uni-muenster.de/schema/oid", 
-    "$id": "http://giv-flashmob.uni-muenster.de/schema/ref#", 
     "$schema": "http://json-schema.org/draft-03/schema", 
+    "extends": {
+        "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid"
+    }, 
+    "id": "http://giv-flashmob.uni-muenster.de/schema/ref#", 
     "properties": {
         "href": {
             "format": "uri", 
