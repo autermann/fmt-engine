@@ -7,17 +7,17 @@
         }, 
         "flashmob": [
             {
-                "$ref": "http://giv-flashmob.uni-muenster.de/schema/flashmob"
+                "$ref": "http://giv-flashmob.uni-muenster.de/schema/flashmob#"
             }, 
             {
-                "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid"
+                "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid#"
             }
         ], 
         "id": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid"
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid#"
         }, 
         "location": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/point"
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/point#"
         }, 
         "time": {
             "format": "date-time", 

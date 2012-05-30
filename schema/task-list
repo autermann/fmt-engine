@@ -3,7 +3,7 @@
     "id": "http://giv-flashmob.uni-muenster.de/schema/task-list#", 
     "properties": {
         "tasks": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref-list"
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref-list#"
         }
     }, 
     "type": "object"

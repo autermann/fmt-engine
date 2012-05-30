@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-03/schema", 
     "extends": {
-        "$ref": "http://giv-flashmob.uni-muenster.de/schema/geometry"
+        "$ref": "http://giv-flashmob.uni-muenster.de/schema/geometry#"
     }, 
     "id": "http://giv-flashmob.uni-muenster.de/schema/point#", 
     "properties": {

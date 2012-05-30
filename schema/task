@@ -7,7 +7,7 @@
     "id": "http://giv-flashmob.uni-muenster.de/schema/task#", 
     "properties": {
         "activity": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref"
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref#"
         }, 
         "description": {
             "type": "string"
@@ -17,13 +17,13 @@
             "type": "string"
         }, 
         "id": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid"
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid#"
         }, 
         "line": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/line"
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/line#"
         }, 
         "role": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref"
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref#"
         }, 
         "type": {
             "enum": [
