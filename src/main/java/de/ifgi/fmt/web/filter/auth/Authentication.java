@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -41,7 +42,6 @@ import com.sun.jersey.spi.container.ContainerResponseFilter;
 import de.ifgi.fmt.Service;
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.User;
-import de.ifgi.fmt.utils.constants.RESTConstants.HeaderParams;
 
 public class Authentication implements ContainerResponseFilter, ContainerRequestFilter {
 	
@@ -89,7 +89,7 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 	}
 	
 	private boolean headerLogin(ContainerRequest cr) {
-		String auth = cr.getHeaderValue(HeaderParams.AUTHORIZATION);
+		String auth = cr.getHeaderValue(HttpHeaders.AUTHORIZATION);
 		if (auth == null) {
 			return false;
 		}

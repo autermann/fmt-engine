@@ -108,10 +108,6 @@ public interface RESTConstants {
 		PUBLIC, PRIVATE;
 	}
 
-	public static abstract class HeaderParams {
-		public static final String AUTHORIZATION = "Authorization";
-	}
-	
 	/*
 	 * TODO refactor URL's to enable access to resource params.
 	 * e.g 

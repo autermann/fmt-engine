@@ -169,11 +169,11 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 			if (f.getCoordinator() != null) {
 				j.put(COORDINATOR_KEY, JSONFactory.getEncoder(User.class).encodeAsRef(f.getCoordinator(), uri));
 			}
-			j.put(ACTIVITIES_KEY, uri.getAbsolutePathBuilder().path(Paths.ACTIVITIES).build());
-			j.put(ROLES_KEY, uri.getAbsolutePathBuilder().path(Paths.ROLES).build());
-			j.put(TRIGGERS_KEY, uri.getAbsolutePathBuilder().path(Paths.TRIGGERS).build());
-			j.put(COMMENTS_KEY, uri.getAbsolutePathBuilder().path(Paths.COMMENTS).build());
-			j.put(PARTICIPANTS_KEY, uri.getAbsolutePathBuilder().path(Paths.USERS).build());
+			j.put(ACTIVITIES_KEY, uri.getAbsolutePathBuilder().path(Paths.ACTIVITIES_OF_FLASHMOB).build(f));
+			j.put(ROLES_KEY, uri.getAbsolutePathBuilder().path(Paths.ROLES_FOR_FLASHMOB).build(f));
+			j.put(TRIGGERS_KEY, uri.getAbsolutePathBuilder().path(Paths.TRIGGERS_OF_FLASHMOB).build(f));
+			j.put(COMMENTS_KEY, uri.getAbsolutePathBuilder().path(Paths.COMMENTS_FOR_FLASHMOB).build(f));
+			j.put(PARTICIPANTS_KEY, uri.getAbsolutePathBuilder().path(Paths.USERS_OF_FLASHMOB).build(f));
 		}
 		return j;
 	}

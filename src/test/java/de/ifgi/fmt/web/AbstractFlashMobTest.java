@@ -20,6 +20,7 @@ package de.ifgi.fmt.web;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriBuilder;
 
 import org.bson.types.ObjectId;
@@ -43,7 +44,6 @@ import com.sun.jersey.test.framework.spi.container.grizzly.web.GrizzlyWebTestCon
 import de.ifgi.fmt.mongo.MongoDB;
 import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.JSONConstants;
-import de.ifgi.fmt.utils.constants.RESTConstants.HeaderParams;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.filter.CorsFilter;
@@ -171,7 +171,7 @@ public class AbstractFlashMobTest extends JerseyTest {
 				.accept(MediaTypes.USER)
 				.type(MediaTypes.USER)
 				.entity(u)
-				.header(HeaderParams.AUTHORIZATION, getAuthHeaderValue(user, pass))
+				.header(HttpHeaders.AUTHORIZATION, getAuthHeaderValue(user, pass))
 				.put(ClientResponse.class);
 	}
 	

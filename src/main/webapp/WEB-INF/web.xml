@@ -14,12 +14,12 @@
 
 		<init-param>
 			<param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
-			<param-value>com.sun.jersey.api.container.filter.LoggingFilter;de.ifgi.fmt.web.filter.auth.AuthFilter</param-value>
+			<param-value>com.sun.jersey.api.container.filter.LoggingFilter;de.ifgi.fmt.web.filter.auth.Authentication</param-value>
 		</init-param>
 
 		<init-param>
 			<param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>
-			<param-value>de.ifgi.fmt.web.filter.CorsFilter;de.ifgi.fmt.web.filter.auth.AuthFilter;com.sun.jersey.api.container.filter.LoggingFilter</param-value>
+			<param-value>de.ifgi.fmt.web.filter.CorsFilter;de.ifgi.fmt.web.filter.auth.Authentication;com.sun.jersey.api.container.filter.LoggingFilter</param-value>
 		</init-param>
 
 		<init-param>
@@ -29,6 +29,11 @@
 
 		<init-param>
 			<param-name>com.sun.jersey.config.feature.logging.DisableEntitylogging</param-name>
+			<param-value>true</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>com.sun.jersey.config.feature.DisableWADL</param-name>
 			<param-value>true</param-value>
 		</init-param>
 

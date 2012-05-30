@@ -48,6 +48,7 @@ public class FlashmobServlet extends AbstractServlet {
 			Flashmob flashmob) {
 		return getService().updateFlashmob(id, flashmob);
 	}
+	
 	@DELETE
 	public void deleteFlashmob(@PathParam(PathParams.FLASHMOB) ObjectId id) {
 		getService().deleteFlashmob(id);
