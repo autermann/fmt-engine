@@ -114,4 +114,15 @@ public class FlashMobTest extends AbstractFlashMobTest {
 		getWebResource().path(Paths.USERS).accept(MediaTypes.USER_LIST).get(JSONObject.class);
 	}
 	
+	
+	@Test
+	public void testCreateUserWithoutMailAddress() throws UniformInterfaceException, ClientHandlerException, JSONException {
+		assertEquals(Status.CREATED.getStatusCode(), getWebResource().path(Paths.USERS)
+													 .accept(MediaTypes.USER)
+													 .type(MediaTypes.USER)
+													 .entity(createUserJson(getRandomUsername(), null, getRandomPassword()))
+													 .post(ClientResponse.class).getStatus());
+		
+	}
+	
 }

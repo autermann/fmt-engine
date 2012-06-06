@@ -59,8 +59,6 @@ public class User extends Identifiable {
 	private String username;
 	
 	@Email
-	@SafeHtml
-	@NotEmpty
 	@Property(User.EMAIL)
 	@Indexed(unique = true, sparse = true)
 	private String email;
