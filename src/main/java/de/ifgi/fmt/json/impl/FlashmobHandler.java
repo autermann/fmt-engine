@@ -48,12 +48,11 @@ import org.slf4j.LoggerFactory;
 import com.vividsolutions.jts.geom.Point;
 
 import de.ifgi.fmt.ServiceError;
+import de.ifgi.fmt.json.JSONFactory;
 import de.ifgi.fmt.json.JSONFactory.Decodes;
 import de.ifgi.fmt.json.JSONFactory.Encodes;
-import de.ifgi.fmt.json.JSONFactory;
 import de.ifgi.fmt.json.JSONHandler;
 import de.ifgi.fmt.model.Flashmob;
-import de.ifgi.fmt.model.Role;
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
@@ -146,16 +145,8 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 			j.put(KEY_KEY, f.getKey());
 		}
 		
-		int users = 0;
-		int requiredUsers = 0;
-		
-		for (Role r : f.getRoles()) {
-			requiredUsers += r.getMinCount();
-			users += r.getUsers().size();
-		}
-		
-		j.put(REQUIRED_USERS_KEY, requiredUsers);
-		j.put(USERS_KEY, users);
+		j.put(REQUIRED_USERS_KEY, f.getRequiredUsers());
+		j.put(USERS_KEY, f.getRegisteredUsers());
 		
 		if (f.isPublic() != null) {
 			j.put(PUBLIC_KEY, f.isPublic());

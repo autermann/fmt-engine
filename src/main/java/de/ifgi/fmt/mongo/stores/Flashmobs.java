@@ -36,6 +36,8 @@ import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.mongo.ExtendedDao;
 import de.ifgi.fmt.mongo.Store;
 import de.ifgi.fmt.mongo.Store.Queries;
+import de.ifgi.fmt.utils.Filter;
+import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.RESTConstants.ShowStatus;
 import de.ifgi.fmt.utils.constants.RESTConstants.Sorting;
 
@@ -99,7 +101,7 @@ public class Flashmobs implements ExtendedDao<Flashmob> {
 	public List<Flashmob> get(int limit, Point near, User user,
 			BoundingBox bbox, DateTime from, DateTime to, Sorting sorting,
 			boolean descending, ShowStatus show, String search,
-			User participant) {
+			User participant, final int minParticipants , final int maxParticipants) {
 
 		Query<Flashmob> q = getFlashmobDao().createQuery();
 		if (bbox != null) {
@@ -126,6 +128,10 @@ public class Flashmobs implements ExtendedDao<Flashmob> {
 			Queries.search(q, search);
 		}
 
+		if (participant != null) {
+			Queries.hasUser(q, participant);
+		}
+		
 		if (sorting != null) {
 			// TODO sorting
 			switch (sorting) {
@@ -136,15 +142,22 @@ public class Flashmobs implements ExtendedDao<Flashmob> {
 			case DISTANCE:
 			}
 		}
-
-		if (participant != null) {
-			Queries.hasUser(q, participant);
-		}
+		
 		if (descending) {
 			// TODO sorting/descending
 		}
 		q.limit(limit);
-		return get(q);
+		
+		return (minParticipants <= 0 && maxParticipants <= 0) ? get(q) : 
+			Utils.filter(get(q), new Filter<Flashmob>() {
+			public boolean test(Flashmob t) {
+				int users = t.getRegisteredUsers();
+				return (minParticipants <= 0 || users >= minParticipants) 
+					 && (maxParticipants <= 0 || users <= maxParticipants);
+			}
+		});
+		
+			
 	}
 
 	@Override

@@ -284,5 +284,21 @@ public class Flashmob extends Identifiable {
 		this.coordinator = coordinator;
 		return this;
 	}
+
+	public int getRequiredUsers() {
+		int required = 0;
+		for (Role r : getRoles()) {
+			required += r.getMinCount();
+		}
+		return required;
+	}
+
+	public int getRegisteredUsers() {
+		int registered = 0;
+		for (Role r : getRoles()) {
+			registered += r.getUsers().size();
+		}
+		return registered;
+	}
 	
 }

@@ -44,12 +44,8 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.FLASHMOBS)
 public class FlashmobsServlet extends AbstractServlet {
 	
-	/*
-	 * /flashmobs
-	 */
 	@GET
 	@Produces(MediaTypes.FLASHMOB_LIST)
-	// get a list of flashmobs
 	public List<Flashmob> getFlashmobs(
 			@QueryParam(QueryParams.LIMIT) int limit,
 			@QueryParam(QueryParams.POSITION) String near,
@@ -61,6 +57,8 @@ public class FlashmobsServlet extends AbstractServlet {
 			@QueryParam(QueryParams.DESCENDING) @DefaultValue(TRUE) boolean descending,
 			@QueryParam(QueryParams.SHOW) ShowStatus show,
 			@QueryParam(QueryParams.SEARCH) String search,
+			@QueryParam(QueryParams.MIN_PARTICIPANTS) @DefaultValue(ZERO) int minParticipants,
+			@QueryParam(QueryParams.MAX_PARTICIPANTS) @DefaultValue(MINUS_ONE) int maxParticipants,
 			@QueryParam(QueryParams.PARTICIPANT) ObjectId participant) {
 		
 		DateTime t = null;
@@ -79,7 +77,8 @@ public class FlashmobsServlet extends AbstractServlet {
 			throw ServiceError.invalidParameter(QueryParams.SORT, "can not sort by disance without point given");
 		}
 		return getService().getFlashmobs(limit, point, user, bbox, f, t,
-				sorting, descending, show, search, participant);
+				sorting, descending, show, search, participant,
+				minParticipants, maxParticipants);
 	}
 
 	@POST

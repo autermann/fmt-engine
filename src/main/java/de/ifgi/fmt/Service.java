@@ -231,10 +231,10 @@ public class Service {
 	public List<Flashmob> getFlashmobs(int limit, Point near, ObjectId user,
 			BoundingBox bbox, DateTime from, DateTime to, Sorting sorting,
 			boolean descending, ShowStatus show, String search,
-			ObjectId participant) {
+			ObjectId participant, int minParticipants , int maxParticipants) {
 		return getStore().flashmobs().get(limit, near, getUser(user), bbox,
 				from, to, sorting, descending, show, search,
-				getUser(participant));
+				getUser(participant), minParticipants, maxParticipants);
 	}
 
 	public List<Flashmob> getFlashmobsFromUser(ObjectId user) {

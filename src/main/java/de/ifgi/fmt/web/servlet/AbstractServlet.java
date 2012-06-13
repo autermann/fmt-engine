@@ -47,6 +47,8 @@ public abstract class AbstractServlet implements RESTConstants {
 	protected static final String DEFAULT_LIMIT = "20";
 	protected static final String TRUE = "true";
 	protected static final String FALSE = "false";
+	protected static final String ZERO = "0";
+	protected static final String MINUS_ONE = "-1";
 
 	protected static final Logger log = LoggerFactory	.getLogger(RootServlet.class);
 	private static final DateTimeFormatter ISO8601 = ISODateTimeFormat.dateTime();
