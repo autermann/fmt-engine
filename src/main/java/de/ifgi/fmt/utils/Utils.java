@@ -130,7 +130,12 @@ public class Utils {
 			Filter<? super T> filter) {
 		return filter(s, filter, Utils.<T> list());
 	}
-
+	
+	public static <T> Set<T> filter(Set<? extends T> s,
+			Filter<? super T> filter) {
+		return filter(s, filter, Utils.<T> set());
+	}
+	
 	public static <T> Collection<T> filter(Collection<? extends T> s,
 			Filter<? super T> filter) {
 		return filter(s, filter, Utils.<T> list());
