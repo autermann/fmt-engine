@@ -121,7 +121,10 @@ public class Store {
 		}
 
 		public static Query<Flashmob> before(Query<Flashmob> q, DateTime dt) {
-			return q.field(Flashmob.END).lessThanOrEq(dt);
+			q.or(q.and(q.criteria(Flashmob.END).equal(null),
+					   q.criteria(Flashmob.START).lessThanOrEq(dt)),
+			     q.criteria(Flashmob.END).lessThanOrEq(dt));
+			return q;
 		}
 
 		public static Query<Flashmob> search(Query<Flashmob> q, String search) {

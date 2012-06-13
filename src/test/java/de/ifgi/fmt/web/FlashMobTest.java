@@ -35,6 +35,7 @@ import com.sun.jersey.api.client.UniformInterfaceException;
 import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
+import de.ifgi.fmt.utils.constants.RESTConstants.QueryParams;
 import de.ifgi.fmt.web.filter.auth.Authentication;
 
 public class FlashMobTest extends AbstractFlashMobTest {
@@ -47,6 +48,16 @@ public class FlashMobTest extends AbstractFlashMobTest {
 	@Test
 	public void testGetFlashmobs() {
 		getWebResource().path(Paths.FLASHMOBS).accept(MediaTypes.FLASHMOB_LIST).get(JSONObject.class);
+	}
+	
+	@Test
+	public void testFrom() {
+		ClientResponse cr = getWebResource().path(Paths.FLASHMOBS)
+				.queryParam(QueryParams.FROM, "2012-05-27T21:00:00.000+02:00")
+				.queryParam(QueryParams.TO, "2012-06-07T15:15:32.000+02:00")
+				.accept(MediaTypes.FLASHMOB_LIST)
+				.get(ClientResponse.class);
+		assertEquals(Status.OK.getStatusCode(), cr.getStatus());
 	}
 	
 	@Test
