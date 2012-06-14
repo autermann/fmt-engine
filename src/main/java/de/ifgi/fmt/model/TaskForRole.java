@@ -35,29 +35,29 @@ public class TaskForRole {
 	@Reference(value = TaskForRole.TASK, lazy = true)
 	private Task task;
 
-	public TaskForRole(Role role, Task task) {
-		this.role = role;
-		this.task = task;
-	}
-
 	public TaskForRole() {
 	}
 
-	public Task getTask() {
-		return task;
-	}
-
-	public TaskForRole setTask(Task task) {
+	public TaskForRole(Role role, Task task) {
+		this.role = role;
 		this.task = task;
-		return this;
 	}
 
 	public Role getRole() {
 		return role;
 	}
 
+	public Task getTask() {
+		return task;
+	}
+
 	public TaskForRole setRole(Role role) {
 		this.role = role;
+		return this;
+	}
+
+	public TaskForRole setTask(Task task) {
+		this.task = task;
 		return this;
 	}
 }

@@ -21,57 +21,52 @@ import java.util.Set;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
+import org.joda.time.DateTime;
 
 import com.google.code.morphia.annotations.Entity;
-import com.google.code.morphia.annotations.Polymorphic;
+import com.google.code.morphia.annotations.Id;
+import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.annotations.Reference;
 import com.vividsolutions.jts.geom.Point;
 
-import de.ifgi.fmt.mongo.Identifiable;
 import de.ifgi.fmt.utils.Utils;
 
-@Polymorphic
 @Entity(Role.COLLECTION_NAME)
-public class Role extends Identifiable {
-
-	public static final String COLLECTION_NAME = "roles";
-	public static final String ITEMS = "items";
-	public static final String USERS = "users";
-	public static final String MIN_COUNT = "minCount";
-	public static final String MAX_COUNT = "maxCount";
-	public static final String START_POINT = "startPoint";
-	public static final String CATEGORY = "category";
-	public static final String DESCRIPTION = "description";
-	public static final String FLASHMOB = "flashmob";
-	public static final String ACTIVITIES = "activities";
-
+public class Role {
 	public enum Category {
 		EASY, HARD, ULTRA;
 	}
+	public static final String ACTIVITIES = "activities";
+	public static final String CATEGORY = "category";
+	public static final String COLLECTION_NAME = "roles";
+	public static final String CREATION_TIME = "creationTime";
+	public static final String DESCRIPTION = "description";
+	public static final String FLASHMOB = "flashmob";
+	public static final String ITEMS = "items";
+	public static final String MAX_COUNT = "maxCount";
+	public static final String MIN_COUNT = "minCount";
+	public static final String START_POINT = "startPoint";
+
+	public static final String USERS = "users";
 
 	@NotNull
-	@Property(Role.ITEMS)
-	private Set<String> items = Utils.set();
-	
-	@Min(0)
-	@Property(Role.MIN_COUNT)
-	private Integer minCount = new Integer(0);
-
-	@Min(0)
-	@Property(Role.MAX_COUNT)
-	private Integer maxCount;
-
-	@NotNull
-	@Property(Role.START_POINT)
-	private Point startPoint;
+	@Reference(value = Role.ACTIVITIES, lazy = true)
+	private Set<Activity> activites = Utils.set();
 
 	@Property(Role.CATEGORY)
 	private Category category;
+
+	@NotNull
+	@Past
+	@Indexed
+	@Property(Flashmob.CREATION_TIME)
+	private DateTime creationTime = new DateTime();
 
 	@NotBlank
 	@SafeHtml
@@ -79,44 +74,35 @@ public class Role extends Identifiable {
 	private String description;
 
 	@NotNull
-	@Reference(value = Role.ACTIVITIES, lazy = true)
-	private Set<Activity> activites = Utils.set();
-
-	@NotNull
 	@Reference(value = Role.FLASHMOB, lazy = true)
 	private Flashmob flashmob;
 
 	@NotNull
+	@Id
+	private ObjectId id = new ObjectId();
+
+	@NotNull
+	@Property(Role.ITEMS)
+	private Set<String> items = Utils.set();
+
+	@Min(0)
+	@Property(Role.MAX_COUNT)
+	private Integer maxCount;
+
+	@Min(0)
+	@Property(Role.MIN_COUNT)
+	private Integer minCount = new Integer(0);
+
+	@NotNull
+	@Property(Role.START_POINT)
+	private Point startPoint;
+	
+	@NotNull
 	@Reference(value = Role.USERS, lazy = true)
 	private Set<User> users = Utils.set();
 
-	public Role(ObjectId id) {
-		super(id);
-	}
-
-	public Role(String id) {
-		super(id);
-	}
-
-	public Role() {
-		super();
-	}
-
-	public Set<String> getItems() {
-		return items;
-	}
-
-	public Role setItems(Set<String> items) {
-		this.items = items;
-		return this;
-	}
-
-	public Set<User> getUsers() {
-		return users;
-	}
-
-	public Role setUsers(Set<User> users) {
-		this.users = users;
+	public Role addAcitivity(Activity activity) {
+		getActivities().add(activity);
 		return this;
 	}
 
@@ -125,25 +111,106 @@ public class Role extends Identifiable {
 		return this;
 	}
 
-	public Role removeUser(User u) {
-		getUsers().remove(u);
-		return this;
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Role) {
+			return getId().equals(((Role) o).getId());
+		}
+		return false;
+	}
+
+	public Set<Activity> getActivities() {
+		return activites;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public DateTime getCreationTime() {
+		return creationTime;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public Flashmob getFlashmob() {
+		return flashmob;
+	}
+
+	public ObjectId getId() {
+		return id;
+	}
+
+	public Set<String> getItems() {
+		return items;
+	}
+
+	public Integer getMaxCount() {
+		return maxCount;
 	}
 
 	public Integer getMinCount() {
 		return minCount;
 	}
 
-	public Role setMinCount(Integer minCount) {
-		if (getMaxCount() != null && getMaxCount().intValue() <= minCount.intValue()) {
-			throw new IllegalArgumentException("min count can not be bigger than max count. "+getMaxCount() +"<="+getMinCount());
-		}
-		this.minCount = minCount;
+	public Point getStartPoint() {
+		return startPoint;
+	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	@Override
+	public int hashCode() {
+		return getId().hashCode();
+	}
+
+	public Role removeActivity(Activity activity) {
+		getActivities().remove(activity);
 		return this;
 	}
 
-	public Integer getMaxCount() {
-		return maxCount;
+	public Role removeUser(User u) {
+		getUsers().remove(u);
+		return this;
+	}
+
+	public Role setActivities(Set<Activity> activities) {
+		this.activites = activities;
+		return this;
+	}
+
+	public Role setCategory(Category category) {
+		this.category = category;
+		return this;
+	}
+
+	public Role setCreationTime(DateTime creationTime) {
+		this.creationTime = creationTime;
+		return this;
+	}
+
+	public Role setDescription(String description) {
+		this.description = description;
+		return this;
+	}
+
+	public Role setFlashmob(Flashmob flashmob) {
+		this.flashmob = flashmob;
+		return this;
+	}
+
+	public Role setId(ObjectId id) {
+		this.id = id;
+		return this;
+	}
+
+	public Role setItems(Set<String> items) {
+		this.items = items;
+		return this;
 	}
 
 	public Role setMaxCount(Integer maxCount) {
@@ -155,8 +222,12 @@ public class Role extends Identifiable {
 		return this;
 	}
 
-	public Point getStartPoint() {
-		return startPoint;
+	public Role setMinCount(Integer minCount) {
+		if (getMaxCount() != null && getMaxCount().intValue() <= minCount.intValue()) {
+			throw new IllegalArgumentException("min count can not be bigger than max count. "+getMaxCount() +"<="+getMinCount());
+		}
+		this.minCount = minCount;
+		return this;
 	}
 
 	public Role setStartPoint(Point startPoint) {
@@ -164,50 +235,14 @@ public class Role extends Identifiable {
 		return this;
 	}
 
-	public Category getCategory() {
-		return category;
-	}
-
-	public Role setCategory(Category category) {
-		this.category = category;
+	public Role setUsers(Set<User> users) {
+		this.users = users;
 		return this;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public Role setDescription(String description) {
-		this.description = description;
-		return this;
-	}
-
-	public Flashmob getFlashmob() {
-		return flashmob;
-	}
-
-	public Role setFlashmob(Flashmob flashmob) {
-		this.flashmob = flashmob;
-		return this;
-	}
-
-	public Set<Activity> getActivities() {
-		return activites;
-	}
-
-	public Role setActivities(Set<Activity> activities) {
-		this.activites = activities;
-		return this;
-	}
-
-	public Role addAcitivity(Activity activity) {
-		getActivities().add(activity);
-		return this;
-	}
-
-	public Role removeActivity(Activity activity) {
-		getActivities().remove(activity);
-		return this;
+	@Override
+	public String toString() {
+		return getId().toString();
 	}
 
 }

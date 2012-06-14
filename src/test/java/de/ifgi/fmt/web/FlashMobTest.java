@@ -23,14 +23,19 @@ import static org.junit.Assert.assertNotNull;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Response.Status;
 
+import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.joda.time.DateTime;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Point;
 
 import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
@@ -48,6 +53,59 @@ public class FlashMobTest extends AbstractFlashMobTest {
 	@Test
 	public void testGetFlashmobs() {
 		getWebResource().path(Paths.FLASHMOBS).accept(MediaTypes.FLASHMOB_LIST).get(JSONObject.class);
+	}
+
+	@Test
+	public void createFlashmob() throws JSONException {
+		DateTime start = new DateTime().plusHours(5);
+		Point p = new GeometryFactory().createPoint(new Coordinate(7, 42));
+		p.setSRID(4326);
+		ClientResponse useradd = addUser(createUserJson(getRandomUsername(),
+				getRandomMail(), getRandomPassword()));
+		assertEquals(Status.CREATED.getStatusCode(), useradd.getStatus());
+		
+		ObjectId user = new ObjectId(useradd.getEntity(JSONObject.class)
+				.getString(JSONConstants.ID_KEY));
+		
+		JSONObject entity = createFlashmobJson(user, "Ein Flashmob",
+				"Eine Bescreibung", start, start.plusHours(2), p, null,
+				true, start.minusHours(1));
+		System.err.println(entity.toString(4));
+		ClientResponse flashmobadd = addFlashmob(entity);
+		
+		assertEquals(Status.CREATED.getStatusCode(), flashmobadd.getStatus());
+		JSONObject createdFlashmob = flashmobadd.getEntity(JSONObject.class);
+		
+		ObjectId flashmobID = new ObjectId(createdFlashmob.getString(JSONConstants.ID_KEY));
+		
+		ClientResponse getflashmob = getFlashmob(flashmobID);
+		assertEquals(Status.OK.getStatusCode(), getflashmob.getStatus());
+		
+		JSONObject gettedFlashmob = getflashmob.getEntity(JSONObject.class);
+		
+		assertEquals(
+				user,
+				new ObjectId(createdFlashmob.getJSONObject(
+						JSONConstants.COORDINATOR_KEY).getString(
+						JSONConstants.ID_KEY)));
+		assertEquals(
+				user,
+				new ObjectId(gettedFlashmob.getJSONObject(
+						JSONConstants.COORDINATOR_KEY).getString(
+						JSONConstants.ID_KEY)));
+		
+		if (true) {
+			// do nothing
+		}
+		
+	}
+	
+	
+	protected ClientResponse getFlashmob(ObjectId key) {
+		return getWebResource().uri(uri().path(Paths.FLASHMOB).build(key))
+				.accept(MediaTypes.FLASHMOB)
+				.get(ClientResponse.class);
+				
 	}
 	
 	@Test
@@ -119,6 +177,7 @@ public class FlashMobTest extends AbstractFlashMobTest {
 		assertEquals(Status.CREATED.getStatusCode(), addUser(createUserJson(username, getRandomMail(), getRandomPassword())).getStatus());
 		assertEquals(Status.BAD_REQUEST.getStatusCode(), addUser(createUserJson(username, getRandomMail(), getRandomPassword())).getStatus());
 	}
+	
 	
 	@Test
 	public void testGetUsers() {

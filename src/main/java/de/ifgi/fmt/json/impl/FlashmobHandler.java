@@ -106,9 +106,7 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 		
 		String coordinator = j.optString(COORDINATOR_KEY, null);
 		if (coordinator != null) {
-			User c = new User();
-			c.setId(new ObjectId(coordinator));
-			f.setCoordinator(c);
+			f.setCoordinator(new User().setId(new ObjectId(coordinator)));
 		}
 		return f;
 	}
@@ -154,12 +152,13 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 		if (f.getValidity() != null) {
 			j.put(VALIDITY_KEY, f.getValidity());
 		}
-		
+		if (f.getCoordinator() != null) {
+			j.put(COORDINATOR_KEY, (uri == null) ? f.getCoordinator().getId()
+					.toString() : JSONFactory.getEncoder(User.class)
+					.encodeAsRef(f.getCoordinator(), uri));
+		}
 		
 		if (uri != null) {
-			if (f.getCoordinator() != null) {
-				j.put(COORDINATOR_KEY, JSONFactory.getEncoder(User.class).encodeAsRef(f.getCoordinator(), uri));
-			}
 			j.put(ACTIVITIES_KEY, uri.getAbsolutePathBuilder().path(Paths.ACTIVITIES_OF_FLASHMOB).build(f));
 			j.put(ROLES_KEY, uri.getAbsolutePathBuilder().path(Paths.ROLES_FOR_FLASHMOB).build(f));
 			j.put(TRIGGERS_KEY, uri.getAbsolutePathBuilder().path(Paths.TRIGGERS_OF_FLASHMOB).build(f));

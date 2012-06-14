@@ -21,33 +21,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BoundingBox {
-	private static final String PARSE_ERROR = "Invalid BoundingBox: syntax is: left,bottom,right,top";
 	protected static final Logger log = LoggerFactory.getLogger(BoundingBox.class);
-	private final double left, bottom, right, top;
-
-	public BoundingBox(double left, double bottom, double right, double top) {
-		this.left = left;
-		this.bottom = bottom;
-		this.right = right;
-		this.top = top;
-	}
-
-	public double getLeft() {
-		return left;
-	}
-
-	public double getBottom() {
-		return bottom;
-	}
-
-	public double getRight() {
-		return right;
-	}
-
-	public double getTop() {
-		return top;
-	}
-
+	private static final String PARSE_ERROR = "Invalid BoundingBox: syntax is: left,bottom,right,top";
 	public static BoundingBox valueOf(String s) {
 		log.debug("Parsing BoundingBox: {}", s);
 		if (s == null || s.trim().isEmpty()) {
@@ -60,6 +35,31 @@ public class BoundingBox {
 
 		return new BoundingBox(Double.valueOf(a[0]), Double.valueOf(a[1]),
 				Double.valueOf(a[2]), Double.valueOf(a[3]));
+	}
+
+	private final double left, bottom, right, top;
+
+	public BoundingBox(double left, double bottom, double right, double top) {
+		this.left = left;
+		this.bottom = bottom;
+		this.right = right;
+		this.top = top;
+	}
+
+	public double getBottom() {
+		return bottom;
+	}
+
+	public double getLeft() {
+		return left;
+	}
+
+	public double getRight() {
+		return right;
+	}
+
+	public double getTop() {
+		return top;
 	}
 
 }

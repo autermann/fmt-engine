@@ -20,6 +20,7 @@ package de.ifgi.fmt.model;
 import java.util.Set;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
 import org.bson.types.ObjectId;
@@ -28,27 +29,54 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
+import org.joda.time.DateTime;
 
 import com.google.code.morphia.annotations.Entity;
+import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
-import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 
-import de.ifgi.fmt.mongo.Identifiable;
 import de.ifgi.fmt.utils.BCrypt;
 import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.Constants.Regex;
 import de.ifgi.fmt.utils.constants.RESTConstants.Roles;
 
-@Polymorphic
 @Entity(User.COLLECTION_NAME)
-public class User extends Identifiable {
-	public static final String COLLECTION_NAME = "users";
-	public static final String PASSWORD_HASH = "password";
-	public static final String EMAIL = "email";
-	public static final String USERNAME = "username";
+public class User {
 	public static final String AUTH_TOKEN = "authToken";
+	public static final String COLLECTION_NAME = "users";
+	public static final String CREATION_TIME = "creationTime";
+	public static final String EMAIL = "email";
+	public static final String PASSWORD_HASH = "password";
 	public static final String ROLES = "roles";
+	public static final String USERNAME = "username";
+
+	@Property(User.AUTH_TOKEN)
+	private String authToken;
+
+	@NotNull
+	@Past
+	@Indexed
+	@Property(User.CREATION_TIME)
+	private DateTime creationTime = new DateTime();
+
+	@Email
+	@Property(User.EMAIL)
+	@Indexed(unique = true, sparse = true)
+	private String email;
+
+	@NotNull
+	@Id
+	private ObjectId id = new ObjectId();
+
+	@NotEmpty
+	@NotNull
+	@Property(User.PASSWORD_HASH)
+	private String passwordHash;
+
+	@NotNull
+	@Property(User.ROLES)
+	private Set<String> roles = Utils.set(Roles.USER);
 
 	@NotBlank
 	@SafeHtml
@@ -57,47 +85,80 @@ public class User extends Identifiable {
 	@Property(User.USERNAME)
 	@Indexed(unique = true, sparse = true)
 	private String username;
+
+	public User addRole(String role) {
+		getRoles().add(role);
+		return this;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof User) {
+			return getId().equals(((User) o).getId());
+		}
+		return false;
+	}
+	public String getAuthToken() {
+		return authToken;
+	}
 	
-	@Email
-	@Property(User.EMAIL)
-	@Indexed(unique = true, sparse = true)
-	private String email;
-
-	@NotEmpty
-	@NotNull
-	@Property(User.PASSWORD_HASH)
-	private String passwordHash;
-
-	@Property(User.AUTH_TOKEN)
-	private String authToken;
-
-	@NotNull
-	@Property(User.ROLES)
-	private Set<String> roles = Utils.set(Roles.USER);
-
-	public User(ObjectId id) {
-		super(id);
+	public DateTime getCreationTime() {
+		return creationTime;
 	}
 
-	public User(String id) {
-		super(id);
+	public String getEmail() {
+		return email;
 	}
 
-	public User() {
-		super();
+	public ObjectId getId() {
+		return id;
+	}
+
+	public String getPasswordHash() {
+		return passwordHash;
+	}
+
+	public Set<String> getRoles() {
+		return roles;
 	}
 
 	public String getUsername() {
 		return username;
 	}
 
-	public User setUsername(String s) {
-		this.username = s;
+	private String hash(String unhashed) {
+		if (unhashed == null) {
+			return null;
+		}
+		return BCrypt.hashpw(unhashed, BCrypt.gensalt());
+	}
+
+	@Override
+	public int hashCode() {
+		return getId().hashCode();
+	}
+
+	public boolean hasRole(String role) {
+		for (String r : getRoles()) {
+			if (r.equalsIgnoreCase(role)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean isValidPassword(String password) {
+		return BCrypt.checkpw(password, getPasswordHash());
+	}
+
+	public User setAuthToken(String authToken) {
+		this.authToken = authToken;
 		return this;
 	}
 
-	public String getEmail() {
-		return email;
+	public User setCreationTime(DateTime creationTime) {
+		this.creationTime = creationTime;
+		return this;
 	}
 
 	public User setEmail(String s) {
@@ -108,12 +169,8 @@ public class User extends Identifiable {
 		return this;
 	}
 
-	public String getPasswordHash() {
-		return passwordHash;
-	}
-
-	public User setPasswordHash(String passwordHash) {
-		this.passwordHash = passwordHash;
+	public User setId(ObjectId id) {
+		this.id = id;
 		return this;
 	}
 
@@ -127,28 +184,9 @@ public class User extends Identifiable {
 		return setPasswordHash(hash(s));
 	}
 
-	public boolean isValidPassword(String password) {
-		return BCrypt.checkpw(password, getPasswordHash());
-	}
-
-	private String hash(String unhashed) {
-		if (unhashed == null) {
-			return null;
-		}
-		return BCrypt.hashpw(unhashed, BCrypt.gensalt());
-	}
-
-	public String getAuthToken() {
-		return authToken;
-	}
-
-	public User setAuthToken(String authToken) {
-		this.authToken = authToken;
+	public User setPasswordHash(String passwordHash) {
+		this.passwordHash = passwordHash;
 		return this;
-	}
-
-	public Set<String> getRoles() {
-		return roles;
 	}
 
 	public User setRoles(Set<String> roles) {
@@ -156,18 +194,14 @@ public class User extends Identifiable {
 		return this;
 	}
 
-	public User addRole(String role) {
-		getRoles().add(role);
+	public User setUsername(String s) {
+		this.username = s;
 		return this;
 	}
 
-	public boolean hasRole(String role) {
-		for (String r : getRoles()) {
-			if (r.equalsIgnoreCase(role)) {
-				return true;
-			}
-		}
-		return false;
+	@Override
+	public String toString() {
+		return getId().toString();
 	}
 
 }

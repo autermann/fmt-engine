@@ -18,12 +18,15 @@
 package de.ifgi.fmt.model.task;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
+import org.joda.time.DateTime;
 
 import com.google.code.morphia.annotations.Entity;
+import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
@@ -31,15 +34,26 @@ import com.google.code.morphia.annotations.Reference;
 
 import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.model.Role;
-import de.ifgi.fmt.mongo.Identifiable;
 
 @Polymorphic
 @Entity(Task.COLLECTION_NAME)
-public class Task extends Identifiable {
+public class Task {
+	public static final String ACTIVITY = "activity";
 	public static final String COLLECTION_NAME = "tasks";
+	public static final String CREATION_TIME = "creationTime";
 	public static final String DESCRIPTION = "description";
 	public static final String ROLE = "role";
-	public static final String ACTIVITY = "activity";
+
+	@NotNull
+	@Indexed
+	@Reference(value = Task.ACTIVITY, lazy = true)
+	private Activity activity;
+
+	@NotNull
+	@Past
+	@Indexed
+	@Property(Task.CREATION_TIME)
+	private DateTime creationTime = new DateTime();
 
 	@NotBlank
 	@SafeHtml
@@ -47,38 +61,45 @@ public class Task extends Identifiable {
 	private String description;
 
 	@NotNull
+	@Id
+	private ObjectId id = new ObjectId();
+
+	@NotNull
 	@Indexed
 	@Reference(value = Task.ROLE, lazy = true)
 	private Role role;
-	
-	@NotNull
-	@Indexed
-	@Reference(value = Task.ACTIVITY, lazy = true)
-	private Activity activity;
 
-	public Task(ObjectId id) {
-		super(id);
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Task) {
+			return getId().equals(((Task) o).getId());
+		}
+		return false;
 	}
 
-	public Task(String id) {
-		super(id);
+	public Activity getActivity() {
+		return activity;
 	}
 
-	public Task() {
-		super();
+	public DateTime getCreationTime() {
+		return creationTime;
 	}
 
 	public String getDescription() {
 		return description;
 	}
-
-	public Task setDescription(String description) {
-		this.description = description;
-		return this;
+	
+	public ObjectId getId() {
+		return id;
 	}
 
-	public Activity getActivity() {
-		return activity;
+	public Role getRole() {
+		return role;
+	}
+	
+	@Override
+	public int hashCode() {
+		return getId().hashCode();
 	}
 
 	public Task setActivity(Activity activity) {
@@ -86,13 +107,29 @@ public class Task extends Identifiable {
 		return this;
 	}
 
-	public Role getRole() {
-		return role;
+	public Task setCreationTime(DateTime creationTime) {
+		this.creationTime = creationTime;
+		return this;
+	}
+
+	public Task setDescription(String description) {
+		this.description = description;
+		return this;
+	}
+
+	public Task setId(ObjectId id) {
+		this.id = id;
+		return this;
 	}
 
 	public Task setRole(Role role) {
 		this.role = role;
 		return this;
+	}
+
+	@Override
+	public String toString() {
+		return getId().toString();
 	}
 
 }

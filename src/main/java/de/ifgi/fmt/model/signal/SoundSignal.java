@@ -37,22 +37,6 @@ public class SoundSignal extends Signal {
 	@Property(SoundSignal.LINK)
 	private URL link;
 
-	public URL getLink() {
-		return link;
-	}
-
-	public void setLink(URL link) {
-		this.link = link;
-	}
-
-	@Override
-	public Signal encode(JSONObject j) throws JSONException {
-		if (getLink() != null) {
-			j.put(JSONConstants.HREF_KEY, getLink());
-		}
-		return this;
-	}
-
 	@Override
 	public Signal decode(JSONObject j) {
 		String l = j.optString(JSONConstants.HREF_KEY, null);
@@ -64,6 +48,22 @@ public class SoundSignal extends Signal {
 			}
 		}
 		return this;
+	}
+
+	@Override
+	public Signal encode(JSONObject j) throws JSONException {
+		if (getLink() != null) {
+			j.put(JSONConstants.HREF_KEY, getLink());
+		}
+		return this;
+	}
+
+	public URL getLink() {
+		return link;
+	}
+
+	public void setLink(URL link) {
+		this.link = link;
 	}
 	
 	

@@ -18,48 +18,83 @@
 package de.ifgi.fmt.model.trigger;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.bson.types.ObjectId;
+import org.joda.time.DateTime;
 
 import com.google.code.morphia.annotations.Entity;
+import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
-import com.google.code.morphia.annotations.Polymorphic;
+import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.annotations.Reference;
 
 import de.ifgi.fmt.model.Flashmob;
-import de.ifgi.fmt.mongo.Identifiable;
 
-@Polymorphic
 @Entity(Trigger.COLLECTION_NAME)
-public class Trigger extends Identifiable {
+public class Trigger {
 	public static final String COLLECTION_NAME = "triggers";
+	public static final String CREATION_TIME = "creationTime";
 	public static final String FLASHMOB = "flashmob";
-	// public static final String ACTIVITIES = "activities";
+
+	@NotNull
+	@Past
+	@Indexed
+	@Property(Trigger.CREATION_TIME)
+	private DateTime creationTime = new DateTime();
 
 	@NotNull
 	@Indexed
 	@Reference(value = Trigger.FLASHMOB, lazy = true)
 	private Flashmob flashmob;
 
-	public Trigger(ObjectId id) {
-		super(id);
+	@NotNull
+	@Id
+	private ObjectId id = new ObjectId();
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Trigger) {
+			return getId().equals(((Trigger) o).getId());
+		}
+		return false;
 	}
 
-	public Trigger(String id) {
-		super(id);
-	}
-
-	public Trigger() {
-		super();
+	public DateTime getCreationTime() {
+		return creationTime;
 	}
 
 	public Flashmob getFlashmob() {
 		return flashmob;
 	}
 
+	public ObjectId getId() {
+		return id;
+	}
+
+	@Override
+	public int hashCode() {
+		return getId().hashCode();
+	}
+
+	public Trigger setCreationTime(DateTime creationTime) {
+		this.creationTime = creationTime;
+		return this;
+	}
+
 	public Trigger setFlashmob(Flashmob flashmob) {
 		this.flashmob = flashmob;
 		return this;
+	}
+
+	public Trigger setId(ObjectId id) {
+		this.id = id;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return getId().toString();
 	}
 
 }

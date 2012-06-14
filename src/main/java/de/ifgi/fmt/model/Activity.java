@@ -22,13 +22,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
+import org.joda.time.DateTime;
 
 import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
+import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.PostLoad;
@@ -40,38 +43,39 @@ import com.google.code.morphia.annotations.Transient;
 import de.ifgi.fmt.model.signal.Signal;
 import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.model.trigger.Trigger;
-import de.ifgi.fmt.mongo.Identifiable;
 import de.ifgi.fmt.utils.Utils;
 
 @Polymorphic
 @Entity(Activity.COLLECTION_NAME)
-public class Activity extends Identifiable {
+public class Activity {
 	public static final String COLLECTION_NAME = "activities";
-	public static final String TITLE = "title";
+	public static final String CREATION_TIME = "creationTime";
 	public static final String DESCRIPTION = "description";
 	public static final String FLASHMOB = "flashmob";
-	public static final String TRIGGER = "trigger";
 	public static final String SIGNAL = "signal";
-
 	public static final String TASKS = "savedTasks";
+	public static final String TITLE = "title";
+	public static final String TRIGGER = "trigger";
 
-	@NotBlank
-	@SafeHtml
-	@Property(Activity.TITLE)
-	private String title;
-	
+	@NotNull@Past@Indexed
+	@Property(Activity.CREATION_TIME)
+	private DateTime creationTime = new DateTime();
+
 	@NotBlank
 	@SafeHtml
 	@Property(Activity.DESCRIPTION)
 	private String description;
-	
+
 	@Indexed
 	@NotNull
 	@Reference(value = Activity.FLASHMOB, lazy = true)
 	private Flashmob flashmob;
 
-	@Reference(value = Activity.TRIGGER, lazy = true)
-	private Trigger trigger;
+	@NotNull@Id
+	private ObjectId id = new ObjectId();
+
+	@Embedded
+	private List<TaskForRole> savedTasks = Utils.list();
 
 	@Reference(value = Activity.SIGNAL, lazy = true)
 	private Signal signal;
@@ -79,8 +83,76 @@ public class Activity extends Identifiable {
 	@Transient
 	private Map<Role, Task> tasks = Utils.map();
 
-	@Embedded
-	private List<TaskForRole> savedTasks = Utils.list();
+	@NotBlank
+	@SafeHtml
+	@Property(Activity.TITLE)
+	private String title;
+
+	@Reference(value = Activity.TRIGGER, lazy = true)
+	private Trigger trigger;
+
+	public Activity addRole(Role role) {
+		this.tasks.put(role.addAcitivity(this), null);
+		return this;
+	}
+	
+	public Activity addTask(Role role, Task task) {
+		this.tasks.put(role, task.setActivity(this).setRole(role));
+		return this;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Activity) {
+			return getId().equals(((Activity) o).getId());
+		}
+		return false;
+	}
+
+	public DateTime getCreationTime() {
+		return creationTime;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public Flashmob getFlashmob() {
+		return flashmob;
+	}
+
+	public ObjectId getId() {
+		return id;
+	}
+
+	public List<Role> getRoles() {
+		return Utils.asList(this.tasks.keySet());
+	}
+
+	public Signal getSignal() {
+		return signal;
+	}
+
+	public Task getTask(Role r) {
+		return getTasks().get(r);
+	}
+
+	public Map<Role, Task> getTasks() {
+		return tasks;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public Trigger getTrigger() {
+		return trigger;
+	}
+
+	@Override
+	public int hashCode() {
+		return getId().hashCode();
+	}
 
 	@PostLoad
 	public void postLoad() {
@@ -96,77 +168,8 @@ public class Activity extends Identifiable {
 		}
 	}
 
-	public Activity(ObjectId id) {
-		super(id);
-	}
-
-	public Activity(String id) {
-		super(id);
-	}
-
-	public Activity() {
-		super();
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public Activity setTitle(String title) {
-		this.title = title;
-		return this;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public Activity setDescription(String description) {
-		this.description = description;
-		return this;
-	}
-
-	public Flashmob getFlashmob() {
-		return flashmob;
-	}
-
-	public Activity setFlashmob(Flashmob flashmob) {
-		this.flashmob = flashmob;
-		return this;
-	}
-
-	public Trigger getTrigger() {
-		return trigger;
-	}
-
-	public Activity setTrigger(Trigger trigger) {
-		this.trigger = trigger;
-		return this;
-	}
-
-	public Signal getSignal() {
-		return signal;
-	}
-
-	public Activity setSignal(Signal signal) {
-		this.signal = signal;
-		return this;
-	}
-
-	public Map<Role, Task> getTasks() {
-		return tasks;
-	}
-
-	public Task getTask(Role r) {
-		return getTasks().get(r);
-	}
-
-	public void setTasks(Map<Role, Task> tasks) {
-		this.tasks = tasks;
-	}
-
-	public Activity addTask(Role role, Task task) {
-		this.tasks.put(role, task.setActivity(this).setRole(role));
+	public Activity removeRole(Role r) {
+		this.tasks.remove(r.removeActivity(this));
 		return this;
 	}
 
@@ -186,17 +189,47 @@ public class Activity extends Identifiable {
 		return removeTask(t.getRole());
 	}
 
-	public Activity addRole(Role role) {
-		this.tasks.put(role.addAcitivity(this), null);
+	public Activity setCreationTime(DateTime creationTime) {
+		this.creationTime = creationTime;
 		return this;
 	}
 
-	public Activity removeRole(Role r) {
-		this.tasks.remove(r.removeActivity(this));
+	public Activity setDescription(String description) {
+		this.description = description;
 		return this;
 	}
 
-	public List<Role> getRoles() {
-		return Utils.asList(this.tasks.keySet());
+	public Activity setFlashmob(Flashmob flashmob) {
+		this.flashmob = flashmob;
+		return this;
+	}
+
+	public Activity setId(ObjectId id) {
+		this.id = id;
+		return this;
+	}
+
+	public Activity setSignal(Signal signal) {
+		this.signal = signal;
+		return this;
+	}
+
+	public void setTasks(Map<Role, Task> tasks) {
+		this.tasks = tasks;
+	}
+
+	public Activity setTitle(String title) {
+		this.title = title;
+		return this;
+	}
+
+	public Activity setTrigger(Trigger trigger) {
+		this.trigger = trigger;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return getId().toString();
 	}
 }

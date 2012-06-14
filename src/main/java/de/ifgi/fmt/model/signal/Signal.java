@@ -17,40 +17,78 @@
  */
 package de.ifgi.fmt.model.signal;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
 import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.joda.time.DateTime;
 
 import com.google.code.morphia.annotations.Entity;
-import com.google.code.morphia.annotations.Polymorphic;
+import com.google.code.morphia.annotations.Id;
+import com.google.code.morphia.annotations.Indexed;
+import com.google.code.morphia.annotations.Property;
 
-import de.ifgi.fmt.mongo.Identifiable;
-
-@Polymorphic
 @Entity(Signal.COLLECTION_NAME)
-public abstract class Signal extends Identifiable {
+public abstract class Signal {
 	
 	public static final String COLLECTION_NAME = "signals";
 
-	public Signal(ObjectId id) {
-		super(id);
+	public static final String CREATION_TIME = "creationTime";
+
+	@NotNull
+	@Past
+	@Indexed
+	@Property(Signal.CREATION_TIME)
+	private DateTime creationTime = new DateTime();
+
+	@NotNull
+	@Id
+	private ObjectId id = new ObjectId();
+
+	public abstract Signal decode(JSONObject j);
+
+	public abstract Signal encode(JSONObject j) throws JSONException;
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Signal) {
+			return getId().equals(((Signal) o).getId());
+		}
+		return false;
 	}
 
-	public Signal(String id) {
-		super(id);
+	public DateTime getCreationTime() {
+		return creationTime;
 	}
 
-	public Signal() {
-		super();
+	public ObjectId getId() {
+		return id;
 	}
-	
+
 	public String getType() {
 		return getClass().getName()
 				.replace(getClass().getPackage().getName() + ".", "")
 				.replace("Signal", "");
 	}
+
+	@Override
+	public int hashCode() {
+		return getId().hashCode();
+	}
+	public Signal setCreationTime(DateTime creationTime) {
+		this.creationTime = creationTime;
+		return this;
+	}
 	
-	public abstract Signal encode(JSONObject j) throws JSONException;
-	public abstract Signal decode(JSONObject j);
+	public Signal setId(ObjectId id) {
+		this.id = id;
+		return this;
+	}
+	@Override
+	public String toString() {
+		return getId().toString();
+	}
 
 }

@@ -26,6 +26,7 @@ import javax.ws.rs.core.UriBuilder;
 import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.slf4j.Logger;
@@ -40,7 +41,11 @@ import com.sun.jersey.test.framework.AppDescriptor;
 import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.WebAppDescriptor;
 import com.sun.jersey.test.framework.spi.container.grizzly.web.GrizzlyWebTestContainerFactory;
+import com.vividsolutions.jts.geom.Point;
 
+import de.ifgi.fmt.json.JSONFactory;
+import de.ifgi.fmt.model.Flashmob;
+import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.mongo.MongoDB;
 import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.JSONConstants;
@@ -118,18 +123,25 @@ public class AbstractFlashMobTest extends JerseyTest {
 		return getNextInt() + "@email.tld";
 	}
 	
-	protected JSONObject createUserJson(String username, String mail, String password) throws JSONException {
-		JSONObject j = new JSONObject();
-		if (username != null) {
-			j.put(JSONConstants.USERNAME_KEY, username);
-		}
-		if (mail != null) {
-			j.put(JSONConstants.EMAIL_KEY, mail);
-		}
-		if (password != null) {
-			j.put(JSONConstants.PASSWORD_KEY, password);
-		}
+	protected JSONObject createUserJson(String username, String mail,
+			String password) throws JSONException {
+		User u = new User().setUsername(username).setEmail(mail)
+				.setPassword(password);
+		JSONObject j = JSONFactory.getEncoder(User.class).encode(u, null);
+		j.put(JSONConstants.PASSWORD_KEY, password);
 		return j;
+	}
+
+	protected JSONObject createFlashmobJson(ObjectId coordinator, String title,
+			String description, DateTime start, DateTime end, Point position,
+			String key, boolean isPublic, DateTime publishTime)
+			throws JSONException {
+		Flashmob f = new Flashmob()
+				.setCoordinator(new User().setId(coordinator))
+				.setDescription(description).setEnd(end).setStart(start)
+				.setKey(key).setPublic(isPublic).setLocation(position)
+				.setPublish(publishTime).setStart(start).setTitle(title);
+		return JSONFactory.getEncoder(Flashmob.class).encode(f, null);
 	}
 	
 	protected ClientResponse getUsers() {
@@ -137,6 +149,16 @@ public class AbstractFlashMobTest extends JerseyTest {
 				.path(Paths.USERS)
 				.accept(MediaTypes.USER_LIST)
 				.get(ClientResponse.class);
+	}
+	
+	protected ClientResponse addFlashmob(JSONObject f) {
+		return getWebResource()
+				.path(Paths.FLASHMOBS)
+				.accept(MediaTypes.FLASHMOB)
+				.type(MediaTypes.FLASHMOB)
+				.entity(f)
+				.post(ClientResponse.class);
+				
 	}
 	
 	protected ClientResponse addUser(JSONObject u) {

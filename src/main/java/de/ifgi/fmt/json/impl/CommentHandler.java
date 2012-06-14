@@ -54,7 +54,7 @@ public class CommentHandler extends JSONHandler<Comment> {
 
 		String flashmob = j.optString(FLASHMOB_KEY, null);
 		if (flashmob != null) {
-			c.setFlashmob(new Flashmob(flashmob));
+			c.setFlashmob(new Flashmob().setId(new ObjectId(flashmob)));
 		}
 
 		String time = j.optString(TIME_KEY, null);
@@ -64,7 +64,7 @@ public class CommentHandler extends JSONHandler<Comment> {
 		
 		String user = j.optString(USER_KEY, null);
 		if (user != null) {
-			c.setUser(new User(user));
+			c.setUser(new User().setId(new ObjectId(user)));
 		}
 		return c;
 	}

@@ -62,11 +62,11 @@ public class ActivityHandler extends JSONHandler<Activity> {
 		
 		String flashmob = j.optString(FLASHMOB_KEY, null);
 		if (flashmob == null) {
-			a.setFlashmob(new Flashmob(flashmob));
+			a.setFlashmob(new Flashmob().setId(new ObjectId(flashmob)));
 		}
 		String trigger = j.optString(TRIGGER_KEY, null);
 		if (trigger != null) {
-			a.setTrigger(new Trigger(new ObjectId()));
+			a.setTrigger(new Trigger().setId(new ObjectId(trigger)));
 		}
 		return a;
 	}

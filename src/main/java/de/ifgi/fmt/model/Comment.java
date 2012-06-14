@@ -26,33 +26,33 @@ import org.hibernate.validator.constraints.SafeHtml;
 import org.joda.time.DateTime;
 
 import com.google.code.morphia.annotations.Entity;
+import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
-import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.annotations.Reference;
 
-import de.ifgi.fmt.mongo.Identifiable;
-
-@Polymorphic
 @Entity(Comment.COLLECTION_NAME)
-public class Comment extends Identifiable {
+public class Comment {
 
 	public static final String COLLECTION_NAME = "comments";
-	public static final String TEXT = "text";
+	public static final String CREATION_TIME = "creationTime";
 	public static final String FLASHMOB = "flashmob";
-	public static final String USER = "user";
+	public static final String TEXT = "text";
 	public static final String TIME = "time";
+	public static final String USER = "user";
+
+	@NotNull@Past@Indexed
+	@Property(Comment.CREATION_TIME)
+	private DateTime creationTime = new DateTime();
 
 	@NotNull
 	@Indexed
 	@Reference(value = Comment.FLASHMOB, lazy = true)
 	private Flashmob flashmob;
 
-	@NotNull
-	@Indexed
-	@Reference(value = Comment.USER, lazy = true)
-	private User user;
-	
+	@NotNull@Id
+	private ObjectId id = new ObjectId();
+
 	@SafeHtml
 	@NotBlank
 	@Property(Comment.TEXT)
@@ -64,20 +64,50 @@ public class Comment extends Identifiable {
 	@Property(Comment.TIME)
 	private DateTime time;
 
-	public Comment(ObjectId id) {
-		super(id);
+	@NotNull
+	@Indexed
+	@Reference(value = Comment.USER, lazy = true)
+	private User user;
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Comment) {
+			return getId().equals(((Comment) o).getId());
+		}
+		return false;
 	}
 
-	public Comment(String id) {
-		super(id);
-	}
-
-	public Comment() {
-		super();
+	public DateTime getCreationTime() {
+		return creationTime;
 	}
 
 	public Flashmob getFlashmob() {
 		return flashmob;
+	}
+	public ObjectId getId() {
+		return id;
+	}
+
+	public String getText() {
+		return text;
+	}
+	
+	public DateTime getTime() {
+		return time;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	@Override
+	public int hashCode() {
+		return getId().hashCode();
+	}
+
+	public Comment setCreationTime(DateTime creationTime) {
+		this.creationTime = creationTime;
+		return this;
 	}
 
 	public Comment setFlashmob(Flashmob flashmob) {
@@ -85,17 +115,9 @@ public class Comment extends Identifiable {
 		return this;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public Comment setUser(User user) {
-		this.user = user;
+	public Comment setId(ObjectId id) {
+		this.id = id;
 		return this;
-	}
-
-	public String getText() {
-		return text;
 	}
 
 	public Comment setText(String text) {
@@ -103,13 +125,19 @@ public class Comment extends Identifiable {
 		return this;
 	}
 
-	public DateTime getTime() {
-		return time;
-	}
-
 	public Comment setTime(DateTime time) {
 		this.time = time;
 		return this;
+	}
+
+	public Comment setUser(User user) {
+		this.user = user;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return getId().toString();
 	}
 
 }

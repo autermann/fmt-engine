@@ -33,12 +33,10 @@ public class TextSignal extends Signal {
 	@Property(TextSignal.TEXT)
 	private String text;
 
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
+	@Override
+	public Signal decode(JSONObject j) {
+		setText(j.optString(JSONConstants.TEXT_KEY, null));
+		return this;
 	}
 
 	@Override
@@ -49,10 +47,12 @@ public class TextSignal extends Signal {
 		return this;
 	}
 
-	@Override
-	public Signal decode(JSONObject j) {
-		setText(j.optString(JSONConstants.TEXT_KEY, null));
-		return this;
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 	}
 
 }
