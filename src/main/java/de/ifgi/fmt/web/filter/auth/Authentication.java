@@ -96,7 +96,7 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 		if (!auth.startsWith("Basic ")) {
 			throw ServiceError.badRequest("Authentication not supported: " + auth);
 		}
-		auth = String.valueOf(Base64.decodeBase64(auth.replaceFirst("Basic ", "")));
+		auth = new String(Base64.decodeBase64(auth.replaceFirst("Basic ", "")));
 		String[] uap = auth.split(":");
 		if (uap.length != 2) {
 			throw ServiceError.badRequest("Could not decode user:pass: " + auth);
