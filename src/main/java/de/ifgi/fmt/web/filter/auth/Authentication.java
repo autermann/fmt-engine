@@ -148,7 +148,7 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 		Service.getInstance().getStore().users().save(u.setAuthToken(token));
 		return new NewCookie(COOKIE_NAME, token, uri.getBaseUri()
 				.getPath(), uri.getBaseUri().getHost(), 1, "FMT Login Cookie",
-				-1, true);
+				-1, false);
 	}
 
 	private String getAuthToken(User u) {
