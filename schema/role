@@ -28,9 +28,7 @@
             "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid#"
         }, 
         "items": {
-            "items": {
-                "type": "string"
-            }, 
+            "items": "string",
             "minItems": 0, 
             "type": "array"
         }, 
