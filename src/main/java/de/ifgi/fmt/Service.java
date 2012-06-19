@@ -52,9 +52,18 @@ public class Service {
 	private static boolean validateFlashmob(Flashmob f) {
 		return false; // TODO validity check
 		
+		//boolean valid;
+		//valid = false;
+		
 		//Cases:
 		//has COORDINATOR
+		//if (f.getCoordinator().getId() > 0){
+		//    valid = true;
+		//} else {
+		//    valid = false;
+		//}
 		//has TITLE
+
 		//has CREATIONTIME
 		//has DESCRIPTION
 		//has END
