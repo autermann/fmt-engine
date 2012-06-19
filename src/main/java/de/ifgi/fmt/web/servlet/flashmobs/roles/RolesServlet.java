@@ -56,7 +56,7 @@ public class RolesServlet extends AbstractServlet {
 		// @ToDo
 		Role saved = getService().addRole(flashmob, r);
 		URI uri = getUriInfo().getBaseUriBuilder()
-				.path(Paths.ROLE_FOR_FLASHMOB).build(r.getId());
+				.path(Paths.ROLE_FOR_FLASHMOB).build(flashmob, r);
 		return Response.created(uri).entity(saved).build();
 	}
 }

@@ -56,6 +56,11 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 @Decodes(Role.class)
 public class RoleHandler extends JSONHandler<Role>{
 	
+	public static void main(String[] args) throws JSONException {
+		String j = "{\"title\":\"Standard\",\"description\":\"Standard role\",\"maxParticipants\":100,\"minParticipants\":0}";
+		new RoleHandler().decode(new JSONObject(j));
+	}
+	
 	@Override
 	public Role decode(JSONObject j) throws JSONException {
 		Role r = new Role();
@@ -151,7 +156,7 @@ public class RoleHandler extends JSONHandler<Role>{
 		//TODO check if its an role of an activity (different urls)
 		return new JSONObject()
 			.put(ID_KEY, t.getId())
-			.put(HREF_KEY, uriInfo.getAbsolutePathBuilder().path(Paths.ROLE).build(t));
+			.put(HREF_KEY, uriInfo.getBaseUriBuilder().path(Paths.ROLE_FOR_FLASHMOB).build(t.getFlashmob(), t));
 	}
 
 }
