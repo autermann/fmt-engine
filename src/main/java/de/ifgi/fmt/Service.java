@@ -335,7 +335,7 @@ public class Service {
 	return r;
     }
 
-    public Role getRole(ObjectId role, ObjectId flashmob) {
+    public Role getRole(ObjectId flashmob, ObjectId role) {
 	Flashmob f = getFlashmob(flashmob);
 	return getRole(f, role);
     }
