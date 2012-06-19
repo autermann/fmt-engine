@@ -93,7 +93,7 @@ public class Role {
 	@Property(Role.MIN_COUNT)
 	private Integer minCount;
 
-	@NotNull
+	//@NotNull Mail: Re: [FMT] Service auf giv-flashmob, 19.06.12 - 1940
 	@Property(Role.START_POINT)
 	private Point startPoint;
 	
