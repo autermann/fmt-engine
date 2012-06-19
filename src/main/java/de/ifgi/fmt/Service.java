@@ -51,8 +51,77 @@ public class Service {
 
 	private static boolean validateFlashmob(Flashmob f) {
 		return false; // TODO validity check
-	}
+		
+		//Cases:
+		//has COORDINATOR
+		//has TITLE
+		//has CREATIONTIME
+		//has DESCRIPTION
+		//has END
+		    //END > CREATIONTIME
+		    //END > START
+		//has START
+		    //START > CREATIONTIME
+		    //START < END
+		//has LOCATION
+		
+		//has ACTIVITIES
+		    //For Each Activity 
+			//validate each activity
+		//has ROLES
+		    //For Each Role 
+			//validate Role
+		//has TRIGGERS
+		    //For Each Trigger 
+			//validate Trigger
 
+		//if valid then f.validity = "VALID"
+		//else f.validity = "NOT_VALID"
+		
+	}
+	
+	private static boolean validateActivity(Activity a){
+	    return false; // TODO validity check
+	    //Cases:
+	    // has CREATION_TIME
+	    // has DESCRIPTION
+	    // has FLASHMOB
+	    // has SIGNAL
+	    // has TASKS
+	    // has TITLE
+	    // has TRIGGER
+	}
+	
+	private static boolean validateRole(Role r){
+	    return false; // TODO validity check
+	    //Cases:
+	    //has CATEGORY
+	    //has COLLECTION_NAME
+	    //has CREATION_TIME
+	    //has DESCRIPTION
+	    //has FLASHMOB
+	    //has ITEMS
+	    //has MAX_COUNT
+	    //has MIN_COUNT
+	    //has START_POINT	    
+	}
+	
+	private static boolean validateTrigger(Trigger t){
+	    return false; // TODO validity check
+	    //Cases:
+	    //has COLLECTION_NAME
+	    //has CREATION_TIME
+	    //has FLASHMOB
+	    
+	    //If Trigger of Type TimeTrigger 
+		//t.time > FLASHMOB.Start
+
+	    //If Trigger of Type EventTrigger
+		//has DESCRIPTION
+	    //If Trigger of Typpe LocationTrigger
+		//has LOCATION
+	}
+		
 	private Store store = new Store();
 
 	public Activity addActivity(Activity a, ObjectId flashmob) {
