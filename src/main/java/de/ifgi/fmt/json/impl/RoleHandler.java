@@ -156,7 +156,7 @@ public class RoleHandler extends JSONHandler<Role>{
 		//TODO check if its an role of an activity (different urls)
 		return new JSONObject()
 			.put(ID_KEY, t.getId())
-			.put(HREF_KEY, uriInfo.getBaseUriBuilder().path(Paths.ROLE_FOR_FLASHMOB).build(t.getFlashmob(), t));
+			.put(HREF_KEY, uriInfo.getBaseUriBuilder().path(Paths.ROLE_FOR_FLASHMOB).build(t.getFlashmob().getId(), t));
 	}
 
 }

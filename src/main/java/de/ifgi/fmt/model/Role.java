@@ -91,7 +91,7 @@ public class Role {
 
 	@Min(0)
 	@Property(Role.MIN_COUNT)
-	private Integer minCount;
+	private Integer minCount = new Integer(0);
 
 	//@NotNull Mail: Re: [FMT] Service auf giv-flashmob, 19.06.12 - 1940
 	@Property(Role.START_POINT)
@@ -216,9 +216,10 @@ public class Role {
 	public Role setMaxCount(Integer maxCount) {
 		if (maxCount != null && maxCount.intValue() > 0) {
 			if (getMinCount() != null
-					&& getMinCount().intValue() <= maxCount.intValue()) {
+					&& getMinCount().intValue() > maxCount.intValue()) {
 				throw new IllegalArgumentException(
-						"min count can not be bigger than max count");
+						"min count can not be bigger than max count. "
+								+ maxCount + " <= " + getMinCount());
 			}
 			this.maxCount = maxCount;
 		}
@@ -227,11 +228,10 @@ public class Role {
 
 	public Role setMinCount(Integer minCount) {
 		if (minCount != null && minCount.intValue() > 0) {
-			if (getMaxCount() != null
-					&& getMaxCount().intValue() <= minCount.intValue()) {
+			if (getMaxCount() != null && getMaxCount().intValue() < minCount.intValue()) {
 				throw new IllegalArgumentException(
 						"min count can not be bigger than max count. "
-								+ getMaxCount() + "<=" + getMinCount());
+								+ getMaxCount() + " <= " + minCount);
 			}
 			this.minCount = minCount;
 		}
