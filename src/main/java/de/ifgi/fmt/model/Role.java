@@ -91,7 +91,7 @@ public class Role {
 
 	@Min(0)
 	@Property(Role.MIN_COUNT)
-	private Integer minCount = new Integer(0);
+	private Integer minCount;
 
 	@NotNull
 	@Property(Role.START_POINT)
@@ -214,19 +214,27 @@ public class Role {
 	}
 
 	public Role setMaxCount(Integer maxCount) {
-		if (getMinCount() != null &&
-				getMinCount().intValue() <= maxCount.intValue()) {
-			throw new IllegalArgumentException("min count can not be bigger than max count");
+		if (maxCount != null && maxCount.intValue() > 0) {
+			if (getMinCount() != null
+					&& getMinCount().intValue() <= maxCount.intValue()) {
+				throw new IllegalArgumentException(
+						"min count can not be bigger than max count");
+			}
+			this.maxCount = maxCount;
 		}
-		this.maxCount = maxCount;
 		return this;
 	}
 
 	public Role setMinCount(Integer minCount) {
-		if (getMaxCount() != null && getMaxCount().intValue() <= minCount.intValue()) {
-			throw new IllegalArgumentException("min count can not be bigger than max count. "+getMaxCount() +"<="+getMinCount());
+		if (minCount != null && minCount.intValue() > 0) {
+			if (getMaxCount() != null
+					&& getMaxCount().intValue() <= minCount.intValue()) {
+				throw new IllegalArgumentException(
+						"min count can not be bigger than max count. "
+								+ getMaxCount() + "<=" + getMinCount());
+			}
+			this.minCount = minCount;
 		}
-		this.minCount = minCount;
 		return this;
 	}
 
