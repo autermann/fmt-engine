@@ -50,46 +50,12 @@ public class Service {
     }
 
     private static boolean validateFlashmob(Flashmob f) {
-	//return false; // TODO validity check
-
+	
 	boolean valid;
 	valid = false;
-/*
-	//Cases:
-	//has COORDINATOR
-	if (!f.getCoordinator().getUsername().equals("")) {
-	    valid = true;
-	} else {
-	    valid = false;
-	}
-	//has TITLE
-	if (!f.getTitle().equals("") && valid) {
-	    valid = true;
-	} else {
-	    valid = false;
-	}
 
-	//has CREATIONTIME
-	if (!f.getCreationTime().toString("dd:MM:yy").equals("") && valid) {
-	   valid = true;
-	} else {
-	    valid = false;
-	}
-
-	//has DESCRIPTION
-	if (!f.getDescription().equals("") && valid) {
-	    valid = true;
-	} else {
-	    valid = false;
-	}
-	//has END
-	if (!f.getEnd().toString("dd:MM:yy").equals("") && valid) {
-	    valid = true;
-	} else {
-	    valid = false;
-	}
 	//END > CREATIONTIME
-	if (f.getEnd().isAfter(f.getCreationTime()) && valid) {
+	if (f.getEnd().isAfter(f.getCreationTime())) {
 	    valid = true;
 	} else {
 	    valid = false;
@@ -101,38 +67,37 @@ public class Service {
 	} else {
 	    valid = false;
 	}
-	//has START
-	if (!f.getStart().toString("dd:MM:yy").equals("") && valid) {
-	    valid = true;
-	} else {
-	    valid = false;
-	}
+
 	//START > CREATIONTIME
 	if (f.getStart().isAfter(f.getCreationTime()) && valid) {
 	    valid = true;
 	} else {
 	    valid = false;
 	}
+	
 	//START < END
 	//already checked this above.
 
-	//has LOCATION
-	if (!f.getLocation().toString().equals("") && valid) {
+	//has ACTIVITIES
+	if (!f.getActivities().isEmpty() && valid){
 	    valid = true;
 	} else {
 	    valid = false;
 	}
 
-	//has ACTIVITIES
-	//For Each Activity 
-	//validate each activity
 	//has ROLES
-	//For Each Role 
-	//validate Role
+	if (!f.getRoles().isEmpty() && valid){
+	    valid = true;
+	} else {
+	    valid = false;
+	}
 	//has TRIGGERS
-	//For Each Trigger 
-	//validate Trigger
-*/
+	if (!f.getTriggers().isEmpty() && valid){
+	    valid = true;
+	} else {
+	    valid = false;
+	}
+	
 	if (valid) {
 	    return true;
 	} else {
