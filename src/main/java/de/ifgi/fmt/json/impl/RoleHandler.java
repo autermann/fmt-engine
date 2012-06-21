@@ -25,6 +25,7 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.HREF_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.ID_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.ITEMS_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.LOCATION_KEY;
+import static de.ifgi.fmt.utils.constants.JSONConstants.TITLE_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.MAX_PARTICIPANTS_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.MIN_PARTICIPANTS_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.USERS_KEY;
@@ -117,6 +118,10 @@ public class RoleHandler extends JSONHandler<Role>{
 			}
 			j.put(ITEMS_KEY, items);
 		}
+		if (t.getTitle() != null) {
+		    j.put(TITLE_KEY, t.getTitle());
+		}
+		
 		if (t.getMinCount() >= 0) {
 			j.put(MIN_PARTICIPANTS_KEY, t.getMinCount());
 		}

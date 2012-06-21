@@ -47,6 +47,7 @@ public class Role {
 	public static final String COLLECTION_NAME = "roles";
 	public static final String CREATION_TIME = "creationTime";
 	public static final String DESCRIPTION = "description";
+	public static final String TITLE = "title";
 	public static final String FLASHMOB = "flashmob";
 	public static final String ITEMS = "items";
 	public static final String MAX_COUNT = "maxCount";
@@ -80,6 +81,10 @@ public class Role {
 	@NotNull
 	@Id
 	private ObjectId id = new ObjectId();
+	
+	@NotBlank
+	@Property(Role.TITLE)
+	private String title;
 
 	@NotNull
 	@Property(Role.ITEMS)
@@ -141,6 +146,10 @@ public class Role {
 
 	public ObjectId getId() {
 		return id;
+	}
+	
+	public String getTitle() {
+		return title;
 	}
 
 	public Set<String> getItems() {
