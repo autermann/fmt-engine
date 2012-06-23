@@ -134,7 +134,9 @@ public class Store {
 		}
 
 		public static Query<Flashmob> hasUser(Query<Flashmob> q, User u) {
-			return q.field(Flashmob.ROLES + "." + Role.USERS).hasThisElement(u);
+			return q.field(Flashmob.ROLES).hasAnyOf(
+					getRoleDao().createQuery().field(Role.USERS)
+							.hasThisElement(u).fetchEmptyEntities());
 		}
 
 		public static Query<Flashmob> isPublic(Query<Flashmob> q,
