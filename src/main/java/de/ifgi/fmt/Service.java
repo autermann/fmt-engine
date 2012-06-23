@@ -182,6 +182,10 @@ public class Service {
     }
 
     public User createUser(User u) {
+    	User u2 = getUser(u.getUsername());
+    	if (u2 != null) {
+    		throw ServiceError.badRequest("username already used");
+    	}
 	return getStore().users().save(u);
     }
 
@@ -217,7 +221,7 @@ public class Service {
 	deleteTrigger(getFlashmob(flashmob), trigger);
     }
 
-    public void deleteUser(ObjectId user) {
+    public void deleteUser(String user) {
 	deleteUser(getUser(user));
     }
 
@@ -233,7 +237,7 @@ public class Service {
 	return Utils.asList(getRole(getFlashmob(flashmob), role).getActivities());
     }
 
-    public List<Activity> getActivitiesForUser(ObjectId user, ObjectId flashmob) {
+    public List<Activity> getActivitiesForUser(String user, ObjectId flashmob) {
 	return getStore().activities().get(getFlashmob(flashmob), getUser(user));
     }
 
@@ -267,7 +271,7 @@ public class Service {
 	return f;
     }
 
-    public Flashmob getFlashmob(ObjectId user, ObjectId flashmob) {
+    public Flashmob getFlashmob(String user, ObjectId flashmob) {
 	return getFlashmob(getUser(user), flashmob);
     }
 
@@ -279,16 +283,16 @@ public class Service {
 	return f;
     }
 
-    public List<Flashmob> getFlashmobs(int limit, Point near, ObjectId user,
+    public List<Flashmob> getFlashmobs(int limit, Point near, String user,
 	    BoundingBox bbox, DateTime from, DateTime to, Sorting sorting,
 	    boolean descending, ShowStatus show, String search,
-	    ObjectId participant, int minParticipants, int maxParticipants) {
+	    String participant, int minParticipants, int maxParticipants) {
 	return getStore().flashmobs().get(limit, near, getUser(user), bbox,
 		from, to, sorting, descending, show, search,
 		getUser(participant), minParticipants, maxParticipants);
     }
 
-    public List<Flashmob> getFlashmobsFromUser(ObjectId user) {
+    public List<Flashmob> getFlashmobsFromUser(String user) {
 	return getStore().flashmobs().get(getUser(user));
     }
 
@@ -332,7 +336,7 @@ public class Service {
     }
 
     public Task getTaskForActivity(ObjectId activity, ObjectId flashmob,
-	    ObjectId user) {
+    		String user) {
 	User u = getUser(user);
 	Flashmob f = getFlashmob(flashmob);
 	Activity a = getActivity(f, activity);
@@ -364,7 +368,7 @@ public class Service {
 	return getStore().triggers().get(getFlashmob(flashmob));
     }
 
-    public User getUser(ObjectId user) {
+    public User getUser(String user) {
 	if (user == null) {
 	    return null;
 	}
@@ -450,11 +454,14 @@ public class Service {
 	return t;
     }
 
-    public User updateUser(User updates, ObjectId user) {
-	return getStore().users().save(update(getUser(user), updates));
+    public User updateUser(User updates, String user) {
+    	User old = getUser(user);
+    	User changed = update(old, updates);
+    	getStore().users().save(changed);
+    	return changed;
     }
 
-    public Activity getActivityForUser(ObjectId user, ObjectId flashmob,
+    public Activity getActivityForUser(String user, ObjectId flashmob,
 	    ObjectId activity) {
 	User u = getUser(user);
 	getFlashmob(u, flashmob);

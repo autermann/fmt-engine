@@ -40,7 +40,7 @@ public class FlashmobServlet extends AbstractServlet {
 	@GET
 	@RolesAllowed({ Roles.ADMIN, Roles.USER })
 	@Produces(MediaTypes.FLASHMOB)
-	public Flashmob getFlashmob(@PathParam(PathParams.USER) ObjectId user,
+	public Flashmob getFlashmob(@PathParam(PathParams.USER) String user,
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
 		if (!isAdminOrUserWithId(user)) {
 			throw ServiceError.flashmobNotFound();

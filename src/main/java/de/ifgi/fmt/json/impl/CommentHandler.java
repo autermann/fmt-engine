@@ -64,7 +64,7 @@ public class CommentHandler extends JSONHandler<Comment> {
 		
 		String user = j.optString(USER_KEY, null);
 		if (user != null) {
-			c.setUser(new User().setId(new ObjectId(user)));
+			c.setUser(new User().setUsername(user));
 		}
 		return c;
 	}

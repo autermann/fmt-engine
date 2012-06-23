@@ -50,7 +50,7 @@ public class CommentServlet extends AbstractServlet {
 	public Comment changeComment(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.COMMENT) ObjectId comment, Comment changes) {
-		if (!isAdminOrUserWithId(getComment(flashmob, comment).getUser().getId())) {
+		if (!isAdminOrUserWithId(getComment(flashmob, comment).getUser().getUsername())) {
 			throw ServiceError.forbidden("You can only change your own comments");
 		}
 		return getService().updateComment(flashmob, comment, changes);

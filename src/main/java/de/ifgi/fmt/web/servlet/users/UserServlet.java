@@ -33,8 +33,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
-import org.bson.types.ObjectId;
-
 import com.sun.jersey.spi.container.ContainerRequest;
 
 import de.ifgi.fmt.ServiceError;
@@ -49,15 +47,19 @@ public class UserServlet extends AbstractServlet {
 	@GET
 	@PermitAll
 	@Produces(MediaTypes.USER)
-	public User getUser(@PathParam(PathParams.USER) ObjectId user) {
-		return getService().getUser(user);
+	public User getUser(@PathParam(PathParams.USER) String user) {
+		User u = getService().getUser(user);
+		if (u == null) {
+			throw ServiceError.userNotFound();
+		}
+		return u;
 	}
 
 	@PUT
 	@RolesAllowed({Roles.USER, Roles.ADMIN})
 	@Produces(MediaTypes.USER)
 	@Consumes(MediaTypes.USER)
-	public User updateeUser(@PathParam(PathParams.USER) ObjectId user, User u) {
+	public User updateUser(@PathParam(PathParams.USER) String userName, User changes) {
 
 //		getUser()
 //		isAdmin()
@@ -66,27 +68,26 @@ public class UserServlet extends AbstractServlet {
 //		hasRole(role)
 //		isAdminOrUserWithId(user)
 		
-		if (!isAdminOrUserWithId(user)) {
+		if (!isAdminOrUserWithId(userName)) {
 			throw ServiceError.forbidden("can only change yourself");
 		}
 		
-		return getService().updateUser(u, user);
+		return getService().updateUser(changes, userName);
 	}
 
 	@DELETE
 	@RolesAllowed({Roles.USER, Roles.ADMIN})
-	public void deleteUser(@PathParam(PathParams.USER) ObjectId user,
-			ContainerRequest cr, @Context HttpServletRequest sr) {
+	public void deleteUser(@PathParam(PathParams.USER) String user, @Context HttpServletRequest sr) {
 		
 		if (!isAdminOrUserWithId(user)) {
 			throw ServiceError.forbidden("can only delete yourself");
 		}
 		
 		getService().deleteUser(user);
-		
+
 		// do not log out the admin...
 		if (isUser()) {
-			Authentication.deauthSession(cr, sr);
+			Authentication.deauthSession((ContainerRequest) getSecurityContext(), sr);
 		}
 	}
 }

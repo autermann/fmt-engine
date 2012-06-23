@@ -23,7 +23,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
-import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -36,6 +35,7 @@ import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Property;
 
+import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.utils.BCrypt;
 import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.Constants.Regex;
@@ -65,10 +65,6 @@ public class User {
 	@Indexed(unique = true, sparse = true)
 	private String email;
 
-	@NotNull
-	@Id
-	private ObjectId id = new ObjectId();
-
 	@NotEmpty
 	@NotNull
 	@Property(User.PASSWORD_HASH)
@@ -78,6 +74,7 @@ public class User {
 	@Property(User.ROLES)
 	private Set<String> roles = Utils.set(Roles.USER);
 
+	@Id
 	@NotBlank
 	@SafeHtml
 	@Length(min = 4, max = 128)
@@ -94,7 +91,7 @@ public class User {
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof User) {
-			return getId().equals(((User) o).getId());
+			return getUsername().equals(((User) o).getUsername());
 		}
 		return false;
 	}
@@ -108,10 +105,6 @@ public class User {
 
 	public String getEmail() {
 		return email;
-	}
-
-	public ObjectId getId() {
-		return id;
 	}
 
 	public String getPasswordHash() {
@@ -135,7 +128,7 @@ public class User {
 
 	@Override
 	public int hashCode() {
-		return getId().hashCode();
+		return getUsername().hashCode();
 	}
 
 	public boolean hasRole(String role) {
@@ -169,15 +162,10 @@ public class User {
 		return this;
 	}
 
-	public User setId(ObjectId id) {
-		this.id = id;
-		return this;
-	}
-
 	public User setPassword(String s) {
 		if (s != null) {
 			if (!Regex.PASSWORD.matcher(s).matches()) {
-				throw new IllegalArgumentException("password does not match '"
+				throw ServiceError.badRequest("password does not match '"
 						+ Regex.PASSWORD.pattern() + "'");
 			}
 		}
@@ -201,7 +189,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return getId().toString();
+		return getUsername();
 	}
 
 }

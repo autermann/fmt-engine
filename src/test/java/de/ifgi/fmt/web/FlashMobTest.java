@@ -64,8 +64,7 @@ public class FlashMobTest extends AbstractFlashMobTest {
 				getRandomMail(), getRandomPassword()));
 		assertEquals(Status.CREATED.getStatusCode(), useradd.getStatus());
 		
-		ObjectId user = new ObjectId(useradd.getEntity(JSONObject.class)
-				.getString(JSONConstants.ID_KEY));
+		String user = useradd.getEntity(JSONObject.class).getString(JSONConstants.USERNAME_KEY);
 		
 		JSONObject entity = createFlashmobJson(user, "Ein Flashmob",
 				"Eine Bescreibung", start, start.plusHours(2), p, null,
@@ -83,17 +82,13 @@ public class FlashMobTest extends AbstractFlashMobTest {
 		
 		JSONObject gettedFlashmob = getflashmob.getEntity(JSONObject.class);
 		
-		assertEquals(
-				user,
-				new ObjectId(createdFlashmob.getJSONObject(
-						JSONConstants.COORDINATOR_KEY).getString(
-						JSONConstants.ID_KEY)));
-		assertEquals(
-				user,
-				new ObjectId(gettedFlashmob.getJSONObject(
-						JSONConstants.COORDINATOR_KEY).getString(
-						JSONConstants.ID_KEY)));
-		
+		assertEquals(user, createdFlashmob
+						.getJSONObject(JSONConstants.COORDINATOR_KEY)
+						.getString(JSONConstants.USERNAME_KEY));
+		assertEquals(user, gettedFlashmob
+						.getJSONObject(JSONConstants.COORDINATOR_KEY)
+						.getString(JSONConstants.USERNAME_KEY));
+
 		if (true) {
 			// do nothing
 		}
@@ -144,7 +139,7 @@ public class FlashMobTest extends AbstractFlashMobTest {
 			}
 		}
 		assertNotNull(token.getValue());
-		String id = cr.getEntity(JSONObject.class).optString(JSONConstants.ID_KEY, null);
+		String id = cr.getEntity(JSONObject.class).optString(JSONConstants.USERNAME_KEY, null);
 		assertNotNull(id);
 		
 		cr = changeUser(id, createUserJson(null, null, "neuespassword"), token);

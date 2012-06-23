@@ -57,7 +57,7 @@ public class UsersServlet extends AbstractServlet {
 		User saved = getService().registerUser(u, role, flashmob);
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.USER_OF_ROLE_OF_FLASHMOB)
-				.build(flashmob, role, saved.getId());
+				.build(flashmob, role, saved);
 		return Response.created(uri).entity(saved).build();
 	}
 }

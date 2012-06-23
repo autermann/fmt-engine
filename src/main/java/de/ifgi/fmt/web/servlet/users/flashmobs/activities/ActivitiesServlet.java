@@ -39,7 +39,7 @@ public class ActivitiesServlet extends AbstractServlet {
 	@RolesAllowed({ Roles.ADMIN, Roles.USER })
 	@Produces(MediaTypes.ACTIVITY_LIST)
 	public List<Activity> getActivities(
-			@PathParam(PathParams.USER) ObjectId user,
+			@PathParam(PathParams.USER) String user,
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
 		if (!isAdminOrUserWithId(user)) {
 			throw ServiceError.flashmobNotFound();

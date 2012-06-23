@@ -17,6 +17,7 @@
  */
 package de.ifgi.fmt.update.impl;
 
+import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.update.EntityUpdater;
 import de.ifgi.fmt.update.UpdateFactory.Updates;
@@ -33,7 +34,7 @@ public class UserUpdater extends EntityUpdater<User> {
 			old.setPasswordHash(changes.getPasswordHash());
 		}
 		if (changes.getUsername() != null) {
-			old.setUsername(changes.getUsername());
+			throw ServiceError.badRequest("Can not change username");
 		}
 		return old;
 	}

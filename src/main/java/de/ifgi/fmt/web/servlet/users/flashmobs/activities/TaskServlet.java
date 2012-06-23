@@ -40,7 +40,7 @@ public class TaskServlet extends AbstractServlet {
 	@GET
 	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.TASK)
-	public Task getTasks(@PathParam(PathParams.USER) ObjectId user,
+	public Task getTasks(@PathParam(PathParams.USER) String user,
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
 		if (!isAdminOrUserWithId(user)) {

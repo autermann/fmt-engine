@@ -29,7 +29,7 @@
 
 		<init-param>
 			<param-name>com.sun.jersey.config.feature.logging.DisableEntitylogging</param-name>
-			<param-value>true</param-value>
+			<param-value>false</param-value>
 		</init-param>
 
 		<init-param>

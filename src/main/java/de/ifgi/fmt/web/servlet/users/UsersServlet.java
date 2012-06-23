@@ -63,7 +63,7 @@ public class UsersServlet extends AbstractServlet {
 		if (!isAdmin()) {
 			Authentication.authSession((ContainerRequest) getSecurityContext(), sr, saved);
 		}
-		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.USER).build(u.getId());
+		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.USER).build(u);
 		return Response.created(uri).entity(saved).build();
 	}
 

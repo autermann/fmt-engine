@@ -40,7 +40,7 @@ public class ActivityServlet extends AbstractServlet {
 	@GET
 	@RolesAllowed({Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.ACTIVITY)
-	public Activity getActivity(@PathParam(PathParams.USER) ObjectId user,
+	public Activity getActivity(@PathParam(PathParams.USER) String user,
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
 		if (!isAdminOrUserWithId(user)) {

@@ -29,7 +29,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 
 import com.vividsolutions.jts.geom.Point;
@@ -49,7 +48,7 @@ public class FlashmobsServlet extends AbstractServlet {
 	public List<Flashmob> getFlashmobs(
 			@QueryParam(QueryParams.LIMIT) int limit,
 			@QueryParam(QueryParams.POSITION) String near,
-			@QueryParam(QueryParams.USER) ObjectId user,
+			@QueryParam(QueryParams.USER) String user,
 			@QueryParam(QueryParams.BBOX) BoundingBox bbox,
 			@QueryParam(QueryParams.FROM) String from,
 			@QueryParam(QueryParams.TO) String to,
@@ -59,7 +58,7 @@ public class FlashmobsServlet extends AbstractServlet {
 			@QueryParam(QueryParams.SEARCH) String search,
 			@QueryParam(QueryParams.MIN_PARTICIPANTS) @DefaultValue(ZERO) int minParticipants,
 			@QueryParam(QueryParams.MAX_PARTICIPANTS) @DefaultValue(MINUS_ONE) int maxParticipants,
-			@QueryParam(QueryParams.PARTICIPANT) ObjectId participant) {
+			@QueryParam(QueryParams.PARTICIPANT) String participant) {
 		
 		DateTime t = null;
 		if (to != null) {

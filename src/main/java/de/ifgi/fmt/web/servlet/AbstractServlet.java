@@ -24,7 +24,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
-import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -75,8 +74,8 @@ public abstract class AbstractServlet implements RESTConstants {
 		return null;
 	}
 	
-	protected boolean isAdminOrUserWithId(ObjectId id) {
-		return isAdmin() || getUser().getId().equals(id);
+	protected boolean isAdminOrUserWithId(String username) {
+		return isAdmin() || (isUser() && getUser().getUsername().equals(username));
 	}
 	
 	protected boolean isLoggedIn() {

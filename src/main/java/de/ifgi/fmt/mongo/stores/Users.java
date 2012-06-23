@@ -22,13 +22,16 @@ import static de.ifgi.fmt.mongo.DaoFactory.getUserDao;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.codehaus.jettison.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.code.morphia.mapping.Mapper;
 import com.google.code.morphia.query.Query;
 import com.mongodb.MongoException;
 
 import de.ifgi.fmt.ServiceError;
+import de.ifgi.fmt.json.JSONFactory;
 import de.ifgi.fmt.model.Comment;
 import de.ifgi.fmt.model.Role;
 import de.ifgi.fmt.model.User;
@@ -60,7 +63,11 @@ public class Users implements ExtendedDao<User>{
 	}
 
 	public User save(User u) {
-		log.debug("Saving User {}", u);
+		try {
+			log.debug("Saving User {}", JSONFactory.getEncoder(User.class).encode(u, null).toString(4));
+		} catch (JSONException e) {
+			throw ServiceError.internal(e);
+		}
 		try {
 			getUserDao().save(u);
 		} catch (MongoException.DuplicateKey e) {
@@ -68,7 +75,7 @@ public class Users implements ExtendedDao<User>{
 		}
 		return u;
 	}
-
+	
 	public void save(Iterable<User> u) {
 		log.debug("Saving Users");
 		getUserDao().saveAll(u);
@@ -139,4 +146,9 @@ public class Users implements ExtendedDao<User>{
 		return getOne(Queries.userByName(username));
 	}
 
+	public void setAuthToken(User u, String token) {
+		getUserDao().update(
+				getUserDao().createQuery().field(Mapper.ID_KEY).equal(u.getUsername()),
+				getUserDao().createUpdateOperations().set(User.AUTH_TOKEN, token));
+	}
 }

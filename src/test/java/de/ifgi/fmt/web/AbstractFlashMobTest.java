@@ -132,12 +132,12 @@ public class AbstractFlashMobTest extends JerseyTest {
 		return j;
 	}
 
-	protected JSONObject createFlashmobJson(ObjectId coordinator, String title,
+	protected JSONObject createFlashmobJson(String coordinator, String title,
 			String description, DateTime start, DateTime end, Point position,
 			String key, boolean isPublic, DateTime publishTime)
 			throws JSONException {
 		Flashmob f = new Flashmob()
-				.setCoordinator(new User().setId(coordinator))
+				.setCoordinator(new User().setUsername(coordinator))
 				.setDescription(description).setEnd(end).setStart(start)
 				.setKey(key).setPublic(isPublic).setLocation(position)
 				.setPublish(publishTime).setStart(start).setTitle(title);

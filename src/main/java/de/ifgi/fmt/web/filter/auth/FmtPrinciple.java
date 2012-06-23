@@ -33,7 +33,7 @@ public class FmtPrinciple implements Principal {
 
 	@Override
 	public String getName() {
-		return getUser().getId().toString();
+		return getUser().getUsername();
 	}
 	
 	public User getUser() {

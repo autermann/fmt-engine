@@ -149,14 +149,13 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 		if (path.endsWith("/")) {
 			path = (path.length() == 1) ? null : path.substring(0, path.length() - 1);
 		}
-		Service.getInstance().getStore().users().save(u.setAuthToken(token));
+		Service.getInstance().getStore().users().setAuthToken(u, token);
 		return new NewCookie(COOKIE_NAME, token, path, null, null, -1, false);
 	}
 
 	private String getAuthToken(User u) {
 		final byte[] bytes = new byte[16];
 		random.nextBytes(bytes);
-		
 		final String t = new StringBuilder()
 			.append(UUID.randomUUID())
 			.append("|")

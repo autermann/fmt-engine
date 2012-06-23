@@ -37,7 +37,7 @@ public class UserServlet extends AbstractServlet {
 	public void unregisterUser(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
-			@PathParam(PathParams.USER) ObjectId user) {
+			@PathParam(PathParams.USER) String user) {
 		// TODO
 		throw new UnsupportedOperationException();
 	}
