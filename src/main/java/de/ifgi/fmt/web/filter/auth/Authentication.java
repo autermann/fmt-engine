@@ -145,10 +145,12 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 	}
 	private NewCookie createCookie(User u) {
 		String token = getAuthToken(u);
+		String path = uri.getBaseUri().getPath();
+		if (path.endsWith("/")) {
+			path = (path.length() == 1) ? null : path.substring(0, path.length() - 1);
+		}
 		Service.getInstance().getStore().users().save(u.setAuthToken(token));
-		return new NewCookie(COOKIE_NAME, token, uri.getBaseUri()
-				.getPath(), uri.getBaseUri().getHost(), 1, "FMT Login Cookie",
-				-1, false);
+		return new NewCookie(COOKIE_NAME, token, path, null, null, -1, false);
 	}
 
 	private String getAuthToken(User u) {
