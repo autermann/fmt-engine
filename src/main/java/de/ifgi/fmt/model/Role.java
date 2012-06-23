@@ -216,6 +216,11 @@ public class Role {
 		this.id = id;
 		return this;
 	}
+	
+	public Role setTitle(String title) {
+		this.title = title;
+		return this;
+	}
 
 	public Role setItems(Set<String> items) {
 		this.items = items;

@@ -69,6 +69,7 @@ public class RoleHandler extends JSONHandler<Role>{
 		if (id != null) {
 			r.setId(new ObjectId(id));
 		}
+		r.setTitle(j.optString(TITLE_KEY, null));
 		r.setDescription(j.optString(DESCRIPTION_KEY, null));
 
 		String category = j.optString(CATEGORY_KEY, null);
