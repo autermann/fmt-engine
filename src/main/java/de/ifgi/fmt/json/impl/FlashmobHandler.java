@@ -159,18 +159,20 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 		}
 		
 		if (uri != null) {
-			j.put(ACTIVITIES_KEY, uri.getAbsolutePathBuilder().path(Paths.ACTIVITIES_OF_FLASHMOB).build(f));
-			j.put(ROLES_KEY, uri.getAbsolutePathBuilder().path(Paths.ROLES_FOR_FLASHMOB).build(f));
-			j.put(TRIGGERS_KEY, uri.getAbsolutePathBuilder().path(Paths.TRIGGERS_OF_FLASHMOB).build(f));
-			j.put(COMMENTS_KEY, uri.getAbsolutePathBuilder().path(Paths.COMMENTS_FOR_FLASHMOB).build(f));
-			j.put(PARTICIPANTS_KEY, uri.getAbsolutePathBuilder().path(Paths.USERS_OF_FLASHMOB).build(f));
+			j.put(ACTIVITIES_KEY, uri.getBaseUriBuilder().path(Paths.ACTIVITIES_OF_FLASHMOB).build(f));
+			j.put(ROLES_KEY, uri.getBaseUriBuilder().path(Paths.ROLES_FOR_FLASHMOB).build(f));
+			j.put(TRIGGERS_KEY, uri.getBaseUriBuilder().path(Paths.TRIGGERS_OF_FLASHMOB).build(f));
+			j.put(COMMENTS_KEY, uri.getBaseUriBuilder().path(Paths.COMMENTS_FOR_FLASHMOB).build(f));
+			j.put(PARTICIPANTS_KEY, uri.getBaseUriBuilder().path(Paths.USERS_OF_FLASHMOB).build(f));
 		}
 		return j;
 	}
 
 	@Override
 	public JSONObject encodeAsRef(Flashmob t, UriInfo uriInfo) throws JSONException {
-		return encode(t, null).put(HREF_KEY, uriInfo.getBaseUriBuilder().path(Paths.FLASHMOB).build(t));
+		JSONObject j = encode(t, null).put(HREF_KEY, uriInfo.getBaseUriBuilder().path(Paths.FLASHMOB).build(t));
+		j.remove(COORDINATOR_KEY);
+		return j;
 	}
 
 }
