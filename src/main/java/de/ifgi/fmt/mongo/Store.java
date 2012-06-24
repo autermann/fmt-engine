@@ -24,13 +24,18 @@ import static de.ifgi.fmt.mongo.DaoFactory.getRoleDao;
 import static de.ifgi.fmt.mongo.DaoFactory.getTriggerDao;
 import static de.ifgi.fmt.mongo.DaoFactory.getUserDao;
 
+import java.util.List;
+
 import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.code.morphia.mapping.Mapper;
 import com.google.code.morphia.query.Query;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
@@ -58,6 +63,7 @@ import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.RESTConstants.ShowStatus;
 
 public class Store {
+	private static final String DB_REF_ID = "$id";
 
 	private static final Logger log = LoggerFactory.getLogger(Store.class);
 	
@@ -134,11 +140,13 @@ public class Store {
 		}
 
 		public static Query<Flashmob> hasUser(Query<Flashmob> q, User u) {
-			Iterable<Role> roles = getRoleDao().createQuery().field(Role.USERS).hasThisElement(u).fetch();
-			if (roles == null) {
-				return null;
+			DBObject keys = new BasicDBObject(Role.FLASHMOB + "." + DB_REF_ID, true);
+			DBObject query  = new BasicDBObject(Role.USERS + "." + DB_REF_ID, u.getUsername());
+			List<ObjectId> fids = Utils.list();
+			for (DBObject r : getRoleDao().getCollection().find(query, keys)) {
+				fids.add((ObjectId) ((DBObject) r.get(Role.FLASHMOB)).get(DB_REF_ID));
 			}
-			return q.field(Flashmob.ROLES).hasAnyOf(roles);
+			return q.field(Mapper.ID_KEY).hasAnyOf(fids);
 		}
 
 		public static Query<Flashmob> isPublic(Query<Flashmob> q,

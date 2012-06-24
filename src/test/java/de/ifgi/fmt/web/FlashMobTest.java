@@ -21,7 +21,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.Response.Status;
 
 import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
@@ -37,6 +36,10 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
+import de.ifgi.fmt.json.JSONFactory;
+import de.ifgi.fmt.model.Role;
+import de.ifgi.fmt.model.Role.Category;
+import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
@@ -62,7 +65,7 @@ public class FlashMobTest extends AbstractFlashMobTest {
 		p.setSRID(4326);
 		ClientResponse useradd = addUser(createUserJson(getRandomUsername(),
 				getRandomMail(), getRandomPassword()));
-		assertEquals(Status.CREATED.getStatusCode(), useradd.getStatus());
+		isCreated(useradd);
 		
 		String user = useradd.getEntity(JSONObject.class).getString(JSONConstants.USERNAME_KEY);
 		
@@ -71,14 +74,13 @@ public class FlashMobTest extends AbstractFlashMobTest {
 				true, start.minusHours(1));
 		System.err.println(entity.toString(4));
 		ClientResponse flashmobadd = addFlashmob(entity);
-		
-		assertEquals(Status.CREATED.getStatusCode(), flashmobadd.getStatus());
+		isCreated(flashmobadd);
 		JSONObject createdFlashmob = flashmobadd.getEntity(JSONObject.class);
 		
 		ObjectId flashmobID = new ObjectId(createdFlashmob.getString(JSONConstants.ID_KEY));
 		
 		ClientResponse getflashmob = getFlashmob(flashmobID);
-		assertEquals(Status.OK.getStatusCode(), getflashmob.getStatus());
+		isOk(getflashmob);
 		
 		JSONObject gettedFlashmob = getflashmob.getEntity(JSONObject.class);
 		
@@ -88,11 +90,6 @@ public class FlashMobTest extends AbstractFlashMobTest {
 		assertEquals(user, gettedFlashmob
 						.getJSONObject(JSONConstants.COORDINATOR_KEY)
 						.getString(JSONConstants.USERNAME_KEY));
-
-		if (true) {
-			// do nothing
-		}
-		
 	}
 	
 	
@@ -110,7 +107,7 @@ public class FlashMobTest extends AbstractFlashMobTest {
 				.queryParam(QueryParams.TO, "2012-06-07T15:15:32.000+02:00")
 				.accept(MediaTypes.FLASHMOB_LIST)
 				.get(ClientResponse.class);
-		assertEquals(Status.OK.getStatusCode(), cr.getStatus());
+		isOk(cr);
 	}
 	
 	@Test
@@ -121,17 +118,16 @@ public class FlashMobTest extends AbstractFlashMobTest {
 				.type(MediaTypes.FLASHMOB_TYPE)
 				.entity(new JSONObject())
 				.post(ClientResponse.class);
-		assertEquals(Status.BAD_REQUEST.getStatusCode(), cr.getStatus());
+		isBadRequest(cr);
 		JSONObject j = cr.getEntity(JSONObject.class);
 		assertNotNull(j);
 		System.err.println(j.toString(4));
 	}
 	
-
 	@Test
 	public void testCreateUserGetTokenAndChangeUser() throws JSONException {
 		ClientResponse cr = addUser(createUserJson(getRandomUsername(), getRandomMail(), getRandomPassword()));
-		assertEquals(Status.CREATED.getStatusCode(), cr.getStatus());
+		isCreated(cr);
 		Cookie token = null;
 		for (Cookie c : cr.getCookies()) {
 			if (c.getName().equals(Authentication.COOKIE_NAME)) {
@@ -143,7 +139,7 @@ public class FlashMobTest extends AbstractFlashMobTest {
 		assertNotNull(id);
 		
 		cr = changeUser(id, createUserJson(null, null, "neuespassword"), token);
-		assertEquals(Status.OK.getStatusCode(), cr.getStatus());
+		isOk(cr);
 		
 	}
 
@@ -161,16 +157,16 @@ public class FlashMobTest extends AbstractFlashMobTest {
 	@Ignore@Test
 	public void testCreateUserWithDuplicateMailAddress() throws JSONException {
 		String mail = getRandomMail();
-		assertEquals(Status.CREATED.getStatusCode(), addUser(createUserJson(getRandomUsername(), mail, getRandomPassword())).getStatus());
-		assertEquals(Status.BAD_REQUEST.getStatusCode(), addUser(createUserJson(getRandomUsername(), mail, getRandomPassword())).getStatus());
+		isCreated(addUser(createUserJson(getRandomUsername(), mail, getRandomPassword())));
+		isBadRequest(addUser(createUserJson(getRandomUsername(), mail, getRandomPassword())));
 	}
 	
 	/* if this single test case is executed everything is fine. for the entire class it fails */
 	@Ignore@Test
 	public void testCreateUserWithDuplicateUsername() throws JSONException {
 		String username = getRandomUsername();
-		assertEquals(Status.CREATED.getStatusCode(), addUser(createUserJson(username, getRandomMail(), getRandomPassword())).getStatus());
-		assertEquals(Status.BAD_REQUEST.getStatusCode(), addUser(createUserJson(username, getRandomMail(), getRandomPassword())).getStatus());
+		isCreated(addUser(createUserJson(username, getRandomMail(), getRandomPassword())));
+		isBadRequest(addUser(createUserJson(username, getRandomMail(), getRandomPassword())));
 	}
 	
 	
@@ -179,14 +175,54 @@ public class FlashMobTest extends AbstractFlashMobTest {
 		getWebResource().path(Paths.USERS).accept(MediaTypes.USER_LIST).get(JSONObject.class);
 	}
 	
+	@Test
+	public void testGetFlashmobsOfUser() throws Exception {
+		String user = "auti";
+		Point p = new GeometryFactory().createPoint(new Coordinate(7, 42));
+		p.setSRID(4326);
+		isCreated(addUser(createUserJson(user, getRandomMail(), getRandomPassword())));
+		JSONObject j = createFlashmobJson(user, "title", "description", new DateTime(), new DateTime().plusHours(5), p	, null, true, null);
+		ClientResponse cr = addFlashmob(j);
+		isCreated(cr);
+		String fid = cr.getEntity(JSONObject.class).getString(JSONConstants.ID_KEY);
+		ClientResponse r = getWebResource()
+			.uri(uri().path(Paths.ROLES_FOR_FLASHMOB).build(fid))
+			.entity(JSONFactory.getEncoder(Role.class).encode(new Role()
+				.setCategory(Category.EASY)
+				.setDescription("description")
+				.setItems(Utils.set("apfel", "birne"))
+				.setMinCount(1)
+				.setMaxCount(100)
+				.setStartPoint(p)
+				.setTitle("title"), null))
+			.type(MediaTypes.ROLE)
+			.post(ClientResponse.class);
+		isCreated(r);
+		String rid = r.getEntity(JSONObject.class).getString(JSONConstants.ID_KEY);
+		ClientResponse addUserToRole = getWebResource()
+			.uri(uri().path(Paths.USERS_OF_ROLE_OF_FLASHMOB).build(fid, rid))
+			.type(MediaTypes.USER_TYPE)
+			.entity(new JSONObject()
+				.put(JSONConstants.USERNAME_KEY, user))
+			.post(ClientResponse.class);
+		isCreated(addUserToRole);
+		ClientResponse flashmobsOfUser = getWebResource()
+			.path(Paths.FLASHMOBS)
+			.queryParam(QueryParams.PARTICIPANT, user)
+			.accept(MediaTypes.FLASHMOB_LIST)
+			.get(ClientResponse.class);
+		isOk(flashmobsOfUser);
+		assertEquals(1, flashmobsOfUser.getEntity(JSONObject.class).getJSONArray(JSONConstants.FLASHMOBS_KEY).length());
+	}
 	
 	@Test
 	public void testCreateUserWithoutMailAddress() throws UniformInterfaceException, ClientHandlerException, JSONException {
-		assertEquals(Status.CREATED.getStatusCode(), getWebResource().path(Paths.USERS)
-													 .accept(MediaTypes.USER)
-													 .type(MediaTypes.USER)
-													 .entity(createUserJson(getRandomUsername(), null, getRandomPassword()))
-													 .post(ClientResponse.class).getStatus());
+		isCreated(getWebResource()
+				.path(Paths.USERS)
+				.accept(MediaTypes.USER)
+				.type(MediaTypes.USER)
+			 	.entity(createUserJson(getRandomUsername(), null, getRandomPassword()))
+			 	.post(ClientResponse.class));
 		
 	}
 	

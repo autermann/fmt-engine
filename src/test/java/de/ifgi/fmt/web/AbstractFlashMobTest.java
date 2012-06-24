@@ -27,6 +27,7 @@ import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.joda.time.DateTime;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.slf4j.Logger;
@@ -34,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import com.sun.grizzly.util.buf.Base64;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.ClientResponse.Status;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.container.filter.LoggingFilter;
 import com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFactory;
@@ -196,5 +198,22 @@ public class AbstractFlashMobTest extends JerseyTest {
 				.header(HttpHeaders.AUTHORIZATION, getAuthHeaderValue(user, pass))
 				.put(ClientResponse.class);
 	}
+	
+	protected static void isBadRequest(ClientResponse cr) {
+		isStatus(Status.BAD_REQUEST, cr);
+	}
+	
+	protected static void isOk(ClientResponse cr) {
+		isStatus(Status.OK, cr);
+	}
+	
+	protected static void isCreated(ClientResponse cr) {
+		isStatus(Status.CREATED, cr);
+	}
+	
+	protected static void isStatus(Status status, ClientResponse cr) {
+		Assert.assertEquals(status.getStatusCode(), cr.getStatus());
+	}
+	
 	
 }
