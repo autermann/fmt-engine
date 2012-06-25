@@ -24,8 +24,6 @@ import static de.ifgi.fmt.mongo.DaoFactory.getRoleDao;
 import static de.ifgi.fmt.mongo.DaoFactory.getTriggerDao;
 import static de.ifgi.fmt.mongo.DaoFactory.getUserDao;
 
-import java.util.List;
-
 import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
 import org.joda.time.DateTime;
@@ -34,6 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.code.morphia.mapping.Mapper;
 import com.google.code.morphia.query.Query;
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.vividsolutions.jts.geom.Coordinate;
@@ -142,7 +141,7 @@ public class Store {
 		public static Query<Flashmob> hasUser(Query<Flashmob> q, User u) {
 			DBObject keys = new BasicDBObject(Role.FLASHMOB + "." + DB_REF_ID, true);
 			DBObject query  = new BasicDBObject(Role.USERS + "." + DB_REF_ID, u.getUsername());
-			List<ObjectId> fids = Utils.list();
+			BasicDBList fids = new BasicDBList();
 			for (DBObject r : getRoleDao().getCollection().find(query, keys)) {
 				fids.add((ObjectId) ((DBObject) r.get(Role.FLASHMOB)).get(DB_REF_ID));
 			}

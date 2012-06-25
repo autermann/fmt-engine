@@ -199,6 +199,15 @@ public class FlashMobTest extends AbstractFlashMobTest {
 			.post(ClientResponse.class);
 		isCreated(r);
 		String rid = r.getEntity(JSONObject.class).getString(JSONConstants.ID_KEY);
+		
+		ClientResponse flashmobsOfUser = getWebResource()
+				.path(Paths.FLASHMOBS)
+				.queryParam(QueryParams.PARTICIPANT, user)
+				.accept(MediaTypes.FLASHMOB_LIST)
+				.get(ClientResponse.class);
+			isOk(flashmobsOfUser);
+			assertEquals(0, flashmobsOfUser.getEntity(JSONObject.class).getJSONArray(JSONConstants.FLASHMOBS_KEY).length());
+		
 		ClientResponse addUserToRole = getWebResource()
 			.uri(uri().path(Paths.USERS_OF_ROLE_OF_FLASHMOB).build(fid, rid))
 			.type(MediaTypes.USER_TYPE)
@@ -206,7 +215,7 @@ public class FlashMobTest extends AbstractFlashMobTest {
 				.put(JSONConstants.USERNAME_KEY, user))
 			.post(ClientResponse.class);
 		isCreated(addUserToRole);
-		ClientResponse flashmobsOfUser = getWebResource()
+		flashmobsOfUser = getWebResource()
 			.path(Paths.FLASHMOBS)
 			.queryParam(QueryParams.PARTICIPANT, user)
 			.accept(MediaTypes.FLASHMOB_LIST)

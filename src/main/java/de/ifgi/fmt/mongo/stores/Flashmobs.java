@@ -129,9 +129,7 @@ public class Flashmobs implements ExtendedDao<Flashmob> {
 		}
 
 		if (participant != null) {
-			if (Queries.hasUser(q, participant) == null) {
-				return Utils.list();
-			}
+			Queries.hasUser(q, participant);
 		}
 		
 		if (sorting != null) {
