@@ -25,7 +25,6 @@ import static de.ifgi.fmt.mongo.DaoFactory.getTriggerDao;
 import static de.ifgi.fmt.mongo.DaoFactory.getUserDao;
 
 import org.bson.types.ObjectId;
-import org.codehaus.jettison.json.JSONException;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +38,6 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
-import de.ifgi.fmt.json.JSONFactory;
 import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.model.BoundingBox;
 import de.ifgi.fmt.model.Comment;
@@ -237,25 +235,21 @@ public class Store {
 
 		Point p = gf.createPoint(new Coordinate(52.0, 7.0));
 		p.setSRID(4326);
-		User user1 = new User().setUsername("user1").setEmail("user1@fmt.de")
-				.setPassword("password1");
-		User user2 = new User().setUsername("user2").setEmail("user2@fmt.de")
-				.setPassword("password2");
-		User user3 = new User().setUsername("user3").setEmail("user3@fmt.de")
-				.setPassword("password3");
-		;
+		User user1 = new User().setUsername("user1").setEmail("user1@fmt.de").setPassword("password1");
+		User user2 = new User().setUsername("user2").setEmail("user2@fmt.de").setPassword("password2");
+		User user3 = new User().setUsername("user3").setEmail("user3@fmt.de").setPassword("password3");
 
-		Role role1 = new Role().setCategory(Category.EASY)
-				.setDescription("Rolle 1").setMaxCount(-1).setMinCount(50)
+		Role role1 = new Role().setCategory(Category.EASY).setTitle("Rolle 1")
+				.setDescription("Rolle 1").setMaxCount(200).setMinCount(50)
 				.setStartPoint(p).setUsers(Utils.set(user1, user2));
 
-		Role role2 = new Role().setCategory(Category.EASY)
-				.setDescription("Rolle 2").setMaxCount(-1).setMinCount(40)
+		Role role2 = new Role().setCategory(Category.HARD).setTitle("Rolle 2")
+				.setDescription("Rolle 2").setMaxCount(200).setMinCount(40)
 				.setStartPoint(p).setUsers(Utils.set(user3));
 
 		Trigger t = new TimeTrigger().setTime(begin.plusMinutes(5));
 
-		Activity activity = new Activity().setDescription("Activity 1")
+		Activity activity = new Activity().setDescription("Activity 1").setTitle("Activity 1")
 				.setTrigger(t).setSignal(new VibrationSignal())
 				.addTask(role1, new Task().setDescription("Geh nach links"))
 				.addTask(role2, new Task().setDescription("Geh nach rechts"));
@@ -272,20 +266,20 @@ public class Store {
 		Store s = new Store();
 		s.users().save(Utils.list(user1, user2, user3));
 		s.flashmobs().save(f);
+		
 		s.comments().save(new Comment().setText("war ganz dolle").setUser(user1)
-				.setTime(begin.plusHours(20)));
-
-		ObjectId oid = f.getId();
-
-		s.users().delete(user1);
-
-		f = s.flashmobs().get(oid);
-
-		try {
-			System.err.println(JSONFactory.getEncoder(Flashmob.class)
-					.encode(f, null).toString(4));
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+				.setTime(begin.minusHours(20)).setFlashmob(f));
+//		ObjectId oid = f.getId();
+//
+////		s.users().delete(user1);
+//
+//		f = s.flashmobs().get(oid);
+//
+//		try {
+//			System.err.println(JSONFactory.getEncoder(Flashmob.class)
+//					.encode(f, null).toString(4));
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
 	}
 }

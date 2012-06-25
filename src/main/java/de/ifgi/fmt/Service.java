@@ -467,4 +467,39 @@ public class Service {
 		return getStore().comments().save(
 				update(getCommentForFlashmob(flashmob, comment), changes));
 	}
+
+	public Role getRoleForActivity(ObjectId flashmob, ObjectId activity, ObjectId role) {
+		Flashmob f = getFlashmob(flashmob);
+		Activity a = getActivity(f, activity);
+		Role r =  getRole(f, role);
+		if (!a.getRoles().contains(r) || !r.getActivities().contains(a)) {
+			throw ServiceError.roleNotFound();
+		}
+		return r;
+	}
+
+	public void removeRoleFromActivity(ObjectId flashmob, ObjectId activity,
+			ObjectId role) {
+		Flashmob f = getFlashmob(flashmob);
+		Role r =  getRole(f, role);
+		Activity a = getActivity(f, activity);
+		
+		r.getActivities().remove(a);
+		a.getRoles().remove(r);
+		
+		getStore().activities().save(a);
+		getStore().roles().save(r);
+		
+	}
+
+	public Activity getActivityForRole(ObjectId flashmob, ObjectId role,
+			ObjectId activity) {
+		Flashmob f = getFlashmob(flashmob);
+		Role r =  getRole(f, role);
+		Activity a = getActivity(f, activity);
+		if (!a.getRoles().contains(r) || !r.getActivities().contains(a)) {
+			throw ServiceError.activityNotFound();
+		}
+		return a;
+	}
 }

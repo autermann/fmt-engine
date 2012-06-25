@@ -17,6 +17,7 @@
  */
 package de.ifgi.fmt.json.impl;
 
+import static de.ifgi.fmt.utils.constants.JSONConstants.HREF_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.ID_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.TYPE_KEY;
 
@@ -34,6 +35,7 @@ import de.ifgi.fmt.model.signal.Signal;
 import de.ifgi.fmt.model.signal.SoundSignal;
 import de.ifgi.fmt.model.signal.TextSignal;
 import de.ifgi.fmt.model.signal.VibrationSignal;
+import de.ifgi.fmt.utils.constants.RESTConstants;
 
 @Encodes(Signal.class)
 @Decodes(Signal.class)
@@ -69,11 +71,10 @@ public class SignalHandler extends JSONHandler<Signal> {
 	}
 
 	@Override
-	public JSONObject encodeAsRef(Signal t, UriInfo uriInfo)
-			throws JSONException {
-		/* do we really need this one? */
-		// TODO signal as ref encoding
-		throw new UnsupportedOperationException("Not yet implemented");
+	public JSONObject encodeAsRef(Signal t, UriInfo uriInfo) throws JSONException {
+		return new JSONObject()
+			.put(ID_KEY, t.getId())
+			.put(HREF_KEY, uriInfo.getAbsolutePathBuilder().path(RESTConstants.Paths.SIGNAL).build());
 	}
 
 }
