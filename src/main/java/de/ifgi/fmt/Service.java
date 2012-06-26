@@ -525,4 +525,16 @@ public class Service {
 	    //todo muss hier noch der FM aus der role gelöscht werden?
 	    getStore().flashmobs().save(f);
     }
+
+    public void removeTaskFromRole(ObjectId flashmob, ObjectId role, ObjectId activity) {
+	    Flashmob f = getFlashmob(flashmob);
+	    Role r = getRole(f, role);
+	    Activity a = getActivity(f, activity);
+	    
+	   r.getActivities().remove(a);
+	   a.getRoles().remove(r);
+	   
+	   getStore().roles().save(r);
+	   getStore().activities().save(a);
+    }
 }

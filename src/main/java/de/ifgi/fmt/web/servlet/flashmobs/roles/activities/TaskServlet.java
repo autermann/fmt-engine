@@ -75,6 +75,8 @@ public class TaskServlet extends AbstractServlet {
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-		// TODO
+	   
+	    // Todo Rights?
+	    getService().removeTaskFromRole(flashmob, role, activity);
 	}
 }
