@@ -38,7 +38,6 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.ClientResponse.Status;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.container.filter.LoggingFilter;
-import com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFactory;
 import com.sun.jersey.test.framework.AppDescriptor;
 import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.WebAppDescriptor;
@@ -55,13 +54,14 @@ import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.filter.CorsFilter;
 import de.ifgi.fmt.web.filter.auth.Authentication;
+import de.ifgi.fmt.web.filter.auth.RolesAllowedFilterFactory;
 
 public class AbstractFlashMobTest extends JerseyTest {
 	protected static final Logger log = LoggerFactory.getLogger(AbstractFlashMobTest.class);
 	private static final String LOG = LoggingFilter.class.getName();
 	private static final String AUTH = Authentication.class.getName();
 	private static final String CORS = CorsFilter.class.getName();
-	private static final String ROLES_ALLOWED = RolesAllowedResourceFilterFactory.class.getName();
+	private static final String ROLES_ALLOWED = RolesAllowedFilterFactory.class.getName();
 	private static final String PACKAGES = "de.ifgi.fmt";
 	
 	private final AtomicInteger i = new AtomicInteger(100000);

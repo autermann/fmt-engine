@@ -24,7 +24,7 @@
 
 		<init-param>
 			<param-name>com.sun.jersey.spi.container.ResourceFilters</param-name>
-			<param-value>com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFactory</param-value>
+			<param-value>de.ifgi.fmt.web.filter.auth.RolesAllowedFilterFactory</param-value>
 		</init-param>
 
 		<init-param>
