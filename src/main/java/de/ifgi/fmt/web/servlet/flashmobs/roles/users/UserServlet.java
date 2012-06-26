@@ -17,6 +17,7 @@
  */
 package de.ifgi.fmt.web.servlet.flashmobs.roles.users;
 
+import de.ifgi.fmt.ServiceError;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -34,11 +35,15 @@ public class UserServlet extends AbstractServlet {
 	 */
 	@DELETE
 	// Unregister a User from a role
+	//ToDo : Void or Response?
 	public void unregisterUser(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
 			@PathParam(PathParams.USER) String user) {
-		// TODO
-		throw new UnsupportedOperationException();
+		
+		if (!isAdminOrUserWithId(user)) {
+			throw ServiceError.forbidden("You can only unregister yourself from a role");
+		}
+		getService().unregisterUserFromRole(getService().getUser(user), role, flashmob);
 	}
 }

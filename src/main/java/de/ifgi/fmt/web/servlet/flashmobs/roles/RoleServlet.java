@@ -52,10 +52,12 @@ public class RoleServlet extends AbstractServlet {
 	}
 
 	@DELETE
-	public Response removeRole(
+	// Remove Role from Flashmob
+	//ToDo : Void or Response?
+	public void removeRole(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role) {
-		// TODO
-		return null;
+		//TODO: Rights?
+		getService().removeRoleFromFlashmob(flashmob, role);
 	}
 }

@@ -372,7 +372,20 @@ public class Service {
 		getStore().roles().save(r.addUser(u));
 		return u;
 	}
-
+	
+	/*
+	 * Unregister a User from a Role
+	 */
+	public void unregisterUserFromRole(User u, ObjectId role, ObjectId flashmob){
+	    Role r = getRole(flashmob, role);
+	    
+	    r.getUsers().remove(u);
+	    u.getRoles().remove(r);
+	    
+	    getStore().users().save(u);
+	    getStore().roles().save(r);
+	}
+	
 	public void removeTriggerFromActivity(ObjectId flashmob, ObjectId activity) {
 		Flashmob f = getFlashmob(flashmob);
 		Activity a = getActivity(f, activity);
@@ -491,6 +504,7 @@ public class Service {
 		getStore().roles().save(r);
 		
 	}
+	
 
 	public Activity getActivityForRole(ObjectId flashmob, ObjectId role,
 			ObjectId activity) {
@@ -502,4 +516,13 @@ public class Service {
 		}
 		return a;
 	}
+
+    public void removeRoleFromFlashmob(ObjectId flashmob, ObjectId role) {
+	    Flashmob f = getFlashmob(flashmob);
+	    Role r = getRole(f, role);
+	    
+	    f.getRoles().remove(r);
+	    //todo muss hier noch der FM aus der role gelöscht werden?
+	    getStore().flashmobs().save(f);
+    }
 }
