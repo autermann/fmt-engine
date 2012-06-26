@@ -59,7 +59,9 @@ public class Activities implements ExtendedDao<Activity> {
 
 	public Activity save(Activity a) {
 		log.debug("Saving Acitivity {}", a);
-		getSignalDao().save(a.getSignal());
+		if (a.getSignal() != null) {
+			getSignalDao().save(a.getSignal());
+		}
 		this.store.tasks().save(a.getTasks().values());
 		getActivityDao().save(a);
 		return a;
