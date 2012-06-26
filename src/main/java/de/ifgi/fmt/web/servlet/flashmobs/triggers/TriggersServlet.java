@@ -36,15 +36,11 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.TRIGGERS_OF_FLASHMOB)
 public class TriggersServlet extends AbstractServlet {
-	/*
-	 * /flashmobs/{fid}/triggers
-	 */
 
 	@GET
 	@Produces(MediaTypes.TRIGGER_LIST)
 	public List<Trigger> getTriggers(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-
 		return getService().getTriggers(flashmob);
 	}
 
@@ -53,10 +49,9 @@ public class TriggersServlet extends AbstractServlet {
 	@Consumes(MediaTypes.TRIGGER)
 	public Response setTrigger(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob, Trigger t) {
-		// @ToDo
 		Trigger saved = getService().addTrigger(t, flashmob);
 		URI uri = getUriInfo().getBaseUriBuilder()
-				.path(Paths.TRIGGER_OF_FLASHMOB).build(t.getId());
+				.path(Paths.TRIGGER_OF_FLASHMOB).build(flashmob, saved.getId());
 		return Response.created(uri).entity(saved).build();
 	}
 }

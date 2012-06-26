@@ -19,6 +19,7 @@ package de.ifgi.fmt.web.servlet.flashmobs.roles.activities;
 
 import java.net.URI;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -70,13 +71,13 @@ public class TaskServlet extends AbstractServlet {
 	}
 
 	@DELETE
-	// Delete a Task from a role in an activity
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	public void removeTask(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
 	   
-	    // Todo Rights?
+		isAdminOrCoordinator(flashmob);
 	    getService().removeTaskFromRole(flashmob, role, activity);
 	}
 }

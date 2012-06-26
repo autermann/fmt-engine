@@ -21,6 +21,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 
 import org.bson.types.ObjectId;
 
@@ -40,6 +41,7 @@ public class RoleServlet extends AbstractServlet {
 	}
 	
 	@GET
+	@Produces(MediaTypes.ROLE)
 	public Role getRole(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity,

@@ -17,6 +17,7 @@
  */
 package de.ifgi.fmt.web.servlet.flashmobs.roles;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -24,7 +25,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
 
 import org.bson.types.ObjectId;
 
@@ -39,7 +39,6 @@ public class RoleServlet extends AbstractServlet {
 	@Produces(MediaTypes.ROLE)
 	public Role getRoles(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role) {
-
 		return getService().getRole(flashmob, role);
 	}
 
@@ -47,17 +46,16 @@ public class RoleServlet extends AbstractServlet {
 	@Produces(MediaTypes.ROLE)
 	@Consumes(MediaTypes.ROLE)
 	public Role updateRole(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-			@PathParam(PathParams.ROLE) ObjectId roleID, Role r) {
-		return getService().updateRole(r, roleID, flashmob);
+			@PathParam(PathParams.ROLE) ObjectId role, Role r) {
+		return getService().updateRole(r, role, flashmob);
 	}
 
 	@DELETE
-	// Remove Role from Flashmob
-	//ToDo : Void or Response?
+	@RolesAllowed({ Roles.ADMIN, Roles.USER })
 	public void removeRole(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role) {
-		//TODO: Rights?
+		isAdminOrCoordinator(flashmob);
 		getService().removeRoleFromFlashmob(flashmob, role);
 	}
 }

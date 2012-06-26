@@ -50,7 +50,7 @@ public class ActivitiesServlet extends AbstractServlet {
 	public Response addActivity(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob, Activity a) {
 		Activity saved = getService().addActivity(a, flashmob);
-		URI uri = getUriInfo().getAbsolutePathBuilder()
+		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.ACTIVITY_OF_FLASHMOB)
 				.build(flashmob, saved.getId());
 		return Response.created(uri).entity(saved).build();

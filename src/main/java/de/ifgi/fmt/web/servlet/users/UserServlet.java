@@ -61,13 +61,6 @@ public class UserServlet extends AbstractServlet {
 	@Consumes(MediaTypes.USER)
 	public User updateUser(@PathParam(PathParams.USER) String userName, User changes) {
 
-//		getUser()
-//		isAdmin()
-//		isGuest()
-//		isUser()
-//		hasRole(role)
-//		isAdminOrUserWithId(user)
-		
 		if (!isAdminOrUserWithId(userName)) {
 			throw ServiceError.forbidden("can only change yourself");
 		}

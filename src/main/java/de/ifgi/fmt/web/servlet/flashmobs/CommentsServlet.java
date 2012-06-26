@@ -49,7 +49,7 @@ public class CommentsServlet extends AbstractServlet {
 	@Produces(MediaTypes.COMMENT)
 	public Response addComment(@PathParam(PathParams.FLASHMOB) ObjectId flashmob, Comment comment) {
 		Comment c = getService().addComment(flashmob, comment);
-		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.COMMENT_FOR_FLASHMOB).build(flashmob,c.getId());
+		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.COMMENT_FOR_FLASHMOB).build(flashmob, c.getId());
 		return Response.created(uri).entity(c).build();
 	}
 }

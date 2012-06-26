@@ -376,9 +376,9 @@ public class Service {
 	/*
 	 * Unregister a User from a Role
 	 */
-	public void unregisterUserFromRole(User u, ObjectId role, ObjectId flashmob){
+	public void unregisterUserFromRole(String user, ObjectId role, ObjectId flashmob){
 	    Role r = getRole(flashmob, role);
-	    
+	    User u = getUser(user);
 	    r.getUsers().remove(u);
 	    u.getRoles().remove(r);
 	    

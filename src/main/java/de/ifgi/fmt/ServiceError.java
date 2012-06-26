@@ -105,6 +105,9 @@ public class ServiceError extends RuntimeException {
 		return badRequest("Missing parameter: '" + name + "'.");
 	}
 
+	public static ServiceError notCoordinator() {
+		return forbidden("only the coordinator can change the flashmob");
+	}
 
 	public static ServiceError flashmobNotFound() {
 		return notFound("flashmob not found");

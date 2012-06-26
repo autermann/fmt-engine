@@ -24,6 +24,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
+import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -36,6 +37,7 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
 import de.ifgi.fmt.Service;
+import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants;
 import de.ifgi.fmt.web.filter.auth.FmtPrinciple;
@@ -87,6 +89,11 @@ public abstract class AbstractServlet implements RESTConstants {
 	}
 	protected boolean isUser() {
 		return hasRole(Roles.USER);
+	}
+	protected void isAdminOrCoordinator(ObjectId flashmob) {
+		if (!isAdminOrUserWithId(getService().getFlashmob(flashmob).getCoordinator().getUsername())) {
+			throw ServiceError.notCoordinator();
+		}
 	}
 	protected boolean isGuest() {
 		return hasRole(Roles.GUEST) || !(isUser() || isAdmin());

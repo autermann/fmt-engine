@@ -37,19 +37,13 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.TRIGGER_OF_ACTIVITY)
 public class TriggerServlet extends AbstractServlet {
-	/*
-	 * /flashmobs/{fid}/activities/{aid}/trigger
-	 */
 
 	@GET
 	@Produces(MediaTypes.TRIGGER)
-	public Response getTrigger(
+	public Trigger getTrigger(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-		Trigger t = getService().getTriggerOfActivity(flashmob, activity);
-		URI redirect = getUriInfo().getBaseUriBuilder()
-				.path(Paths.TRIGGER_OF_FLASHMOB).build(flashmob, t);
-		return Response.status(Status.TEMPORARY_REDIRECT).location(redirect).build();
+		return getService().getTriggerOfActivity(flashmob, activity);
 	}
 
 	@POST
@@ -59,9 +53,9 @@ public class TriggerServlet extends AbstractServlet {
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity, Trigger t) {
 		t = getService().setTriggerForActivity(flashmob, activity, t);
-		URI redirect = getUriInfo().getBaseUriBuilder()
-				.path(Paths.TRIGGER_OF_FLASHMOB).build(flashmob, t);
-		return Response.status(Status.TEMPORARY_REDIRECT).location(redirect).build();
+		URI redirect = getUriInfo().getAbsolutePathBuilder()
+				.path(Paths.TRIGGER_OF_FLASHMOB).build(flashmob, t.getId());
+		return Response.status(Status.CREATED).location(redirect).build();
 	}
 
 	@DELETE

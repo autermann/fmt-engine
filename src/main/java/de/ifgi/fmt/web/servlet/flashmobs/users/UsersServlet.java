@@ -32,13 +32,9 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.USERS_OF_FLASHMOB)
 public class UsersServlet extends AbstractServlet {
-	/*
-	 * /flashmobs/{fid}/users
-	 */
 
 	@GET
 	@Produces(MediaTypes.USER_LIST)
-	// get the participants of a flashmob
 	public List<User> getUsers(@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
 		return getService().getUsersOfFlashmob(flashmob);
 	}

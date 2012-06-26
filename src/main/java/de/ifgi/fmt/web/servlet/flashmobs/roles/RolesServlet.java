@@ -36,13 +36,9 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.ROLES_FOR_FLASHMOB)
 public class RolesServlet extends AbstractServlet {
-	/*
-	 * /flashmobs/{fid}/roles
-	 */
 
 	@GET
 	@Produces(MediaTypes.ROLE_LIST)
-	// get list of roles for a flashmob
 	public List<Role> getRoles(@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
 		return getService().getRoles(flashmob);
 	}
@@ -50,10 +46,8 @@ public class RolesServlet extends AbstractServlet {
 	@POST
 	@Produces(MediaTypes.ROLE)
 	@Consumes(MediaTypes.ROLE)
-	// create a new role for a flashmob
 	public Response addRole(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			Role r) {
-		// @ToDo
 		Role saved = getService().addRole(flashmob, r);
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.ROLE_FOR_FLASHMOB).build(flashmob, r);

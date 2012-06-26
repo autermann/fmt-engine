@@ -33,28 +33,21 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.ACTIVITY_OF_FLASHMOB)
 public class ActivityServlet extends AbstractServlet {
-	/*
-	 * /flashmobs/{fid}/activities/{aid}
-	 */
 
 	@GET
 	@Produces(MediaTypes.ACTIVITY)
-	// get a specific activity
 	public Activity getActivity(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-
 		return getService().getActivity(flashmob, activity);
 	}
 
 	@PUT
 	@Produces(MediaTypes.ACTIVITY)
 	@Consumes(MediaTypes.ACTIVITY)
-	// change the activity
 	public Activity updateActivity(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity, Activity a) {
-		// @ToDo
 		return getService().updateActivity(a, activity, flashmob);
 	}
 
