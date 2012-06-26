@@ -36,13 +36,9 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 
 @Path(Paths.ACTIVITIES_OF_FLASHMOB)
 public class ActivitiesServlet extends AbstractServlet {
-	/*
-	 * /flashmobs/{fid}/activities
-	 */
 
 	@GET
 	@Produces(MediaTypes.ACTIVITY_LIST)
-	// get the activities of a flashmob
 	public List<Activity> getActivities(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
 		return getService().getActivities(flashmob);
@@ -51,13 +47,12 @@ public class ActivitiesServlet extends AbstractServlet {
 	@POST
 	@Produces(MediaTypes.ACTIVITY)
 	@Consumes(MediaTypes.ACTIVITY)
-	// add an activity to a flashmob
 	public Response addActivity(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob, Activity a) {
-		// @ToDo
 		Activity saved = getService().addActivity(a, flashmob);
-		URI uri = getUriInfo().getBaseUriBuilder()
-				.path(Paths.ACTIVITY_OF_FLASHMOB).build(a.getId());
+		URI uri = getUriInfo().getAbsolutePathBuilder()
+				.path(Paths.ACTIVITY_OF_FLASHMOB)
+				.build(flashmob, saved.getId());
 		return Response.created(uri).entity(saved).build();
 	}
 }
