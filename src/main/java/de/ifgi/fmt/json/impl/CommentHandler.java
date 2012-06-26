@@ -52,11 +52,6 @@ public class CommentHandler extends JSONHandler<Comment> {
 		}
 		c.setText(j.optString(TEXT_KEY, null));
 
-		String flashmob = j.optString(FLASHMOB_KEY, null);
-		if (flashmob != null) {
-			c.setFlashmob(new Flashmob().setId(new ObjectId(flashmob)));
-		}
-
 		String time = j.optString(TIME_KEY, null);
 		if (time != null) {
 			c.setTime(getDateTimeFormat().parseDateTime(time));
