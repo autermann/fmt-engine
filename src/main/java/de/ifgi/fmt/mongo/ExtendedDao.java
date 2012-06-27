@@ -17,6 +17,7 @@
  */
 package de.ifgi.fmt.mongo;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -26,11 +27,11 @@ import com.google.code.morphia.query.Query;
 public interface ExtendedDao<T> {
 	void delete(T t);
 
-	void delete(Iterable<T> ts);
+	void delete(Collection<T> ts);
 
 	T save(T t);
 
-	void save(Iterable<T> ts);
+	void save(Collection<T> ts);
 
 	List<T> get(int limit);
 

@@ -19,6 +19,7 @@ package de.ifgi.fmt.mongo.stores;
 
 import static de.ifgi.fmt.mongo.DaoFactory.getTaskDao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -56,8 +57,8 @@ public class Tasks implements ExtendedDao<Task>{
 		return t;
 	}
 
-	public void save(Iterable<Task> tasks) {
-		log.debug("Saving Tasks");
+	public void save(Collection<Task> tasks) {
+		log.debug("Saving {} Tasks", tasks.size());
 		for (Task t : tasks) {
 			save(t);
 		}
@@ -71,8 +72,8 @@ public class Tasks implements ExtendedDao<Task>{
 	}
 
 	@Override
-	public void delete(Iterable<Task> ts) {
-		log.debug("Deleting Tasks");
+	public void delete(Collection<Task> ts) {
+		log.debug("Deleting {} Tasks", ts.size());
 		for (Task t : ts) {
 			delete(t);
 		}

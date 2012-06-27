@@ -106,7 +106,7 @@ public class Role {
 	@Reference(value = Role.USERS, lazy = true)
 	private Set<User> users = Utils.set();
 
-	public Role addAcitivity(Activity activity) {
+	public Role addActivity(Activity activity) {
 		getActivities().add(activity);
 		return this;
 	}

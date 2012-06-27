@@ -20,6 +20,7 @@ package de.ifgi.fmt.mongo.stores;
 import static de.ifgi.fmt.mongo.DaoFactory.getActivityDao;
 import static de.ifgi.fmt.mongo.DaoFactory.getSignalDao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -67,7 +68,8 @@ public class Activities implements ExtendedDao<Activity> {
 		return a;
 	}
 
-	public void save(Iterable<Activity> activities) {
+	@Override
+	public void save(Collection<Activity> activities) {
 		log.debug("Saving Activities");
 		for (Activity a : activities) {
 			save(a);
@@ -116,7 +118,7 @@ public class Activities implements ExtendedDao<Activity> {
 	}
 
 	@Override
-	public void delete(Iterable<Activity> ts) {
+	public void delete(Collection<Activity> ts) {
 		log.debug("Deleting Activities");
 		for (Activity a : ts) {
 			delete(a);

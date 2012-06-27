@@ -19,6 +19,7 @@ package de.ifgi.fmt.mongo.stores;
 
 import static de.ifgi.fmt.mongo.DaoFactory.getFlashmobDao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -70,15 +71,16 @@ public class Flashmobs implements ExtendedDao<Flashmob> {
 	}
 
 	@Override
-	public void save(Iterable<Flashmob> flashmobs) {
-		log.debug("Saving Flashmobs");
+	public void save(Collection<Flashmob> flashmobs) {
+		log.debug("Saving {} Flashmobs", flashmobs.size());
 		for (Flashmob f : flashmobs) {
 			save(f);
 		}
 	}
 
 	@Override
-	public void delete(Iterable<Flashmob> flashmobs) {
+	public void delete(Collection<Flashmob> flashmobs) {
+		log.debug("Deleting {} Flashmobs", flashmobs.size());
 		for (Flashmob f : flashmobs) {
 			delete(f);
 		}

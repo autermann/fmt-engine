@@ -19,6 +19,7 @@ package de.ifgi.fmt.mongo.stores;
 
 import static de.ifgi.fmt.mongo.DaoFactory.getTriggerDao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -42,7 +43,7 @@ public class Triggers implements ExtendedDao<Trigger> {
 	public Triggers(Store store) {
 		this.store = store;
 	}
-
+	@Override
 	public Trigger get(ObjectId id) {
 		log.debug("Getting Trigger {}", id);
 		Trigger t = getTriggerDao().get(id);
@@ -51,20 +52,20 @@ public class Triggers implements ExtendedDao<Trigger> {
 		}
 		return t;
 	}
-	
+	@Override
 	public Trigger save(Trigger t) {
 		log.debug("Saving Trigger {}", t);
 		getTriggerDao().save(t);
 		return t;
 	}
-
-	public void save(Iterable<Trigger> triggers) {
-		log.debug("Saving Triggers");
+	@Override
+	public void save(Collection<Trigger> triggers) {
+		log.debug("Saving {} Triggers", triggers.size());
 		for (Trigger t : triggers) {
 			save(t);
 		}
 	}
-
+	@Override
 	public void delete(Trigger t) {
 		log.debug("Deleting Trigger {}", t);
 		for (Activity a : this.store.activities().get(t)) {
@@ -73,8 +74,9 @@ public class Triggers implements ExtendedDao<Trigger> {
 		getTriggerDao().delete(t);
 	}
 
-	public void delete(List<Trigger> triggers) {
-		log.debug("Deleting Triggers");
+	@Override
+	public void delete(Collection<Trigger> triggers) {
+		log.debug("Deleting {} Triggers", triggers.size());
 		for (Trigger t : triggers) {
 			delete(t);
 		}
@@ -103,14 +105,6 @@ public class Triggers implements ExtendedDao<Trigger> {
 	@Override
 	public Trigger getOne(Query<Trigger> q) {
 		return getTriggerDao().find(Store.g(q)).get();
-	}
-
-	@Override
-	public void delete(Iterable<Trigger> ts) {
-		log.debug("Deleting Triggers");
-		for (Trigger t : ts) {
-			delete(t);
-		}
 	}
 
 	@Override

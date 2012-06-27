@@ -19,6 +19,7 @@ package de.ifgi.fmt.mongo.stores;
 
 import static de.ifgi.fmt.mongo.DaoFactory.getUserDao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -75,12 +76,12 @@ public class Users implements ExtendedDao<User>{
 		}
 		return u;
 	}
-	
-	public void save(Iterable<User> u) {
-		log.debug("Saving Users");
+	@Override
+	public void save(Collection<User> u) {
+		log.debug("Saving {} Users", u.size());
 		getUserDao().saveAll(u);
 	}
-
+	@Override
 	public void delete(User u) {
 		log.debug("Deleting User {}", u);
 		this.store.flashmobs().delete(Queries.flashmobsByUser(u));
@@ -88,9 +89,9 @@ public class Users implements ExtendedDao<User>{
 		deleteFromComments(u, this.store.comments().get(u));
 		DaoFactory.getUserDao().delete(u);
 	}
-
-	public void delete(Iterable<User> users) {
-		log.debug("Deleting Users");
+	@Override
+	public void delete(Collection<User> users) {
+		log.debug("Deleting {} Users", users.size());
 		for (User u : users) {
 			delete(u);
 		}
@@ -120,10 +121,11 @@ public class Users implements ExtendedDao<User>{
 		}
 	}
 
+	@Override
 	public List<User> get(Query<User> q) {
 		return getUserDao().find(Store.g(q)).asList();
 	}
-
+	@Override
 	public User getOne(Query<User> q) {
 		return getUserDao().find(Store.g(q)).get();
 	}

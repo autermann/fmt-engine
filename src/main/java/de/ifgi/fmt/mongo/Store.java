@@ -262,13 +262,16 @@ public class Store {
 				.addActivity(activity).setDescription("Was weiß ich")
 				.setEnd(begin.plusHours(2)).setStart(begin).setPublic(false)
 				.setKey("geheim").setTitle("Ein FlashMob").setLocation(p);
-
+		
+		activity.addTask(role1, new Task().setDescription("task1"));
+		activity.addTask(role2, new Task().setDescription("task2"));
+		
 		Store s = new Store();
 		s.users().save(Utils.list(user1, user2, user3));
 		s.flashmobs().save(f);
 		
-		s.comments().save(new Comment().setText("war ganz dolle").setUser(user1)
-				.setTime(begin.minusHours(20)).setFlashmob(f));
+		s.comments().save(new Comment().setText("war ganz dolle").setUser(user1).setTime(begin.minusHours(20)).setFlashmob(f));
+		s.comments().save(new Comment().setText("war wirklich ganz dolle").setUser(user2).setTime(begin.minusHours(19)).setFlashmob(f));
 //		ObjectId oid = f.getId();
 //
 ////		s.users().delete(user1);

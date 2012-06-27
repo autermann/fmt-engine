@@ -205,8 +205,7 @@ public class Service {
 	}
 
 	public List<Activity> getActivitiesForRole(ObjectId role, ObjectId flashmob) {
-		return Utils.asList(getRole(getFlashmob(flashmob), role)
-				.getActivities());
+		return Utils.asList(getRole(getFlashmob(flashmob), role).getActivities());
 	}
 
 	public List<Activity> getActivitiesForUser(String user, ObjectId flashmob) {

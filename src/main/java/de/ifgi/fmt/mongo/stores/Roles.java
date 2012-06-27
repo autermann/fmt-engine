@@ -19,6 +19,7 @@ package de.ifgi.fmt.mongo.stores;
 
 import static de.ifgi.fmt.mongo.DaoFactory.getRoleDao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -63,8 +64,9 @@ public class Roles implements ExtendedDao<Role> {
 		return role;
 	}
 
-	public void save(Iterable<Role> roles) {
-		log.debug("Saving Roles");
+	@Override
+	public void save(Collection<Role> roles) {
+		log.debug("Saving {} Roles", roles.size());
 		for (Role r : roles) {
 			save(r);
 		}
@@ -90,8 +92,8 @@ public class Roles implements ExtendedDao<Role> {
 	}
 
 	@Override
-	public void delete(Iterable<Role> ts) {
-		log.debug("Deleting Roles");
+	public void delete(Collection<Role> ts) {
+		log.debug("Deleting {} Roles", ts.size());
 		for (Role r : ts) {
 			delete(r);
 		}

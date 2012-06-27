@@ -38,8 +38,8 @@ import de.ifgi.fmt.model.Role;
 @Polymorphic
 @Entity(Task.COLLECTION_NAME)
 public class Task {
-	public static final String ACTIVITY = "activity";
 	public static final String COLLECTION_NAME = "tasks";
+	public static final String ACTIVITY = "activity";
 	public static final String CREATION_TIME = "creationTime";
 	public static final String DESCRIPTION = "description";
 	public static final String ROLE = "role";

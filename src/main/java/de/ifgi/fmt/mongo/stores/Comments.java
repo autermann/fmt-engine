@@ -19,6 +19,7 @@ package de.ifgi.fmt.mongo.stores;
 
 import static de.ifgi.fmt.mongo.DaoFactory.getCommentDao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -52,20 +53,23 @@ public class Comments implements ExtendedDao<Comment>{
 		}
 		return c;
 	}
-
+	
+	@Override
 	public Comment save(Comment c) {
 		log.debug("Saving comment {}", c);
 		getCommentDao().save(c);
 		return c;
 	}
 
-	public void save(Iterable<Comment> comments) {
+	@Override
+	public void save(Collection<Comment> comments) {
 		log.debug("Saving comments");
 		for (Comment c : comments) {
 			save(c);
 		}
 	}
-
+	
+	@Override
 	public void delete(Comment c) {
 		log.debug("Deleting Comment {}", c);
 		getCommentDao().delete(c);
@@ -88,17 +92,19 @@ public class Comments implements ExtendedDao<Comment>{
 		log.debug("Getting Comments of User {}", u);
 		return get(Queries.commentsOfUser(u));
 	}
-
+	
+	@Override
 	public List<Comment> get(Query<Comment> q) {
 		return getCommentDao().find(Store.g(q)).asList();
 	}
 
+	@Override
 	public Comment getOne(Query<Comment> q) {
 		return getCommentDao().find(Store.g(q)).get();
 	}
 
 	@Override
-	public void delete(Iterable<Comment> ts) {
+	public void delete(Collection<Comment> ts) {
 		log.debug("Deleting Comments");
 		for (Comment c : ts) {
 			delete(c);

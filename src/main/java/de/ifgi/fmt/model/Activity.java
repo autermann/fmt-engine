@@ -92,12 +92,12 @@ public class Activity {
 	private Trigger trigger;
 
 	public Activity addRole(Role role) {
-		this.tasks.put(role.addAcitivity(this), null);
+		this.tasks.put(role.addActivity(this), null);
 		return this;
 	}
 	
 	public Activity addTask(Role role, Task task) {
-		this.tasks.put(role, task.setActivity(this).setRole(role));
+		this.tasks.put(role.addActivity(this), task.setActivity(this).setRole(role));
 		return this;
 	}
 	
