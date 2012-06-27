@@ -68,7 +68,6 @@ public class User {
 	private String email;
 
 	@NotNull
-	@Past
 	@Indexed
 	@Property(User.LAST_CHANGED)
 	private DateTime lastChangedTime = new DateTime();

@@ -92,7 +92,6 @@ public class Flashmob {
 	private String key;
 
 	@NotNull
-	@Past
 	@Indexed
 	@Property(Flashmob.LAST_CHANGED)
 	private DateTime lastChangedTime = new DateTime();

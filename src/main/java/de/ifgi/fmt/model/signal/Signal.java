@@ -51,7 +51,6 @@ public abstract class Signal {
 	private ObjectId id = new ObjectId();
 
 	@NotNull
-	@Past
 	@Indexed
 	@Property(Activity.LAST_CHANGED)
 	private DateTime lastChangedTime = new DateTime();

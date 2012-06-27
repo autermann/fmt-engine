@@ -23,12 +23,14 @@ import java.util.Collection;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.codehaus.jettison.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.code.morphia.query.Query;
 
 import de.ifgi.fmt.ServiceError;
+import de.ifgi.fmt.json.JSONFactory;
 import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.mongo.ExtendedDao;
 import de.ifgi.fmt.mongo.Store;
@@ -52,7 +54,11 @@ public class Tasks implements ExtendedDao<Task>{
 	}
 
 	public Task save(Task t) {
-		log.debug("Saving Task {}", t);
+		try {
+			log.debug("Saving Task: {}", JSONFactory.getEncoder(Task.class).encode(t, null));
+		} catch (JSONException e) {
+			log.error("Error: ", e);
+		}
 		getTaskDao().save(t);
 		return t;
 	}
@@ -60,7 +66,9 @@ public class Tasks implements ExtendedDao<Task>{
 	public void save(Collection<Task> tasks) {
 		log.debug("Saving {} Tasks", tasks.size());
 		for (Task t : tasks) {
-			save(t);
+			if (t != null) {
+				save(t);
+			}
 		}
 	}
 

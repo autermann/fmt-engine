@@ -90,7 +90,6 @@ public class Role {
 	private Set<String> items = Utils.set();
 
 	@NotNull
-	@Past
 	@Indexed
 	@Property(Role.LAST_CHANGED)
 	private DateTime lastChangedTime = new DateTime();

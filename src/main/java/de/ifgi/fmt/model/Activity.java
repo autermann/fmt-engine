@@ -79,7 +79,6 @@ public class Activity {
 	private ObjectId id = new ObjectId();
 
 	@NotNull
-	@Past
 	@Indexed
 	@Property(Activity.LAST_CHANGED)
 	private DateTime lastChangedTime = new DateTime();

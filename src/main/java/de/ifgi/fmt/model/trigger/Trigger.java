@@ -55,7 +55,6 @@ public class Trigger {
 	private ObjectId id = new ObjectId();
 
 	@NotNull
-	@Past
 	@Indexed
 	@Property(Trigger.LAST_CHANGED)
 	private DateTime lastChangedTime = new DateTime();

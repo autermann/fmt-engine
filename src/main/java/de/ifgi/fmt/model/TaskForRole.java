@@ -31,7 +31,6 @@ public class TaskForRole {
 	@Reference(value = TaskForRole.ROLE, lazy = true)
 	private Role role;
 
-	@NotNull
 	@Reference(value = TaskForRole.TASK, lazy = true)
 	private Task task;
 

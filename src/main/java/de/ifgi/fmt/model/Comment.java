@@ -59,7 +59,6 @@ public class Comment {
 	private ObjectId id = new ObjectId();
 
 	@NotNull
-	@Past
 	@Indexed
 	@Property(Comment.LAST_CHANGED)
 	private DateTime lastChangedTime = new DateTime();

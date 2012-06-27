@@ -67,7 +67,6 @@ public class Task {
 	private ObjectId id = new ObjectId();
 
 	@NotNull
-	@Past
 	@Indexed
 	@Property(Task.LAST_CHANGED)
 	private DateTime lastChangedTime = new DateTime();

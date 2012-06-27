@@ -50,7 +50,8 @@ public class RolesServlet extends AbstractServlet {
 	@Consumes(MediaTypes.ROLE)
 	public Response setRole(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
-			@PathParam(PathParams.ACTIVITY) ObjectId activity, Role r) {
+			@PathParam(PathParams.ACTIVITY) ObjectId activity, 
+			Role r) {
 		
 		Role saved = getService().addRoleToActivity(activity, r, flashmob);
 		URI uri = getUriInfo().getBaseUriBuilder()
