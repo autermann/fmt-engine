@@ -248,7 +248,7 @@ public class Store {
 				.setStartPoint(p).setUsers(Utils.set(user3));
 
 		Trigger t = new TimeTrigger().setTime(begin.plusMinutes(5));
-
+		
 		Activity activity = new Activity().setDescription("Activity 1").setTitle("Activity 1")
 				.setTrigger(t).setSignal(new VibrationSignal())
 				.addTask(role1, new Task().setDescription("Geh nach links"))
@@ -265,7 +265,7 @@ public class Store {
 		
 		activity.addTask(role1, new Task().setDescription("task1"));
 		activity.addTask(role2, new Task().setDescription("task2"));
-		
+
 		Store s = new Store();
 		s.users().save(Utils.list(user1, user2, user3));
 		s.flashmobs().save(f);
