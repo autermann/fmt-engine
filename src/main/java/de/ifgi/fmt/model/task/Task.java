@@ -29,6 +29,7 @@ import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Polymorphic;
+import com.google.code.morphia.annotations.PrePersist;
 import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.annotations.Reference;
 
@@ -38,10 +39,11 @@ import de.ifgi.fmt.model.Role;
 @Polymorphic
 @Entity(Task.COLLECTION_NAME)
 public class Task {
-	public static final String COLLECTION_NAME = "tasks";
 	public static final String ACTIVITY = "activity";
+	public static final String COLLECTION_NAME = "tasks";
 	public static final String CREATION_TIME = "creationTime";
 	public static final String DESCRIPTION = "description";
+	public static final String LAST_CHANGED = "lastChanged";
 	public static final String ROLE = "role";
 
 	@NotNull
@@ -65,9 +67,20 @@ public class Task {
 	private ObjectId id = new ObjectId();
 
 	@NotNull
+	@Past
+	@Indexed
+	@Property(Task.LAST_CHANGED)
+	private DateTime lastChangedTime = new DateTime();
+
+	@NotNull
 	@Indexed
 	@Reference(value = Task.ROLE, lazy = true)
 	private Role role;
+
+	@PrePersist
+	public void changed() {
+		setLastChangedTime(new DateTime());
+	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -88,15 +101,19 @@ public class Task {
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public ObjectId getId() {
 		return id;
+	}
+
+	public DateTime getLastChangedTime() {
+		return lastChangedTime;
 	}
 
 	public Role getRole() {
 		return role;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return getId().hashCode();
@@ -119,6 +136,11 @@ public class Task {
 
 	public Task setId(ObjectId id) {
 		this.id = id;
+		return this;
+	}
+
+	public Task setLastChangedTime(DateTime lastChangedTime) {
+		this.lastChangedTime = lastChangedTime;
 		return this;
 	}
 

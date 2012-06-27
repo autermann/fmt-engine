@@ -33,7 +33,7 @@ import de.ifgi.fmt.utils.constants.JSONConstants;
 public class SoundSignal extends Signal {
 
 	public static final String LINK = "link";
-	
+
 	@Property(SoundSignal.LINK)
 	private URL link;
 
@@ -65,6 +65,5 @@ public class SoundSignal extends Signal {
 	public void setLink(URL link) {
 		this.link = link;
 	}
-	
-	
+
 }

@@ -28,6 +28,7 @@ import org.joda.time.DateTime;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
+import com.google.code.morphia.annotations.PrePersist;
 import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.annotations.Reference;
 
@@ -37,11 +38,14 @@ public class Comment {
 	public static final String COLLECTION_NAME = "comments";
 	public static final String CREATION_TIME = "creationTime";
 	public static final String FLASHMOB = "flashmob";
+	public static final String LAST_CHANGED = "lastChanged";
 	public static final String TEXT = "text";
 	public static final String TIME = "time";
 	public static final String USER = "user";
 
-	@NotNull@Past@Indexed
+	@NotNull
+	@Past
+	@Indexed
 	@Property(Comment.CREATION_TIME)
 	private DateTime creationTime = new DateTime();
 
@@ -50,8 +54,15 @@ public class Comment {
 	@Reference(value = Comment.FLASHMOB, lazy = true)
 	private Flashmob flashmob;
 
-	@NotNull@Id
+	@NotNull
+	@Id
 	private ObjectId id = new ObjectId();
+
+	@NotNull
+	@Past
+	@Indexed
+	@Property(Comment.LAST_CHANGED)
+	private DateTime lastChangedTime = new DateTime();
 
 	@SafeHtml
 	@NotBlank
@@ -69,6 +80,11 @@ public class Comment {
 	@Reference(value = Comment.USER, lazy = true)
 	private User user;
 
+	@PrePersist
+	public void changed() {
+		setLastChangedTime(new DateTime());
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Comment) {
@@ -84,14 +100,19 @@ public class Comment {
 	public Flashmob getFlashmob() {
 		return flashmob;
 	}
+
 	public ObjectId getId() {
 		return id;
+	}
+
+	public DateTime getLastChangedTime() {
+		return lastChangedTime;
 	}
 
 	public String getText() {
 		return text;
 	}
-	
+
 	public DateTime getTime() {
 		return time;
 	}
@@ -117,6 +138,11 @@ public class Comment {
 
 	public Comment setId(ObjectId id) {
 		this.id = id;
+		return this;
+	}
+
+	public Comment setLastChangedTime(DateTime lastChangedTime) {
+		this.lastChangedTime = lastChangedTime;
 		return this;
 	}
 

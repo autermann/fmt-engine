@@ -52,12 +52,15 @@ public class Activity {
 	public static final String CREATION_TIME = "creationTime";
 	public static final String DESCRIPTION = "description";
 	public static final String FLASHMOB = "flashmob";
+	public static final String LAST_CHANGED = "lastChanged";
 	public static final String SIGNAL = "signal";
 	public static final String TASKS = "savedTasks";
 	public static final String TITLE = "title";
 	public static final String TRIGGER = "trigger";
 
-	@NotNull@Past@Indexed
+	@NotNull
+	@Past
+	@Indexed
 	@Property(Activity.CREATION_TIME)
 	private DateTime creationTime = new DateTime();
 
@@ -71,8 +74,15 @@ public class Activity {
 	@Reference(value = Activity.FLASHMOB, lazy = true)
 	private Flashmob flashmob;
 
-	@NotNull@Id
+	@NotNull
+	@Id
 	private ObjectId id = new ObjectId();
+
+	@NotNull
+	@Past
+	@Indexed
+	@Property(Activity.LAST_CHANGED)
+	private DateTime lastChangedTime = new DateTime();
 
 	@Embedded
 	private List<TaskForRole> savedTasks = Utils.list();
@@ -95,12 +105,18 @@ public class Activity {
 		this.tasks.put(role.addActivity(this), null);
 		return this;
 	}
-	
+
 	public Activity addTask(Role role, Task task) {
-		this.tasks.put(role.addActivity(this), task.setActivity(this).setRole(role));
+		this.tasks.put(role.addActivity(this),
+				task.setActivity(this).setRole(role));
 		return this;
 	}
-	
+
+	@PrePersist
+	public void changed() {
+		setLastChangedTime(new DateTime());
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Activity) {
@@ -123,6 +139,10 @@ public class Activity {
 
 	public ObjectId getId() {
 		return id;
+	}
+
+	public DateTime getLastChangedTime() {
+		return lastChangedTime;
 	}
 
 	public List<Role> getRoles() {
@@ -206,6 +226,11 @@ public class Activity {
 
 	public Activity setId(ObjectId id) {
 		this.id = id;
+		return this;
+	}
+
+	public Activity setLastChangedTime(DateTime lastChangedTime) {
+		this.lastChangedTime = lastChangedTime;
 		return this;
 	}
 

@@ -23,6 +23,13 @@ import com.google.code.morphia.annotations.Polymorphic;
 
 @Polymorphic
 public class VibrationSignal extends Signal {
-	@Override public Signal encode(JSONObject j) {return this;}
-	@Override public Signal decode(JSONObject j) {return this;}
+	@Override
+	public Signal decode(JSONObject j) {
+		return this;
+	}
+
+	@Override
+	public Signal encode(JSONObject j) {
+		return this;
+	}
 }

@@ -26,6 +26,7 @@ import org.joda.time.DateTime;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
+import com.google.code.morphia.annotations.PrePersist;
 import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.annotations.Reference;
 
@@ -36,6 +37,7 @@ public class Trigger {
 	public static final String COLLECTION_NAME = "triggers";
 	public static final String CREATION_TIME = "creationTime";
 	public static final String FLASHMOB = "flashmob";
+	public static final String LAST_CHANGED = "lastChanged";
 
 	@NotNull
 	@Past
@@ -51,6 +53,17 @@ public class Trigger {
 	@NotNull
 	@Id
 	private ObjectId id = new ObjectId();
+
+	@NotNull
+	@Past
+	@Indexed
+	@Property(Trigger.LAST_CHANGED)
+	private DateTime lastChangedTime = new DateTime();
+
+	@PrePersist
+	public void changed() {
+		setLastChangedTime(new DateTime());
+	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -72,6 +85,10 @@ public class Trigger {
 		return id;
 	}
 
+	public DateTime getLastChangedTime() {
+		return lastChangedTime;
+	}
+
 	@Override
 	public int hashCode() {
 		return getId().hashCode();
@@ -89,6 +106,11 @@ public class Trigger {
 
 	public Trigger setId(ObjectId id) {
 		this.id = id;
+		return this;
+	}
+
+	public Trigger setLastChangedTime(DateTime lastChangedTime) {
+		this.lastChangedTime = lastChangedTime;
 		return this;
 	}
 

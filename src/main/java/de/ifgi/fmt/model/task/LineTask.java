@@ -23,9 +23,9 @@ import com.vividsolutions.jts.geom.LineString;
 
 @Polymorphic
 public class LineTask extends Task {
-	
+
 	private static final String LINE = "line";
-	
+
 	@Property(LineTask.LINE)
 	private LineString line;
 

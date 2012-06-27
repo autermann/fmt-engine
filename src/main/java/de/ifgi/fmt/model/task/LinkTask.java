@@ -28,8 +28,8 @@ public class LinkTask extends Task {
 	public enum Type {
 		AUDIO, VIDEO, YOUTUBE;
 	}
-	public static final String LINK = "link";
 
+	public static final String LINK = "link";
 	public static final String TYPE = "type";
 
 	@Property(LinkTask.LINK)

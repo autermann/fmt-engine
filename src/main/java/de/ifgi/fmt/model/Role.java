@@ -31,6 +31,7 @@ import org.joda.time.DateTime;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
+import com.google.code.morphia.annotations.PrePersist;
 import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.annotations.Reference;
 import com.vividsolutions.jts.geom.Point;
@@ -42,18 +43,20 @@ public class Role {
 	public enum Category {
 		EASY, HARD, ULTRA;
 	}
+
 	public static final String ACTIVITIES = "activities";
 	public static final String CATEGORY = "category";
 	public static final String COLLECTION_NAME = "roles";
 	public static final String CREATION_TIME = "creationTime";
 	public static final String DESCRIPTION = "description";
-	public static final String TITLE = "title";
 	public static final String FLASHMOB = "flashmob";
 	public static final String ITEMS = "items";
+	public static final String LAST_CHANGED = "lastChanged";
 	public static final String MAX_COUNT = "maxCount";
 	public static final String MIN_COUNT = "minCount";
 	public static final String START_POINT = "startPoint";
 
+	public static final String TITLE = "title";
 	public static final String USERS = "users";
 
 	@NotNull
@@ -81,14 +84,16 @@ public class Role {
 	@NotNull
 	@Id
 	private ObjectId id = new ObjectId();
-	
-	@NotBlank
-	@Property(Role.TITLE)
-	private String title;
 
 	@NotNull
 	@Property(Role.ITEMS)
 	private Set<String> items = Utils.set();
+
+	@NotNull
+	@Past
+	@Indexed
+	@Property(Role.LAST_CHANGED)
+	private DateTime lastChangedTime = new DateTime();
 
 	@Min(0)
 	@Property(Role.MAX_COUNT)
@@ -98,10 +103,14 @@ public class Role {
 	@Property(Role.MIN_COUNT)
 	private Integer minCount = new Integer(0);
 
-	//@NotNull Mail: Re: [FMT] Service auf giv-flashmob, 19.06.12 - 1940
+	// @NotNull Mail: Re: [FMT] Service auf giv-flashmob, 19.06.12 - 1940
 	@Property(Role.START_POINT)
 	private Point startPoint;
-	
+
+	@NotBlank
+	@Property(Role.TITLE)
+	private String title;
+
 	@NotNull
 	@Reference(value = Role.USERS, lazy = true)
 	private Set<User> users = Utils.set();
@@ -114,6 +123,11 @@ public class Role {
 	public Role addUser(User u) {
 		getUsers().add(u);
 		return this;
+	}
+
+	@PrePersist
+	public void changed() {
+		setLastChangedTime(new DateTime());
 	}
 
 	@Override
@@ -147,13 +161,13 @@ public class Role {
 	public ObjectId getId() {
 		return id;
 	}
-	
-	public String getTitle() {
-		return title;
-	}
 
 	public Set<String> getItems() {
 		return items;
+	}
+
+	public DateTime getLastChangedTime() {
+		return lastChangedTime;
 	}
 
 	public Integer getMaxCount() {
@@ -166,6 +180,10 @@ public class Role {
 
 	public Point getStartPoint() {
 		return startPoint;
+	}
+
+	public String getTitle() {
+		return title;
 	}
 
 	public Set<User> getUsers() {
@@ -216,14 +234,14 @@ public class Role {
 		this.id = id;
 		return this;
 	}
-	
-	public Role setTitle(String title) {
-		this.title = title;
-		return this;
-	}
 
 	public Role setItems(Set<String> items) {
 		this.items = items;
+		return this;
+	}
+
+	public Role setLastChangedTime(DateTime lastChangedTime) {
+		this.lastChangedTime = lastChangedTime;
 		return this;
 	}
 
@@ -242,7 +260,8 @@ public class Role {
 
 	public Role setMinCount(Integer minCount) {
 		if (minCount != null && minCount.intValue() > 0) {
-			if (getMaxCount() != null && getMaxCount().intValue() < minCount.intValue()) {
+			if (getMaxCount() != null
+					&& getMaxCount().intValue() < minCount.intValue()) {
 				throw new IllegalArgumentException(
 						"min count can not be bigger than max count. "
 								+ getMaxCount() + " <= " + minCount);
@@ -254,6 +273,11 @@ public class Role {
 
 	public Role setStartPoint(Point startPoint) {
 		this.startPoint = startPoint;
+		return this;
+	}
+
+	public Role setTitle(String title) {
+		this.title = title;
 		return this;
 	}
 

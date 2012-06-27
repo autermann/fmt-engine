@@ -21,8 +21,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BoundingBox {
-	protected static final Logger log = LoggerFactory.getLogger(BoundingBox.class);
+	protected static final Logger log = LoggerFactory
+			.getLogger(BoundingBox.class);
 	private static final String PARSE_ERROR = "Invalid BoundingBox: syntax is: left,bottom,right,top";
+
 	public static BoundingBox valueOf(String s) {
 		log.debug("Parsing BoundingBox: {}", s);
 		if (s == null || s.trim().isEmpty()) {

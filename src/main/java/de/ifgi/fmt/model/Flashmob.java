@@ -30,6 +30,7 @@ import org.joda.time.DateTime;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
+import com.google.code.morphia.annotations.PrePersist;
 import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.annotations.Reference;
 import com.google.code.morphia.utils.IndexDirection;
@@ -48,6 +49,7 @@ public class Flashmob {
 	public static final String DESCRIPTION = "description";
 	public static final String END = "end";
 	public static final String KEY = "key";
+	public static final String LAST_CHANGED = "lastChanged";
 	public static final String LOCATION = "location";
 	public static final String PUBLIC = "isPublic";
 	public static final String PUBLISH = "publish";
@@ -88,6 +90,12 @@ public class Flashmob {
 
 	@Property(Flashmob.KEY)
 	private String key;
+
+	@NotNull
+	@Past
+	@Indexed
+	@Property(Flashmob.LAST_CHANGED)
+	private DateTime lastChangedTime = new DateTime();
 
 	@NotNull
 	@Indexed(IndexDirection.GEO2D)
@@ -132,6 +140,11 @@ public class Flashmob {
 		return this;
 	}
 
+	@PrePersist
+	public void changed() {
+		setLastChangedTime(new DateTime());
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Flashmob) {
@@ -166,6 +179,10 @@ public class Flashmob {
 
 	public String getKey() {
 		return key;
+	}
+
+	public DateTime getLastChangedTime() {
+		return lastChangedTime;
 	}
 
 	public Point getLocation() {
@@ -272,6 +289,11 @@ public class Flashmob {
 
 	public Flashmob setKey(String key) {
 		this.key = key;
+		return this;
+	}
+
+	public Flashmob setLastChangedTime(DateTime lastChangedTime) {
+		this.lastChangedTime = lastChangedTime;
 		return this;
 	}
 

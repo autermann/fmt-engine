@@ -28,14 +28,17 @@ import org.joda.time.DateTime;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
+import com.google.code.morphia.annotations.PrePersist;
 import com.google.code.morphia.annotations.Property;
+
+import de.ifgi.fmt.model.Activity;
 
 @Entity(Signal.COLLECTION_NAME)
 public abstract class Signal {
-	
-	public static final String COLLECTION_NAME = "signals";
 
+	public static final String COLLECTION_NAME = "signals";
 	public static final String CREATION_TIME = "creationTime";
+	public static final String LAST_CHANGED = "lastChanged";
 
 	@NotNull
 	@Past
@@ -46,6 +49,17 @@ public abstract class Signal {
 	@NotNull
 	@Id
 	private ObjectId id = new ObjectId();
+
+	@NotNull
+	@Past
+	@Indexed
+	@Property(Activity.LAST_CHANGED)
+	private DateTime lastChangedTime = new DateTime();
+
+	@PrePersist
+	public void changed() {
+		setLastChangedTime(new DateTime());
+	}
 
 	public abstract Signal decode(JSONObject j);
 
@@ -67,6 +81,10 @@ public abstract class Signal {
 		return id;
 	}
 
+	public DateTime getLastChangedTime() {
+		return lastChangedTime;
+	}
+
 	public String getType() {
 		return getClass().getName()
 				.replace(getClass().getPackage().getName() + ".", "")
@@ -77,15 +95,22 @@ public abstract class Signal {
 	public int hashCode() {
 		return getId().hashCode();
 	}
+
 	public Signal setCreationTime(DateTime creationTime) {
 		this.creationTime = creationTime;
 		return this;
 	}
-	
+
 	public Signal setId(ObjectId id) {
 		this.id = id;
 		return this;
 	}
+
+	public Signal setLastChangedTime(DateTime lastChangedTime) {
+		this.lastChangedTime = lastChangedTime;
+		return this;
+	}
+
 	@Override
 	public String toString() {
 		return getId().toString();

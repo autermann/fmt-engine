@@ -33,6 +33,7 @@ import org.joda.time.DateTime;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
+import com.google.code.morphia.annotations.PrePersist;
 import com.google.code.morphia.annotations.Property;
 
 import de.ifgi.fmt.ServiceError;
@@ -47,6 +48,7 @@ public class User {
 	public static final String COLLECTION_NAME = "users";
 	public static final String CREATION_TIME = "creationTime";
 	public static final String EMAIL = "email";
+	public static final String LAST_CHANGED = "lastChanged";
 	public static final String PASSWORD_HASH = "password";
 	public static final String ROLES = "roles";
 	public static final String USERNAME = "username";
@@ -64,6 +66,12 @@ public class User {
 	@Property(User.EMAIL)
 	@Indexed(unique = true, sparse = true)
 	private String email;
+
+	@NotNull
+	@Past
+	@Indexed
+	@Property(User.LAST_CHANGED)
+	private DateTime lastChangedTime = new DateTime();
 
 	@NotEmpty
 	@NotNull
@@ -88,6 +96,11 @@ public class User {
 		return this;
 	}
 
+	@PrePersist
+	public void changed() {
+		setLastChangedTime(new DateTime());
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof User) {
@@ -95,16 +108,21 @@ public class User {
 		}
 		return false;
 	}
+
 	public String getAuthToken() {
 		return authToken;
 	}
-	
+
 	public DateTime getCreationTime() {
 		return creationTime;
 	}
 
 	public String getEmail() {
 		return email;
+	}
+
+	public DateTime getLastChangedTime() {
+		return lastChangedTime;
 	}
 
 	public String getPasswordHash() {
@@ -159,6 +177,11 @@ public class User {
 			s = s.trim();
 		}
 		this.email = s;
+		return this;
+	}
+
+	public User setLastChangedTime(DateTime lastChangedTime) {
+		this.lastChangedTime = lastChangedTime;
 		return this;
 	}
 
