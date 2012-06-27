@@ -143,7 +143,6 @@ public class Service {
 	 * @param activity an activity which shall receive the role
 	 * @param role the role which shall be added to the activity
 	 * @param flashmob a flashmob which is associated to the activity
-	 * @return the added activity
 	 */
 	public void addRoleToActivity(Activity activity, Role role,
 			Flashmob flashmob) {
@@ -746,7 +745,7 @@ public class Service {
 	 * Updates a FLASHMOB id with the FLASHMOB flashmob
 	 * @param id the id of the flashmob which has to be updated
 	 * @param flashmob the new flashmob
-	 * @returnthe updated flashmob
+	 * @return the updated flashmob
 	 */
 	public Flashmob updateFlashmob(ObjectId id, Flashmob flashmob) {
 		return getStore().flashmobs().save(update(getFlashmob(id), flashmob));
