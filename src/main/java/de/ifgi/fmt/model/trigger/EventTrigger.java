@@ -24,7 +24,7 @@ import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 
 @Polymorphic
-public class EventTrigger extends Trigger {
+public class EventTrigger extends TimeTrigger {
 
 	public static final String DESCRIPTION = "description";
 
@@ -37,8 +37,9 @@ public class EventTrigger extends Trigger {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public EventTrigger setDescription(String description) {
 		this.description = description;
+		return this;
 	}
 
 }

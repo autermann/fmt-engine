@@ -24,7 +24,7 @@ import com.google.code.morphia.annotations.Property;
 import com.vividsolutions.jts.geom.Point;
 
 @Polymorphic
-public class LocationTrigger extends Trigger {
+public class LocationTrigger extends TimeTrigger {
 
 	public static final String LOCATION = "location";
 
@@ -36,7 +36,8 @@ public class LocationTrigger extends Trigger {
 		return location;
 	}
 
-	public void setLocation(Point location) {
+	public LocationTrigger setLocation(Point location) {
 		this.location = location;
+		return this;
 	}
 }

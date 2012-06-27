@@ -33,7 +33,7 @@ import com.google.code.morphia.annotations.Reference;
 import de.ifgi.fmt.model.Flashmob;
 
 @Entity(Trigger.COLLECTION_NAME)
-public class Trigger {
+public abstract class Trigger {
 	public static final String COLLECTION_NAME = "triggers";
 	public static final String CREATION_TIME = "creationTime";
 	public static final String FLASHMOB = "flashmob";

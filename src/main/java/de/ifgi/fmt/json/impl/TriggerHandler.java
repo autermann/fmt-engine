@@ -62,27 +62,29 @@ public class TriggerHandler extends JSONHandler<Trigger> {
 					TIME_KEY, LOCATION_KEY, DESCRIPTION_KEY));
 		}
 		
-		if (time != null) {
-			TimeTrigger tt = new TimeTrigger();
+		if (geom != null) {
 			try {
-				tt.setTime(getDateTimeFormat().parseDateTime(time));
+				t = new LocationTrigger().setLocation((Point) getGeometryDecoder().parseUwGeometry(geom));
 			} catch (Exception e) {
 				throw ServiceError.badRequest(e);
 			}
-			t = tt;
-		} else if (geom != null) {
-			LocationTrigger tt = new LocationTrigger();
-			try {
-				tt.setLocation((Point) getGeometryDecoder().parseUwGeometry(geom));
-			} catch (Exception e) {
-				throw ServiceError.badRequest(e);
-			}
-			t = tt;
 		} else if (desc != null) {
-			EventTrigger tt = new EventTrigger();
-			tt.setDescription(desc);
-			t = tt;
-		} else {
+			t = new EventTrigger().setDescription(desc);
+		}
+		
+		if (time != null) {
+			if (t == null) {
+				t = new TimeTrigger();
+			}
+			if (t instanceof TimeTrigger) {
+				try {
+					((TimeTrigger) t).setTime(getDateTimeFormat().parseDateTime(time));
+				} catch (Exception e) {
+					throw ServiceError.badRequest(e);
+				}
+			}
+		} 
+		if (t == null) {
 			throw ServiceError.badRequest("trigger not specified");
 		}
 		
@@ -104,12 +106,13 @@ public class TriggerHandler extends JSONHandler<Trigger> {
 		}
 		if (t instanceof TimeTrigger) {
 			j.put(TIME_KEY, getDateTimeFormat().print(((TimeTrigger) t).getTime()));
-		} else if (t instanceof EventTrigger) {
+		} 
+		if (t instanceof EventTrigger) {
 			j.put(DESCRIPTION_KEY, ((EventTrigger) t).getDescription());
-		} else if (t instanceof LocationTrigger) {
+		}
+		if (t instanceof LocationTrigger) {
 			try {
-				j.put(LOCATION_KEY,
-						getGeometryEncoder().encodeGeometry(
+				j.put(LOCATION_KEY, getGeometryEncoder().encodeGeometry(
 								((LocationTrigger) t).getLocation()));
 			} catch (Exception e) {
 				throw ServiceError.internal(e);
