@@ -162,6 +162,7 @@ public interface RESTConstants {
 		public static final String TRIGGER_OF_FLASHMOB = FLASHMOB + TRIGGER;
 		public static final String FLASHMOBS_OF_USER = USER + FLASHMOBS;
 		public static final String FLASHMOB_OF_USER = USER + FLASHMOB;
+		public static final String ROLE_OF_USER_IN_FLASHMOB = FLASHMOB_OF_USER + "/role";
 		public static final String ACTIVITIES_OF_FLASHMOB_OF_USER = FLASHMOB_OF_USER + ACTIVITIES;
 		public static final String ACTIVITY_OF_FLASHMOB_OF_USER = FLASHMOB_OF_USER + ACTIVITY;
 		public static final String TASK_OF_ACTIVITY_OF_FLASHMOB_OF_USER = ACTIVITY_OF_FLASHMOB_OF_USER + TASK;

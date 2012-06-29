@@ -954,4 +954,16 @@ public class Service {
 	   getStore().roles().save(r);
 	   getStore().activities().save(a);
     }
+
+    /**
+     * Gets the ROLE of a USER in a FLASHMOB
+     * @param flashmob the flashmob id
+     * @param user the username
+     * @return the role
+     */
+	public Role getRoleOfUserInFlashmob(ObjectId flashmob, String user) {
+		User u = getUser(user);
+		Flashmob f = getFlashmob(u, flashmob);
+		return getStore().roles().get(f, u);
+	}
 }
