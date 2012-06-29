@@ -32,14 +32,13 @@ import com.google.code.morphia.query.Query;
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.model.Flashmob;
-import de.ifgi.fmt.model.Role;
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.model.signal.Signal;
-import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.model.trigger.Trigger;
 import de.ifgi.fmt.mongo.ExtendedDao;
 import de.ifgi.fmt.mongo.Store;
 import de.ifgi.fmt.mongo.Store.Queries;
+import de.ifgi.fmt.utils.Utils;
 
 public class Activities implements ExtendedDao<Activity> {
 	private static final Logger log = LoggerFactory.getLogger(Activities.class);
@@ -88,10 +87,11 @@ public class Activities implements ExtendedDao<Activity> {
 
 	public List<Activity> get(Flashmob flashmob, User user) {
 		log.debug("Getting Actitvties of User {} in Flashmob {}", user, flashmob);
-		return get(all()
-				.field(Activity.FLASHMOB).equal(flashmob)
-				.field(Activity.TASKS + "." + Task.ROLE + "." + Role.USERS)
-				.hasThisElement(user));
+		return Utils.asList(new Roles(this.store).get(flashmob, user).getActivities());
+//		return get(all()
+//				.field(Activity.FLASHMOB).equal(flashmob)
+//				.field(Activity.TASKS + "." + Task.ROLE + "." + Role.USERS)
+//				.hasThisElement(user));
 	}
 
 	public Signal getSignalOfActivity(Activity activity) {
