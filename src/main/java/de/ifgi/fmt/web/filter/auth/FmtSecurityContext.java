@@ -26,14 +26,26 @@ import javax.ws.rs.core.UriInfo;
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants.Roles;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 public class FmtSecurityContext implements SecurityContext {
 	private final User u;
 	private @Context UriInfo uri;
 
+	/**
+	 * 
+	 * @param u
+	 */
 	public FmtSecurityContext(User u) {
 		this.u = u;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	@Override
 	public Principal getUserPrincipal() {
 		if (getUser() == null) { 
@@ -42,10 +54,19 @@ public class FmtSecurityContext implements SecurityContext {
 		return new FmtPrinciple(getUser());
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public User getUser() {
 		return this.u;
 	}
 	
+	/**
+	 * 
+	 * @param r
+	 * @return
+	 */
 	@Override
 	public boolean isUserInRole(String r) {
 		if (getUser() == null) {
@@ -54,11 +75,19 @@ public class FmtSecurityContext implements SecurityContext {
 		return getUser().hasRole(r);
 	}
 		
+	/**
+	 * 
+	 * @return
+	 */
 	@Override
 	public boolean isSecure() {
 		return uri.getRequestUri().getScheme().equals("https");
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	@Override
 	public String getAuthenticationScheme() {
 		return SecurityContext.BASIC_AUTH;

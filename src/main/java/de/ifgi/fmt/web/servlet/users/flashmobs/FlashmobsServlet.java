@@ -34,10 +34,19 @@ import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Path(Paths.FLASHMOBS_OF_USER)
 public class FlashmobsServlet extends AbstractServlet {
 
-	@GET
+    /**
+     * 
+     * @param user
+     * @return
+     */
+    @GET
 	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.FLASHMOB_LIST)
 	public List<Flashmob> getFlashmobs(@PathParam(PathParams.USER) String user) {

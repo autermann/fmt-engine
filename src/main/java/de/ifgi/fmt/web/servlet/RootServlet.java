@@ -28,10 +28,19 @@ import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Path(Paths.ROOT)
 public class RootServlet extends AbstractServlet {
 
-	@GET
+    /**
+     * 
+     * @return
+     * @throws Exception
+     */
+    @GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getRoot() throws Exception {
 		JSONObject j = new JSONObject()

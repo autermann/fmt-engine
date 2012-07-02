@@ -21,6 +21,10 @@ import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 import com.vividsolutions.jts.geom.LineString;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Polymorphic
 public class LineTask extends Task {
 
@@ -29,10 +33,18 @@ public class LineTask extends Task {
 	@Property(LineTask.LINE)
 	private LineString line;
 
+	/**
+	 * 
+	 * @return
+	 */
 	public LineString getLine() {
 		return line;
 	}
 
+	/**
+	 * 
+	 * @param line
+	 */
 	public void setLine(LineString line) {
 		this.line = line;
 	}

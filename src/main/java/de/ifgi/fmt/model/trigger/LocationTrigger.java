@@ -23,19 +23,35 @@ import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 import com.vividsolutions.jts.geom.Point;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Polymorphic
 public class LocationTrigger extends TimeTrigger {
 
-	public static final String LOCATION = "location";
+    /**
+     * 
+     */
+    public static final String LOCATION = "location";
 
 	@NotNull
 	@Property(LocationTrigger.LOCATION)
 	private Point location;
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Point getLocation() {
 		return location;
 	}
 
+	/**
+	 * 
+	 * @param location
+	 * @return
+	 */
 	public LocationTrigger setLocation(Point location) {
 		this.location = location;
 		return this;

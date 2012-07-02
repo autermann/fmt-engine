@@ -25,11 +25,18 @@ import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONListProvider;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Provider
 @Produces(MediaTypes.TRIGGER_LIST)
 public class TriggerListProvider extends AbstractJSONListProvider<Trigger> {
 
-	public TriggerListProvider() {
+    /**
+     * 
+     */
+    public TriggerListProvider() {
 		super(Trigger.class, JSONConstants.TRIGGERS_KEY, MediaTypes.TRIGGER_LIST_TYPE);
 	}
 

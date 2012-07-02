@@ -32,23 +32,44 @@ import de.ifgi.fmt.utils.Implementations;
 import de.ifgi.fmt.utils.Stringifier;
 import de.ifgi.fmt.utils.Utils;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @SuppressWarnings("unchecked")
 public class JSONFactory {
 
-	@Documented
+    /**
+     * 
+     */
+    @Documented
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
 	public static @interface Decodes {
-		public Class<?> value();
+	    /**
+	     * 
+	     * @return
+	     */
+	    public Class<?> value();
 	}
 
+	/**
+	 * 
+	 */
 	@Documented
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
 	public static @interface Encodes {
-		public Class<?> value();
+	    /**
+	     * 
+	     * @return
+	     */
+	    public Class<?> value();
 	}
 
+	/**
+	 * 
+	 */
 	protected static final Logger log = LoggerFactory.getLogger(JSONFactory.class);
 	
 	private static Map<Class<?>, JSONEncoder<?>> encoders = Utils.map();
@@ -83,6 +104,12 @@ public class JSONFactory {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param <T>
+	 * @param c
+	 * @return
+	 */
 	public static <T> JSONEncoder<T> getEncoder(Class<? extends T> c) {
 		JSONEncoder<?> enc = encoders.get(c);
 		if (enc == null) {
@@ -91,6 +118,12 @@ public class JSONFactory {
 		return (JSONEncoder<T>) enc;
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param c
+	 * @return
+	 */
 	public static <T> JSONDecoder<T> getDecoder(Class<? extends T> c) {
 		JSONDecoder<?> dec = decoders.get(c);
 		if (dec == null) {

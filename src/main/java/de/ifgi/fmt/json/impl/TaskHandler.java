@@ -49,11 +49,21 @@ import de.ifgi.fmt.model.task.LinkTask;
 import de.ifgi.fmt.model.task.LinkTask.Type;
 import de.ifgi.fmt.model.task.Task;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Encodes(Task.class)
 @Decodes(Task.class)
 public class TaskHandler extends JSONHandler<Task> {
 
-	@Override
+    /**
+     * 
+     * @param j
+     * @return
+     * @throws JSONException
+     */
+    @Override
 	public Task decode(JSONObject j) throws JSONException {
 		Task t = null;
 		String href = j.optString(HREF_KEY, null);
@@ -101,6 +111,13 @@ public class TaskHandler extends JSONHandler<Task> {
 		return t;
 	}
 
+	/**
+	 * 
+	 * @param t
+	 * @param uri
+	 * @return
+	 * @throws JSONException
+	 */
 	@Override
 	public JSONObject encode(Task t, UriInfo uri) throws JSONException {
 		JSONObject j = new JSONObject().put(ID_KEY, t.getId());
@@ -140,6 +157,13 @@ public class TaskHandler extends JSONHandler<Task> {
 		return j;
 	}
 
+	/**
+	 * 
+	 * @param t
+	 * @param uriInfo
+	 * @return
+	 * @throws JSONException
+	 */
 	@Override
 	public JSONObject encodeAsRef(Task t, UriInfo uriInfo)
 			throws JSONException {

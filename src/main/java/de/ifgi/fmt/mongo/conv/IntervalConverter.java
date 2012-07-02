@@ -26,14 +26,27 @@ import com.google.code.morphia.mapping.MappingException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @SuppressWarnings("rawtypes")
 public class IntervalConverter extends TypeConverter implements
     SimpleValueConverter {
 
-	public IntervalConverter() {
+    /**
+     * 
+     */
+    public IntervalConverter() {
 		super(Interval.class);
 	}
 
+	/**
+	 * 
+	 * @param value
+	 * @param optionalExtraInfo
+	 * @return
+	 */
 	@Override
 	public Object encode(Object value, MappedField optionalExtraInfo) {
 		if (value == null)
@@ -45,6 +58,14 @@ public class IntervalConverter extends TypeConverter implements
 		return dbo;
 	}
 
+	/**
+	 * 
+	 * @param c
+	 * @param o
+	 * @param i
+	 * @return
+	 * @throws MappingException
+	 */
 	@Override
 	public Interval decode(Class c, Object o, MappedField i)
 	    throws MappingException {

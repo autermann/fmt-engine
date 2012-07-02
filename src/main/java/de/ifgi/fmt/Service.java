@@ -41,6 +41,10 @@ import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.RESTConstants.ShowStatus;
 import de.ifgi.fmt.utils.constants.RESTConstants.Sorting;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 public class Service {
 
 	private static Service service;

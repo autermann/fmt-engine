@@ -25,12 +25,19 @@ import de.ifgi.fmt.model.trigger.Trigger;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Provider
 @Produces(MediaTypes.TRIGGER)
 @Consumes(MediaTypes.TRIGGER)
 public class TriggerProvider extends AbstractJSONProvider<Trigger> {
 
-	public TriggerProvider() {
+    /**
+     * 
+     */
+    public TriggerProvider() {
 		super(Trigger.class, MediaTypes.TRIGGER_TYPE);
 	}
 

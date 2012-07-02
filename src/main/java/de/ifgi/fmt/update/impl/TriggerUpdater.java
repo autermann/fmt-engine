@@ -25,10 +25,20 @@ import de.ifgi.fmt.model.trigger.Trigger;
 import de.ifgi.fmt.update.EntityUpdater;
 import de.ifgi.fmt.update.UpdateFactory.Updates;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Updates(Trigger.class)
 public class TriggerUpdater extends EntityUpdater<Trigger> {
 
-	@Override
+    /**
+     * 
+     * @param old
+     * @param changes
+     * @return
+     */
+    @Override
 	public Trigger update(Trigger old, Trigger changes) {
 		if (old instanceof EventTrigger) {
 			if (!(changes instanceof EventTrigger)) {

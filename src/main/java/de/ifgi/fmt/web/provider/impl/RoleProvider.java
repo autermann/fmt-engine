@@ -25,12 +25,19 @@ import de.ifgi.fmt.model.Role;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Provider
 @Produces(MediaTypes.ROLE)
 @Consumes(MediaTypes.ROLE)
 public class RoleProvider extends AbstractJSONProvider<Role> {
 
-	public RoleProvider() {
+    /**
+     * 
+     */
+    public RoleProvider() {
 		super(Role.class, MediaTypes.ROLE_TYPE);
 	}
 

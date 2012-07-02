@@ -35,6 +35,10 @@ import com.sun.jersey.spi.container.ContainerResponseFilter;
 import com.sun.jersey.spi.container.ResourceFilter;
 import com.sun.jersey.spi.container.ResourceFilterFactory;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 public class RolesAllowedFilterFactory implements ResourceFilterFactory {
 
 	private @Context
@@ -72,6 +76,11 @@ public class RolesAllowedFilterFactory implements ResourceFilterFactory {
 		}
 	}
 
+	/**
+	 * 
+	 * @param am
+	 * @return
+	 */
 	@Override
 	public List<ResourceFilter> create(AbstractMethod am) {
 		if (am.isAnnotationPresent(DenyAll.class))

@@ -32,16 +32,30 @@ import de.ifgi.fmt.utils.Implementations;
 import de.ifgi.fmt.utils.Stringifier;
 import de.ifgi.fmt.utils.Utils;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @SuppressWarnings("unchecked")
 public class UpdateFactory {
 
-	@Documented
+    /**
+     * 
+     */
+    @Documented
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
 	public static @interface Updates {
-		public Class<?> value();
+	/**
+	 * 
+	 * @return
+	 */
+	public Class<?> value();
 	}
 
+	/**
+	 * 
+	 */
 	protected static final Logger log = LoggerFactory.getLogger(UpdateFactory.class);
 	
 	private static Map<Class<?>, EntityUpdater<?>> updaters = Utils.map();
@@ -64,6 +78,12 @@ public class UpdateFactory {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param <T>
+	 * @param c
+	 * @return
+	 */
 	public static <T> EntityUpdater<T> getUpdater(Class<? extends T> c) {
 		EntityUpdater<?> enc = updaters.get(c);
 		if (enc == null) {
@@ -72,6 +92,13 @@ public class UpdateFactory {
 		return (EntityUpdater<T>) enc;
 	}
 	
+	/**
+	 * 
+	 * @param <T>
+	 * @param original
+	 * @param changes
+	 * @return
+	 */
 	public static <T> T update(T original, T changes) {
 		return getUpdater((Class<T>) changes.getClass()).update(original, changes);
 	}

@@ -24,11 +24,20 @@ import javax.ws.rs.ext.Provider;
 
 import com.sun.jersey.api.ParamException.QueryParamException;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Provider
 public class QueryParamExceptionMapper implements
 		ExceptionMapper<QueryParamException> {
 
-	@Override
+    /**
+     * 
+     * @param e
+     * @return
+     */
+    @Override
 	public Response toResponse(QueryParamException e) {
 		return Response.fromResponse(e.getResponse())
 				.status(Status.BAD_REQUEST).build();

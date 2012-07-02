@@ -21,9 +21,17 @@ import java.security.Principal;
 
 import de.ifgi.fmt.model.User;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 public class FmtPrinciple implements Principal {
 	private final User u;
 
+	/**
+	 * 
+	 * @param u
+	 */
 	public FmtPrinciple(User u) {
 		if (u == null) {
 			throw new NullPointerException();
@@ -36,6 +44,10 @@ public class FmtPrinciple implements Principal {
 		return getUser().getUsername();
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public User getUser() {
 		return this.u;
 	}

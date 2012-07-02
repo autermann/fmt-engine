@@ -45,215 +45,363 @@ import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.model.trigger.Trigger;
 import de.ifgi.fmt.utils.Utils;
 
+/**
+ * This Class represents an Activity
+ * @author Autermann, Demuth, Radtke
+ */
 @Polymorphic
 @Entity(Activity.COLLECTION_NAME)
 public class Activity {
-	public static final String COLLECTION_NAME = "activities";
-	public static final String CREATION_TIME = "creationTime";
-	public static final String DESCRIPTION = "description";
-	public static final String FLASHMOB = "flashmob";
-	public static final String LAST_CHANGED = "lastChanged";
-	public static final String SIGNAL = "signal";
-	public static final String TASKS = "savedTasks";
-	public static final String TITLE = "title";
-	public static final String TRIGGER = "trigger";
 
-	@NotNull
-	@Past
-	@Indexed
-	@Property(Activity.CREATION_TIME)
-	private DateTime creationTime = new DateTime();
+    /**
+     * Definiton
+     */
+    public static final String COLLECTION_NAME = "activities";
+    /**
+     * Definition
+     */
+    public static final String CREATION_TIME = "creationTime";
+    /**
+     * Definition
+     */
+    public static final String DESCRIPTION = "description";
+    /**
+     * Definition
+     */
+    public static final String FLASHMOB = "flashmob";
+    /**
+     * Definition
+     */
+    public static final String LAST_CHANGED = "lastChanged";
+    /**
+     * Definition
+     */
+    public static final String SIGNAL = "signal";
+    /**
+     * Definition
+     */
+    public static final String TASKS = "savedTasks";
+    /**
+     * Definition
+     */
+    public static final String TITLE = "title";
+    /**
+     * Definition
+     */
+    public static final String TRIGGER = "trigger";
+    @NotNull
+    @Past
+    @Indexed
+    @Property(Activity.CREATION_TIME)
+    private DateTime creationTime = new DateTime();
+    @NotBlank
+    @SafeHtml
+    @Property(Activity.DESCRIPTION)
+    private String description;
+    @Indexed
+    @NotNull
+    @Reference(value = Activity.FLASHMOB, lazy = true)
+    private Flashmob flashmob;
+    @NotNull
+    @Id
+    private ObjectId id = new ObjectId();
+    @NotNull
+    @Indexed
+    @Property(Activity.LAST_CHANGED)
+    private DateTime lastChangedTime = new DateTime();
+    @Embedded
+    private List<TaskForRole> savedTasks = Utils.list();
+    @Reference(value = Activity.SIGNAL, lazy = true)
+    private Signal signal;
+    @Transient
+    private Map<Role, Task> tasks = Utils.map();
+    @NotBlank
+    @SafeHtml
+    @Property(Activity.TITLE)
+    private String title;
+    @Reference(value = Activity.TRIGGER, lazy = true)
+    private Trigger trigger;
 
-	@NotBlank
-	@SafeHtml
-	@Property(Activity.DESCRIPTION)
-	private String description;
+    /**
+     * Add a ROLE to this ACTIVITY
+     * @param role a role
+     * @return this activity
+     */
+    public Activity addRole(Role role) {
+	this.tasks.put(role.addActivity(this), null);
+	return this;
+    }
 
-	@Indexed
-	@NotNull
-	@Reference(value = Activity.FLASHMOB, lazy = true)
-	private Flashmob flashmob;
+    /**
+     * Add a TASK to a ROLE of this ACTIVITY
+     * @param role a role
+     * @param task a task
+     * @return this activity
+     */
+    public Activity addTask(Role role, Task task) {
+	this.tasks.put(role.addActivity(this),
+		task.setActivity(this).setRole(role));
+	return this;
+    }
 
-	@NotNull
-	@Id
-	private ObjectId id = new ObjectId();
+    /**
+     * Set the laszChangedTime of this ACTIVITY
+     */
+    @PrePersist
+    public void changed() {
+	setLastChangedTime(new DateTime());
+    }
 
-	@NotNull
-	@Indexed
-	@Property(Activity.LAST_CHANGED)
-	private DateTime lastChangedTime = new DateTime();
-
-	@Embedded
-	private List<TaskForRole> savedTasks = Utils.list();
-
-	@Reference(value = Activity.SIGNAL, lazy = true)
-	private Signal signal;
-
-	@Transient
-	private Map<Role, Task> tasks = Utils.map();
-
-	@NotBlank
-	@SafeHtml
-	@Property(Activity.TITLE)
-	private String title;
-
-	@Reference(value = Activity.TRIGGER, lazy = true)
-	private Trigger trigger;
-
-	public Activity addRole(Role role) {
-		this.tasks.put(role.addActivity(this), null);
-		return this;
+    @Override
+    public boolean equals(Object o) {
+	if (o instanceof Activity) {
+	    return getId().equals(((Activity) o).getId());
 	}
+	return false;
+    }
 
-	public Activity addTask(Role role, Task task) {
-		this.tasks.put(role.addActivity(this),
-				task.setActivity(this).setRole(role));
-		return this;
-	}
+    /**
+     * Return the creationtime of this activity
+     * @return cration time
+     */
+    public DateTime getCreationTime() {
+	return creationTime;
+    }
 
-	@PrePersist
-	public void changed() {
-		setLastChangedTime(new DateTime());
-	}
+    /**
+     * Return the description of this activity
+     * @return descriotion
+     */
+    public String getDescription() {
+	return description;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (o instanceof Activity) {
-			return getId().equals(((Activity) o).getId());
-		}
-		return false;
-	}
+    /**
+     * Return the Flashmob which is associated to this activity
+     * @return flashmob
+     */
+    public Flashmob getFlashmob() {
+	return flashmob;
+    }
 
-	public DateTime getCreationTime() {
-		return creationTime;
-	}
+    /**
+     * Return the ObjectID of this activity
+     * @return id
+     */
+    public ObjectId getId() {
+	return id;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    /**
+     * Retrun the the latest time when this activity was changed
+     * @return lastchangedtime
+     */
+    public DateTime getLastChangedTime() {
+	return lastChangedTime;
+    }
 
-	public Flashmob getFlashmob() {
-		return flashmob;
-	}
+    /**
+     * Return a list of roles associated to this activity
+     * @return List of Roles
+     */
+    public List<Role> getRoles() {
+	return Utils.asList(this.tasks.keySet());
+    }
 
-	public ObjectId getId() {
-		return id;
-	}
+    /**
+     * Return a Signal which is associated to this activity
+     * @return signal
+     */
+    public Signal getSignal() {
+	return signal;
+    }
 
-	public DateTime getLastChangedTime() {
-		return lastChangedTime;
-	}
+    /**
+     * Return a Task associated to a ROLE of this activity
+     * @param r a role
+     * @return a task
+     */
+    public Task getTask(Role r) {
+	return getTasks().get(r);
+    }
 
-	public List<Role> getRoles() {
-		return Utils.asList(this.tasks.keySet());
-	}
+    /**
+     * Key-Value map of Role, Task which returns a task
+     * @return task
+     */
+    public Map<Role, Task> getTasks() {
+	return tasks;
+    }
 
-	public Signal getSignal() {
-		return signal;
-	}
+    /**
+     * Retunr the title of this activity
+     * @return title
+     */
+    public String getTitle() {
+	return title;
+    }
 
-	public Task getTask(Role r) {
-		return getTasks().get(r);
-	}
+    /**
+     * Return the trigger of this activity
+     * @return trigger
+     */
+    public Trigger getTrigger() {
+	return trigger;
+    }
 
-	public Map<Role, Task> getTasks() {
-		return tasks;
+    @Override
+    public int hashCode() {
+	return getId().hashCode();
+    }
+    
+    //TODO Javadoc
+    /**
+     * Iterate all tasks to .... ?
+     */
+    @PostLoad
+    public void postLoad() {
+	for (TaskForRole p : savedTasks) {
+	    tasks.put(p.getRole(), p.getTask());
 	}
+    }
 
-	public String getTitle() {
-		return title;
+    //TODO Javadoc
+    /**
+     * Iterate all Role,Task mapping in the entryset of tasks to .... ?
+     */
+    @PrePersist
+    public void prePersist() {
+	for (Entry<Role, Task> e : tasks.entrySet()) {
+	    savedTasks.add(new TaskForRole(e.getKey(), e.getValue()));
 	}
+    }
 
-	public Trigger getTrigger() {
-		return trigger;
-	}
+    /**
+     * Remove a ROLE from this ACTIVITY
+     * @param r a role
+     * @return this activity
+     */
+    public Activity removeRole(Role r) {
+	this.tasks.remove(r.removeActivity(this));
+	return this;
+    }
 
-	@Override
-	public int hashCode() {
-		return getId().hashCode();
+    /**
+     * Remove a TASK from a ROLE of this activity
+     * @param role the role whose task shall be removed
+     * @return this activity
+     */
+    public Activity removeTask(Role role) {
+	Task t = this.tasks.put(role, null);
+	if (t != null) {
+	    t.setActivity(null);
 	}
+	return this;
+    }
 
-	@PostLoad
-	public void postLoad() {
-		for (TaskForRole p : savedTasks) {
-			tasks.put(p.getRole(), p.getTask());
-		}
+    /**
+     * Remove a TASK from this ACTIVITY
+     * @param t a task
+     * @return this activity
+     */
+    public Activity removeTask(Task t) {
+	if (!t.getActivity().equals(this)) {
+	    throw new IllegalArgumentException(
+		    "Task is not part of this activity.");
 	}
+	return removeTask(t.getRole());
+    }
 
-	@PrePersist
-	public void prePersist() {
-		for (Entry<Role, Task> e : tasks.entrySet()) {
-			savedTasks.add(new TaskForRole(e.getKey(), e.getValue()));
-		}
-	}
+    /**
+     * Set the crationtime of this activity
+     * @param creationTime a datetime
+     * @return this activity
+     */
+    public Activity setCreationTime(DateTime creationTime) {
+	this.creationTime = creationTime;
+	return this;
+    }
 
-	public Activity removeRole(Role r) {
-		this.tasks.remove(r.removeActivity(this));
-		return this;
-	}
+    /**
+     * Set the description of this activity
+     * @param description a description
+     * @return this activity
+     */
+    public Activity setDescription(String description) {
+	this.description = description;
+	return this;
+    }
 
-	public Activity removeTask(Role role) {
-		Task t = this.tasks.put(role, null);
-		if (t != null) {
-			t.setActivity(null);
-		}
-		return this;
-	}
+    /**
+     * Associate this Activity with a Flashmob
+     * @param flashmob a Flashmob
+     * @return this Activity
+     */
+    public Activity setFlashmob(Flashmob flashmob) {
+	this.flashmob = flashmob;
+	return this;
+    }
 
-	public Activity removeTask(Task t) {
-		if (!t.getActivity().equals(this)) {
-			throw new IllegalArgumentException(
-					"Task is not part of this activity.");
-		}
-		return removeTask(t.getRole());
-	}
+    /**
+     * Set the ID of this activity
+     * @param id an ObjectID
+     * @return this activity
+     */
+    public Activity setId(ObjectId id) {
+	this.id = id;
+	return this;
+    }
 
-	public Activity setCreationTime(DateTime creationTime) {
-		this.creationTime = creationTime;
-		return this;
-	}
+    /**
+     * Set the time when this Activity was changed last
+     * @param lastChangedTime datetime
+     * @return this activity
+     */
+    public Activity setLastChangedTime(DateTime lastChangedTime) {
+	this.lastChangedTime = lastChangedTime;
+	return this;
+    }
 
-	public Activity setDescription(String description) {
-		this.description = description;
-		return this;
-	}
+    /**
+     * Set the signal of this activity
+     * @param signal a signal
+     * @return this activity
+     */
+    public Activity setSignal(Signal signal) {
+	this.signal = signal;
+	return this;
+    }
 
-	public Activity setFlashmob(Flashmob flashmob) {
-		this.flashmob = flashmob;
-		return this;
-	}
+    /**
+     * Assosicate tasks with this activity
+     * @param tasks a Role,Tasks Mapping
+     */
+    public void setTasks(Map<Role, Task> tasks) {
+	this.tasks = tasks;
+    }
 
-	public Activity setId(ObjectId id) {
-		this.id = id;
-		return this;
-	}
+    /**
+     * Set the title of this activity
+     * @param title a string
+     * @return this acitivity
+     */
+    public Activity setTitle(String title) {
+	this.title = title;
+	return this;
+    }
 
-	public Activity setLastChangedTime(DateTime lastChangedTime) {
-		this.lastChangedTime = lastChangedTime;
-		return this;
-	}
+    /**
+     * Set the trigger of this activity
+     * @param trigger a trigger
+     * @return this activity
+     */
+    public Activity setTrigger(Trigger trigger) {
+	this.trigger = trigger;
+	return this;
+    }
 
-	public Activity setSignal(Signal signal) {
-		this.signal = signal;
-		return this;
-	}
-
-	public void setTasks(Map<Role, Task> tasks) {
-		this.tasks = tasks;
-	}
-
-	public Activity setTitle(String title) {
-		this.title = title;
-		return this;
-	}
-
-	public Activity setTrigger(Trigger trigger) {
-		this.trigger = trigger;
-		return this;
-	}
-
-	@Override
-	public String toString() {
-		return getId().toString();
-	}
+    @Override
+    public String toString() {
+	return getId().toString();
+    }
 }

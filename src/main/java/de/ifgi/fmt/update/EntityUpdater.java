@@ -17,6 +17,17 @@
  */
 package de.ifgi.fmt.update;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ * @param <T>
+ */
 public abstract class EntityUpdater<T> {
-	public abstract T update(T old, T changes);
+    /**
+     * 
+     * @param old
+     * @param changes
+     * @return
+     */
+    public abstract T update(T old, T changes);
 }

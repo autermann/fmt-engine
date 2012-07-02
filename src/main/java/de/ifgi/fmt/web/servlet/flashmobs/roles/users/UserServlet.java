@@ -28,10 +28,20 @@ import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Path(Paths.USER_OF_ROLE_OF_FLASHMOB)
 public class UserServlet extends AbstractServlet {
 
-	@DELETE
+    /**
+     * 
+     * @param flashmob
+     * @param role
+     * @param user
+     */
+    @DELETE
 	@RolesAllowed({ Roles.ADMIN, Roles.USER })
 	public void unregisterUser(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,

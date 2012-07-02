@@ -34,16 +34,31 @@ import de.ifgi.fmt.model.Comment;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Path(Paths.COMMENTS_FOR_FLASHMOB)
 public class CommentsServlet extends AbstractServlet {
 
-	@GET
+    /**
+     * 
+     * @param flashmob
+     * @return
+     */
+    @GET
 	@Produces(MediaTypes.COMMENT_LIST)
 	public List<Comment> getComments(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
 		return getService().getCommentsForFlashmob(flashmob);
 	}
 	
+	/**
+	 * 
+	 * @param flashmob
+	 * @param comment
+	 * @return
+	 */
 	@POST
 	@Consumes(MediaTypes.COMMENT)
 	@Produces(MediaTypes.COMMENT)

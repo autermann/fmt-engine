@@ -25,11 +25,18 @@ import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONListProvider;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Provider
 @Produces(MediaTypes.ROLE_LIST)
 public class RoleListProvider extends AbstractJSONListProvider<Role> {
 
-	public RoleListProvider() {
+    /**
+     * 
+     */
+    public RoleListProvider() {
 		super(Role.class, JSONConstants.ROLES_KEY, MediaTypes.ROLE_LIST_TYPE);
 	}
 

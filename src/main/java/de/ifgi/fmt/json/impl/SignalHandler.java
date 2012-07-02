@@ -37,11 +37,21 @@ import de.ifgi.fmt.model.signal.TextSignal;
 import de.ifgi.fmt.model.signal.VibrationSignal;
 import de.ifgi.fmt.utils.constants.RESTConstants;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Encodes(Signal.class)
 @Decodes(Signal.class)
 public class SignalHandler extends JSONHandler<Signal> {
 
-	@Override
+    /**
+     * 
+     * @param j
+     * @return
+     * @throws JSONException
+     */
+    @Override
 	public Signal decode(JSONObject j) throws JSONException {
 		String type = j.getString(TYPE_KEY);
 		
@@ -61,7 +71,14 @@ public class SignalHandler extends JSONHandler<Signal> {
 		return s.decode(j);
 	}
 
-	@Override
+    /**
+     * 
+     * @param t
+     * @param uri
+     * @return
+     * @throws JSONException
+     */
+    @Override
 	public JSONObject encode(Signal t, UriInfo uri) throws JSONException {
 		JSONObject j = new JSONObject()
 			.put(ID_KEY, t.getId())
@@ -70,7 +87,14 @@ public class SignalHandler extends JSONHandler<Signal> {
 		return j;
 	}
 
-	@Override
+    /**
+     * 
+     * @param t
+     * @param uriInfo
+     * @return
+     * @throws JSONException
+     */
+    @Override
 	public JSONObject encodeAsRef(Signal t, UriInfo uriInfo) throws JSONException {
 		return new JSONObject()
 			.put(ID_KEY, t.getId())

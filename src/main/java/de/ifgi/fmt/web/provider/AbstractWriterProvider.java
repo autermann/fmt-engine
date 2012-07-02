@@ -35,17 +35,36 @@ import org.slf4j.LoggerFactory;
 
 import de.ifgi.fmt.utils.Utils;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ * @param <T>
+ */
 public abstract class AbstractWriterProvider<T> implements MessageBodyWriter<T> {
-	protected static final Logger log = LoggerFactory.getLogger(AbstractWriterProvider.class);
+    /**
+     * 
+     */
+    protected static final Logger log = LoggerFactory.getLogger(AbstractWriterProvider.class);
 	private Class<?> collectionClass;
 	private Class<?> itemClass;
 	private Set<MediaType> mimes;
 	private UriInfo uriInfo;
 
+	/**
+	 * 
+	 * @param clazz
+	 * @param type
+	 */
 	public AbstractWriterProvider(Class<?> clazz, MediaType... type) {
 		this(clazz, false, type);
 	}
 
+	/**
+	 * 
+	 * @param itemClass
+	 * @param collection
+	 * @param type
+	 */
 	public AbstractWriterProvider(Class<?> itemClass, boolean collection, 
 			MediaType... type) {
 		this.itemClass = itemClass;
@@ -55,15 +74,31 @@ public abstract class AbstractWriterProvider<T> implements MessageBodyWriter<T> 
 		this.mimes = Utils.set(type);
 	}
 
+	/**
+	 * 
+	 * @param uriInfo
+	 */
 	@Context
 	public void setUriInfo(UriInfo uriInfo) {
 		this.uriInfo = uriInfo;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	protected UriInfo getUriInfo() {
 		return this.uriInfo;
 	}
 
+	/**
+	 * 
+	 * @param t
+	 * @param gt
+	 * @param a
+	 * @param mt
+	 * @return
+	 */
 	@Override
 	public boolean isWriteable(Class<?> t, Type gt, Annotation[] a, MediaType mt) {
 		if (collectionClass != null) {
@@ -81,11 +116,32 @@ public abstract class AbstractWriterProvider<T> implements MessageBodyWriter<T> 
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param o
+	 * @param t
+	 * @param gt
+	 * @param a
+	 * @param mt
+	 * @return
+	 */
 	@Override
 	public long getSize(T o, Class<?> t, Type gt, Annotation[] a, MediaType mt) {
 		return -1;
 	}
 
+	/**
+	 * 
+	 * @param o
+	 * @param t
+	 * @param gt
+	 * @param a
+	 * @param mt
+	 * @param h
+	 * @param os
+	 * @throws IOException
+	 * @throws WebApplicationException
+	 */
 	@Override
 	public abstract void writeTo(T o, Class<?> t, Type gt, Annotation[] a,
 			MediaType mt, MultivaluedMap<String, Object> h, OutputStream os)

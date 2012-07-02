@@ -22,14 +22,39 @@ import java.net.URI;
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Polymorphic
 public class LinkTask extends Task {
 
-	public enum Type {
-		AUDIO, VIDEO, YOUTUBE;
+    /**
+     * 
+     */
+    public enum Type {
+
+	/**
+	 * 
+	 */
+	AUDIO,
+	/**
+	 * 
+	 */
+	VIDEO,
+	/**
+	 * 
+	 */
+	YOUTUBE;
 	}
 
+	/**
+	 * 
+	 */
 	public static final String LINK = "link";
+	/**
+	 * 
+	 */
 	public static final String TYPE = "type";
 
 	@Property(LinkTask.LINK)
@@ -38,18 +63,34 @@ public class LinkTask extends Task {
 	@Property(LinkTask.TYPE)
 	private Type type;
 
+	/**
+	 * 
+	 * @return
+	 */
 	public URI getLink() {
 		return link;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Type getType() {
 		return type;
 	}
 
+	/**
+	 * 
+	 * @param link
+	 */
 	public void setLink(URI link) {
 		this.link = link;
 	}
 
+	/**
+	 * 
+	 * @param type
+	 */
 	public void setType(Type type) {
 		this.type = type;
 	}

@@ -21,10 +21,20 @@ import de.ifgi.fmt.model.Comment;
 import de.ifgi.fmt.update.EntityUpdater;
 import de.ifgi.fmt.update.UpdateFactory.Updates;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Updates(Comment.class)
 public class CommentUpdater extends EntityUpdater<Comment> {
 
-	@Override
+    /**
+     * 
+     * @param old
+     * @param changes
+     * @return
+     */
+    @Override
 	public Comment update(Comment old, Comment changes) {
 		if (changes.getText() != null) {
 			old.setText(changes.getText());

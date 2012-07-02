@@ -21,10 +21,20 @@ import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.update.EntityUpdater;
 import de.ifgi.fmt.update.UpdateFactory.Updates;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Updates(Activity.class)
 public class ActivityUpdater extends EntityUpdater<Activity> {
 
-	@Override
+    /**
+     * 
+     * @param old
+     * @param changes
+     * @return
+     */
+    @Override
 	public Activity update(Activity old, Activity changes) {
 		if (changes.getDescription() != null) {
 			old.setDescription(changes.getDescription());

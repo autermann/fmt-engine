@@ -41,10 +41,19 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.filter.auth.Authentication;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Path(Paths.USER)
 public class UserServlet extends AbstractServlet {
 
-	@GET
+    /**
+     * 
+     * @param user
+     * @return
+     */
+    @GET
 	@PermitAll
 	@Produces(MediaTypes.USER)
 	public User getUser(@PathParam(PathParams.USER) String user) {
@@ -55,7 +64,13 @@ public class UserServlet extends AbstractServlet {
 		return u;
 	}
 
-	@PUT
+    /**
+     * 
+     * @param userName
+     * @param changes
+     * @return
+     */
+    @PUT
 	@RolesAllowed({Roles.USER, Roles.ADMIN})
 	@Produces(MediaTypes.USER)
 	@Consumes(MediaTypes.USER)
@@ -68,7 +83,12 @@ public class UserServlet extends AbstractServlet {
 		return getService().updateUser(changes, userName);
 	}
 
-	@DELETE
+    /**
+     * 
+     * @param user
+     * @param sr
+     */
+    @DELETE
 	@RolesAllowed({Roles.USER, Roles.ADMIN})
 	public void deleteUser(@PathParam(PathParams.USER) String user, @Context HttpServletRequest sr) {
 		

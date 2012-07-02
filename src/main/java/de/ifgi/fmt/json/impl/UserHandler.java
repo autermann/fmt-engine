@@ -33,11 +33,21 @@ import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Encodes(User.class)
 @Decodes(User.class)
 public class UserHandler extends JSONHandler<User> {
 
-	@Override
+    /**
+     * 
+     * @param j
+     * @return
+     * @throws JSONException
+     */
+    @Override
 	public User decode(JSONObject j) throws JSONException {
 		User u = new User()
 				.setEmail(j.optString(EMAIL_KEY, null))
@@ -46,6 +56,13 @@ public class UserHandler extends JSONHandler<User> {
 		return u;
 	}
 
+	/**
+	 * 
+	 * @param t
+	 * @param uri
+	 * @return
+	 * @throws JSONException
+	 */
 	@Override
 	public JSONObject encode(User t, UriInfo uri) throws JSONException {
 		JSONObject j = new JSONObject()
@@ -55,6 +72,13 @@ public class UserHandler extends JSONHandler<User> {
 
 	}
 
+	/**
+	 * 
+	 * @param t
+	 * @param uriInfo
+	 * @return
+	 * @throws JSONException
+	 */
 	@Override
 	public JSONObject encodeAsRef(User t, UriInfo uriInfo) throws JSONException {
 		return new JSONObject()

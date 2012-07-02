@@ -28,28 +28,76 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ * @param <T>
+ */
 public abstract class AbstractReaderWriterProvider<T> extends
 		AbstractWriterProvider<T> implements MessageBodyReader<T> {
 
-	public AbstractReaderWriterProvider(Class<?> collectionClass,
+    /**
+     * 
+     * @param collectionClass
+     * @param itemClass
+     * @param type
+     */
+    public AbstractReaderWriterProvider(Class<?> collectionClass,
 			Class<?> itemClass, MediaType... type) {
 		super(collectionClass, true, type);
 	}
 	
-	public AbstractReaderWriterProvider(Class<?> clazz, MediaType... type) {
+    /**
+     * 
+     * @param clazz
+     * @param type
+     */
+    public AbstractReaderWriterProvider(Class<?> clazz, MediaType... type) {
 		super(clazz, false, type);
 	}
 
+	/**
+	 * 
+	 * @param t
+	 * @param gt
+	 * @param a
+	 * @param mt
+	 * @return
+	 */
 	@Override
 	public boolean isReadable(Class<?> t, Type gt, Annotation[] a, MediaType mt) {
 		
 		return isWriteable(t, gt, a, mt);
 	}
 
+	/**
+	 * 
+	 * @param t
+	 * @param gt
+	 * @param a
+	 * @param mt
+	 * @param h
+	 * @param is
+	 * @return
+	 * @throws IOException
+	 * @throws WebApplicationException
+	 */
 	public abstract T readFrom(Class<T> t, Type gt, Annotation[] a,
 			MediaType mt, MultivaluedMap<String, String> h, InputStream is)
 			throws IOException, WebApplicationException;
 
+	/**
+	 * 
+	 * @param o
+	 * @param t
+	 * @param gt
+	 * @param a
+	 * @param mt
+	 * @param h
+	 * @param os
+	 * @throws IOException
+	 * @throws WebApplicationException
+	 */
 	@Override
 	public abstract void writeTo(T o, Class<?> t, Type gt, Annotation[] a,
 			MediaType mt, MultivaluedMap<String, Object> h, OutputStream os)

@@ -25,12 +25,19 @@ import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Provider
 @Produces(MediaTypes.FLASHMOB)
 @Consumes(MediaTypes.FLASHMOB)
 public class FlashmobProvider extends AbstractJSONProvider<Flashmob> {
 
-	public FlashmobProvider() {
+    /**
+     * 
+     */
+    public FlashmobProvider() {
 		super(Flashmob.class, MediaTypes.FLASHMOB_TYPE);
 	}
 

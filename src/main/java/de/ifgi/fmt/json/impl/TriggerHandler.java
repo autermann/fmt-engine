@@ -45,11 +45,21 @@ import de.ifgi.fmt.model.trigger.Trigger;
 import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Encodes(Trigger.class)
 @Decodes(Trigger.class)
 public class TriggerHandler extends JSONHandler<Trigger> {
 
-	@Override
+    /**
+     * 
+     * @param j
+     * @return
+     * @throws JSONException
+     */
+    @Override
 	public Trigger decode(JSONObject j) throws JSONException {
 		Trigger t = null;
 		String time = j.optString(TIME_KEY, null);
@@ -95,6 +105,13 @@ public class TriggerHandler extends JSONHandler<Trigger> {
 		return t;
 	}
 
+	/**
+	 * 
+	 * @param t
+	 * @param uri
+	 * @return
+	 * @throws JSONException
+	 */
 	@Override
 	public JSONObject encode(Trigger t, UriInfo uri) throws JSONException {
 		JSONObject j = new JSONObject().put(ID_KEY, t.getId());
@@ -121,6 +138,13 @@ public class TriggerHandler extends JSONHandler<Trigger> {
 		return j;
 	}
 
+	/**
+	 * 
+	 * @param t
+	 * @param uriInfo
+	 * @return
+	 * @throws JSONException
+	 */
 	@Override
 	public JSONObject encodeAsRef(Trigger t, UriInfo uriInfo)
 			throws JSONException {

@@ -32,10 +32,20 @@ import de.ifgi.fmt.model.signal.Signal;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Path(Paths.SIGNAL_OF_ACTIVITY)
 public class SignalServlet extends AbstractServlet {
 
-	@GET
+    /**
+     * 
+     * @param flashmob
+     * @param activity
+     * @return
+     */
+    @GET
 	@Produces(MediaTypes.SIGNAL)
 	public Signal getSignals(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
@@ -43,6 +53,13 @@ public class SignalServlet extends AbstractServlet {
 		return getService().getSignal(flashmob, activity);
 	}
 
+	/**
+	 * 
+	 * @param flashmob
+	 * @param activity
+	 * @param s
+	 * @return
+	 */
 	@POST
 	@Produces(MediaTypes.SIGNAL)
 	@Consumes(MediaTypes.SIGNAL)
@@ -53,6 +70,13 @@ public class SignalServlet extends AbstractServlet {
 		return Response.created(getUriInfo().getRequestUri()).entity(saved).build();
 	}
 
+	/**
+	 * 
+	 * @param flashmob
+	 * @param activity
+	 * @param s
+	 * @return
+	 */
 	@PUT
 	@Produces(MediaTypes.SIGNAL)
 	@Consumes(MediaTypes.SIGNAL)

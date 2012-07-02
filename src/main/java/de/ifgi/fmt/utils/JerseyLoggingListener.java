@@ -26,9 +26,17 @@ import javax.servlet.ServletContextListener;
 
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 public class JerseyLoggingListener implements ServletContextListener {
 
-	@Override
+    /**
+     * 
+     * @param sce
+     */
+    @Override
 	public void contextInitialized(ServletContextEvent sce) {
 		Logger rootLogger = LogManager.getLogManager().getLogger("");
 		Handler[] handlers = rootLogger.getHandlers();
@@ -38,6 +46,10 @@ public class JerseyLoggingListener implements ServletContextListener {
 		SLF4JBridgeHandler.install();
 	}
 
+	/**
+	 * 
+	 * @param sce
+	 */
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {}
 

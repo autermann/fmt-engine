@@ -28,16 +28,29 @@ import com.google.code.morphia.mapping.MappedField;
 import com.google.code.morphia.mapping.MappingException;
 import com.mongodb.util.JSON;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @SuppressWarnings("rawtypes")
 public class JSONConverter extends TypeConverter implements
     SimpleValueConverter {
 	private static final Logger log = LoggerFactory.getLogger(JSONObject.class);
 
+	/**
+	 * 
+	 */
 	public JSONConverter() {
 		super(JSONObject.class);
 		log.info("Creating JSONConverter");
 	}
 
+	/**
+	 * 
+	 * @param value
+	 * @param optionalExtraInfo
+	 * @return
+	 */
 	@Override
 	public Object encode(Object value, MappedField optionalExtraInfo) {
 		if (value == null)
@@ -47,6 +60,14 @@ public class JSONConverter extends TypeConverter implements
 		return JSON.parse(s);
 	}
 
+	/**
+	 * 
+	 * @param c
+	 * @param o
+	 * @param i
+	 * @return
+	 * @throws MappingException
+	 */
 	@Override
 	public Object decode(Class c, Object o, MappedField i)
 	    throws MappingException {

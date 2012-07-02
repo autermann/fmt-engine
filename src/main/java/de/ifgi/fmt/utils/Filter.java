@@ -17,6 +17,16 @@
  */
 package de.ifgi.fmt.utils;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ * @param <T>
+ */
 public interface Filter<T> {
-	public boolean test(T t);
+    /**
+     * 
+     * @param t
+     * @return
+     */
+    public boolean test(T t);
 }

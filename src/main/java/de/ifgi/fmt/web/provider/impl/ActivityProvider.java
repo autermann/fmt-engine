@@ -25,12 +25,19 @@ import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Provider
 @Produces(MediaTypes.ACTIVITY)
 @Consumes(MediaTypes.ACTIVITY)
 public class ActivityProvider extends AbstractJSONProvider<Activity> {
 
-	public ActivityProvider() {
+    /**
+     * 
+     */
+    public ActivityProvider() {
 		super(Activity.class, MediaTypes.ACTIVITY_TYPE);
 	}
 

@@ -45,11 +45,21 @@ import de.ifgi.fmt.model.signal.Signal;
 import de.ifgi.fmt.model.trigger.Trigger;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Decodes(Activity.class)
 @Encodes(Activity.class)
 public class ActivityHandler extends JSONHandler<Activity> {
 
-	@Override
+    /**
+     * 
+     * @param j
+     * @return
+     * @throws JSONException
+     */
+    @Override
 	public Activity decode(JSONObject j) throws JSONException {
 		Activity a = new Activity();
 		String id = j.optString(ID_KEY, null);
@@ -63,6 +73,13 @@ public class ActivityHandler extends JSONHandler<Activity> {
 		return a;
 	}
 
+	/**
+	 * 
+	 * @param t
+	 * @param uri
+	 * @return
+	 * @throws JSONException
+	 */
 	@Override
 	public JSONObject encode(Activity t, UriInfo uri) throws JSONException {
 		JSONObject j = new JSONObject().put(ID_KEY, t.getId());
@@ -95,6 +112,13 @@ public class ActivityHandler extends JSONHandler<Activity> {
 		return j;
 	}
 
+	/**
+	 * 
+	 * @param t
+	 * @param uri
+	 * @return
+	 * @throws JSONException
+	 */
 	@Override
 	public JSONObject encodeAsRef(Activity t, UriInfo uri) throws JSONException {
 		return new JSONObject()

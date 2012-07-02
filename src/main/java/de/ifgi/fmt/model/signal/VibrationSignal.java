@@ -21,13 +21,27 @@ import org.codehaus.jettison.json.JSONObject;
 
 import com.google.code.morphia.annotations.Polymorphic;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Polymorphic
 public class VibrationSignal extends Signal {
-	@Override
+    /**
+     * 
+     * @param j
+     * @return
+     */
+    @Override
 	public Signal decode(JSONObject j) {
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param j
+	 * @return
+	 */
 	@Override
 	public Signal encode(JSONObject j) {
 		return this;

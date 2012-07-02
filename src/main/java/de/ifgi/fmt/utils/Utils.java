@@ -36,6 +36,10 @@ import org.apache.commons.io.IOUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @SuppressWarnings("serial")
 public class Utils {
 	private static final boolean FORMAT_JSON = true;
@@ -49,10 +53,21 @@ public class Utils {
 		}
 	};
 
+	/**
+	 * 
+	 * @param <T>
+	 * @return
+	 */
 	public static <T> Set<T> set() {
 		return new HashSet<T>();
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param t
+	 * @return
+	 */
 	public static <T> Set<T> set(final T t) {
 		return new HashSet<T>(1) {
 			{
@@ -61,6 +76,12 @@ public class Utils {
 		};
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param ts
+	 * @return
+	 */
 	public static <T> Set<T> set(final T... ts) {
 		return new HashSet<T>(ts.length) {
 			{
@@ -70,10 +91,24 @@ public class Utils {
 		};
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param <V>
+	 * @return
+	 */
 	public static <T, V> Map<T, V> map() {
 		return new HashMap<T, V>();
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param <V>
+	 * @param t
+	 * @param v
+	 * @return
+	 */
 	public static <T, V> Map<T, V> map(final T t, final V v) {
 		return new HashMap<T, V>() {
 			{
@@ -82,6 +117,14 @@ public class Utils {
 		};
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param <V>
+	 * @param t
+	 * @param v
+	 * @return
+	 */
 	public static <T, V> Map<T, V> map(final T[] t, final V[] v) {
 		return new HashMap<T, V>() {
 			{
@@ -93,10 +136,21 @@ public class Utils {
 		};
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @return
+	 */
 	public static <T> List<T> list() {
 		return new LinkedList<T>();
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param t
+	 * @return
+	 */
 	public static <T> List<T> list(final T t) {
 		return new ArrayList<T>(1) {
 			{
@@ -105,6 +159,12 @@ public class Utils {
 		};
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param ts
+	 * @return
+	 */
 	public static <T> List<T> list(final T... ts) {
 		return new ArrayList<T>(ts.length) {
 			{
@@ -114,10 +174,21 @@ public class Utils {
 		};
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param ts
+	 * @return
+	 */
 	public static <T> Collection<T> collection(final T... ts) {
 		return list(ts);
 	}
 
+	/**
+	 * 
+	 * @param j
+	 * @return
+	 */
 	public static String toString(JSONObject j) {
 		try {
 			return FORMAT_JSON ? j.toString(4) : j.toString();
@@ -126,21 +197,51 @@ public class Utils {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param <T>
+	 * @param s
+	 * @param filter
+	 * @return
+	 */
 	public static <T> List<T> filter(List<? extends T> s,
 			Filter<? super T> filter) {
 		return filter(s, filter, Utils.<T> list());
 	}
 	
+	/**
+	 * 
+	 * @param <T>
+	 * @param s
+	 * @param filter
+	 * @return
+	 */
 	public static <T> Set<T> filter(Set<? extends T> s,
 			Filter<? super T> filter) {
 		return filter(s, filter, Utils.<T> set());
 	}
 	
+	/**
+	 * 
+	 * @param <T>
+	 * @param s
+	 * @param filter
+	 * @return
+	 */
 	public static <T> Collection<T> filter(Collection<? extends T> s,
 			Filter<? super T> filter) {
 		return filter(s, filter, Utils.<T> list());
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param <V>
+	 * @param source
+	 * @param filter
+	 * @param target
+	 * @return
+	 */
 	public static <T, V extends Collection<T>> V filter(
 			Iterable<? extends T> source, Filter<? super T> filter, V target) {
 		for (T t : source)
@@ -149,10 +250,23 @@ public class Utils {
 		return target;
 	}
 
+	/**
+	 * 
+	 * @param sep
+	 * @param col
+	 * @return
+	 */
 	public static String join(String sep, Object... col) {
 		return join(null, sep, col);
 	}
 
+	/**
+	 * 
+	 * @param s
+	 * @param sep
+	 * @param col
+	 * @return
+	 */
 	public static String join(Stringifier s, String sep, Object... col) {
 		if (col == null || col.length == 0)
 			return "";
@@ -166,10 +280,23 @@ public class Utils {
 		return sb.toString();
 	}
 
+	/**
+	 * 
+	 * @param sep
+	 * @param col
+	 * @return
+	 */
 	public static String join(String sep, Iterable<? extends Object> col) {
 		return join(null, sep, col);
 	}
 
+	/**
+	 * 
+	 * @param s
+	 * @param sep
+	 * @param col
+	 * @return
+	 */
 	public static String join(Stringifier s, String sep,
 			Iterable<? extends Object> col) {
 		Iterator<? extends Object> i;
@@ -183,6 +310,13 @@ public class Utils {
 		return sb.toString();
 	}
 
+	/**
+	 * 
+	 * @param t
+	 * @param collClass
+	 * @param itemClass
+	 * @return
+	 */
 	public static boolean isParameterizedWith(Type t, Class<?> collClass,
 			Class<?> itemClass) {
 		if (t instanceof ParameterizedType) {
@@ -203,6 +337,12 @@ public class Utils {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param list
+	 * @return
+	 */
 	public static <T> List<T> castToSuperType(final List<? extends T> list) {
 		return new ArrayList<T>(list.size()) {
 			{
@@ -211,6 +351,12 @@ public class Utils {
 		};
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param list
+	 * @return
+	 */
 	public static <T> Set<T> castToSuperType(final Set<? extends T> list) {
 		return new HashSet<T>(list.size()) {
 			{
@@ -219,6 +365,12 @@ public class Utils {
 		};
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param list
+	 * @return
+	 */
 	public static <T> Collection<T> castToSuperType(
 			final Collection<? extends T> list) {
 		return new ArrayList<T>(list.size()) {
@@ -228,6 +380,12 @@ public class Utils {
 		};
 	}
 
+	/**
+	 * 
+	 * @param is
+	 * @return
+	 * @throws IOException
+	 */
 	public static byte[] toByteArray(InputStream is) throws IOException {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
@@ -239,10 +397,24 @@ public class Utils {
 		}
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param set
+	 * @return
+	 */
 	public static <T> List<T> asList(final Iterable<T> set) {
 		return new LinkedList<T>() {{ for (T t : set) { add(t); } }};
 	}
 	
+	/**
+	 * 
+	 * @param <T>
+	 * @param list
+	 * @param begin
+	 * @param end
+	 * @return
+	 */
 	public static <T> List<T> sublist(Iterable<T> list, int begin, int end) {
 		int i = 0;
 		List<T> n = list();
@@ -256,6 +428,11 @@ public class Utils {
 		return n;
 	}
 
+	/**
+	 * 
+	 * @param os
+	 * @return
+	 */
 	public static boolean moreThanOneNotNull(Object... os) {
 		boolean nulled = false;
 		for (Object o : os) {

@@ -25,12 +25,19 @@ import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Provider
 @Produces(MediaTypes.USER)
 @Consumes(MediaTypes.USER)
 public class UserProvider extends AbstractJSONProvider<User> {
 
-	public UserProvider() {
+    /**
+     * 
+     */
+    public UserProvider() {
 		super(User.class, MediaTypes.USER_TYPE);
 	}
 

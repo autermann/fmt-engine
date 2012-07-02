@@ -21,10 +21,20 @@ import de.ifgi.fmt.model.Role;
 import de.ifgi.fmt.update.EntityUpdater;
 import de.ifgi.fmt.update.UpdateFactory.Updates;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Updates(Role.class)
 public class RoleUpdater extends EntityUpdater<Role> {
 
-	@Override
+    /**
+     * 
+     * @param old
+     * @param changes
+     * @return
+     */
+    @Override
 	public Role update(Role old, Role changes) {
 		if (changes.getCategory() != null) {
 			old.setCategory(changes.getCategory());

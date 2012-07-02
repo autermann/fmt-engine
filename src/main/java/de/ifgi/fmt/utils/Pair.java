@@ -17,32 +17,64 @@
  */
 package de.ifgi.fmt.utils;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ * @param <U>
+ * @param <V>
+ */
 public class Pair<U, V> {
 
 	private U u;
 	private V v;
 
+	/**
+	 * 
+	 * @param u
+	 * @param v
+	 */
 	public Pair(U u, V v) {
 		setOne(u);
 		setTwo(v);
 	}
 
+	/**
+	 * 
+	 */
 	public Pair() {
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public U getOne() {
 		return u;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public V getTwo() {
 		return v;
 	}
 
+	/**
+	 * 
+	 * @param u
+	 * @return
+	 */
 	public Pair<U, V> setOne(U u) {
 		this.u = u;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param v
+	 * @return
+	 */
 	public Pair<U, V> setTwo(V v) {
 		this.v = v;
 		return this;

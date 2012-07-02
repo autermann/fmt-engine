@@ -56,11 +56,21 @@ import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Decodes(Flashmob.class)
 @Encodes(Flashmob.class)
 public class FlashmobHandler extends JSONHandler<Flashmob> {
 	private static final Logger log = LoggerFactory.getLogger(FlashmobHandler.class);
 
+	/**
+	 * 
+	 * @param j
+	 * @return
+	 * @throws JSONException
+	 */
 	@Override
 	public Flashmob decode(JSONObject j) throws JSONException {
 		log.debug("Decoding Flashmob {}", j);
@@ -111,6 +121,13 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 		return f;
 	}
 		
+	/**
+	 * 
+	 * @param f
+	 * @param uri
+	 * @return
+	 * @throws JSONException
+	 */
 	@Override
 	public JSONObject encode(Flashmob f, UriInfo uri) throws JSONException {
 		
@@ -167,6 +184,13 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 		return j;
 	}
 
+	/**
+	 * 
+	 * @param t
+	 * @param uriInfo
+	 * @return
+	 * @throws JSONException
+	 */
 	@Override
 	public JSONObject encodeAsRef(Flashmob t, UriInfo uriInfo) throws JSONException {
 		JSONObject j = encode(t, null).put(HREF_KEY, uriInfo.getBaseUriBuilder().path(Paths.FLASHMOB).build(t));

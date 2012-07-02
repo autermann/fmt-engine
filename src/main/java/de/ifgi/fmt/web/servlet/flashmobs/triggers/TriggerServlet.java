@@ -31,9 +31,19 @@ import de.ifgi.fmt.model.trigger.Trigger;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Path(Paths.TRIGGER_OF_FLASHMOB)
 public class TriggerServlet extends AbstractServlet {
-	@GET
+    /**
+     * 
+     * @param flashmob
+     * @param trigger
+     * @return
+     */
+    @GET
 	@Produces(MediaTypes.TRIGGER)
 	public Trigger getTrigger(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
@@ -41,6 +51,13 @@ public class TriggerServlet extends AbstractServlet {
 		return getService().getTrigger(trigger, flashmob);
 	}
 
+	/**
+	 * 
+	 * @param flashmob
+	 * @param trigger
+	 * @param t
+	 * @return
+	 */
 	@PUT
 	@Produces(MediaTypes.TRIGGER)
 	@Consumes(MediaTypes.TRIGGER)
@@ -51,6 +68,11 @@ public class TriggerServlet extends AbstractServlet {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * 
+	 * @param flashmob
+	 * @param trigger
+	 */
 	@DELETE
 	public void removeTrigger(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,

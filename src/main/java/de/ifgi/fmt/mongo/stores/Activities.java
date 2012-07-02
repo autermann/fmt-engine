@@ -41,14 +41,27 @@ import de.ifgi.fmt.mongo.Store;
 import de.ifgi.fmt.mongo.Store.Queries;
 import de.ifgi.fmt.utils.Utils;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 public class Activities implements ExtendedDao<Activity> {
 	private static final Logger log = LoggerFactory.getLogger(Activities.class);
 	private final Store store;
 
+	/**
+	 * 
+	 * @param store
+	 */
 	public Activities(Store store) {
 		this.store = store;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public Activity get(ObjectId id) {
 		log.debug("Getting Activity {}", id);
 		Activity a = getActivityDao().get(id);
@@ -58,6 +71,11 @@ public class Activities implements ExtendedDao<Activity> {
 		return a;
 	}
 
+	/**
+	 * 
+	 * @param a
+	 * @return
+	 */
 	public Activity save(Activity a) {
 		log.debug("Saving Acitivity {}", a);
 		if (a.getSignal() != null) {
@@ -68,6 +86,10 @@ public class Activities implements ExtendedDao<Activity> {
 		return a;
 	}
 
+	/**
+	 * 
+	 * @param activities
+	 */
 	@Override
 	public void save(Collection<Activity> activities) {
 		log.debug("Saving Activities");
@@ -76,16 +98,31 @@ public class Activities implements ExtendedDao<Activity> {
 		}
 	}
 
+	/**
+	 * 
+	 * @param f
+	 */
 	public void delete(Flashmob f) {
 		log.debug("Deleting Actitvties of Flashmob {}", f);
 		delete(Queries.activitiesOfFlashmob(f));
 	}
 
+	/**
+	 * 
+	 * @param t
+	 * @return
+	 */
 	public List<Activity> get(Trigger t) {
 		log.debug("Getting Actitvties of Trigger {}", t);
 		return get(Queries.activitiesOfTrigger(t));
 	}
 
+	/**
+	 * 
+	 * @param flashmob
+	 * @param user
+	 * @return
+	 */
 	public List<Activity> get(Flashmob flashmob, User user) {
 		log.debug("Getting Actitvties of User {} in Flashmob {}", user, flashmob);
 		Role r = Queries.rolesOfUserInFlashmob(user, flashmob).get();
@@ -95,19 +132,38 @@ public class Activities implements ExtendedDao<Activity> {
 		return Utils.asList(r.getActivities());
 	}
 
+	/**
+	 * 
+	 * @param activity
+	 * @return
+	 */
 	public Signal getSignalOfActivity(Activity activity) {
 		log.debug("Getting Signal of Activity {}", activity);
 		return activity.getSignal(); //TODO get the signal from the DB
 	}
 
+	/**
+	 * 
+	 * @param q
+	 * @return
+	 */
 	public List<Activity> get(Query<Activity> q) {
 		return getActivityDao().find(Store.g(q)).asList();
 	}
 
+	/**
+	 * 
+	 * @param q
+	 * @return
+	 */
 	public Activity getOne(Query<Activity> q) {
 		return getActivityDao().find(Store.g(q)).get();
 	}
 
+	/**
+	 * 
+	 * @param t
+	 */
 	@Override
 	public void delete(Activity t) {
 		log.debug("Deleting Activity {}", t);
@@ -118,6 +174,10 @@ public class Activities implements ExtendedDao<Activity> {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
+	/**
+	 * 
+	 * @param ts
+	 */
 	@Override
 	public void delete(Collection<Activity> ts) {
 		log.debug("Deleting Activities");
@@ -126,16 +186,29 @@ public class Activities implements ExtendedDao<Activity> {
 		}
 	}
 
+	/**
+	 * 
+	 * @param limit
+	 * @return
+	 */
 	@Override
 	public List<Activity> get(int limit) {
 		return get(all().limit(limit));
 	}
 
+	/**
+	 * 
+	 * @param q
+	 */
 	@Override
 	public void delete(Query<Activity> q) {
 		getActivityDao().deleteByQuery(Store.r(q));
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	@Override
 	public Query<Activity> all() {
 		return getActivityDao().createQuery();

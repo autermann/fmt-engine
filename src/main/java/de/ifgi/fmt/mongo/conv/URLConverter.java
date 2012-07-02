@@ -25,12 +25,25 @@ import com.google.code.morphia.converters.TypeConverter;
 import com.google.code.morphia.mapping.MappedField;
 import com.google.code.morphia.mapping.MappingException;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @SuppressWarnings("rawtypes")
 public class URLConverter extends TypeConverter implements SimpleValueConverter {
-	public URLConverter() {
+    /**
+     * 
+     */
+    public URLConverter() {
 		super(URL.class);
 	}
 
+	/**
+	 * 
+	 * @param value
+	 * @param optionalExtraInfo
+	 * @return
+	 */
 	@Override
 	public Object encode(Object value, MappedField optionalExtraInfo) {
 		if (value == null)
@@ -38,6 +51,14 @@ public class URLConverter extends TypeConverter implements SimpleValueConverter 
 		return ((URL) value).toString();
 	}
 
+	/**
+	 * 
+	 * @param c
+	 * @param o
+	 * @param i
+	 * @return
+	 * @throws MappingException
+	 */
 	@Override
 	public Object decode(Class c, Object o, MappedField i)
 	    throws MappingException {

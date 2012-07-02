@@ -36,15 +36,28 @@ import de.ifgi.fmt.mongo.ExtendedDao;
 import de.ifgi.fmt.mongo.Store;
 import de.ifgi.fmt.mongo.Store.Queries;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 public class Comments implements ExtendedDao<Comment>{
 	private static final Logger log = LoggerFactory.getLogger(Comments.class);
 	@SuppressWarnings("unused")
 	private final Store store;
 
+	/**
+	 * 
+	 * @param store
+	 */
 	public Comments(Store store) {
 		this.store = store;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public Comment get(ObjectId id) {
 		log.debug("Getting Comment {}", id);
 		Comment c = getCommentDao().get(id);
@@ -54,6 +67,11 @@ public class Comments implements ExtendedDao<Comment>{
 		return c;
 	}
 	
+	/**
+	 * 
+	 * @param c
+	 * @return
+	 */
 	@Override
 	public Comment save(Comment c) {
 		log.debug("Saving comment {}", c);
@@ -61,6 +79,10 @@ public class Comments implements ExtendedDao<Comment>{
 		return c;
 	}
 
+	/**
+	 * 
+	 * @param comments
+	 */
 	@Override
 	public void save(Collection<Comment> comments) {
 		log.debug("Saving comments");
@@ -69,40 +91,76 @@ public class Comments implements ExtendedDao<Comment>{
 		}
 	}
 	
+	/**
+	 * 
+	 * @param c
+	 */
 	@Override
 	public void delete(Comment c) {
 		log.debug("Deleting Comment {}", c);
 		getCommentDao().delete(c);
 	}
 
+	/**
+	 * 
+	 * @param c
+	 */
 	public void delete(List<Comment> c) {
 		log.debug("Deleting Comments");
 		getCommentDao().deleteAll(c);
 	}
 
+	/**
+	 * 
+	 * @param f
+	 * @return
+	 */
 	public List<Comment> get(Flashmob f) {
 		return get(Queries.commentsOfFlashmob(f));
 	}
 
+	/**
+	 * 
+	 * @param f
+	 */
 	public void delete(Flashmob f) {
 		delete(Queries.commentsOfFlashmob(f));
 	}
 
+	/**
+	 * 
+	 * @param u
+	 * @return
+	 */
 	public List<Comment> get(User u) {
 		log.debug("Getting Comments of User {}", u);
 		return get(Queries.commentsOfUser(u));
 	}
 	
+	/**
+	 * 
+	 * @param q
+	 * @return
+	 */
 	@Override
 	public List<Comment> get(Query<Comment> q) {
 		return getCommentDao().find(Store.g(q)).asList();
 	}
 
+	/**
+	 * 
+	 * @param q
+	 * @return
+	 */
 	@Override
 	public Comment getOne(Query<Comment> q) {
 		return getCommentDao().find(Store.g(q)).get();
 	}
 
+	/**
+	 * 
+	 * @param ts
+	 */
 	@Override
 	public void delete(Collection<Comment> ts) {
 		log.debug("Deleting Comments");
@@ -111,16 +169,29 @@ public class Comments implements ExtendedDao<Comment>{
 		}
 	}
 
+	/**
+	 * 
+	 * @param limit
+	 * @return
+	 */
 	@Override
 	public List<Comment> get(int limit) {
 		return get(all().limit(limit));
 	}
 
+	/**
+	 * 
+	 * @param q
+	 */
 	@Override
 	public void delete(Query<Comment> q) {
 		getCommentDao().deleteByQuery(Store.r(q));
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	@Override
 	public Query<Comment> all() {
 		return getCommentDao().createQuery();

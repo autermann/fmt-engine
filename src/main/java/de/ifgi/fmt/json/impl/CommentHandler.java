@@ -39,11 +39,21 @@ import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Encodes(Comment.class)
 @Decodes(Comment.class)
 public class CommentHandler extends JSONHandler<Comment> {
 
-	@Override
+    /**
+     * 
+     * @param j
+     * @return
+     * @throws JSONException
+     */
+    @Override
 	public Comment decode(JSONObject j) throws JSONException {
 		Comment c = new Comment();
 		String id = j.optString(ID_KEY, null);
@@ -64,6 +74,13 @@ public class CommentHandler extends JSONHandler<Comment> {
 		return c;
 	}
 
+	/**
+	 * 
+	 * @param t
+	 * @param uri
+	 * @return
+	 * @throws JSONException
+	 */
 	@Override
 	public JSONObject encode(Comment t, UriInfo uri) throws JSONException {
 		JSONObject j = new JSONObject().put(ID_KEY, t.getId());
@@ -85,6 +102,13 @@ public class CommentHandler extends JSONHandler<Comment> {
 		return j;
 	}
 
+	/**
+	 * 
+	 * @param t
+	 * @param uriInfo
+	 * @return
+	 * @throws JSONException
+	 */
 	@Override
 	public JSONObject encodeAsRef(Comment t, UriInfo uriInfo)
 			throws JSONException {

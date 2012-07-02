@@ -44,16 +44,31 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.filter.auth.Authentication;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Path(Paths.USERS)
 public class UsersServlet extends AbstractServlet {
 
-	@GET
+    /**
+     * 
+     * @param limit
+     * @return
+     */
+    @GET
 	@PermitAll
 	@Produces(MediaTypes.USER_LIST)
 	public List<User> getUsers(@QueryParam(QueryParams.LIMIT) @DefaultValue(DEFAULT_LIMIT) int limit) {
 		return getService().getUsers(limit);
 	}
 
+	/**
+	 * 
+	 * @param u
+	 * @param sr
+	 * @return
+	 */
 	@POST
 	@RolesAllowed({ Roles.GUEST, Roles.ADMIN })
 	@Produces(MediaTypes.USER)

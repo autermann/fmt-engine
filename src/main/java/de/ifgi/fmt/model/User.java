@@ -42,15 +42,43 @@ import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.Constants.Regex;
 import de.ifgi.fmt.utils.constants.RESTConstants.Roles;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Entity(User.COLLECTION_NAME)
 public class User {
-	public static final String AUTH_TOKEN = "authToken";
-	public static final String COLLECTION_NAME = "users";
+    /**
+     * 
+     */
+    public static final String AUTH_TOKEN = "authToken";
+    /**
+     * 
+     */
+    public static final String COLLECTION_NAME = "users";
+	/**
+	 * 
+	 */
 	public static final String CREATION_TIME = "creationTime";
+	/**
+	 * 
+	 */
 	public static final String EMAIL = "email";
+	/**
+	 * 
+	 */
 	public static final String LAST_CHANGED = "lastChanged";
+	/**
+	 * 
+	 */
 	public static final String PASSWORD_HASH = "password";
+	/**
+	 * 
+	 */
 	public static final String ROLES = "roles";
+	/**
+	 * 
+	 */
 	public static final String USERNAME = "username";
 
 	@Property(User.AUTH_TOKEN)
@@ -90,11 +118,19 @@ public class User {
 	@Indexed(unique = true, sparse = true)
 	private String username;
 
+	/**
+	 * 
+	 * @param role
+	 * @return
+	 */
 	public User addRole(String role) {
 		getRoles().add(role);
 		return this;
 	}
 
+	/**
+	 * 
+	 */
 	@PrePersist
 	public void changed() {
 		setLastChangedTime(new DateTime());
@@ -108,30 +144,58 @@ public class User {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getAuthToken() {
 		return authToken;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public DateTime getCreationTime() {
 		return creationTime;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getEmail() {
 		return email;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public DateTime getLastChangedTime() {
 		return lastChangedTime;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getPasswordHash() {
 		return passwordHash;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Set<String> getRoles() {
 		return roles;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getUsername() {
 		return username;
 	}
@@ -148,6 +212,11 @@ public class User {
 		return getUsername().hashCode();
 	}
 
+	/**
+	 * 
+	 * @param role
+	 * @return
+	 */
 	public boolean hasRole(String role) {
 		for (String r : getRoles()) {
 			if (r.equalsIgnoreCase(role)) {
@@ -157,20 +226,40 @@ public class User {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param password
+	 * @return
+	 */
 	public boolean isValidPassword(String password) {
 		return BCrypt.checkpw(password, getPasswordHash());
 	}
 
+	/**
+	 * 
+	 * @param authToken
+	 * @return
+	 */
 	public User setAuthToken(String authToken) {
 		this.authToken = authToken;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param creationTime
+	 * @return
+	 */
 	public User setCreationTime(DateTime creationTime) {
 		this.creationTime = creationTime;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param s
+	 * @return
+	 */
 	public User setEmail(String s) {
 		if (s != null) {
 			s = s.trim();
@@ -179,11 +268,21 @@ public class User {
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param lastChangedTime
+	 * @return
+	 */
 	public User setLastChangedTime(DateTime lastChangedTime) {
 		this.lastChangedTime = lastChangedTime;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param s
+	 * @return
+	 */
 	public User setPassword(String s) {
 		if (s != null) {
 			if (!Regex.PASSWORD.matcher(s).matches()) {
@@ -194,16 +293,31 @@ public class User {
 		return setPasswordHash(hash(s));
 	}
 
+	/**
+	 * 
+	 * @param passwordHash
+	 * @return
+	 */
 	public User setPasswordHash(String passwordHash) {
 		this.passwordHash = passwordHash;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param roles
+	 * @return
+	 */
 	public User setRoles(Set<String> roles) {
 		this.roles = roles;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param s
+	 * @return
+	 */
 	public User setUsername(String s) {
 		this.username = s;
 		return this;

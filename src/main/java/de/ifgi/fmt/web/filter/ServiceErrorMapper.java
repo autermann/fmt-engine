@@ -36,11 +36,20 @@ import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Provider
 public class ServiceErrorMapper implements ExceptionMapper<ServiceError> {
 	private static final Logger log = LoggerFactory
 			.getLogger(ServiceErrorMapper.class);
 
+	/**
+	 * 
+	 * @param e
+	 * @return
+	 */
 	@Override
 	public Response toResponse(ServiceError e) {
 		if (e.getMessage() != null) {

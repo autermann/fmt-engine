@@ -33,11 +33,24 @@ import com.google.code.morphia.annotations.Property;
 
 import de.ifgi.fmt.model.Activity;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Entity(Signal.COLLECTION_NAME)
 public abstract class Signal {
 
-	public static final String COLLECTION_NAME = "signals";
+    /**
+     * 
+     */
+    public static final String COLLECTION_NAME = "signals";
+	/**
+	 * 
+	 */
 	public static final String CREATION_TIME = "creationTime";
+	/**
+	 * 
+	 */
 	public static final String LAST_CHANGED = "lastChanged";
 
 	@NotNull
@@ -55,13 +68,27 @@ public abstract class Signal {
 	@Property(Activity.LAST_CHANGED)
 	private DateTime lastChangedTime = new DateTime();
 
+	/**
+	 * 
+	 */
 	@PrePersist
 	public void changed() {
 		setLastChangedTime(new DateTime());
 	}
 
+	/**
+	 * 
+	 * @param j
+	 * @return
+	 */
 	public abstract Signal decode(JSONObject j);
 
+	/**
+	 * 
+	 * @param j
+	 * @return
+	 * @throws JSONException
+	 */
 	public abstract Signal encode(JSONObject j) throws JSONException;
 
 	@Override
@@ -72,18 +99,34 @@ public abstract class Signal {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public DateTime getCreationTime() {
 		return creationTime;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public ObjectId getId() {
 		return id;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public DateTime getLastChangedTime() {
 		return lastChangedTime;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getType() {
 		return getClass().getName()
 				.replace(getClass().getPackage().getName() + ".", "")
@@ -95,16 +138,31 @@ public abstract class Signal {
 		return getId().hashCode();
 	}
 
+	/**
+	 * 
+	 * @param creationTime
+	 * @return
+	 */
 	public Signal setCreationTime(DateTime creationTime) {
 		this.creationTime = creationTime;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public Signal setId(ObjectId id) {
 		this.id = id;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param lastChangedTime
+	 * @return
+	 */
 	public Signal setLastChangedTime(DateTime lastChangedTime) {
 		this.lastChangedTime = lastChangedTime;
 		return this;

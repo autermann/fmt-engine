@@ -36,10 +36,21 @@ import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Path(Paths.USERS_OF_ROLE_OF_FLASHMOB)
 public class UsersServlet extends AbstractServlet {
 
-	@GET
+    /**
+     * 
+     * @param flashmob
+     * @param role
+     * @param limit
+     * @return
+     */
+    @GET
 	@Produces(MediaTypes.USER_LIST)
 	public List<User> getUsers(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
@@ -48,6 +59,13 @@ public class UsersServlet extends AbstractServlet {
 		return getService().getUsersForRole(flashmob, role, limit);
 	}
 
+	/**
+	 * 
+	 * @param flashmob
+	 * @param role
+	 * @param u
+	 * @return
+	 */
 	@POST
 	@Produces(MediaTypes.USER)
 	@Consumes(MediaTypes.USER)

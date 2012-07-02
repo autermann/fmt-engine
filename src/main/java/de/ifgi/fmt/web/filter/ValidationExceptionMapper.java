@@ -35,12 +35,21 @@ import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Provider
 public class ValidationExceptionMapper implements
 		ExceptionMapper<VerboseJSR303ConstraintViolationException> {
 	private static final Logger log = LoggerFactory
 			.getLogger(ValidationExceptionMapper.class);
 
+	/**
+	 * 
+	 * @param ex
+	 * @return
+	 */
 	@Override
 	public Response toResponse(VerboseJSR303ConstraintViolationException ex) {
 		try {

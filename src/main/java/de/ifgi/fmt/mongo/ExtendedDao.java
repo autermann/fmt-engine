@@ -24,25 +24,75 @@ import org.bson.types.ObjectId;
 
 import com.google.code.morphia.query.Query;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ * @param <T>
+ */
 public interface ExtendedDao<T> {
-	void delete(T t);
+    /**
+     * 
+     * @param t
+     */
+    void delete(T t);
 
-	void delete(Collection<T> ts);
+    /**
+     * 
+     * @param ts
+     */
+    void delete(Collection<T> ts);
 
+	/**
+	 * 
+	 * @param t
+	 * @return
+	 */
 	T save(T t);
 
+	/**
+	 * 
+	 * @param ts
+	 */
 	void save(Collection<T> ts);
 
+	/**
+	 * 
+	 * @param limit
+	 * @return
+	 */
 	List<T> get(int limit);
 
+	/**
+	 * 
+	 * @param q
+	 * @return
+	 */
 	T getOne(Query<T> q);
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	T get(ObjectId id);
 
+	/**
+	 * 
+	 * @param q
+	 * @return
+	 */
 	List<T> get(Query<T> q);
 
+	/**
+	 * 
+	 * @param q
+	 */
 	void delete(Query<T> q);
 
+	/**
+	 * 
+	 * @return
+	 */
 	Query<T> all();
 
 }

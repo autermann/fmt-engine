@@ -42,14 +42,27 @@ import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.RESTConstants.ShowStatus;
 import de.ifgi.fmt.utils.constants.RESTConstants.Sorting;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 public class Flashmobs implements ExtendedDao<Flashmob> {
 	private static final Logger log = LoggerFactory.getLogger(Flashmobs.class);
 	private final Store store;
 
+	/**
+	 * 
+	 * @param store
+	 */
 	public Flashmobs(Store store) {
 		this.store = store;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@Override
 	public Flashmob get(ObjectId id) {
 		log.debug("Getting Flashmob {}", id);
@@ -60,6 +73,11 @@ public class Flashmobs implements ExtendedDao<Flashmob> {
 		return f;
 	}
 
+	/**
+	 * 
+	 * @param f
+	 * @return
+	 */
 	@Override
 	public Flashmob save(Flashmob f) {
 		log.debug("Saving Flashmob {}", f);
@@ -70,6 +88,10 @@ public class Flashmobs implements ExtendedDao<Flashmob> {
 		return f;
 	}
 
+	/**
+	 * 
+	 * @param flashmobs
+	 */
 	@Override
 	public void save(Collection<Flashmob> flashmobs) {
 		log.debug("Saving {} Flashmobs", flashmobs.size());
@@ -78,6 +100,10 @@ public class Flashmobs implements ExtendedDao<Flashmob> {
 		}
 	}
 
+	/**
+	 * 
+	 * @param flashmobs
+	 */
 	@Override
 	public void delete(Collection<Flashmob> flashmobs) {
 		log.debug("Deleting {} Flashmobs", flashmobs.size());
@@ -86,6 +112,10 @@ public class Flashmobs implements ExtendedDao<Flashmob> {
 		}
 	}
 
+	/**
+	 * 
+	 * @param f
+	 */
 	@Override
 	public void delete(Flashmob f) {
 		this.store.triggers().delete(f);
@@ -95,11 +125,33 @@ public class Flashmobs implements ExtendedDao<Flashmob> {
 		getFlashmobDao().delete(f);
 	}
 
+	/**
+	 * 
+	 * @param u
+	 * @return
+	 */
 	public List<Flashmob> get(User u) {
 		log.debug("Getting Flashmobs of User {}", u);
 		return get(Queries.flashmobsOfUser(u));
 	}
 
+	/**
+	 * 
+	 * @param limit
+	 * @param near
+	 * @param user
+	 * @param bbox
+	 * @param from
+	 * @param to
+	 * @param sorting
+	 * @param descending
+	 * @param show
+	 * @param search
+	 * @param participant
+	 * @param minParticipants
+	 * @param maxParticipants
+	 * @return
+	 */
 	public List<Flashmob> get(int limit, Point near, User user,
 			BoundingBox bbox, DateTime from, DateTime to, Sorting sorting,
 			boolean descending, ShowStatus show, String search,
@@ -162,26 +214,49 @@ public class Flashmobs implements ExtendedDao<Flashmob> {
 			
 	}
 
+	/**
+	 * 
+	 * @param q
+	 * @return
+	 */
 	@Override
 	public List<Flashmob> get(Query<Flashmob> q) {
 		return getFlashmobDao().find(Store.g(q)).asList();
 	}
 
+	/**
+	 * 
+	 * @param q
+	 * @return
+	 */
 	@Override
 	public Flashmob getOne(Query<Flashmob> q) {
 		return getFlashmobDao().find(Store.g(q)).get();
 	}
 
+	/**
+	 * 
+	 * @param limit
+	 * @return
+	 */
 	@Override
 	public List<Flashmob> get(int limit) {
 		return get(all().limit(limit));
 	}
 
+	/**
+	 * 
+	 * @param q
+	 */
 	@Override
 	public void delete(Query<Flashmob> q) {
 		getFlashmobDao().deleteByQuery(Store.r(q));
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	@Override
 	public Query<Flashmob> all() {
 		return getFlashmobDao().createQuery();

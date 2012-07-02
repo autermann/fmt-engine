@@ -23,20 +23,36 @@ import org.hibernate.validator.constraints.SafeHtml;
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Polymorphic
 public class EventTrigger extends TimeTrigger {
 
-	public static final String DESCRIPTION = "description";
+    /**
+     * 
+     */
+    public static final String DESCRIPTION = "description";
 
 	@NotBlank
 	@SafeHtml
 	@Property(EventTrigger.DESCRIPTION)
 	private String description;
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 * 
+	 * @param description
+	 * @return
+	 */
 	public EventTrigger setDescription(String description) {
 		this.description = description;
 		return this;

@@ -36,14 +36,36 @@ import com.google.code.morphia.annotations.Reference;
 import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.model.Role;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Polymorphic
 @Entity(Task.COLLECTION_NAME)
 public class Task {
-	public static final String ACTIVITY = "activity";
+    /**
+     * 
+     */
+    public static final String ACTIVITY = "activity";
+	/**
+	 * 
+	 */
 	public static final String COLLECTION_NAME = "tasks";
+	/**
+	 * 
+	 */
 	public static final String CREATION_TIME = "creationTime";
+	/**
+	 * 
+	 */
 	public static final String DESCRIPTION = "description";
+	/**
+	 * 
+	 */
 	public static final String LAST_CHANGED = "lastChanged";
+	/**
+	 * 
+	 */
 	public static final String ROLE = "role";
 
 	@NotNull
@@ -76,6 +98,9 @@ public class Task {
 	@Reference(value = Task.ROLE, lazy = true)
 	private Role role;
 
+	/**
+	 * 
+	 */
 	@PrePersist
 	public void changed() {
 		setLastChangedTime(new DateTime());
@@ -89,26 +114,50 @@ public class Task {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Activity getActivity() {
 		return activity;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public DateTime getCreationTime() {
 		return creationTime;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public ObjectId getId() {
 		return id;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public DateTime getLastChangedTime() {
 		return lastChangedTime;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Role getRole() {
 		return role;
 	}
@@ -118,31 +167,61 @@ public class Task {
 		return getId().hashCode();
 	}
 
+	/**
+	 * 
+	 * @param activity
+	 * @return
+	 */
 	public Task setActivity(Activity activity) {
 		this.activity = activity;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param creationTime
+	 * @return
+	 */
 	public Task setCreationTime(DateTime creationTime) {
 		this.creationTime = creationTime;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param description
+	 * @return
+	 */
 	public Task setDescription(String description) {
 		this.description = description;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public Task setId(ObjectId id) {
 		this.id = id;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param lastChangedTime
+	 * @return
+	 */
 	public Task setLastChangedTime(DateTime lastChangedTime) {
 		this.lastChangedTime = lastChangedTime;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param role
+	 * @return
+	 */
 	public Task setRole(Role role) {
 		this.role = role;
 		return this;

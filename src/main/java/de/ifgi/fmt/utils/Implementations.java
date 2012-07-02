@@ -31,9 +31,21 @@ import org.reflections.scanners.SubTypesScanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 public class Implementations {
-	protected static class InstantiableFilter implements Filter<Class<?>> {
-		public boolean test(Class<?> t) {
+    /**
+     * 
+     */
+    protected static class InstantiableFilter implements Filter<Class<?>> {
+	    /**
+	     * 
+	     * @param t
+	     * @return
+	     */
+	    public boolean test(Class<?> t) {
 			int mod = t.getModifiers();
 			return !(Modifier.isInterface(mod) 
 					&& Modifier.isAbstract(mod) 
@@ -41,11 +53,23 @@ public class Implementations {
 		}
 	};
 	
+	/**
+	 * 
+	 */
 	protected static class AnnotationFilter implements Filter<Class<?>> {
 		private Class<? extends Annotation>[] a;
+		/**
+		 * 
+		 * @param a
+		 */
 		public AnnotationFilter(Class<? extends Annotation>... a) {
 			this.a = a;
 		}
+		/**
+		 * 
+		 * @param t
+		 * @return
+		 */
 		public boolean test(Class<?> t) {
 			for (Class<? extends Annotation> c : a) {
 				if (t.getAnnotation(c) == null)
@@ -55,6 +79,9 @@ public class Implementations {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	protected static final Logger log = LoggerFactory.getLogger(Implementations.class);
 	private static final String PROPERTIES_FILE = "/provider.properties";
 
@@ -79,6 +106,12 @@ public class Implementations {
 		}
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param t
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public static <T> Class<? extends T> getSubclass(Class<T> t) {
 
@@ -111,10 +144,23 @@ public class Implementations {
 		
 	}
 	
+	/**
+	 * 
+	 * @param <T>
+	 * @param t
+	 * @return
+	 */
 	public static <T> Set<Class<? extends T>> getSubclasses(Class<T> t) {
 		return Utils.filter(r.getSubTypesOf(t), new InstantiableFilter());
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param clazz
+	 * @param a
+	 * @return
+	 */
 	public static <T> Set<Class<? extends T>> getAnnotatedSubclasses(Class<T> clazz, final Class<? extends Annotation>... a) {
 		return Utils.filter(getSubclasses(clazz), new AnnotationFilter(a));
 	}

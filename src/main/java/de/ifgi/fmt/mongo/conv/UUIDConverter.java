@@ -24,20 +24,41 @@ import com.google.code.morphia.converters.TypeConverter;
 import com.google.code.morphia.mapping.MappedField;
 import com.google.code.morphia.mapping.MappingException;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @SuppressWarnings("rawtypes")
 public class UUIDConverter extends TypeConverter implements
     SimpleValueConverter {
-	public UUIDConverter() {
+    /**
+     * 
+     */
+    public UUIDConverter() {
 		super(UUID.class);
 	}
 
-	@Override
+    /**
+     * 
+     * @param value
+     * @param optionalExtraInfo
+     * @return
+     */
+    @Override
 	public Object encode(Object value, MappedField optionalExtraInfo) {
 		if (value == null)
 			return null;
 		return value.toString();
 	}
 
+	/**
+	 * 
+	 * @param c
+	 * @param o
+	 * @param i
+	 * @return
+	 * @throws MappingException
+	 */
 	@Override
 	public Object decode(Class c, Object o, MappedField i)
 	    throws MappingException {

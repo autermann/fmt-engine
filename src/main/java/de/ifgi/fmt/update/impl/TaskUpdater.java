@@ -24,10 +24,20 @@ import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.update.EntityUpdater;
 import de.ifgi.fmt.update.UpdateFactory.Updates;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Updates(Task.class)
 public class TaskUpdater extends EntityUpdater<Task> {
 
-	@Override
+    /**
+     * 
+     * @param old
+     * @param changes
+     * @return
+     */
+    @Override
 	public Task update(Task old, Task changes) {
 		if (old instanceof LineTask ) {
 			if (changes instanceof LinkTask) {

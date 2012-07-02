@@ -43,10 +43,23 @@ import de.ifgi.fmt.Service;
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.User;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 public class Authentication implements ContainerResponseFilter, ContainerRequestFilter {
 	
-	public static final String COOKIE_NAME = "fmt_oid";
+    /**
+     * 
+     */
+    public static final String COOKIE_NAME = "fmt_oid";
+	/**
+	 * 
+	 */
 	public static final String USER_SESSION_ATTRIBUTE = "user";
+	/**
+	 * 
+	 */
 	public static final String REMOVE_COOKIE_SESSION_ATTRIBUTE = "remove-cookie";
 	
 	private static final Logger log = LoggerFactory.getLogger(Authentication.class);
@@ -56,6 +69,11 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 	private @Context HttpServletRequest sr;
 	private @Context UriInfo uri;
 	
+	/**
+	 * 
+	 * @param cr
+	 * @return
+	 */
 	@Override
 	public ContainerRequest filter(ContainerRequest cr) {
 		if (!cookieLogin(cr)) {
@@ -66,6 +84,12 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 		return cr;
 	}
 	
+	/**
+	 * 
+	 * @param rq
+	 * @param rs
+	 * @return
+	 */
 	@Override
 	public ContainerResponse filter(ContainerRequest rq, ContainerResponse rs) {
 		HttpSession s = sr.getSession(true);
@@ -129,6 +153,11 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @param cr
+	 * @param u
+	 */
 	public void authSession(ContainerRequest cr, User u) {
 		authSession(cr, sr, u);
 	}
@@ -170,6 +199,11 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 		return new String(Base64.encodeBase64(t.getBytes()));
 	}
 
+	/**
+	 * 
+	 * @param cr
+	 * @param sr
+	 */
 	public static void deauthSession(ContainerRequest cr, HttpServletRequest sr) {
 		if (sr != null) {
 			sr.getSession(true).removeAttribute(USER_SESSION_ATTRIBUTE);
@@ -180,6 +214,12 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 		}
 	}
 	
+	/**
+	 * 
+	 * @param cr
+	 * @param sr
+	 * @param u
+	 */
 	public static void authSession(ContainerRequest cr, HttpServletRequest sr, User u) {
 		log.debug("Authorizing session for user {}", u);
 		if (sr != null) {

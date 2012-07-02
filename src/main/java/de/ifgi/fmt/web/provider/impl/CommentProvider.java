@@ -25,12 +25,19 @@ import de.ifgi.fmt.model.Comment;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Provider
 @Produces(MediaTypes.COMMENT)
 @Consumes(MediaTypes.COMMENT)
 public class CommentProvider extends AbstractJSONProvider<Comment> {
 
-	public CommentProvider() {
+    /**
+     * 
+     */
+    public CommentProvider() {
 		super(Comment.class, MediaTypes.COMMENT_TYPE);
 	}
 

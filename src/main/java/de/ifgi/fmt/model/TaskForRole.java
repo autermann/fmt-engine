@@ -23,8 +23,18 @@ import com.google.code.morphia.annotations.Reference;
 
 import de.ifgi.fmt.model.task.Task;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 public class TaskForRole {
-	public static final String ROLE = "role";
+    /**
+     * 
+     */
+    public static final String ROLE = "role";
+	/**
+	 * 
+	 */
 	public static final String TASK = "task";
 
 	@NotNull
@@ -34,27 +44,53 @@ public class TaskForRole {
 	@Reference(value = TaskForRole.TASK, lazy = true)
 	private Task task;
 
+	/**
+	 * 
+	 */
 	public TaskForRole() {
 	}
 
+	/**
+	 * 
+	 * @param role
+	 * @param task
+	 */
 	public TaskForRole(Role role, Task task) {
 		this.role = role;
 		this.task = task;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Role getRole() {
 		return role;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Task getTask() {
 		return task;
 	}
 
+	/**
+	 * 
+	 * @param role
+	 * @return
+	 */
 	public TaskForRole setRole(Role role) {
 		this.role = role;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param task
+	 * @return
+	 */
 	public TaskForRole setTask(Task task) {
 		this.task = task;
 		return this;

@@ -53,16 +53,31 @@ import de.ifgi.fmt.model.Role.Category;
 import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Encodes(Role.class)
 @Decodes(Role.class)
 public class RoleHandler extends JSONHandler<Role>{
 	
-	public static void main(String[] args) throws JSONException {
+    /**
+     * 
+     * @param args
+     * @throws JSONException
+     */
+    public static void main(String[] args) throws JSONException {
 		String j = "{\"title\":\"Standard\",\"description\":\"Standard role\",\"maxParticipants\":100,\"minParticipants\":0}";
 		new RoleHandler().decode(new JSONObject(j));
 	}
 	
-	@Override
+    /**
+     * 
+     * @param j
+     * @return
+     * @throws JSONException
+     */
+    @Override
 	public Role decode(JSONObject j) throws JSONException {
 		Role r = new Role();
 		String id = j.optString(ID_KEY, null);
@@ -108,7 +123,14 @@ public class RoleHandler extends JSONHandler<Role>{
 		return r;
 	}
 
-	@Override
+    /**
+     * 
+     * @param t
+     * @param uri
+     * @return
+     * @throws JSONException
+     */
+    @Override
 	public JSONObject encode(Role t, UriInfo uri) throws JSONException {
 		JSONObject j = new JSONObject().put(ID_KEY, t.getId());
 		
@@ -157,7 +179,14 @@ public class RoleHandler extends JSONHandler<Role>{
 		return j;
 	}
 
-	@Override
+    /**
+     * 
+     * @param t
+     * @param uriInfo
+     * @return
+     * @throws JSONException
+     */
+    @Override
 	public JSONObject encodeAsRef(Role t, UriInfo uriInfo) throws JSONException {
 		//TODO check if its an role of an activity (different urls)
 		return new JSONObject()

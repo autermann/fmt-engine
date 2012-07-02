@@ -32,11 +32,20 @@ import org.slf4j.LoggerFactory;
 
 import de.ifgi.fmt.ServiceError;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Provider
 public class RuntimeExceptionMapper implements ExceptionMapper<Throwable> {
 	private static final Logger log = LoggerFactory
 			.getLogger(RuntimeExceptionMapper.class);
 
+	/**
+	 * 
+	 * @param t
+	 * @return
+	 */
 	@Override
 	public Response toResponse(Throwable t) {
 		if (t instanceof WebApplicationException) {

@@ -31,17 +31,32 @@ import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Path(Paths.FLASHMOB)
 public class FlashmobServlet extends AbstractServlet {
 
-	@GET
+    /**
+     * 
+     * @param flashmob
+     * @return
+     */
+    @GET
 	@Produces(MediaTypes.FLASHMOB)
 	public Flashmob getFlashmob(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
 		return getService().getFlashmob(flashmob);
 	}
 
-	@PUT
+    /**
+     * 
+     * @param id
+     * @param flashmob
+     * @return
+     */
+    @PUT
 	@Produces(MediaTypes.FLASHMOB)
 	@Consumes(MediaTypes.FLASHMOB)
 	public Flashmob updateFlashmob(@PathParam(PathParams.FLASHMOB) ObjectId id,
@@ -49,6 +64,10 @@ public class FlashmobServlet extends AbstractServlet {
 		return getService().updateFlashmob(id, flashmob);
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 */
 	@DELETE
 	public void deleteFlashmob(@PathParam(PathParams.FLASHMOB) ObjectId id) {
 		getService().deleteFlashmob(id);

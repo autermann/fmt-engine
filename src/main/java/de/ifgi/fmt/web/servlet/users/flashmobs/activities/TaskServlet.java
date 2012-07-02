@@ -34,10 +34,21 @@ import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Path(Paths.TASK_OF_ACTIVITY_OF_FLASHMOB_OF_USER)
 public class TaskServlet extends AbstractServlet {
 
-	@GET
+    /**
+     * 
+     * @param user
+     * @param flashmob
+     * @param activity
+     * @return
+     */
+    @GET
 	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.TASK)
 	public Task getTasks(@PathParam(PathParams.USER) String user,

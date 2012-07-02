@@ -27,6 +27,10 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @SuppressWarnings("rawtypes")
 public class LineStringConverter extends TypeConverter implements
 		SimpleValueConverter {
@@ -34,10 +38,19 @@ public class LineStringConverter extends TypeConverter implements
 	private PointConverter pc = new PointConverter();
 	
 	
+	/**
+	 * 
+	 */
 	public LineStringConverter() {
 		super(LineString.class);
 	}
 
+	/**
+	 * 
+	 * @param value
+	 * @param optionalExtraInfo
+	 * @return
+	 */
 	@Override
 	public Object encode(Object value, MappedField optionalExtraInfo) {
 		if (value == null)
@@ -54,6 +67,14 @@ public class LineStringConverter extends TypeConverter implements
 	}
 
 	
+	/**
+	 * 
+	 * @param mc
+	 * @param o
+	 * @param m
+	 * @return
+	 * @throws MappingException
+	 */
 	@Override
 	public LineString decode(Class mc, Object o, MappedField m) throws MappingException {
 		if (o == null) {

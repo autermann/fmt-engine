@@ -29,14 +29,26 @@ import com.google.code.morphia.annotations.Property;
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.utils.constants.JSONConstants;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Polymorphic
 public class SoundSignal extends Signal {
 
-	public static final String LINK = "link";
+    /**
+     * 
+     */
+    public static final String LINK = "link";
 
 	@Property(SoundSignal.LINK)
 	private URL link;
 
+	/**
+	 * 
+	 * @param j
+	 * @return
+	 */
 	@Override
 	public Signal decode(JSONObject j) {
 		String l = j.optString(JSONConstants.HREF_KEY, null);
@@ -50,6 +62,12 @@ public class SoundSignal extends Signal {
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param j
+	 * @return
+	 * @throws JSONException
+	 */
 	@Override
 	public Signal encode(JSONObject j) throws JSONException {
 		if (getLink() != null) {
@@ -58,10 +76,18 @@ public class SoundSignal extends Signal {
 		return this;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public URL getLink() {
 		return link;
 	}
 
+	/**
+	 * 
+	 * @param link
+	 */
 	public void setLink(URL link) {
 		this.link = link;
 	}

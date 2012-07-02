@@ -36,10 +36,21 @@ import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Path(Paths.TASK_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB)
 public class TaskServlet extends AbstractServlet {
 
-	@GET
+    /**
+     * 
+     * @param flashmob
+     * @param role
+     * @param activity
+     * @return
+     */
+    @GET
 	@Produces(MediaTypes.TASK)
 	public Task getTasks(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
@@ -48,6 +59,14 @@ public class TaskServlet extends AbstractServlet {
 		return getService().getTask(flashmob, role, activity);
 	}
 
+	/**
+	 * 
+	 * @param flashmob
+	 * @param role
+	 * @param activity
+	 * @param t
+	 * @return
+	 */
 	@POST
 	@Produces(MediaTypes.TASK)
 	@Consumes(MediaTypes.TASK)
@@ -61,6 +80,14 @@ public class TaskServlet extends AbstractServlet {
 		return Response.created(uri).entity(saved).build();
 	}
 
+	/**
+	 * 
+	 * @param flashmob
+	 * @param role
+	 * @param activity
+	 * @param t
+	 * @return
+	 */
 	@PUT
 	@Produces(MediaTypes.TASK)
 	@Consumes(MediaTypes.TASK)
@@ -70,6 +97,12 @@ public class TaskServlet extends AbstractServlet {
 		return getService().updateTask(t, role, activity, flashmob);
 	}
 
+	/**
+	 * 
+	 * @param flashmob
+	 * @param role
+	 * @param activity
+	 */
 	@DELETE
 	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	public void removeTask(

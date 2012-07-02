@@ -39,17 +39,39 @@ import de.ifgi.fmt.json.JSONEncoder;
 import de.ifgi.fmt.json.JSONFactory;
 import de.ifgi.fmt.utils.Utils;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ * @param <T>
+ */
 public class AbstractJSONProvider<T> extends AbstractReaderWriterProvider<T> {
 
 	private JSONEncoder<T> enc;
 	private JSONDecoder<T> dec;
 
+	/**
+	 * 
+	 * @param itemClass
+	 * @param mt
+	 */
 	public AbstractJSONProvider(Class<T> itemClass, MediaType mt) {
 		super(itemClass, mt);
 		this.enc = JSONFactory.getEncoder(itemClass);
 		this.dec = JSONFactory.getDecoder(itemClass);
 	}
 	
+	/**
+	 * 
+	 * @param t
+	 * @param gt
+	 * @param a
+	 * @param mt
+	 * @param h
+	 * @param is
+	 * @return
+	 * @throws IOException
+	 * @throws WebApplicationException
+	 */
 	@Override
 	public T readFrom(Class<T> t, Type gt, Annotation[] a, MediaType mt,
 			MultivaluedMap<String, String> h, InputStream is)
@@ -61,6 +83,18 @@ public class AbstractJSONProvider<T> extends AbstractReaderWriterProvider<T> {
 		}
 	}
 
+	/**
+	 * 
+	 * @param o
+	 * @param t
+	 * @param gt
+	 * @param a
+	 * @param mt
+	 * @param h
+	 * @param os
+	 * @throws IOException
+	 * @throws WebApplicationException
+	 */
 	@Override
 	public void writeTo(T o, Class<?> t, Type gt, Annotation[] a, MediaType mt,
 			MultivaluedMap<String, Object> h, OutputStream os)

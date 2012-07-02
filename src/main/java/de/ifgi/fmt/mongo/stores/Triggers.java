@@ -36,13 +36,26 @@ import de.ifgi.fmt.mongo.ExtendedDao;
 import de.ifgi.fmt.mongo.Store;
 import de.ifgi.fmt.mongo.Store.Queries;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 public class Triggers implements ExtendedDao<Trigger> {
 	private static final Logger log = LoggerFactory.getLogger(Triggers.class);
 	private final Store store;
 
+	/**
+	 * 
+	 * @param store
+	 */
 	public Triggers(Store store) {
 		this.store = store;
 	}
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@Override
 	public Trigger get(ObjectId id) {
 		log.debug("Getting Trigger {}", id);
@@ -52,12 +65,21 @@ public class Triggers implements ExtendedDao<Trigger> {
 		}
 		return t;
 	}
+	/**
+	 * 
+	 * @param t
+	 * @return
+	 */
 	@Override
 	public Trigger save(Trigger t) {
 		log.debug("Saving Trigger {}", t);
 		getTriggerDao().save(t);
 		return t;
 	}
+	/**
+	 * 
+	 * @param triggers
+	 */
 	@Override
 	public void save(Collection<Trigger> triggers) {
 		log.debug("Saving {} Triggers", triggers.size());
@@ -65,6 +87,10 @@ public class Triggers implements ExtendedDao<Trigger> {
 			save(t);
 		}
 	}
+	/**
+	 * 
+	 * @param t
+	 */
 	@Override
 	public void delete(Trigger t) {
 		log.debug("Deleting Trigger {}", t);
@@ -74,6 +100,10 @@ public class Triggers implements ExtendedDao<Trigger> {
 		getTriggerDao().delete(t);
 	}
 
+	/**
+	 * 
+	 * @param triggers
+	 */
 	@Override
 	public void delete(Collection<Trigger> triggers) {
 		log.debug("Deleting {} Triggers", triggers.size());
@@ -82,36 +112,68 @@ public class Triggers implements ExtendedDao<Trigger> {
 		}
 	}
 
+	/**
+	 * 
+	 * @param f
+	 * @return
+	 */
 	public List<Trigger> get(Flashmob f) {
 		log.debug("Getting Triggers of Flashmob {}", f);
 		return get(Queries.triggersOfFlashmob(f));
 	}
 
+	/**
+	 * 
+	 * @param f
+	 */
 	public void delete(Flashmob f) {
 		log.debug("Getting Triggers of Flashmob {}", f);
 		delete(Queries.triggersOfFlashmob(f));
 	}
 
+	/**
+	 * 
+	 * @param q
+	 * @return
+	 */
 	@Override
 	public List<Trigger> get(Query<Trigger> q) {
 		return getTriggerDao().find(Store.g(q)).asList();
 	}
 
+	/**
+	 * 
+	 * @param q
+	 */
 	@Override
 	public void delete(Query<Trigger> q) {
 		getTriggerDao().deleteByQuery(Store.r(q));
 	}
 
+	/**
+	 * 
+	 * @param q
+	 * @return
+	 */
 	@Override
 	public Trigger getOne(Query<Trigger> q) {
 		return getTriggerDao().find(Store.g(q)).get();
 	}
 
+	/**
+	 * 
+	 * @param limit
+	 * @return
+	 */
 	@Override
 	public List<Trigger> get(int limit) {
 		return get(all().limit(limit));
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	@Override
 	public Query<Trigger> all() {
 		return getTriggerDao().createQuery();

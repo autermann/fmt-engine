@@ -59,70 +59,157 @@ import de.ifgi.fmt.mongo.stores.Users;
 import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.RESTConstants.ShowStatus;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 public class Store {
 	private static final String DB_REF_ID = "$id";
 
 	private static final Logger log = LoggerFactory.getLogger(Store.class);
 	
+	/**
+	 * 
+	 */
 	public static final class Queries {
 
-		public static Query<Trigger> allTriggers() {
+	    /**
+	     * 
+	     * @return
+	     */
+	    public static Query<Trigger> allTriggers() {
 			return getTriggerDao().createQuery();
 		}
 
+		/**
+		 * 
+		 * @param f
+		 * @return
+		 */
 		public static Query<Trigger> triggersOfFlashmob(Flashmob f) {
 			return getTriggerDao().createQuery().field(Trigger.FLASHMOB).equal(f);
 		}
 
+		/**
+		 * 
+		 * @param f
+		 * @return
+		 */
 		public static Query<Activity> activitiesOfFlashmob(Flashmob f) {
 			return getActivityDao().createQuery().field(Activity.FLASHMOB).equal(f);
 		}
 
+		/**
+		 * 
+		 * @param t
+		 * @return
+		 */
 		public static Query<Activity> activitiesOfTrigger(Trigger t) {
 			return getActivityDao().createQuery().field(Activity.TRIGGER).equal(t);
 		}
 
+		/**
+		 * 
+		 * @param f
+		 * @return
+		 */
 		public static Query<Comment> commentsOfFlashmob(Flashmob f) {
 			return getCommentDao().createQuery().field(Comment.FLASHMOB).equal(f);
 		}
 
+		/**
+		 * 
+		 * @param u
+		 * @return
+		 */
 		public static Query<Comment> commentsOfUser(User u) {
 			return getCommentDao().createQuery().field(Comment.USER).equal(u);
 		}
 
+		/**
+		 * 
+		 * @param u
+		 * @return
+		 */
 		public static Query<Flashmob> flashmobsOfUser(User u) {
 			return hasUser(getFlashmobDao().createQuery(), u);
 		}
 
+		/**
+		 * 
+		 * @param u
+		 * @return
+		 */
 		public static Query<Flashmob> flashmobsByUser(User u) {
 			return coordinatedBy(getFlashmobDao().createQuery(), u);
 		}
 
+		/**
+		 * 
+		 * @param u
+		 * @return
+		 */
 		public static Query<Role> rolesOfUser(User u) {
 			return getRoleDao().createQuery().field(Role.USERS).hasThisElement(u);
 		}
 
+		/**
+		 * 
+		 * @param u
+		 * @param f
+		 * @return
+		 */
 		public static Query<Role> rolesOfUserInFlashmob(User u, Flashmob f) {
 			return Queries.rolesOfUser(u).field(Role.FLASHMOB).equal(f);
 		}
 
+		/**
+		 * 
+		 * @param q
+		 * @param p
+		 * @return
+		 */
 		public static Query<Flashmob> near(Query<Flashmob> q, Point p) {
 			return q.field(Flashmob.LOCATION).near(p.getX(), p.getY(), true);
 		}
 
+		/**
+		 * 
+		 * @param q
+		 * @param bbox
+		 * @return
+		 */
 		public static Query<Flashmob> in(Query<Flashmob> q, BoundingBox bbox) {
 			return q.field(Flashmob.LOCATION).within(bbox.getLeft(),
 					bbox.getBottom(), bbox.getRight(), bbox.getTop());
 		}
 
+		/**
+		 * 
+		 * @param q
+		 * @param u
+		 * @return
+		 */
 		public static Query<Flashmob> coordinatedBy(Query<Flashmob> q, User u) {
 			return q.field(Flashmob.COORDINATOR).equal(u);
 		}
 
+		/**
+		 * 
+		 * @param q
+		 * @param dt
+		 * @return
+		 */
 		public static Query<Flashmob> after(Query<Flashmob> q, DateTime dt) {
 			return q.field(Flashmob.START).greaterThanOrEq(dt);
 		}
 
+		/**
+		 * 
+		 * @param q
+		 * @param dt
+		 * @return
+		 */
 		public static Query<Flashmob> before(Query<Flashmob> q, DateTime dt) {
 			q.or(q.and(q.criteria(Flashmob.END).equal(null),
 					   q.criteria(Flashmob.START).lessThanOrEq(dt)),
@@ -130,12 +217,24 @@ public class Store {
 			return q;
 		}
 
+		/**
+		 * 
+		 * @param q
+		 * @param search
+		 * @return
+		 */
 		public static Query<Flashmob> search(Query<Flashmob> q, String search) {
 			q.or(q.criteria(Flashmob.TITLE).containsIgnoreCase(search),
 					q.criteria(Flashmob.DESCRIPTION).containsIgnoreCase(search));
 			return q;
 		}
 
+		/**
+		 * 
+		 * @param q
+		 * @param u
+		 * @return
+		 */
 		public static Query<Flashmob> hasUser(Query<Flashmob> q, User u) {
 			DBObject keys = new BasicDBObject(Role.FLASHMOB + "." + DB_REF_ID, true);
 			DBObject query  = new BasicDBObject(Role.USERS + "." + DB_REF_ID, u.getUsername());
@@ -146,6 +245,12 @@ public class Store {
 			return q.field(Mapper.ID_KEY).hasAnyOf(fids);
 		}
 
+		/**
+		 * 
+		 * @param q
+		 * @param showStatus
+		 * @return
+		 */
 		public static Query<Flashmob> isPublic(Query<Flashmob> q,
 				ShowStatus showStatus) {
 			switch (showStatus) {
@@ -159,10 +264,20 @@ public class Store {
 			return q;
 		}
 
+		/**
+		 * 
+		 * @param token
+		 * @return
+		 */
 		public static Query<User> userByAuthToken(String token) {
 			return getUserDao().createQuery().field(User.AUTH_TOKEN).equal(token);
 		}
 
+		/**
+		 * 
+		 * @param username
+		 * @return
+		 */
 		public static Query<User> userByName(String username) {
 			return getUserDao().createQuery().field(User.USERNAME).equal(username);
 		}
@@ -174,6 +289,12 @@ public class Store {
 	 * Signal -> Task -> Comments -> Roles User
 	 */
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param q
+	 * @return
+	 */
 	public static <T> Query<T> g(Query<T> q) {
 		if (log.isDebugEnabled()) {
 			log.debug("Querying for {}: {}", q.getEntityClass(), q.toString());
@@ -181,6 +302,12 @@ public class Store {
 		return q;
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 * @param q
+	 * @return
+	 */
 	public static <T> Query<T> r(Query<T> q) {
 		if (log.isDebugEnabled()) {
 			log.debug("Deleting results for query for {}: {}",
@@ -197,34 +324,66 @@ public class Store {
 	private Tasks tasks;
 	private Comments comments;
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Flashmobs flashmobs() {
 		return (flashmobs == null) ? flashmobs = new Flashmobs(this) : flashmobs;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Triggers triggers() {
 		return (triggers == null) ? triggers = new Triggers(this) : triggers;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Activities activities() {
 		return (activities == null) ? activities = new Activities(this) : activities;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Users users() {
 		return (users == null) ? users = new Users(this) : users;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Roles roles() {
 		return (roles == null) ? roles = new Roles(this) : roles;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Tasks tasks() {
 		return (tasks == null) ? tasks = new Tasks(this) : tasks;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Comments comments() {
 		return (comments == null) ? comments = new Comments(this) : comments;
 	}
 	
+	/**
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		MongoDB db = MongoDB.getInstance();

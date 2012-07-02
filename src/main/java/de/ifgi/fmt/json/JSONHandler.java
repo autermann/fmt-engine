@@ -22,20 +22,37 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.uncertweb.api.gml.io.JSONGeometryDecoder;
 import org.uncertweb.api.gml.io.JSONGeometryEncoder;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ * @param <T>
+ */
 public abstract class JSONHandler<T> implements JSONDecoder<T>, JSONEncoder<T> {
 
 	private final DateTimeFormatter dtf = ISODateTimeFormat.dateTime();
 	private final JSONGeometryEncoder geomenc = new JSONGeometryEncoder();
 	private final JSONGeometryDecoder geomdec = new JSONGeometryDecoder();
 
+	/**
+	 * 
+	 * @return
+	 */
 	protected DateTimeFormatter getDateTimeFormat() {
 		return dtf;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	protected JSONGeometryDecoder getGeometryDecoder() {
 		return geomdec;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	protected JSONGeometryEncoder getGeometryEncoder() {
 		return geomenc;
 	}

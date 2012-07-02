@@ -25,11 +25,18 @@ import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONListProvider;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Provider
 @Produces(MediaTypes.ACTIVITY_LIST)
 public class ActivityListProvider extends AbstractJSONListProvider<Activity> {
 
-	public ActivityListProvider() {
+    /**
+     * 
+     */
+    public ActivityListProvider() {
 		super(Activity.class, JSONConstants.ACTIVITIES_KEY, MediaTypes.ACTIVITY_LIST_TYPE);
 	}
 

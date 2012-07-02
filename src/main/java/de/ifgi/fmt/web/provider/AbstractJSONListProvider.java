@@ -37,18 +37,41 @@ import de.ifgi.fmt.json.JSONEncoder;
 import de.ifgi.fmt.json.JSONFactory;
 import de.ifgi.fmt.utils.Utils;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ * @param <T>
+ */
 public abstract class AbstractJSONListProvider<T> extends
 		AbstractWriterProvider<Iterable<T>> {
 
 	private String collectionName;
 	private JSONEncoder<T> enc;
 
+	/**
+	 * 
+	 * @param clazz
+	 * @param collectionName
+	 * @param mt
+	 */
 	public AbstractJSONListProvider(Class<T> clazz, String collectionName, MediaType mt) {
 		super(clazz, true, mt);
 		this.collectionName = collectionName;
 		this.enc = JSONFactory.getEncoder(clazz);
 	}
 
+	/**
+	 * 
+	 * @param list
+	 * @param t
+	 * @param gt
+	 * @param a
+	 * @param mt
+	 * @param h
+	 * @param os
+	 * @throws IOException
+	 * @throws WebApplicationException
+	 */
 	@Override
 	public void writeTo(Iterable<T> list, Class<?> t, Type gt, Annotation[] a,
 			MediaType mt, MultivaluedMap<String, Object> h, OutputStream os)

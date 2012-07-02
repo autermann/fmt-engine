@@ -28,15 +28,28 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @SuppressWarnings("rawtypes")
 public class PointConverter extends TypeConverter implements
 		SimpleValueConverter {
 	private GeometryFactory f = new GeometryFactory();
 
+	/**
+	 * 
+	 */
 	public PointConverter() {
 		super(Point.class);
 	}
 
+	/**
+	 * 
+	 * @param value
+	 * @param optionalExtraInfo
+	 * @return
+	 */
 	@Override
 	public Object encode(Object value, MappedField optionalExtraInfo) {
 		if (value == null)
@@ -48,6 +61,14 @@ public class PointConverter extends TypeConverter implements
 		return l;
 	}
 
+	/**
+	 * 
+	 * @param c
+	 * @param o
+	 * @param i
+	 * @return
+	 * @throws MappingException
+	 */
 	@Override
 	public Point decode(Class c, Object o, MappedField i)
 			throws MappingException {

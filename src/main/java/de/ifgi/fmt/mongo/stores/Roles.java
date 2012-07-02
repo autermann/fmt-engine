@@ -36,15 +36,28 @@ import de.ifgi.fmt.mongo.ExtendedDao;
 import de.ifgi.fmt.mongo.Store;
 import de.ifgi.fmt.mongo.Store.Queries;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 public class Roles implements ExtendedDao<Role> {
 	private static final Logger log = LoggerFactory.getLogger(Roles.class);
 	@SuppressWarnings("unused")
 	private final Store store;
 
+	/**
+	 * 
+	 * @param store
+	 */
 	public Roles(Store store) {
 		this.store = store;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public Role get(ObjectId id) {
 		log.debug("Getting Role {}", id);
 		Role r = getRoleDao().get(id);
@@ -54,16 +67,29 @@ public class Roles implements ExtendedDao<Role> {
 		return r;
 	}
 
+	/**
+	 * 
+	 * @param f
+	 */
 	public void delete(Flashmob f) {
 		delete(f.getRoles());
 	}
 
+	/**
+	 * 
+	 * @param role
+	 * @return
+	 */
 	public Role save(Role role) {
 		log.debug("Saving Role {}", role);
 		getRoleDao().save(role);
 		return role;
 	}
 
+	/**
+	 * 
+	 * @param roles
+	 */
 	@Override
 	public void save(Collection<Role> roles) {
 		log.debug("Saving {} Roles", roles.size());
@@ -72,25 +98,48 @@ public class Roles implements ExtendedDao<Role> {
 		}
 	}
 
+	/**
+	 * 
+	 * @param u
+	 * @return
+	 */
 	public List<Role> get(User u) {
 		log.debug("Getting Roles of User {}", u);
 		return get(Queries.rolesOfUser(u));
 	}
 
+	/**
+	 * 
+	 * @param q
+	 * @return
+	 */
 	public List<Role> get(Query<Role> q) {
 		return getRoleDao().find(Store.g(q)).asList();
 	}
 
+	/**
+	 * 
+	 * @param q
+	 * @return
+	 */
 	public Role getOne(Query<Role> q) {
 		return getRoleDao().find(Store.g(q)).get();
 	}
 
+	/**
+	 * 
+	 * @param t
+	 */
 	@Override
 	public void delete(Role t) {
 		log.debug("Deleting Role {}", t);
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
+	/**
+	 * 
+	 * @param ts
+	 */
 	@Override
 	public void delete(Collection<Role> ts) {
 		log.debug("Deleting {} Roles", ts.size());
@@ -99,21 +148,40 @@ public class Roles implements ExtendedDao<Role> {
 		}
 	}
 
+	/**
+	 * 
+	 * @param limit
+	 * @return
+	 */
 	@Override
 	public List<Role> get(int limit) {
 		return get(all().limit(limit));
 	}
 
+	/**
+	 * 
+	 * @param q
+	 */
 	@Override
 	public void delete(Query<Role> q) {
 		getRoleDao().deleteByQuery(Store.r(q));
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	@Override
 	public Query<Role> all() {
 		return getRoleDao().createQuery();
 	}
 
+	/**
+	 * 
+	 * @param f
+	 * @param u
+	 * @return
+	 */
 	public Role get(Flashmob f, User u) {
 		log.debug("Getting Role of User {} in Flashmob", f);
 		return getOne(Queries.rolesOfUserInFlashmob(u, f));

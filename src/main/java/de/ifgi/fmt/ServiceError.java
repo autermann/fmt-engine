@@ -17,6 +17,10 @@
  */
 package de.ifgi.fmt;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 public class ServiceError extends RuntimeException {
 
     private static final long serialVersionUID = 5597652128019474217L;

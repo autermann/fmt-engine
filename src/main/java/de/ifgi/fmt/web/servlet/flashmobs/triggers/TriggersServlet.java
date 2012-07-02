@@ -34,16 +34,31 @@ import de.ifgi.fmt.model.trigger.Trigger;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Path(Paths.TRIGGERS_OF_FLASHMOB)
 public class TriggersServlet extends AbstractServlet {
 
-	@GET
+    /**
+     * 
+     * @param flashmob
+     * @return
+     */
+    @GET
 	@Produces(MediaTypes.TRIGGER_LIST)
 	public List<Trigger> getTriggers(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
 		return getService().getTriggers(flashmob);
 	}
 
+	/**
+	 * 
+	 * @param flashmob
+	 * @param t
+	 * @return
+	 */
 	@POST
 	@Produces(MediaTypes.TRIGGER)
 	@Consumes(MediaTypes.TRIGGER)

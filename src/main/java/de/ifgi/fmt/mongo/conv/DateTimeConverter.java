@@ -26,14 +26,27 @@ import com.google.code.morphia.converters.TypeConverter;
 import com.google.code.morphia.mapping.MappedField;
 import com.google.code.morphia.mapping.MappingException;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @SuppressWarnings("rawtypes")
 public class DateTimeConverter extends TypeConverter implements
     SimpleValueConverter {
-	public DateTimeConverter() {
+    /**
+     * 
+     */
+    public DateTimeConverter() {
 		super(DateTime.class);
 	}
 
-	@Override
+    /**
+     * 
+     * @param value
+     * @param optionalExtraInfo
+     * @return
+     */
+    @Override
 	public Object encode(Object value, MappedField optionalExtraInfo) {
 		if (value == null)
 			return null;
@@ -41,6 +54,14 @@ public class DateTimeConverter extends TypeConverter implements
 		return new Date(dt.getMillis());
 	}
 
+	/**
+	 * 
+	 * @param c
+	 * @param o
+	 * @param i
+	 * @return
+	 * @throws MappingException
+	 */
 	@Override
 	public Object decode(Class c, Object o, MappedField i)
 	    throws MappingException {

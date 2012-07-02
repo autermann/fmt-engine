@@ -42,6 +42,10 @@ import de.ifgi.fmt.utils.Implementations;
 import de.ifgi.fmt.utils.Stringifier;
 import de.ifgi.fmt.utils.Utils;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 public class MongoDB {
 
 	private static final Logger log = LoggerFactory.getLogger(MongoDB.class);
@@ -58,6 +62,10 @@ public class MongoDB {
 
 	private static MongoDB instance;
 
+	/**
+	 * 
+	 * @return
+	 */
 	public static MongoDB getInstance() {
 		return (instance == null) ? instance = new MongoDB() : instance;
 	}
@@ -67,6 +75,9 @@ public class MongoDB {
 	private final Datastore datastore;
 	private final String database;
 
+	/**
+	 * 
+	 */
 	protected MongoDB() {
 		try {
 			MorphiaLoggerFactory.registerLogger(SLF4JLogrImplFactory.class);
@@ -128,43 +139,81 @@ public class MongoDB {
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Mongo getMongo() {
 		return this.mongo;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Morphia getMorphia() {
 		return this.morphia;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Datastore getDatastore() {
 		return this.datastore;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getDatabase() {
 		return this.database;
 	}
 
+	/**
+	 * 
+	 * @param <T>
+	 */
 	public static class MongoDao<T> extends BasicDAO<T, ObjectId> {
 
-		protected MongoDao(Class<T> entityClass) {
+	    /**
+	     * 
+	     * @param entityClass
+	     */
+	    protected MongoDao(Class<T> entityClass) {
 			super(entityClass, getInstance().getDatastore());
 			getDatastore().setDefaultWriteConcern(WriteConcern.SAFE);
 			getDatastore().ensureCaps();
 			getDatastore().ensureIndexes();
 		}
 
+		/**
+		 * 
+		 * @param col
+		 */
 		public void saveAll(Iterable<? extends T> col) {
 			for (T t : col) {
 				save(t);
 			}
 		}
 		
+		/**
+		 * 
+		 * @param col
+		 */
 		public void deleteAll(Iterable<? extends T> col) {
 			for (T t : col) {
 				delete(t);
 			}
 		}
 
+		/**
+		 * 
+		 * @param <U>
+		 * @param entity
+		 * @return
+		 */
 		public static <U> MongoDao<U> get(Class<U> entity) {
 			return new MongoDao<U>(entity);
 		}

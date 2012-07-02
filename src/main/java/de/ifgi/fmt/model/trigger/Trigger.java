@@ -32,11 +32,27 @@ import com.google.code.morphia.annotations.Reference;
 
 import de.ifgi.fmt.model.Flashmob;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Entity(Trigger.COLLECTION_NAME)
 public abstract class Trigger {
-	public static final String COLLECTION_NAME = "triggers";
-	public static final String CREATION_TIME = "creationTime";
+    /**
+     * 
+     */
+    public static final String COLLECTION_NAME = "triggers";
+    /**
+     * 
+     */
+    public static final String CREATION_TIME = "creationTime";
+	/**
+	 * 
+	 */
 	public static final String FLASHMOB = "flashmob";
+	/**
+	 * 
+	 */
 	public static final String LAST_CHANGED = "lastChanged";
 
 	@NotNull
@@ -59,6 +75,9 @@ public abstract class Trigger {
 	@Property(Trigger.LAST_CHANGED)
 	private DateTime lastChangedTime = new DateTime();
 
+	/**
+	 * 
+	 */
 	@PrePersist
 	public void changed() {
 		setLastChangedTime(new DateTime());
@@ -72,18 +91,34 @@ public abstract class Trigger {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public DateTime getCreationTime() {
 		return creationTime;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Flashmob getFlashmob() {
 		return flashmob;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public ObjectId getId() {
 		return id;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public DateTime getLastChangedTime() {
 		return lastChangedTime;
 	}
@@ -93,21 +128,41 @@ public abstract class Trigger {
 		return getId().hashCode();
 	}
 
+	/**
+	 * 
+	 * @param creationTime
+	 * @return
+	 */
 	public Trigger setCreationTime(DateTime creationTime) {
 		this.creationTime = creationTime;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param flashmob
+	 * @return
+	 */
 	public Trigger setFlashmob(Flashmob flashmob) {
 		this.flashmob = flashmob;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public Trigger setId(ObjectId id) {
 		this.id = id;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param lastChangedTime
+	 * @return
+	 */
 	public Trigger setLastChangedTime(DateTime lastChangedTime) {
 		this.lastChangedTime = lastChangedTime;
 		return this;

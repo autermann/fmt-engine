@@ -25,10 +25,20 @@ import de.ifgi.fmt.model.signal.VibrationSignal;
 import de.ifgi.fmt.update.EntityUpdater;
 import de.ifgi.fmt.update.UpdateFactory.Updates;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Updates(Signal.class)
 public class SignalUpdater extends EntityUpdater<Signal> {
 
-	@Override
+    /**
+     * 
+     * @param old
+     * @param changes
+     * @return
+     */
+    @Override
 	public Signal update(Signal old, Signal changes) {
 		if (old instanceof SoundSignal) {
 			if (!(changes instanceof SoundSignal)) {

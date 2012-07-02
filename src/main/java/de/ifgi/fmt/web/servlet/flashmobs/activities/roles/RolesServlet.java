@@ -34,10 +34,20 @@ import de.ifgi.fmt.model.Role;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Path(Paths.ROLES_OF_ACTIVITY_OF_FLASHMOB)
 public class RolesServlet extends AbstractServlet {
 
-	@GET
+    /**
+     * 
+     * @param flashmob
+     * @param activity
+     * @return
+     */
+    @GET
 	@Produces(MediaTypes.ROLE_LIST)
 	public List<Role> getRoles(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
@@ -45,7 +55,14 @@ public class RolesServlet extends AbstractServlet {
 		return getService().getRoles(activity, flashmob);
 	}
 
-	@POST
+    /**
+     * 
+     * @param flashmob
+     * @param activity
+     * @param r
+     * @return
+     */
+    @POST
 	@Produces(MediaTypes.ROLE)
 	@Consumes(MediaTypes.ROLE)
 	public Response setRole(

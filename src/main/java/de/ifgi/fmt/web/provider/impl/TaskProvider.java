@@ -25,12 +25,19 @@ import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Provider
 @Produces(MediaTypes.TASK)
 @Consumes(MediaTypes.TASK)
 public class TaskProvider extends AbstractJSONProvider<Task> {
 
-	public TaskProvider() {
+    /**
+     * 
+     */
+    public TaskProvider() {
 		super(Task.class, MediaTypes.TASK_TYPE);
 	}
 

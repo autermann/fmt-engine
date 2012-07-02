@@ -24,19 +24,35 @@ import org.joda.time.DateTime;
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Polymorphic
 public class TimeTrigger extends Trigger {
 
-	public static final String TIME = "time";
+    /**
+     * 
+     */
+    public static final String TIME = "time";
 
 	@NotNull
 	@Property(TimeTrigger.TIME)
 	private DateTime time;
 
+	/**
+	 * 
+	 * @return
+	 */
 	public DateTime getTime() {
 		return time;
 	}
 
+	/**
+	 * 
+	 * @param time
+	 * @return
+	 */
 	public TimeTrigger setTime(DateTime time) {
 		this.time = time;
 		return this;

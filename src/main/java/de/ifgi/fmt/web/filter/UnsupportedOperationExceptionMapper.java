@@ -32,6 +32,10 @@ import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Provider
 public class UnsupportedOperationExceptionMapper implements
 		ExceptionMapper<UnsupportedOperationException> {
@@ -39,6 +43,11 @@ public class UnsupportedOperationExceptionMapper implements
 	private static final Logger log = LoggerFactory
 			.getLogger(UnsupportedOperationException.class);
 
+	/**
+	 * 
+	 * @param e
+	 * @return
+	 */
 	@Override
 	public Response toResponse(UnsupportedOperationException e) {
 		try {

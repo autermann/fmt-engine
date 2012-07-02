@@ -31,10 +31,20 @@ import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Path(Paths.ACTIVITY_OF_FLASHMOB)
 public class ActivityServlet extends AbstractServlet {
 
-	@GET
+    /**
+     * 
+     * @param flashmob
+     * @param activity
+     * @return
+     */
+    @GET
 	@Produces(MediaTypes.ACTIVITY)
 	public Activity getActivity(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
@@ -42,7 +52,14 @@ public class ActivityServlet extends AbstractServlet {
 		return getService().getActivity(flashmob, activity);
 	}
 
-	@PUT
+    /**
+     * 
+     * @param flashmob
+     * @param activity
+     * @param a
+     * @return
+     */
+    @PUT
 	@Produces(MediaTypes.ACTIVITY)
 	@Consumes(MediaTypes.ACTIVITY)
 	public Activity updateActivity(
@@ -51,7 +68,12 @@ public class ActivityServlet extends AbstractServlet {
 		return getService().updateActivity(a, activity, flashmob);
 	}
 
-	@DELETE
+    /**
+     * 
+     * @param flashmob
+     * @param activity
+     */
+    @DELETE
 	public void deleteActivity(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {

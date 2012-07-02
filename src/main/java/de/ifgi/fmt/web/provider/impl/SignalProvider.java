@@ -25,12 +25,19 @@ import de.ifgi.fmt.model.signal.Signal;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Provider
 @Produces(MediaTypes.SIGNAL)
 @Consumes(MediaTypes.SIGNAL)
 public class SignalProvider extends AbstractJSONProvider<Signal> {
 
-	public SignalProvider() {
+    /**
+     * 
+     */
+    public SignalProvider() {
 		super(Signal.class, MediaTypes.SIGNAL_TYPE);
 	}
 

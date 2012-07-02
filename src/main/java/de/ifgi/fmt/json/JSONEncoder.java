@@ -22,8 +22,27 @@ import javax.ws.rs.core.UriInfo;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+/**
+ * Encodes a Json Object
+ * @author Autermann, Demuth, Radtke
+ * @param <T> a type
+ */
 public interface JSONEncoder<T> {
 
-	public JSONObject encode(T t, UriInfo uri) throws JSONException;
-	public JSONObject encodeAsRef(T t, UriInfo uriInfo) throws JSONException;
+    /**
+     * Encodes a Type as a Json object
+     * @param t a Type
+     * @param uri a URI
+     * @return a JsonObejct
+     * @throws JSONException
+     */
+    public JSONObject encode(T t, UriInfo uri) throws JSONException;
+    /**
+     * Encodes a type as a jsonobject, leaves a reference to the object
+     * @param t a type
+     * @param uriInfo a urinfo
+     * @return a JsonObject
+     * @throws JSONException
+     */
+    public JSONObject encodeAsRef(T t, UriInfo uriInfo) throws JSONException;
 }

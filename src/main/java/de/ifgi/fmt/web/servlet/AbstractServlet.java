@@ -42,15 +42,37 @@ import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants;
 import de.ifgi.fmt.web.filter.auth.FmtPrinciple;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @PermitAll
 public abstract class AbstractServlet implements RESTConstants {
 
-	protected static final String DEFAULT_LIMIT = "20";
+    /**
+     * 
+     */
+    protected static final String DEFAULT_LIMIT = "20";
+	/**
+	 * 
+	 */
 	protected static final String TRUE = "true";
+	/**
+	 * 
+	 */
 	protected static final String FALSE = "false";
+	/**
+	 * 
+	 */
 	protected static final String ZERO = "0";
+	/**
+	 * 
+	 */
 	protected static final String MINUS_ONE = "-1";
 
+	/**
+	 * 
+	 */
 	protected static final Logger log = LoggerFactory	.getLogger(RootServlet.class);
 	private static final DateTimeFormatter ISO8601 = ISODateTimeFormat.dateTime();
 	
@@ -60,6 +82,11 @@ public abstract class AbstractServlet implements RESTConstants {
 	private @Context UriInfo uriInfo;
 	private @Context SecurityContext securityContext;
 
+	/**
+	 * 
+	 * @param role
+	 * @return
+	 */
 	protected boolean hasRole(String role) {
 		if (getSecurityContext() == null) {
 			log.warn("No security context available for this request!");
@@ -68,6 +95,10 @@ public abstract class AbstractServlet implements RESTConstants {
 		return getSecurityContext().isUserInRole(role);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	protected User getUser() {
 		Principal p = getSecurityContext().getUserPrincipal();
 		if (p != null && p instanceof FmtPrinciple) {
@@ -76,41 +107,84 @@ public abstract class AbstractServlet implements RESTConstants {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param username
+	 * @return
+	 */
 	protected boolean isAdminOrUserWithId(String username) {
 		return isAdmin() || (isUser() && getUser().getUsername().equals(username));
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	protected boolean isLoggedIn() {
 		return isUser() || isAdmin();
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	protected boolean isAdmin() {
 		return hasRole(Roles.ADMIN);
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	protected boolean isUser() {
 		return hasRole(Roles.USER);
 	}
+	/**
+	 * 
+	 * @param flashmob
+	 */
 	protected void isAdminOrCoordinator(ObjectId flashmob) {
 		if (!isAdminOrUserWithId(getService().getFlashmob(flashmob).getCoordinator().getUsername())) {
 			throw ServiceError.notCoordinator();
 		}
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	protected boolean isGuest() {
 		return hasRole(Roles.GUEST) || !(isUser() || isAdmin());
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	protected SecurityContext getSecurityContext(){
 		return securityContext;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	protected UriInfo getUriInfo() {
 		return this.uriInfo;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	protected Service getService() {
 		return this.service;
 	}
 
+	/**
+	 * 
+	 * @param time
+	 * @param paramName
+	 * @return
+	 */
 	protected DateTime parseDateTime(String time, String paramName) {
 		try {
 			return ISO8601.parseDateTime(time);
@@ -119,6 +193,12 @@ public abstract class AbstractServlet implements RESTConstants {
 		}
 	}
 
+	/**
+	 * 
+	 * @param position
+	 * @param paramName
+	 * @return
+	 */
 	protected Point parsePoint(String position, String paramName) {
 		if (position == null || position.isEmpty()) {
 			return null;

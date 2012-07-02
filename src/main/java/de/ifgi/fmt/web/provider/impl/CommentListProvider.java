@@ -25,11 +25,18 @@ import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONListProvider;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Provider
 @Produces(MediaTypes.COMMENT_LIST)
 public class CommentListProvider extends AbstractJSONListProvider<Comment> {
 
-	public CommentListProvider() {
+    /**
+     * 
+     */
+    public CommentListProvider() {
 		super(Comment.class, JSONConstants.COMMENTS_KEY,
 				MediaTypes.COMMENT_LIST_TYPE);
 	}

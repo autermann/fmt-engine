@@ -25,20 +25,38 @@ import com.google.code.morphia.annotations.Property;
 
 import de.ifgi.fmt.utils.constants.JSONConstants;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Polymorphic
 public class TextSignal extends Signal {
 
-	public static final String TEXT = "text";
+    /**
+     * 
+     */
+    public static final String TEXT = "text";
 
 	@Property(TextSignal.TEXT)
 	private String text;
 
+	/**
+	 * 
+	 * @param j
+	 * @return
+	 */
 	@Override
 	public Signal decode(JSONObject j) {
 		setText(j.optString(JSONConstants.TEXT_KEY, null));
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param j
+	 * @return
+	 * @throws JSONException
+	 */
 	@Override
 	public Signal encode(JSONObject j) throws JSONException {
 		if (getText() != null) {
@@ -47,10 +65,18 @@ public class TextSignal extends Signal {
 		return this;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getText() {
 		return text;
 	}
 
+	/**
+	 * 
+	 * @param text
+	 */
 	public void setText(String text) {
 		this.text = text;
 	}

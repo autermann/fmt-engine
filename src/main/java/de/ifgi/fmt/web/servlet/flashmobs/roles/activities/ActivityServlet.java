@@ -30,10 +30,20 @@ import de.ifgi.fmt.model.signal.Signal;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Path(Paths.ACTIVITY_OF_ROLE_OF_FLASHMOB)
 public class ActivityServlet extends AbstractServlet {
 
-	@DELETE
+    /**
+     * 
+     * @param flashmob
+     * @param role
+     * @param activity
+     */
+    @DELETE
 	public void removeActivity(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
@@ -41,6 +51,13 @@ public class ActivityServlet extends AbstractServlet {
 		getService().removeRoleFromActivity(flashmob, activity, role);
 	}
 	
+	/**
+	 * 
+	 * @param flashmob
+	 * @param role
+	 * @param activity
+	 * @return
+	 */
 	@GET
 	@Produces(MediaTypes.ACTIVITY)
 	public Activity getActivity(
@@ -50,6 +67,13 @@ public class ActivityServlet extends AbstractServlet {
 		return getService().getActivityForRole(flashmob, role, activity);
 	}
 	
+	/**
+	 * 
+	 * @param flashmob
+	 * @param role
+	 * @param activity
+	 * @return
+	 */
 	@GET
 	@Path(Paths.SIGNAL)
 	@Produces(MediaTypes.SIGNAL)

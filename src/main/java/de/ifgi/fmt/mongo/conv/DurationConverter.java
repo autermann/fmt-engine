@@ -24,14 +24,27 @@ import com.google.code.morphia.converters.TypeConverter;
 import com.google.code.morphia.mapping.MappedField;
 import com.google.code.morphia.mapping.MappingException;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @SuppressWarnings("rawtypes")
 public class DurationConverter extends TypeConverter implements
     SimpleValueConverter {
 
-	public DurationConverter() {
+    /**
+     * 
+     */
+    public DurationConverter() {
 		super(Duration.class);
 	}
 
+	/**
+	 * 
+	 * @param value
+	 * @param optionalExtraInfo
+	 * @return
+	 */
 	@Override
 	public Object encode(Object value, MappedField optionalExtraInfo) {
 		if (value == null)
@@ -40,6 +53,14 @@ public class DurationConverter extends TypeConverter implements
 		return dt.getMillis();
 	}
 
+	/**
+	 * 
+	 * @param c
+	 * @param o
+	 * @param i
+	 * @return
+	 * @throws MappingException
+	 */
 	@Override
 	public Object decode(Class c, Object o, MappedField i)
 	    throws MappingException {

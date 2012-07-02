@@ -40,10 +40,31 @@ import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 
+/**
+ * 
+ * @author Autermann, Demuth, Radtke
+ */
 @Path(Paths.FLASHMOBS)
 public class FlashmobsServlet extends AbstractServlet {
 	
-	@GET
+    /**
+     * 
+     * @param limit
+     * @param near
+     * @param user
+     * @param bbox
+     * @param from
+     * @param to
+     * @param sorting
+     * @param descending
+     * @param show
+     * @param search
+     * @param minParticipants
+     * @param maxParticipants
+     * @param participant
+     * @return
+     */
+    @GET
 	@Produces(MediaTypes.FLASHMOB_LIST)
 	public List<Flashmob> getFlashmobs(
 			@QueryParam(QueryParams.LIMIT) int limit,
@@ -80,6 +101,11 @@ public class FlashmobsServlet extends AbstractServlet {
 				minParticipants, maxParticipants);
 	}
 
+	/**
+	 * 
+	 * @param f
+	 * @return
+	 */
 	@POST
 	@Produces(MediaTypes.FLASHMOB)
 	@Consumes(MediaTypes.FLASHMOB)
