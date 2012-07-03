@@ -28,7 +28,6 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.TRIGGER_KEY;
 
 import javax.ws.rs.core.UriInfo;
 
-import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -53,6 +52,7 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 @Encodes(Activity.class)
 public class ActivityHandler extends JSONHandler<Activity> {
 
+	
     /**
      * 
      * @param j
@@ -62,14 +62,9 @@ public class ActivityHandler extends JSONHandler<Activity> {
     @Override
 	public Activity decode(JSONObject j) throws JSONException {
 		Activity a = new Activity();
-		String id = j.optString(ID_KEY, null);
-		if (id != null) {
-			a.setId(new ObjectId(id));
-		}
-		
+		a.setId(parseId(j));
 		a.setDescription(j.optString(DESCRIPTION_KEY, null));
 		a.setTitle(j.optString(TITLE_KEY, null));
-		
 		return a;
 	}
 

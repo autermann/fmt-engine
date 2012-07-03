@@ -48,7 +48,9 @@ public class TriggerUpdater extends EntityUpdater<Trigger> {
 			if (tt.getDescription() != null) {
 				((EventTrigger) old).setDescription(tt.getDescription());
 			}
-		} else if (old instanceof TimeTrigger) {
+		}
+		
+		if (old instanceof TimeTrigger) {
 			if (!(changes instanceof TimeTrigger)) {
 				throw ServiceError.badRequest("incompatible trigger types");
 			}
@@ -57,7 +59,9 @@ public class TriggerUpdater extends EntityUpdater<Trigger> {
 				((TimeTrigger) old).setTime(tt.getTime());
 			}
 			
-		} else if (old instanceof LocationTrigger) {
+		}
+		
+		if (old instanceof LocationTrigger) {
 			if (!(changes instanceof LocationTrigger)) {
 				throw ServiceError.badRequest("incompatible trigger types");
 			}

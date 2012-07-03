@@ -23,7 +23,6 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.TYPE_KEY;
 
 import javax.ws.rs.core.UriInfo;
 
-import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -64,11 +63,7 @@ public class SignalHandler extends JSONHandler<Signal> {
 			s = new VibrationSignal();
 		else
 			throw ServiceError.badRequest(String.format("Signal type %s is unknown.", type));
-		String id = j.optString(ID_KEY, null);
-		if (id != null) {
-			s.setId(new ObjectId(id));
-		}
-		return s.decode(j);
+		return s.setId(parseId(j)).decode(j);
 	}
 
     /**

@@ -25,21 +25,19 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.HREF_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.ID_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.ITEMS_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.LOCATION_KEY;
-import static de.ifgi.fmt.utils.constants.JSONConstants.TITLE_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.MAX_PARTICIPANTS_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.MIN_PARTICIPANTS_KEY;
+import static de.ifgi.fmt.utils.constants.JSONConstants.TITLE_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.USERS_KEY;
 
 import java.util.Set;
 
 import javax.ws.rs.core.UriInfo;
 
-import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
 
 import de.ifgi.fmt.ServiceError;
@@ -63,16 +61,6 @@ public class RoleHandler extends JSONHandler<Role>{
 	
     /**
      * 
-     * @param args
-     * @throws JSONException
-     */
-    public static void main(String[] args) throws JSONException {
-		String j = "{\"title\":\"Standard\",\"description\":\"Standard role\",\"maxParticipants\":100,\"minParticipants\":0}";
-		new RoleHandler().decode(new JSONObject(j));
-	}
-	
-    /**
-     * 
      * @param j
      * @return
      * @throws JSONException
@@ -80,44 +68,28 @@ public class RoleHandler extends JSONHandler<Role>{
     @Override
 	public Role decode(JSONObject j) throws JSONException {
 		Role r = new Role();
-		String id = j.optString(ID_KEY, null);
-		if (id != null) {
-			r.setId(new ObjectId(id));
-		}
+		r.setId(parseId(j));
 		r.setTitle(j.optString(TITLE_KEY, null));
 		r.setDescription(j.optString(DESCRIPTION_KEY, null));
-
-		String category = j.optString(CATEGORY_KEY, null);
-		if (category != null) {
-			try {
-				r.setCategory(Category.valueOf(category));
-			}catch (IllegalArgumentException e) {
-				throw ServiceError.badRequest(e);
-			}
-		}
-		String location = j.optString(LOCATION_KEY, null);
-		if (location != null) {
-			Geometry g;
-			try {
-				g = getGeometryDecoder().parseUwGeometry(location);
-			} catch (Exception e) {
-				throw ServiceError.badRequest(e);
-			}
-			if (!(g instanceof Point)) {
-				throw ServiceError.badRequest("only points are allowed");
-			}
-			r.setStartPoint((Point) g);
-		}
-		
+		r.setCategory(parseEnum(j, Category.class, CATEGORY_KEY));
+		r.setStartPoint(parseGeometry(j, Point.class, LOCATION_KEY));
 		r.setMinCount(j.optInt(MIN_PARTICIPANTS_KEY, -1));
 		r.setMaxCount(j.optInt(MAX_PARTICIPANTS_KEY, -1));
-		JSONArray jtems = j.optJSONArray(ITEMS_KEY);
-		if (jtems != null) {
-			Set<String> items = Utils.set();
-			for (int i = 0; i < jtems.length(); ++i) {
-				items.add(jtems.getString(i));
+	
+		if (isNull(j, ITEMS_KEY)) {
+			r.setItems(null);
+		} else if (hasKeyNotNull(j, ITEMS_KEY)) {
+			Object io = j.opt(ITEMS_KEY);
+			if (io instanceof JSONArray) {
+				JSONArray jtems = (JSONArray) io;
+				Set<String> items = Utils.set();
+				for (int i = 0; i < jtems.length(); ++i) {
+					items.add(jtems.getString(i));
+				}
+				r.setItems(items);
+			} else if (io instanceof String) {
+				r.setItems(Utils.set((String) io));
 			}
-			r.setItems(items);
 		}
 		
 		return r;

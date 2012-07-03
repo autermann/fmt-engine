@@ -20,6 +20,7 @@ package de.ifgi.fmt.update.impl;
 import de.ifgi.fmt.model.Role;
 import de.ifgi.fmt.update.EntityUpdater;
 import de.ifgi.fmt.update.UpdateFactory.Updates;
+import de.ifgi.fmt.utils.Utils;
 
 /**
  * 
@@ -50,6 +51,14 @@ public class RoleUpdater extends EntityUpdater<Role> {
 		}
 		if (changes.getDescription() != null) {
 			old.setDescription(changes.getDescription());
+		}
+		if (changes.getTitle() != null) {
+			old.setTitle(changes.getTitle());
+		}
+		if (changes.getItems() == null) {
+			old.setItems(Utils.<String>set());
+		} else if (!changes.getItems().isEmpty()) {
+			old.setItems(changes.getItems());
 		}
 		return old;
 	}

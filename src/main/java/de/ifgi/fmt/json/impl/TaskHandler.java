@@ -25,12 +25,8 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.LINE_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.ROLE_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.TYPE_KEY;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import javax.ws.rs.core.UriInfo;
 
-import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -57,7 +53,7 @@ import de.ifgi.fmt.model.task.Task;
 @Decodes(Task.class)
 public class TaskHandler extends JSONHandler<Task> {
 
-    /**
+	/**
      * 
      * @param j
      * @return
@@ -73,39 +69,16 @@ public class TaskHandler extends JSONHandler<Task> {
 			throw ServiceError.badRequest("tasks can only hold a link or a line");
 		}
 		if (line != null) {
-			LineTask lt = new LineTask();
-			try {
-				lt.setLine((LineString) getGeometryDecoder().parseUwGeometry(line));
-			} catch (Exception e) {
-				throw ServiceError.badRequest(e);
-			}
-			t = lt;
+			t = new LineTask().setLine(parseGeometry(j, LineString.class, LINE_KEY));
 		} else if (href != null || type != null) {
-			LinkTask lt = new LinkTask();
-			if (href != null) {
-				try {
-					lt.setLink(new URI(href));
-				} catch (URISyntaxException e) {
-					throw ServiceError.badRequest(e);
-				}
-			}
-			if (type != null) {
-				try {
-					lt.setType(Type.valueOf(type));
-				} catch(IllegalArgumentException e) {
-					throw ServiceError.badRequest(e);
-				}
-			}
-			t = lt;
+			t = new LinkTask()
+				.setLink(parseURI(j, HREF_KEY))
+				.setType(parseEnum(j, Type.class, TYPE_KEY));
 		} else {
 			t = new Task();
 		}
 		
-		
-		String id = j.optString(ID_KEY, null);
-		if (id != null) {
-			t.setId(new ObjectId(id));
-		}
+		t.setId(parseId(j));
 		t.setDescription(j.optString(DESCRIPTION_KEY, null));
 		
 		return t;

@@ -45,7 +45,8 @@ public class LineTask extends Task {
 	 * 
 	 * @param line
 	 */
-	public void setLine(LineString line) {
+	public LineTask setLine(LineString line) {
 		this.line = line;
+		return this;
 	}
 }

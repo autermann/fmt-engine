@@ -83,16 +83,18 @@ public class LinkTask extends Task {
 	 * 
 	 * @param link
 	 */
-	public void setLink(URI link) {
+	public LinkTask setLink(URI link) {
 		this.link = link;
+		return this;
 	}
 
 	/**
 	 * 
 	 * @param type
 	 */
-	public void setType(Type type) {
+	public LinkTask setType(Type type) {
 		this.type = type;
+		return this;
 	}
 
 }

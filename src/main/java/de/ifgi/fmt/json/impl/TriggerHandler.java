@@ -26,7 +26,6 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.TIME_KEY;
 
 import javax.ws.rs.core.UriInfo;
 
-import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -73,11 +72,8 @@ public class TriggerHandler extends JSONHandler<Trigger> {
 		}
 		
 		if (geom != null) {
-			try {
-				t = new LocationTrigger().setLocation((Point) getGeometryDecoder().parseUwGeometry(geom));
-			} catch (Exception e) {
-				throw ServiceError.badRequest(e);
-			}
+			t = new LocationTrigger().setLocation(parseGeometry(j, Point.class,
+					LOCATION_KEY));
 		} else if (desc != null) {
 			t = new EventTrigger().setDescription(desc);
 		}
@@ -87,22 +83,15 @@ public class TriggerHandler extends JSONHandler<Trigger> {
 				t = new TimeTrigger();
 			}
 			if (t instanceof TimeTrigger) {
-				try {
-					((TimeTrigger) t).setTime(getDateTimeFormat().parseDateTime(time));
-				} catch (Exception e) {
-					throw ServiceError.badRequest(e);
-				}
+				((TimeTrigger) t).setTime(parseTime(j, TIME_KEY));;
 			}
 		} 
 		if (t == null) {
 			throw ServiceError.badRequest("trigger not specified");
 		}
 		
-		String id = j.optString(ID_KEY, null);
-		if (id != null) {
-			t.setId(new ObjectId(id));
-		}
-		return t;
+		
+		return t.setId(parseId(j));
 	}
 
 	/**
