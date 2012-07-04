@@ -59,8 +59,13 @@ public class UsersServlet extends AbstractServlet {
     @GET
 	@PermitAll
 	@Produces(MediaTypes.USER_LIST)
-	public List<User> getUsers(@QueryParam(QueryParams.LIMIT) @DefaultValue(DEFAULT_LIMIT) int limit) {
-		return getService().getUsers(limit);
+	public List<User> getUsers(@QueryParam(QueryParams.SEARCH) String search,
+			@QueryParam(QueryParams.LIMIT) @DefaultValue(DEFAULT_LIMIT) int limit) {
+    	if (search != null) {
+    		return getService().getUsers(search);
+    	} else {
+    		return getService().getUsers(limit);
+    	}
 	}
 
 	/**

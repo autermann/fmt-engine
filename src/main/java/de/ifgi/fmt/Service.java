@@ -638,12 +638,16 @@ public class Service {
 	}
 
 	/**
-	 * retunr a list of USERs
+	 * returns a list of USERs
 	 * @param limit length of the lis
 	 * @return list of users
 	 */
 	public List<User> getUsers(int limit) {
 		return getStore().users().get(limit);
+	}
+	
+	public List<User> getUsers(String search) {
+		return getStore().users().search(search);
 	}
 
 	/**
@@ -970,4 +974,5 @@ public class Service {
 		Flashmob f = getFlashmob(u, flashmob);
 		return getStore().roles().get(f, u);
 	}
+
 }

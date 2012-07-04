@@ -17,7 +17,7 @@
  */
 package de.ifgi.fmt.json.impl;
 
-import static de.ifgi.fmt.utils.constants.JSONConstants.EMAIL_KEY;
+import static de.ifgi.fmt.utils.constants.JSONConstants.*;
 import static de.ifgi.fmt.utils.constants.JSONConstants.PASSWORD_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.USERNAME_KEY;
 
@@ -68,6 +68,9 @@ public class UserHandler extends JSONHandler<User> {
 		JSONObject j = new JSONObject()
 			.put(USERNAME_KEY, t.getUsername())
 			.put(EMAIL_KEY, t.getEmail());
+		if (uri != null) {
+			j.put(FLASHMOBS_KEY, uri.getAbsolutePathBuilder().path(Paths.FLASHMOBS).build());
+		}
 		return j;
 
 	}

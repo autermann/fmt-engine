@@ -74,11 +74,23 @@ public class Users implements ExtendedDao<User>{
 	/**
 	 * 
 	 * @param limit
+	 * @param search 
 	 * @return
 	 */
 	public List<User> get(int limit) {
-		return getUserDao().find(getUserDao().createQuery().limit(limit))
-				.asList();
+		return getUserDao().find(getUserDao().createQuery().limit(limit)).asList();
+	}
+
+	/**
+	 * 
+	 * @param limit
+	 * @param search 
+	 * @return
+	 */
+	public List<User> search(String search) {
+		return getUserDao().find(
+				getUserDao().createQuery().field(User.USERNAME)
+						.containsIgnoreCase(search)).asList();
 	}
 
 	/**
