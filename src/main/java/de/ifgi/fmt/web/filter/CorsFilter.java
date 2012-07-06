@@ -31,7 +31,7 @@ public class CorsFilter implements ContainerResponseFilter {
 	private static final String ALLOW_METHODS = "Access-Control-Allow-Methods";
 	private static final String MAX_AGE = "Access-Control-Max-Age";
 	private static final int MAX_AGE_VALUE = 3628800;
-	private static final String ALLOWED_HEADERS = "Content-Type, Origin, Accept, Set-Cookie, Cookie";
+	private static final String ALLOWED_HEADERS = "Content-Type, Origin, Accept, Set-Cookie, Cookie, Authorization";
 	private static final String ORIGIN = "Origin";
 	private static final String ALLOWED_METHODS = "GET, POST, PUT, DELETE, OPTIONS";
 
