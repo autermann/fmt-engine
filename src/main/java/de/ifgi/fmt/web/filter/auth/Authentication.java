@@ -76,6 +76,9 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 	 */
 	@Override
 	public ContainerRequest filter(ContainerRequest cr) {
+		if (cr.getMethod().equals("OPTIONS")) {
+			return cr;
+		}
 		if (!cookieLogin(cr)) {
 			if (!headerLogin(cr)) {
 				cr.setSecurityContext(new FmtSecurityContext(null));
@@ -92,6 +95,9 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 	 */
 	@Override
 	public ContainerResponse filter(ContainerRequest rq, ContainerResponse rs) {
+		if (rq.getMethod().equals("OPTIONS")) {
+			return rs;
+		}
 		HttpSession s = sr.getSession(true);
 		if (s.getAttribute(USER_SESSION_ATTRIBUTE) != null && rq.getCookies().get(COOKIE_NAME) == null) {
 			ResponseBuilder rb = Response.fromResponse(rs.getResponse());
