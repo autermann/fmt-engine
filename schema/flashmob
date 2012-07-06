@@ -7,7 +7,7 @@
             "type": "string"
         }, 
         "coordinator": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref#"
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/userref#"
         }, 
         "description": {
             "required": "true", 

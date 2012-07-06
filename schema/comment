@@ -21,7 +21,7 @@
             "type": "string"
         }, 
         "user": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref#"
+            "$ref": "http://giv-flashmob.uni-muenster.de/schema/userref#"
         }
     }, 
     "type": "object"

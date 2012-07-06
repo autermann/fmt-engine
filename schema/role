@@ -30,7 +30,7 @@
         "items": {
             "items": "string",
             "minItems": 0, 
-            "type": "array"
+            "type": [ "array", "string" ]
         }, 
         "location": {
             "$ref": "http://giv-flashmob.uni-muenster.de/schema/point#"

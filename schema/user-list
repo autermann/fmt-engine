@@ -3,7 +3,10 @@
     "id": "http://giv-flashmob.uni-muenster.de/schema/user-list#", 
     "properties": {
         "users": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref-list#"
+			"type": "array",
+			"items": {
+	            "$ref": "http://giv-flashmob.uni-muenster.de/schema/userref#"
+			}
         }
     }, 
     "type": "object"

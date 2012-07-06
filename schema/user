@@ -5,9 +5,6 @@
         "email": {
             "type": "string"
         }, 
-        "id": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid#"
-        }, 
         "password": {
             "type": "string"
         }, 

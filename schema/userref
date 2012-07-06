@@ -1,0 +1,18 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema", 
+    "id": "http://giv-flashmob.uni-muenster.de/schema/userref#", 
+    "properties": {
+        "href": {
+            "format": "uri", 
+            "required": true, 
+            "type": "string"
+        }, 
+        "username": {
+            "type": "string"
+        }
+    }, 
+    "type": [
+        "object", 
+        "string"
+    ]
+}
