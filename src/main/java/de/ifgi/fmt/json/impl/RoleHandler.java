@@ -59,6 +59,26 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 @Decodes(Role.class)
 public class RoleHandler extends JSONHandler<Role>{
 	
+//	public static void main(String[] args) throws JSONException {
+//		JSONObject jr = new JSONObject()
+//			.put("title", "archer")
+//			.put("description", "Dress like a archer")
+//			.put("maxParticipants", 100)
+//			.put("minParticipants",1)
+//			.put("items", Utils.list("bow", "arrow", "costume"))
+//			.put("location", new JSONObject()
+//				.put("type", "Point")
+//				.put("coordinates", Utils.list(51.963467, 7.613604))
+//				.put("crs", new JSONObject()
+//					.put("type", "name")
+//					.put("properties",new JSONObject()
+//					.put("name", "http://www.opengis.net/def/crs/EPSG/0/4326"))));
+//		System.out.println(jr.toString(4));
+//		RoleHandler h = new RoleHandler();
+//		Role r = h.decode(jr);
+//		System.out.println(h.encode(r, null));
+//	}
+	
     /**
      * 
      * @param j
