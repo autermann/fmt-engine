@@ -49,18 +49,9 @@ import de.ifgi.fmt.model.User;
  */
 public class Authentication implements ContainerResponseFilter, ContainerRequestFilter {
 	
-    /**
-     * 
-     */
-    public static final String COOKIE_NAME = "fmt_oid";
-	/**
-	 * 
-	 */
-	public static final String USER_SESSION_ATTRIBUTE = "user";
-	/**
-	 * 
-	 */
-	public static final String REMOVE_COOKIE_SESSION_ATTRIBUTE = "remove-cookie";
+    private static final String COOKIE_NAME = "fmt_oid";
+    private static final String USER_SESSION_ATTRIBUTE = "user";
+    private static final String REMOVE_COOKIE_SESSION_ATTRIBUTE = "remove-cookie";
 	
 	private static final Logger log = LoggerFactory.getLogger(Authentication.class);
 	
@@ -146,13 +137,13 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 	}
 	
 	private boolean cookieLogin(ContainerRequest cr) {
-		if (sr != null && sr.getSession(false) != null) {
-			Object su = sr.getAttribute(USER_SESSION_ATTRIBUTE);
-			if (su != null) {
-				authSession(cr, (User) su);
-				return true;
-			}
-		}
+//		if (sr != null && sr.getSession(false) != null) {
+//			Object su = sr.getAttribute(USER_SESSION_ATTRIBUTE);
+//			if (su != null) {
+//				authSession(cr, (User) su);
+//				return true;
+//			}
+//		}
 		Cookie c = cr.getCookies().get(COOKIE_NAME);
 		if (c == null) {
 			return false;
