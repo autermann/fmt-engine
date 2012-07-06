@@ -146,6 +146,13 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 	}
 	
 	private boolean cookieLogin(ContainerRequest cr) {
+		if (sr != null && sr.getSession(false) != null) {
+			Object su = sr.getAttribute(USER_SESSION_ATTRIBUTE);
+			if (su != null) {
+				authSession(cr, (User) su);
+				return true;
+			}
+		}
 		Cookie c = cr.getCookies().get(COOKIE_NAME);
 		if (c == null) {
 			return false;
