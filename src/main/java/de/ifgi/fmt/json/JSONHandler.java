@@ -57,7 +57,7 @@ public abstract class JSONHandler<T> implements JSONDecoder<T>, JSONEncoder<T> {
 		if (hasKeyNotNull(j, ID_KEY)) {
 			return new ObjectId(j.getString(ID_KEY));
 		}
-		return null;
+		return new ObjectId();
 	}
 	
 	/**
