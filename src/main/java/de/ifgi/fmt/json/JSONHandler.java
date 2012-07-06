@@ -117,7 +117,7 @@ public abstract class JSONHandler<T> implements JSONDecoder<T>, JSONEncoder<T> {
 	 * @return
 	 */
 	protected <E extends Enum<E>> E parseEnum(JSONObject j, Class<E> e, String key) {
-		String s = j.optString(key);
+		String s = j.optString(key, null);
 		if (s == null) 
 			return null;
 		try {
