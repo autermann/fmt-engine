@@ -15,12 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package de.ifgi.fmt.model.trigger;
+package de.ifgi.fmt.model;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.bson.types.ObjectId;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.joda.time.DateTime;
 
 import com.google.code.morphia.annotations.Entity;
@@ -29,37 +30,32 @@ import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.PrePersist;
 import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.annotations.Reference;
+import com.vividsolutions.jts.geom.Point;
 
-import de.ifgi.fmt.model.Flashmob;
 
 /**
  * 
  * @author Autermann, Demuth, Radtke
  */
 @Entity(Trigger.COLLECTION_NAME)
-public abstract class Trigger {
-    /**
-     * 
-     */
-    public static final String COLLECTION_NAME = "triggers";
-    /**
-     * 
-     */
-    public static final String CREATION_TIME = "creationTime";
-	/**
-	 * 
-	 */
+public class Trigger {
+	public static final String COLLECTION_NAME = "triggers";
+	public static final String CREATION_TIME = "creationTime";
+	public static final String DESCRIPTION = "description";
 	public static final String FLASHMOB = "flashmob";
-	/**
-	 * 
-	 */
 	public static final String LAST_CHANGED = "lastChanged";
+	public static final String LOCATION = "location";
+	public static final String TIME = "time";
 
 	@NotNull
 	@Past
 	@Indexed
 	@Property(Trigger.CREATION_TIME)
 	private DateTime creationTime = new DateTime();
+
+	@SafeHtml
+	@Property(Trigger.DESCRIPTION)
+	private String description;
 
 	@NotNull
 	@Indexed
@@ -74,6 +70,13 @@ public abstract class Trigger {
 	@Indexed
 	@Property(Trigger.LAST_CHANGED)
 	private DateTime lastChangedTime = new DateTime();
+
+	@Property(Trigger.LOCATION)
+	private Point location;
+
+	@NotNull
+	@Property(Trigger.TIME)
+	private DateTime time;
 
 	/**
 	 * 
@@ -103,6 +106,14 @@ public abstract class Trigger {
 	 * 
 	 * @return
 	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public Flashmob getFlashmob() {
 		return flashmob;
 	}
@@ -123,6 +134,22 @@ public abstract class Trigger {
 		return lastChangedTime;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public Point getLocation() {
+		return location;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public DateTime getTime() {
+		return time;
+	}
+
 	@Override
 	public int hashCode() {
 		return getId().hashCode();
@@ -135,6 +162,16 @@ public abstract class Trigger {
 	 */
 	public Trigger setCreationTime(DateTime creationTime) {
 		this.creationTime = creationTime;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @param description
+	 * @return
+	 */
+	public Trigger setDescription(String description) {
+		this.description = description;
 		return this;
 	}
 
@@ -165,6 +202,26 @@ public abstract class Trigger {
 	 */
 	public Trigger setLastChangedTime(DateTime lastChangedTime) {
 		this.lastChangedTime = lastChangedTime;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @param location
+	 * @return
+	 */
+	public Trigger setLocation(Point location) {
+		this.location = location;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @param time
+	 * @return
+	 */
+	public Trigger setTime(DateTime time) {
+		this.time = time;
 		return this;
 	}
 

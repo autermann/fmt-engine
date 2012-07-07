@@ -31,7 +31,7 @@ import com.google.code.morphia.query.Query;
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.model.Flashmob;
-import de.ifgi.fmt.model.trigger.Trigger;
+import de.ifgi.fmt.model.Trigger;
 import de.ifgi.fmt.mongo.ExtendedDao;
 import de.ifgi.fmt.mongo.Store;
 import de.ifgi.fmt.mongo.Store.Queries;

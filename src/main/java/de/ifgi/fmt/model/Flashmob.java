@@ -36,7 +36,6 @@ import com.google.code.morphia.annotations.Reference;
 import com.google.code.morphia.utils.IndexDirection;
 import com.vividsolutions.jts.geom.Point;
 
-import de.ifgi.fmt.model.trigger.Trigger;
 import de.ifgi.fmt.utils.Utils;
 
 /**

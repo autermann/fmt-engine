@@ -40,8 +40,8 @@ import de.ifgi.fmt.json.JSONHandler;
 import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.model.Role;
+import de.ifgi.fmt.model.Trigger;
 import de.ifgi.fmt.model.signal.Signal;
-import de.ifgi.fmt.model.trigger.Trigger;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
 /**

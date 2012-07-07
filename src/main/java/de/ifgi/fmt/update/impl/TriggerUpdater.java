@@ -17,11 +17,7 @@
  */
 package de.ifgi.fmt.update.impl;
 
-import de.ifgi.fmt.ServiceError;
-import de.ifgi.fmt.model.trigger.EventTrigger;
-import de.ifgi.fmt.model.trigger.LocationTrigger;
-import de.ifgi.fmt.model.trigger.TimeTrigger;
-import de.ifgi.fmt.model.trigger.Trigger;
+import de.ifgi.fmt.model.Trigger;
 import de.ifgi.fmt.update.EntityUpdater;
 import de.ifgi.fmt.update.UpdateFactory.Updates;
 
@@ -40,36 +36,15 @@ public class TriggerUpdater extends EntityUpdater<Trigger> {
      */
     @Override
 	public Trigger update(Trigger old, Trigger changes) {
-		if (old instanceof EventTrigger) {
-			if (!(changes instanceof EventTrigger)) {
-				throw ServiceError.badRequest("incompatible trigger types");
-			}
-			EventTrigger tt = (EventTrigger) changes;
-			if (tt.getDescription() != null) {
-				((EventTrigger) old).setDescription(tt.getDescription());
-			}
-		}
-		
-		if (old instanceof TimeTrigger) {
-			if (!(changes instanceof TimeTrigger)) {
-				throw ServiceError.badRequest("incompatible trigger types");
-			}
-			TimeTrigger tt = (TimeTrigger) changes;
-			if (tt.getTime() != null) {
-				((TimeTrigger) old).setTime(tt.getTime());
-			}
-			
-		}
-		
-		if (old instanceof LocationTrigger) {
-			if (!(changes instanceof LocationTrigger)) {
-				throw ServiceError.badRequest("incompatible trigger types");
-			}
-			LocationTrigger tt = (LocationTrigger) changes;
-			if (tt.getLocation() != null) {
-				((LocationTrigger) old).setLocation(tt.getLocation());
-			}
-		}
+    	if (changes.getDescription() != null) {
+    		old.setDescription(changes.getDescription());
+    	}
+    	if (changes.getLocation() != null) {
+    		old.setLocation(changes.getLocation());
+    	}
+    	if (changes.getTime() != null) {
+    		old.setTime(changes.getTime());
+    	}
 		return old;
 	}
 

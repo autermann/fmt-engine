@@ -20,7 +20,7 @@ package de.ifgi.fmt.web.provider.impl;
 import javax.ws.rs.Produces;
 import javax.ws.rs.ext.Provider;
 
-import de.ifgi.fmt.model.trigger.Trigger;
+import de.ifgi.fmt.model.Trigger;
 import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.web.provider.AbstractJSONListProvider;

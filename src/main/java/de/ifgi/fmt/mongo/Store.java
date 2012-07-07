@@ -43,12 +43,11 @@ import de.ifgi.fmt.model.BoundingBox;
 import de.ifgi.fmt.model.Comment;
 import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.model.Role;
+import de.ifgi.fmt.model.Trigger;
 import de.ifgi.fmt.model.Role.Category;
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.model.signal.VibrationSignal;
 import de.ifgi.fmt.model.task.Task;
-import de.ifgi.fmt.model.trigger.TimeTrigger;
-import de.ifgi.fmt.model.trigger.Trigger;
 import de.ifgi.fmt.mongo.stores.Activities;
 import de.ifgi.fmt.mongo.stores.Comments;
 import de.ifgi.fmt.mongo.stores.Flashmobs;
@@ -406,7 +405,7 @@ public class Store {
 				.setDescription("Rolle 2").setMaxCount(200).setMinCount(40)
 				.setStartPoint(p).setUsers(Utils.set(user3));
 
-		Trigger t = new TimeTrigger().setTime(begin.plusMinutes(5));
+		Trigger t = new Trigger().setTime(begin.plusMinutes(5));
 		
 		Activity activity = new Activity().setDescription("Activity 1").setTitle("Activity 1")
 				.setTrigger(t).setSignal(new VibrationSignal())

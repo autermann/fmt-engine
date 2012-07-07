@@ -106,6 +106,7 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 			}
 			rs.setResponse(Response.fromResponse(rs.getResponse()).cookie(getInvalidCookie()).build());
 		}
+		s.invalidate();
 		return rs;
 	}
 	

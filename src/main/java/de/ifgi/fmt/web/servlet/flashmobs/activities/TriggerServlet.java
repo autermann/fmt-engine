@@ -31,7 +31,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.bson.types.ObjectId;
 
-import de.ifgi.fmt.model.trigger.Trigger;
+import de.ifgi.fmt.model.Trigger;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 

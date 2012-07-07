@@ -42,7 +42,6 @@ import com.google.code.morphia.annotations.Transient;
 
 import de.ifgi.fmt.model.signal.Signal;
 import de.ifgi.fmt.model.task.Task;
-import de.ifgi.fmt.model.trigger.Trigger;
 import de.ifgi.fmt.utils.Utils;
 
 /**

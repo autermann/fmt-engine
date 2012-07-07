@@ -37,11 +37,7 @@ import de.ifgi.fmt.json.JSONFactory.Decodes;
 import de.ifgi.fmt.json.JSONFactory.Encodes;
 import de.ifgi.fmt.json.JSONHandler;
 import de.ifgi.fmt.model.Flashmob;
-import de.ifgi.fmt.model.trigger.EventTrigger;
-import de.ifgi.fmt.model.trigger.LocationTrigger;
-import de.ifgi.fmt.model.trigger.TimeTrigger;
-import de.ifgi.fmt.model.trigger.Trigger;
-import de.ifgi.fmt.utils.Utils;
+import de.ifgi.fmt.model.Trigger;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
 /**
@@ -60,37 +56,17 @@ public class TriggerHandler extends JSONHandler<Trigger> {
      */
     @Override
 	public Trigger decode(JSONObject j) throws JSONException {
-		Trigger t = null;
-		String time = j.optString(TIME_KEY, null);
-		String geom = j.optString(LOCATION_KEY, null);
-		String desc = j.optString(DESCRIPTION_KEY, null);
+		final Trigger t = new Trigger();
 		
-		if (Utils.moreThanOneNotNull(time, geom, desc)) {
-			throw ServiceError.badRequest(String.format(
-					"Only one of %s, %s and %s can be present", 
-					TIME_KEY, LOCATION_KEY, DESCRIPTION_KEY));
-		}
+//		if (Utils.moreThanOneNotNull(time, geom, desc)) {
+//			throw ServiceError.badRequest(String.format(
+//					"Only one of %s, %s and %s can be present", 
+//					TIME_KEY, LOCATION_KEY, DESCRIPTION_KEY));
+//		}
 		
-		if (geom != null) {
-			t = new LocationTrigger().setLocation(parseGeometry(j, Point.class,
-					LOCATION_KEY));
-		} else if (desc != null) {
-			t = new EventTrigger().setDescription(desc);
-		}
-		
-		if (time != null) {
-			if (t == null) {
-				t = new TimeTrigger();
-			}
-			if (t instanceof TimeTrigger) {
-				((TimeTrigger) t).setTime(parseTime(j, TIME_KEY));;
-			}
-		} 
-		if (t == null) {
-			throw ServiceError.badRequest("trigger not specified");
-		}
-		
-		
+		t.setDescription(j.optString(DESCRIPTION_KEY, null));
+		t.setLocation(parseGeometry(j, Point.class, LOCATION_KEY));
+		t.setTime(parseTime(j, TIME_KEY));
 		return t.setId(parseId(j));
 	}
 
@@ -110,16 +86,15 @@ public class TriggerHandler extends JSONHandler<Trigger> {
 						.encodeAsRef(t.getFlashmob(), uri));
 			}
 		}
-		if (t instanceof TimeTrigger) {
-			j.put(TIME_KEY, getDateTimeFormat().print(((TimeTrigger) t).getTime()));
+		if (t.getTime() != null) {
+			j.put(TIME_KEY, getDateTimeFormat().print(t.getTime()));
 		} 
-		if (t instanceof EventTrigger) {
-			j.put(DESCRIPTION_KEY, ((EventTrigger) t).getDescription());
+		if (t.getDescription() != null) {
+			j.put(DESCRIPTION_KEY, t.getDescription());
 		}
-		if (t instanceof LocationTrigger) {
+		if (t.getLocation() != null){
 			try {
-				j.put(LOCATION_KEY, getGeometryEncoder().encodeGeometry(
-								((LocationTrigger) t).getLocation()));
+				j.put(LOCATION_KEY, getGeometryEncoder().encodeGeometry(t.getLocation()));
 			} catch (Exception e) {
 				throw ServiceError.internal(e);
 			}
