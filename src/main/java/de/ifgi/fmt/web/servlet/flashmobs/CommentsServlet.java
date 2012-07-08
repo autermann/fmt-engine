@@ -20,6 +20,8 @@ package de.ifgi.fmt.web.servlet.flashmobs;
 import java.net.URI;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -47,6 +49,7 @@ public class CommentsServlet extends AbstractServlet {
      * @return
      */
     @GET
+    @PermitAll
 	@Produces(MediaTypes.COMMENT_LIST)
 	public List<Comment> getComments(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
@@ -60,10 +63,11 @@ public class CommentsServlet extends AbstractServlet {
 	 * @return
 	 */
 	@POST
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Consumes(MediaTypes.COMMENT)
 	@Produces(MediaTypes.COMMENT)
 	public Response addComment(@PathParam(PathParams.FLASHMOB) ObjectId flashmob, Comment comment) {
-		Comment c = getService().addComment(flashmob, comment);
+		Comment c = getService().addComment(flashmob, comment.setUser(getUser()));
 		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.COMMENT_FOR_FLASHMOB).build(flashmob, c.getId());
 		return Response.created(uri).entity(c).build();
 	}

@@ -32,34 +32,29 @@ import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.annotations.Reference;
 import com.vividsolutions.jts.geom.Point;
 
+import de.ifgi.fmt.utils.constants.ModelConstants;
+
 
 /**
  * 
  * @author Autermann, Demuth, Radtke
  */
-@Entity(Trigger.COLLECTION_NAME)
+@Entity(ModelConstants.Trigger.COLLECTION_NAME)
 public class Trigger {
-	public static final String COLLECTION_NAME = "triggers";
-	public static final String CREATION_TIME = "creationTime";
-	public static final String DESCRIPTION = "description";
-	public static final String FLASHMOB = "flashmob";
-	public static final String LAST_CHANGED = "lastChanged";
-	public static final String LOCATION = "location";
-	public static final String TIME = "time";
-
+	
 	@NotNull
 	@Past
 	@Indexed
-	@Property(Trigger.CREATION_TIME)
+	@Property(ModelConstants.Common.CREATION_TIME)
 	private DateTime creationTime = new DateTime();
 
 	@SafeHtml
-	@Property(Trigger.DESCRIPTION)
+	@Property(ModelConstants.Trigger.DESCRIPTION)
 	private String description;
 
 	@NotNull
 	@Indexed
-	@Reference(value = Trigger.FLASHMOB, lazy = true)
+	@Reference(value = ModelConstants.Trigger.FLASHMOB, lazy = true)
 	private Flashmob flashmob;
 
 	@NotNull
@@ -68,14 +63,14 @@ public class Trigger {
 
 	@NotNull
 	@Indexed
-	@Property(Trigger.LAST_CHANGED)
+	@Property(ModelConstants.Common.LAST_CHANGED)
 	private DateTime lastChangedTime = new DateTime();
 
-	@Property(Trigger.LOCATION)
+	@Property(ModelConstants.Trigger.LOCATION)
 	private Point location;
 
 	@NotNull
-	@Property(Trigger.TIME)
+	@Property(ModelConstants.Trigger.TIME)
 	private DateTime time;
 
 	/**

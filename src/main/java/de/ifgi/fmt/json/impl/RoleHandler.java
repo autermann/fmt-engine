@@ -137,10 +137,10 @@ public class RoleHandler extends JSONHandler<Role>{
 		    j.put(TITLE_KEY, t.getTitle());
 		}
 		
-		if (t.getMinCount() >= 0) {
+		if (t.getMinCount() != null && t.getMinCount() >= 0) {
 			j.put(MIN_PARTICIPANTS_KEY, t.getMinCount());
 		}
-		if (t.getMaxCount() >= 0) {
+		if (t.getMaxCount() != null && t.getMaxCount() >= 0) {
 			j.put(MAX_PARTICIPANTS_KEY, t.getMaxCount());
 		}
 		if (t.getDescription() != null) {

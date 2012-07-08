@@ -28,6 +28,7 @@ import com.google.code.morphia.annotations.Property;
 
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.utils.constants.JSONConstants;
+import de.ifgi.fmt.utils.constants.ModelConstants;
 
 /**
  * 
@@ -36,12 +37,7 @@ import de.ifgi.fmt.utils.constants.JSONConstants;
 @Polymorphic
 public class SoundSignal extends Signal {
 
-    /**
-     * 
-     */
-    public static final String LINK = "link";
-
-	@Property(SoundSignal.LINK)
+	@Property(ModelConstants.Signal.LINK)
 	private URL link;
 
 	/**

@@ -20,6 +20,8 @@ package de.ifgi.fmt.web.servlet.flashmobs.triggers;
 import java.net.URI;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -47,6 +49,7 @@ public class TriggersServlet extends AbstractServlet {
      * @return
      */
     @GET
+    @PermitAll
 	@Produces(MediaTypes.TRIGGER_LIST)
 	public List<Trigger> getTriggers(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
@@ -60,10 +63,12 @@ public class TriggersServlet extends AbstractServlet {
 	 * @return
 	 */
 	@POST
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.TRIGGER)
 	@Consumes(MediaTypes.TRIGGER)
 	public Response setTrigger(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob, Trigger t) {
+		canChangeFlashmob(flashmob);
 		Trigger saved = getService().addTrigger(t, flashmob);
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.TRIGGER_OF_FLASHMOB).build(flashmob, saved.getId());

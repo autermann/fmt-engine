@@ -40,73 +40,42 @@ import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.utils.BCrypt;
 import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.Constants.Regex;
+import de.ifgi.fmt.utils.constants.ModelConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.Roles;
 
 /**
  * 
  * @author Autermann, Demuth, Radtke
  */
-@Entity(User.COLLECTION_NAME)
+@Entity(ModelConstants.User.COLLECTION_NAME)
 public class User {
-    /**
-     * 
-     */
-    public static final String AUTH_TOKEN = "authToken";
-    /**
-     * 
-     */
-    public static final String COLLECTION_NAME = "users";
-	/**
-	 * 
-	 */
-	public static final String CREATION_TIME = "creationTime";
-	/**
-	 * 
-	 */
-	public static final String EMAIL = "email";
-	/**
-	 * 
-	 */
-	public static final String LAST_CHANGED = "lastChanged";
-	/**
-	 * 
-	 */
-	public static final String PASSWORD_HASH = "password";
-	/**
-	 * 
-	 */
-	public static final String ROLES = "roles";
-	/**
-	 * 
-	 */
-	public static final String USERNAME = "username";
 
-	@Property(User.AUTH_TOKEN)
+	@Property(ModelConstants.User.AUTH_TOKEN)
 	private String authToken;
 
 	@NotNull
 	@Past
 	@Indexed
-	@Property(User.CREATION_TIME)
+	@Property(ModelConstants.Common.CREATION_TIME)
 	private DateTime creationTime = new DateTime();
 
 	@Email
-	@Property(User.EMAIL)
+	@Property(ModelConstants.User.EMAIL)
 	@Indexed(unique = true, sparse = true)
 	private String email;
 
 	@NotNull
 	@Indexed
-	@Property(User.LAST_CHANGED)
+	@Property(ModelConstants.Common.LAST_CHANGED)
 	private DateTime lastChangedTime = new DateTime();
 
 	@NotEmpty
 	@NotNull
-	@Property(User.PASSWORD_HASH)
+	@Property(ModelConstants.User.PASSWORD_HASH)
 	private String passwordHash;
 
 	@NotNull
-	@Property(User.ROLES)
+	@Property(ModelConstants.User.ROLES)
 	private Set<String> roles = Utils.set(Roles.USER);
 
 	@Id
@@ -114,7 +83,7 @@ public class User {
 	@SafeHtml
 	@Length(min = 4, max = 128)
 	@Pattern(regexp = "^[\\w]+$")
-	@Property(User.USERNAME)
+	@Property(ModelConstants.User.USERNAME)
 	@Indexed(unique = true, sparse = true)
 	private String username;
 

@@ -22,82 +22,96 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class represents a BoundingBox
+ * 
  * @author Autermann, Demuth, Radtke
  */
 public class BoundingBox {
 
-    /**
-     * A Logging Factory
-     */
-    protected static final Logger log = LoggerFactory.getLogger(BoundingBox.class);
-    /**
-     * Constant String
-     */
-    private static final String PARSE_ERROR = "Invalid BoundingBox: syntax is: left,bottom,right,top";
+	/**
+	 * A Logging Factory
+	 */
+	protected static final Logger log = LoggerFactory
+			.getLogger(BoundingBox.class);
+	/**
+	 * Constant String
+	 */
+	private static final String PARSE_ERROR = "Invalid BoundingBox: syntax is: left,bottom,right,top";
 
-    /**
-     * Creates a BBox from a String
-     * @param s a String
-     * @return a BBox
-     */
-    public static BoundingBox valueOf(String s) {
-	log.debug("Parsing BoundingBox: {}", s);
-	if (s == null || s.trim().isEmpty()) {
-	    throw new IllegalArgumentException(PARSE_ERROR);
+	/**
+	 * Creates a BBox from a String
+	 * 
+	 * @param s
+	 *            a String
+	 * @return a BBox
+	 */
+	public static BoundingBox valueOf(String s) {
+		log.debug("Parsing BoundingBox: {}", s);
+		if (s == null || s.trim().isEmpty()) {
+			throw new IllegalArgumentException(PARSE_ERROR);
+		}
+		String a[] = s.split(",");
+		if (a.length != 4) {
+			throw new IllegalArgumentException(PARSE_ERROR);
+		}
+
+		return new BoundingBox(Double.valueOf(a[0]), Double.valueOf(a[1]),
+				Double.valueOf(a[2]), Double.valueOf(a[3]));
 	}
-	String a[] = s.split(",");
-	if (a.length != 4) {
-	    throw new IllegalArgumentException(PARSE_ERROR);
+
+	private final double left, bottom, right, top;
+
+	/**
+	 * Constructor of a BBox
+	 * 
+	 * @param left
+	 *            east extent
+	 * @param bottom
+	 *            south extent
+	 * @param right
+	 *            west extent
+	 * @param top
+	 *            north extent
+	 */
+	public BoundingBox(double left, double bottom, double right, double top) {
+		this.left = left;
+		this.bottom = bottom;
+		this.right = right;
+		this.top = top;
 	}
 
-	return new BoundingBox(Double.valueOf(a[0]), Double.valueOf(a[1]),
-		Double.valueOf(a[2]), Double.valueOf(a[3]));
-    }
-    private final double left, bottom, right, top;
+	/**
+	 * Returns the bottom of a bbox
+	 * 
+	 * @return bottom south extent
+	 */
+	public double getBottom() {
+		return bottom;
+	}
 
-    /**
-     * Constructor of a BBox
-     * @param left east extent
-     * @param bottom south extent
-     * @param right west extent
-     * @param top north extent
-     */
-    public BoundingBox(double left, double bottom, double right, double top) {
-	this.left = left;
-	this.bottom = bottom;
-	this.right = right;
-	this.top = top;
-    }
+	/**
+	 * retunrs the left of a bbox
+	 * 
+	 * @return left east extent
+	 */
+	public double getLeft() {
+		return left;
+	}
 
-    /**
-     * Returns the bottom of a bbox
-     * @return bottom south extent
-     */
-    public double getBottom() {
-	return bottom;
-    }
+	/**
+	 * retunrs the right of a bbox
+	 * 
+	 * @return west extent
+	 */
+	public double getRight() {
+		return right;
+	}
 
-    /**
-     * retunrs the left of a bbox
-     * @return left east extent
-     */
-    public double getLeft() {
-	return left;
-    }
-
-    /**
-     * retunrs the right of a bbox
-     * @return west extent
-     */
-    public double getRight() {
-	return right;
-    }
-
-    /**
-     * returns the top of a bbox
-     * @return north extent
-     */
-    public double getTop() {
-	return top;
-    }
+	/**
+	 * returns the top of a bbox
+	 * 
+	 * @return north extent
+	 */
+	public double getTop() {
+		return top;
+	}
 }

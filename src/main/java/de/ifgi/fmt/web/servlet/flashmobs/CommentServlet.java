@@ -17,6 +17,7 @@
  */
 package de.ifgi.fmt.web.servlet.flashmobs;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -46,6 +47,7 @@ public class CommentServlet extends AbstractServlet {
      * @return
      */
     @GET
+    @PermitAll
 	@Produces(MediaTypes.COMMENT)
 	public Comment getComment(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,

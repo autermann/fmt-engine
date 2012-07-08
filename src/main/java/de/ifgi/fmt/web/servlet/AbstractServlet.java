@@ -19,7 +19,6 @@ package de.ifgi.fmt.web.servlet;
 
 import java.security.Principal;
 
-import javax.annotation.security.PermitAll;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
@@ -46,7 +45,6 @@ import de.ifgi.fmt.web.filter.auth.FmtPrinciple;
  * 
  * @author Autermann, Demuth, Radtke
  */
-@PermitAll
 public abstract class AbstractServlet implements RESTConstants {
 
     /**
@@ -142,7 +140,7 @@ public abstract class AbstractServlet implements RESTConstants {
 	 * 
 	 * @param flashmob
 	 */
-	protected void isAdminOrCoordinator(ObjectId flashmob) {
+	protected void canChangeFlashmob(ObjectId flashmob) {
 		if (!isAdminOrUserWithId(getService().getFlashmob(flashmob).getCoordinator().getUsername())) {
 			throw ServiceError.notCoordinator();
 		}

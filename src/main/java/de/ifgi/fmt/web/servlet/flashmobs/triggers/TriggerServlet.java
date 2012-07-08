@@ -17,6 +17,8 @@
  */
 package de.ifgi.fmt.web.servlet.flashmobs.triggers;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -44,6 +46,7 @@ public class TriggerServlet extends AbstractServlet {
      * @return
      */
     @GET
+    @PermitAll
 	@Produces(MediaTypes.TRIGGER)
 	public Trigger getTrigger(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
@@ -59,13 +62,14 @@ public class TriggerServlet extends AbstractServlet {
 	 * @return
 	 */
 	@PUT
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.TRIGGER)
 	@Consumes(MediaTypes.TRIGGER)
 	public Trigger updateTrigger(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.TRIGGER) ObjectId trigger, Trigger t) {
-		// TODO update trigger
-		throw new UnsupportedOperationException();
+		canChangeFlashmob(flashmob);
+		return getService().updateTrigger(flashmob, trigger, t);
 	}
 
 	/**
@@ -74,10 +78,11 @@ public class TriggerServlet extends AbstractServlet {
 	 * @param trigger
 	 */
 	@DELETE
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	public void removeTrigger(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.TRIGGER) ObjectId trigger) {
-		// TODO remove trigger
-		throw new UnsupportedOperationException();
+		canChangeFlashmob(flashmob);
+		getService().removeTrigger(flashmob, trigger);
 	}
 }

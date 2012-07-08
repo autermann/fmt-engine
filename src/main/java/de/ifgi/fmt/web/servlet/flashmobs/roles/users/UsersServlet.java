@@ -20,6 +20,8 @@ package de.ifgi.fmt.web.servlet.flashmobs.roles.users;
 import java.net.URI;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -32,6 +34,7 @@ import javax.ws.rs.core.Response;
 
 import org.bson.types.ObjectId;
 
+import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
@@ -51,6 +54,7 @@ public class UsersServlet extends AbstractServlet {
      * @return
      */
     @GET
+    @PermitAll
 	@Produces(MediaTypes.USER_LIST)
 	public List<User> getUsers(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
@@ -67,11 +71,15 @@ public class UsersServlet extends AbstractServlet {
 	 * @return
 	 */
 	@POST
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.USER)
 	@Consumes(MediaTypes.USER)
 	public Response registerUser(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role, User u) {
+		if (!isAdminOrUserWithId(u.getUsername())) {
+			throw ServiceError.forbidden("can only be done by the user himself");
+		}
 		User saved = getService().registerUser(u, role, flashmob);
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.USER_OF_ROLE_OF_FLASHMOB)

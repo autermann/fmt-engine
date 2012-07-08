@@ -37,126 +37,63 @@ import com.google.code.morphia.utils.IndexDirection;
 import com.vividsolutions.jts.geom.Point;
 
 import de.ifgi.fmt.utils.Utils;
+import de.ifgi.fmt.utils.constants.ModelConstants;
 
 /**
  * This class represents a Flashmob
  * @author Autermann, Demuth, Radtke
  */
-@Entity(Flashmob.COLLECTION_NAME)
+@Entity(ModelConstants.Flashmob.COLLECTION_NAME)
 public class Flashmob {
 
-    /**
-     * Definition
-     */
-    public static final String ACTIVITIES = "activities";
-    /**
-     * Definition
-     */
-    public static final String COLLECTION_NAME = "flashmobs";
-    /**
-     * Definition
-     */
-    public static final String COORDINATOR = "coordinator";
-    /**
-     * Definition
-     */
-    public static final String CREATION_TIME = "creationTime";
-    /**
-     * Definition
-     */
-    public static final String DESCRIPTION = "description";
-    /**
-     * Definition
-     */
-    public static final String END = "end";
-    /**
-     * Definition
-     */
-    public static final String KEY = "key";
-    /**
-     * Definition
-     */
-    public static final String LAST_CHANGED = "lastChanged";
-    /**
-     * Definition
-     */
-    public static final String LOCATION = "location";
-    /**
-     * Definition
-     */
-    public static final String PUBLIC = "isPublic";
-    /**
-     * Definition
-     */
-    public static final String PUBLISH = "publish";
-    /**
-     * Definition
-     */
-    public static final String ROLES = "roles";
-    /**
-     * Definition
-     */
-    public static final String START = "start";
-    /**
-     * Definition
-     */
-    public static final String TITLE = "title";
-    /**
-     * Definition
-     */
-    public static final String TRIGGERS = "triggers";
-    /**
-     * Definition
-     */
-    public static final String VALIDITY = "validity";
     @NotNull
-    @Reference(value = Flashmob.ACTIVITIES, lazy = true)
+    @Reference(value = ModelConstants.Flashmob.ACTIVITIES, lazy = true)
     private List<Activity> activities = Utils.list();
     @NotNull
-    @Reference(value = Flashmob.COORDINATOR, lazy = true)
+    @Reference(value = ModelConstants.Flashmob.COORDINATOR, lazy = true)
     private User coordinator;
     @NotNull
     @Past
     @Indexed
-    @Property(Flashmob.CREATION_TIME)
+    @Property(ModelConstants.Common.CREATION_TIME)
     private DateTime creationTime = new DateTime();
     @NotBlank
     @SafeHtml
-    @Property(Flashmob.DESCRIPTION)
+    @Property(ModelConstants.Flashmob.DESCRIPTION)
     private String description;
-    @Property(Flashmob.END)
+    @Property(ModelConstants.Flashmob.END)
     private DateTime endTime;
     @NotNull
     @Id
     private ObjectId id = new ObjectId();
-    @Property(Flashmob.PUBLIC)
+    @Property(ModelConstants.Flashmob.PUBLIC)
     private Boolean isPublic;
-    @Property(Flashmob.KEY)
+    @Property(ModelConstants.Flashmob.KEY)
     private String key;
     @NotNull
     @Indexed
-    @Property(Flashmob.LAST_CHANGED)
+    @Property(ModelConstants.Common.LAST_CHANGED)
     private DateTime lastChangedTime = new DateTime();
     @NotNull
     @Indexed(IndexDirection.GEO2D)
-    @Property(Flashmob.LOCATION)
+    @Property(ModelConstants.Flashmob.LOCATION)
     private Point location;
-    @Property(Flashmob.PUBLISH)
+    @Property(ModelConstants.Flashmob.PUBLISH)
     private DateTime publishTime;
     @NotNull
-    @Reference(value = Flashmob.ROLES, lazy = true)
+    @Reference(value = ModelConstants.Flashmob.ROLES, lazy = true)
     private List<Role> roles = Utils.list();
     @NotNull
-    @Property(Flashmob.START)
+    @Property(ModelConstants.Flashmob.START)
     private DateTime startTime;
     @NotBlank
     @SafeHtml
-    @Property(Flashmob.TITLE)
+    @Property(ModelConstants.Flashmob.TITLE)
     private String title;
     @NotNull
-    @Reference(value = Flashmob.TRIGGERS, lazy = true)
+    @Reference(value = ModelConstants.Flashmob.TRIGGERS, lazy = true)
     private List<Trigger> triggers = Utils.list();
-    @Property(Flashmob.VALIDITY)
+    @Property(ModelConstants.Flashmob.VALIDITY)
     private Validity validity = Validity.NOT_CHECKED;
 
     /**

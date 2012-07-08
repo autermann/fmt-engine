@@ -21,6 +21,8 @@ import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 import com.vividsolutions.jts.geom.LineString;
 
+import de.ifgi.fmt.utils.constants.ModelConstants;
+
 /**
  * 
  * @author Autermann, Demuth, Radtke
@@ -28,9 +30,7 @@ import com.vividsolutions.jts.geom.LineString;
 @Polymorphic
 public class LineTask extends Task {
 
-	private static final String LINE = "line";
-
-	@Property(LineTask.LINE)
+	@Property(ModelConstants.Task.LINE)
 	private LineString line;
 
 	/**

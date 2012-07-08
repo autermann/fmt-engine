@@ -342,165 +342,45 @@ public interface RESTConstants {
 	 * 
 	 */
 	public static abstract class Paths {
-	    /**
-	     * 
-	     */
 	    public static final String ROOT = "/"; 
-		/**
-		 * 
-		 */
 		public static final String FLASHMOBS = "/flashmobs";
-		/**
-		 * 
-		 */
 		public static final String FLASHMOB = FLASHMOBS + "/" + PathParams.FLASHMOB_P;
-		/**
-		 * 
-		 */
 		public static final String ROLES = "/roles";
-		/**
-		 * 
-		 */
 		public static final String COMMENTS = "/comments";
-		/**
-		 * 
-		 */
 		public static final String COMMENT = COMMENTS + "/" + PathParams.COMMENT_P;
-		/**
-		 * 
-		 */
 		public static final String ROLE = ROLES + "/" + PathParams.ROLE_P;
-		/**
-		 * 
-		 */
 		public static final String ACTIVITIES = "/activities";
-		/**
-		 * 
-		 */
 		public static final String ACTIVITY = ACTIVITIES + "/" + PathParams.ACTIVITY_P;
-		/**
-		 * 
-		 */
 		public static final String TRIGGERS = "/triggers";
-		/**
-		 * 
-		 */
 		public static final String TRIGGER = TRIGGERS + "/" + PathParams.TRIGGER_P;
-		/**
-		 * 
-		 */
 		public static final String USERS = "/users";
-		/**
-		 * 
-		 */
 		public static final String USER = USERS + "/" + PathParams.USER_P;
-		/**
-		 * 
-		 */
 		public static final String TASK = "/task";
-		/**
-		 * 
-		 */
 		public static final String ROLES_FOR_FLASHMOB = FLASHMOB + ROLES;
-		/**
-		 * 
-		 */
 		public static final String ROLE_FOR_FLASHMOB = FLASHMOB + ROLE;
-		/**
-		 * 
-		 */
 		public static final String COMMENTS_FOR_FLASHMOB = FLASHMOB + COMMENTS;
-		/**
-		 * 
-		 */
 		public static final String COMMENT_FOR_FLASHMOB = FLASHMOB + COMMENT;
-		/**
-		 * 
-		 */
 		public static final String USERS_OF_ROLE_OF_FLASHMOB = ROLE_FOR_FLASHMOB + USERS;
-		/**
-		 * 
-		 */
 		public static final String USER_OF_ROLE_OF_FLASHMOB = ROLE_FOR_FLASHMOB + USER;
-		/**
-		 * 
-		 */
 		public static final String ACTIVITIES_OF_ROLE_OF_FLASHMOB = ROLE_FOR_FLASHMOB + ACTIVITIES;
-		/**
-		 * 
-		 */
 		public static final String ACTIVITY_OF_ROLE_OF_FLASHMOB = ROLE_FOR_FLASHMOB + ACTIVITY;
-		/**
-		 * 
-		 */
 		public static final String TASK_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB = ACTIVITY_OF_ROLE_OF_FLASHMOB + TASK;
-		/**
-		 * 
-		 */
 		public static final String USERS_OF_FLASHMOB = FLASHMOB + USERS;
-		/**
-		 * 
-		 */
 		public static final String ACTIVITIES_OF_FLASHMOB = FLASHMOB + ACTIVITIES;
-		/**
-		 * 
-		 */
 		public static final String ACTIVITY_OF_FLASHMOB = FLASHMOB + ACTIVITY;
-		/**
-		 * 
-		 */
 		public static final String ROLES_OF_ACTIVITY_OF_FLASHMOB = ACTIVITY_OF_FLASHMOB + ROLES;
-		/**
-		 * 
-		 */
 		public static final String ROLE_OF_ACTIVITY_OF_FLASHMOB = ACTIVITY_OF_FLASHMOB + ROLE;
-		/**
-		 * 
-		 */
 		public static final String TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB = ROLE_OF_ACTIVITY_OF_FLASHMOB + TASK;
-		/**
-		 * 
-		 */
 		public static final String TRIGGER_OF_ACTIVITY = ACTIVITY_OF_FLASHMOB + "/trigger";
-		/**
-		 * 
-		 */
 		public static final String SIGNAL = "/signal";
-		/**
-		 * 
-		 */
 		public static final String SIGNAL_OF_ACTIVITY = ACTIVITY_OF_FLASHMOB + SIGNAL;
-		/**
-		 * 
-		 */
 		public static final String TRIGGERS_OF_FLASHMOB = FLASHMOB + TRIGGERS;
-		/**
-		 * 
-		 */
 		public static final String TRIGGER_OF_FLASHMOB = FLASHMOB + TRIGGER;
-		/**
-		 * 
-		 */
 		public static final String FLASHMOBS_OF_USER = USER + FLASHMOBS;
-		/**
-		 * 
-		 */
 		public static final String FLASHMOB_OF_USER = USER + FLASHMOB;
-		/**
-		 * 
-		 */
 		public static final String ROLE_OF_USER_IN_FLASHMOB = FLASHMOB_OF_USER + "/role";
-		/**
-		 * 
-		 */
 		public static final String ACTIVITIES_OF_FLASHMOB_OF_USER = FLASHMOB_OF_USER + ACTIVITIES;
-		/**
-		 * 
-		 */
 		public static final String ACTIVITY_OF_FLASHMOB_OF_USER = FLASHMOB_OF_USER + ACTIVITY;
-		/**
-		 * 
-		 */
 		public static final String TASK_OF_ACTIVITY_OF_FLASHMOB_OF_USER = ACTIVITY_OF_FLASHMOB_OF_USER + TASK;
 	}
 }

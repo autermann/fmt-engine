@@ -32,73 +32,47 @@ import com.google.code.morphia.annotations.PrePersist;
 import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.annotations.Reference;
 
+import de.ifgi.fmt.utils.constants.ModelConstants;
+
 /**
  * This Class reoresents a Comment
  * @author Autermann, Demuth, Radtke
  */
-@Entity(Comment.COLLECTION_NAME)
+@Entity(ModelConstants.Comment.COLLECTION_NAME)
 public class Comment {
 
-    /**
-     * Definition
-     */
-    public static final String COLLECTION_NAME = "comments";
-    /**
-     * Definition
-     */
-    public static final String CREATION_TIME = "creationTime";
-    /**
-     * Definition
-     */
-    public static final String FLASHMOB = "flashmob";
-    /**
-     * Definition
-     */
-    public static final String LAST_CHANGED = "lastChanged";
-    /**
-     * Definition
-     */
-    public static final String TEXT = "text";
-    /**
-     * Definition
-     */
-    public static final String TIME = "time";
-    /**
-     * Definition
-     */
-    public static final String USER = "user";
     @NotNull
     @Past
     @Indexed
-    @Property(Comment.CREATION_TIME)
+    @Property(ModelConstants.Common.CREATION_TIME)
     private DateTime creationTime = new DateTime();
     @NotNull
     @Indexed
-    @Reference(value = Comment.FLASHMOB, lazy = true)
+    @Reference(value = ModelConstants.Comment.FLASHMOB, lazy = true)
     private Flashmob flashmob;
     @NotNull
     @Id
     private ObjectId id = new ObjectId();
     @NotNull
     @Indexed
-    @Property(Comment.LAST_CHANGED)
+    @Property(ModelConstants.Common.LAST_CHANGED)
     private DateTime lastChangedTime = new DateTime();
     @SafeHtml
     @NotBlank
-    @Property(Comment.TEXT)
+    @Property(ModelConstants.Comment.TEXT)
     private String text;
     @NotNull
     @Indexed
     @Past
-    @Property(Comment.TIME)
+    @Property(ModelConstants.Comment.TIME)
     private DateTime time;
     @NotNull
     @Indexed
-    @Reference(value = Comment.USER, lazy = true)
+    @Reference(value = ModelConstants.Comment.USER, lazy = true)
     private User user;
 
     /**
-     * Set the time whne this comment was changed last
+     * Set the time when this comment was changed last
      */
     @PrePersist
     public void changed() {

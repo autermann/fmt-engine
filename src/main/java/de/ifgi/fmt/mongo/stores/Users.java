@@ -40,6 +40,7 @@ import de.ifgi.fmt.mongo.DaoFactory;
 import de.ifgi.fmt.mongo.ExtendedDao;
 import de.ifgi.fmt.mongo.Store;
 import de.ifgi.fmt.mongo.Store.Queries;
+import de.ifgi.fmt.utils.constants.ModelConstants;
 
 /**
  * 
@@ -89,7 +90,7 @@ public class Users implements ExtendedDao<User>{
 	 */
 	public List<User> search(String search) {
 		return getUserDao().find(
-				getUserDao().createQuery().field(User.USERNAME)
+				getUserDao().createQuery().field(ModelConstants.Common.ID)
 						.containsIgnoreCase(search)).asList();
 	}
 
@@ -251,6 +252,6 @@ public class Users implements ExtendedDao<User>{
 	public void setAuthToken(User u, String token) {
 		getUserDao().update(
 				getUserDao().createQuery().field(Mapper.ID_KEY).equal(u.getUsername()),
-				getUserDao().createUpdateOperations().set(User.AUTH_TOKEN, token));
+				getUserDao().createUpdateOperations().set(ModelConstants.User.AUTH_TOKEN, token));
 	}
 }

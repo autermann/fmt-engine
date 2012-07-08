@@ -22,6 +22,8 @@ import java.net.URI;
 import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 
+import de.ifgi.fmt.utils.constants.ModelConstants;
+
 /**
  * 
  * @author Autermann, Demuth, Radtke
@@ -48,19 +50,11 @@ public class LinkTask extends Task {
 	YOUTUBE;
 	}
 
-	/**
-	 * 
-	 */
-	public static final String LINK = "link";
-	/**
-	 * 
-	 */
-	public static final String TYPE = "type";
 
-	@Property(LinkTask.LINK)
+	@Property(ModelConstants.Task.LINK)
 	private URI link;
 
-	@Property(LinkTask.TYPE)
+	@Property(ModelConstants.Task.TYPE)
 	private Type type;
 
 	/**

@@ -42,7 +42,6 @@ import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.model.Role;
 import de.ifgi.fmt.model.Trigger;
 import de.ifgi.fmt.model.signal.Signal;
-import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 
 /**
  * 
@@ -52,7 +51,6 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 @Encodes(Activity.class)
 public class ActivityHandler extends JSONHandler<Activity> {
 
-	
     /**
      * 
      * @param j
@@ -118,7 +116,7 @@ public class ActivityHandler extends JSONHandler<Activity> {
 	public JSONObject encodeAsRef(Activity t, UriInfo uri) throws JSONException {
 		return new JSONObject()
 			.put(ID_KEY, t)
-			.put(HREF_KEY, uri.getAbsolutePathBuilder().path(Paths.ACTIVITY).build(t));
+			.put(HREF_KEY, uri.getAbsolutePathBuilder().path("/{id}").build(t));
 	}
 
 

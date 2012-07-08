@@ -112,8 +112,6 @@ public class TriggerHandler extends JSONHandler<Trigger> {
 	@Override
 	public JSONObject encodeAsRef(Trigger t, UriInfo uriInfo)
 			throws JSONException {
-		
-		// TODO other uri's
 		return new JSONObject().put(ID_KEY, t.getId()).put(HREF_KEY,
 				uriInfo.getBaseUriBuilder().path(Paths.TRIGGER_OF_FLASHMOB).build(t.getFlashmob(), t));
 	}

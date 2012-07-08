@@ -43,8 +43,8 @@ import de.ifgi.fmt.model.BoundingBox;
 import de.ifgi.fmt.model.Comment;
 import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.model.Role;
-import de.ifgi.fmt.model.Trigger;
 import de.ifgi.fmt.model.Role.Category;
+import de.ifgi.fmt.model.Trigger;
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.model.signal.VibrationSignal;
 import de.ifgi.fmt.model.task.Task;
@@ -56,6 +56,7 @@ import de.ifgi.fmt.mongo.stores.Tasks;
 import de.ifgi.fmt.mongo.stores.Triggers;
 import de.ifgi.fmt.mongo.stores.Users;
 import de.ifgi.fmt.utils.Utils;
+import de.ifgi.fmt.utils.constants.ModelConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.ShowStatus;
 
 /**
@@ -86,7 +87,7 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Trigger> triggersOfFlashmob(Flashmob f) {
-			return getTriggerDao().createQuery().field(Trigger.FLASHMOB).equal(f);
+			return getTriggerDao().createQuery().field(ModelConstants.Trigger.FLASHMOB).equal(f);
 		}
 
 		/**
@@ -95,7 +96,7 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Activity> activitiesOfFlashmob(Flashmob f) {
-			return getActivityDao().createQuery().field(Activity.FLASHMOB).equal(f);
+			return getActivityDao().createQuery().field(ModelConstants.Activity.FLASHMOB).equal(f);
 		}
 
 		/**
@@ -104,7 +105,7 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Activity> activitiesOfTrigger(Trigger t) {
-			return getActivityDao().createQuery().field(Activity.TRIGGER).equal(t);
+			return getActivityDao().createQuery().field(ModelConstants.Activity.TRIGGER).equal(t);
 		}
 
 		/**
@@ -113,7 +114,7 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Comment> commentsOfFlashmob(Flashmob f) {
-			return getCommentDao().createQuery().field(Comment.FLASHMOB).equal(f);
+			return getCommentDao().createQuery().field(ModelConstants.Comment.FLASHMOB).equal(f);
 		}
 
 		/**
@@ -122,7 +123,7 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Comment> commentsOfUser(User u) {
-			return getCommentDao().createQuery().field(Comment.USER).equal(u);
+			return getCommentDao().createQuery().field(ModelConstants.Comment.USER).equal(u);
 		}
 
 		/**
@@ -149,7 +150,7 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Role> rolesOfUser(User u) {
-			return getRoleDao().createQuery().field(Role.USERS).hasThisElement(u);
+			return getRoleDao().createQuery().field(ModelConstants.Role.USERS).hasThisElement(u);
 		}
 
 		/**
@@ -159,7 +160,7 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Role> rolesOfUserInFlashmob(User u, Flashmob f) {
-			return Queries.rolesOfUser(u).field(Role.FLASHMOB).equal(f);
+			return Queries.rolesOfUser(u).field(ModelConstants.Role.FLASHMOB).equal(f);
 		}
 
 		/**
@@ -169,7 +170,7 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Flashmob> near(Query<Flashmob> q, Point p) {
-			return q.field(Flashmob.LOCATION).near(p.getX(), p.getY(), true);
+			return q.field(ModelConstants.Flashmob.LOCATION).near(p.getX(), p.getY(), true);
 		}
 
 		/**
@@ -179,7 +180,7 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Flashmob> in(Query<Flashmob> q, BoundingBox bbox) {
-			return q.field(Flashmob.LOCATION).within(bbox.getLeft(),
+			return q.field(ModelConstants.Flashmob.LOCATION).within(bbox.getLeft(),
 					bbox.getBottom(), bbox.getRight(), bbox.getTop());
 		}
 
@@ -190,7 +191,7 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Flashmob> coordinatedBy(Query<Flashmob> q, User u) {
-			return q.field(Flashmob.COORDINATOR).equal(u);
+			return q.field(ModelConstants.Flashmob.COORDINATOR).equal(u);
 		}
 
 		/**
@@ -200,7 +201,7 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Flashmob> after(Query<Flashmob> q, DateTime dt) {
-			return q.field(Flashmob.START).greaterThanOrEq(dt);
+			return q.field(ModelConstants.Flashmob.START).greaterThanOrEq(dt);
 		}
 
 		/**
@@ -210,9 +211,9 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Flashmob> before(Query<Flashmob> q, DateTime dt) {
-			q.or(q.and(q.criteria(Flashmob.END).equal(null),
-					   q.criteria(Flashmob.START).lessThanOrEq(dt)),
-			     q.criteria(Flashmob.END).lessThanOrEq(dt));
+			q.or(q.and(q.criteria(ModelConstants.Flashmob.END).equal(null),
+					   q.criteria(ModelConstants.Flashmob.START).lessThanOrEq(dt)),
+			     q.criteria(ModelConstants.Flashmob.END).lessThanOrEq(dt));
 			return q;
 		}
 
@@ -223,8 +224,8 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Flashmob> search(Query<Flashmob> q, String search) {
-			q.or(q.criteria(Flashmob.TITLE).containsIgnoreCase(search),
-					q.criteria(Flashmob.DESCRIPTION).containsIgnoreCase(search));
+			q.or(q.criteria(ModelConstants.Flashmob.TITLE).containsIgnoreCase(search),
+					q.criteria(ModelConstants.Flashmob.DESCRIPTION).containsIgnoreCase(search));
 			return q;
 		}
 
@@ -235,11 +236,11 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Flashmob> hasUser(Query<Flashmob> q, User u) {
-			DBObject keys = new BasicDBObject(Role.FLASHMOB + "." + DB_REF_ID, true);
-			DBObject query  = new BasicDBObject(Role.USERS + "." + DB_REF_ID, u.getUsername());
+			DBObject keys = new BasicDBObject(ModelConstants.Role.FLASHMOB + "." + DB_REF_ID, true);
+			DBObject query  = new BasicDBObject(ModelConstants.Role.USERS + "." + DB_REF_ID, u.getUsername());
 			BasicDBList fids = new BasicDBList();
 			for (DBObject r : getRoleDao().getCollection().find(query, keys)) {
-				fids.add((ObjectId) ((DBObject) r.get(Role.FLASHMOB)).get(DB_REF_ID));
+				fids.add((ObjectId) ((DBObject) r.get(ModelConstants.Role.FLASHMOB)).get(DB_REF_ID));
 			}
 			return q.field(Mapper.ID_KEY).hasAnyOf(fids);
 		}
@@ -254,10 +255,10 @@ public class Store {
 				ShowStatus showStatus) {
 			switch (showStatus) {
 			case PUBLIC:
-				q.field(Flashmob.PUBLIC).equal(true);
+				q.field(ModelConstants.Flashmob.PUBLIC).equal(true);
 				break;
 			case PRIVATE:
-				q.field(Flashmob.PUBLIC).equal(false);
+				q.field(ModelConstants.Flashmob.PUBLIC).equal(false);
 				break;
 			}
 			return q;
@@ -269,7 +270,7 @@ public class Store {
 		 * @return
 		 */
 		public static Query<User> userByAuthToken(String token) {
-			return getUserDao().createQuery().field(User.AUTH_TOKEN).equal(token);
+			return getUserDao().createQuery().field(ModelConstants.User.AUTH_TOKEN).equal(token);
 		}
 
 		/**
@@ -278,7 +279,7 @@ public class Store {
 		 * @return
 		 */
 		public static Query<User> userByName(String username) {
-			return getUserDao().createQuery().field(User.USERNAME).equal(username);
+			return getUserDao().createQuery().field(ModelConstants.User.USERNAME).equal(username);
 		}
 
 	}

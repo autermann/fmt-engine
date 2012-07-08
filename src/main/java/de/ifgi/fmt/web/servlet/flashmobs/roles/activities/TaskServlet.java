@@ -19,6 +19,7 @@ package de.ifgi.fmt.web.servlet.flashmobs.roles.activities;
 
 import java.net.URI;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -51,6 +52,7 @@ public class TaskServlet extends AbstractServlet {
      * @return
      */
     @GET
+    @PermitAll
 	@Produces(MediaTypes.TASK)
 	public Task getTasks(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
@@ -68,11 +70,13 @@ public class TaskServlet extends AbstractServlet {
 	 * @return
 	 */
 	@POST
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.TASK)
 	@Consumes(MediaTypes.TASK)
 	public Response setTask(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity, Task t) {
+		canChangeFlashmob(flashmob);
 		Task saved = getService().addTask(t, role, activity, flashmob);
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.TASK_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB)
@@ -91,9 +95,11 @@ public class TaskServlet extends AbstractServlet {
 	@PUT
 	@Produces(MediaTypes.TASK)
 	@Consumes(MediaTypes.TASK)
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	public Task updateTask(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity, Task t) {
+		canChangeFlashmob(flashmob);
 		return getService().updateTask(t, role, activity, flashmob);
 	}
 
@@ -109,8 +115,7 @@ public class TaskServlet extends AbstractServlet {
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-	   
-		isAdminOrCoordinator(flashmob);
+		canChangeFlashmob(flashmob);
 	    getService().removeTaskFromRole(flashmob, role, activity);
 	}
 }

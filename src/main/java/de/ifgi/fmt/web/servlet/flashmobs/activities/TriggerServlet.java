@@ -19,6 +19,8 @@ package de.ifgi.fmt.web.servlet.flashmobs.activities;
 
 import java.net.URI;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -49,6 +51,7 @@ public class TriggerServlet extends AbstractServlet {
      * @return
      */
     @GET
+    @PermitAll
 	@Produces(MediaTypes.TRIGGER)
 	public Trigger getTrigger(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
@@ -64,14 +67,16 @@ public class TriggerServlet extends AbstractServlet {
      * @return
      */
     @POST
+    @RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.TRIGGER)
 	@Consumes(MediaTypes.TRIGGER)
 	public Response setTrigger(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity, Trigger t) {
-		t = getService().setTriggerForActivity(flashmob, activity, t);
+    	canChangeFlashmob(flashmob);
+		Trigger saved = getService().setTriggerForActivity(flashmob, activity, t);
 		URI redirect = getUriInfo().getAbsolutePathBuilder()
-				.path(Paths.TRIGGER_OF_FLASHMOB).build(flashmob, t.getId());
+				.path(Paths.TRIGGER_OF_FLASHMOB).build(flashmob, saved.getId());
 		return Response.status(Status.CREATED).location(redirect).build();
 	}
 
@@ -81,9 +86,11 @@ public class TriggerServlet extends AbstractServlet {
 	 * @param activity
 	 */
 	@DELETE
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	public void removeTrigger(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
+		canChangeFlashmob(flashmob);
 		getService().removeTriggerFromActivity(flashmob, activity);
 	}
 }

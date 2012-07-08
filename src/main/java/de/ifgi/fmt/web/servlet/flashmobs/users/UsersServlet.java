@@ -19,6 +19,7 @@ package de.ifgi.fmt.web.servlet.flashmobs.users;
 
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -43,6 +44,7 @@ public class UsersServlet extends AbstractServlet {
      * @return
      */
     @GET
+    @PermitAll
 	@Produces(MediaTypes.USER_LIST)
 	public List<User> getUsers(@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
 		return getService().getUsersOfFlashmob(flashmob);

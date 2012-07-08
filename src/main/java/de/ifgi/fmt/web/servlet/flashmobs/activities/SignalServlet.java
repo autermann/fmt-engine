@@ -17,6 +17,8 @@
  */
 package de.ifgi.fmt.web.servlet.flashmobs.activities;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -46,6 +48,7 @@ public class SignalServlet extends AbstractServlet {
      * @return
      */
     @GET
+    @PermitAll
 	@Produces(MediaTypes.SIGNAL)
 	public Signal getSignals(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
@@ -61,11 +64,13 @@ public class SignalServlet extends AbstractServlet {
 	 * @return
 	 */
 	@POST
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.SIGNAL)
 	@Consumes(MediaTypes.SIGNAL)
 	public Response setSignal(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity, Signal s) {
+		canChangeFlashmob(flashmob);
 		Signal saved = getService().addSignal(s, activity, flashmob);
 		return Response.created(getUriInfo().getRequestUri()).entity(saved).build();
 	}
@@ -78,11 +83,13 @@ public class SignalServlet extends AbstractServlet {
 	 * @return
 	 */
 	@PUT
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.SIGNAL)
 	@Consumes(MediaTypes.SIGNAL)
 	public Signal updateSignal(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity, Signal s) {
+		canChangeFlashmob(flashmob);
 		return getService().updateSignal(s, activity, flashmob);
 	}
 }

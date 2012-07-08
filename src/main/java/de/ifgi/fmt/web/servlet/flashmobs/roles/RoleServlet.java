@@ -17,6 +17,7 @@
  */
 package de.ifgi.fmt.web.servlet.flashmobs.roles;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -46,6 +47,7 @@ public class RoleServlet extends AbstractServlet {
      * @return
      */
     @GET
+    @PermitAll
 	@Produces(MediaTypes.ROLE)
 	public Role getRoles(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role) {
@@ -60,10 +62,12 @@ public class RoleServlet extends AbstractServlet {
 	 * @return
 	 */
 	@PUT
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.ROLE)
 	@Consumes(MediaTypes.ROLE)
 	public Role updateRole(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role, Role r) {
+		canChangeFlashmob(flashmob);
 		return getService().updateRole(r, role, flashmob);
 	}
 
@@ -77,7 +81,7 @@ public class RoleServlet extends AbstractServlet {
 	public void removeRole(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role) {
-		isAdminOrCoordinator(flashmob);
+		canChangeFlashmob(flashmob);
 		getService().removeRoleFromFlashmob(flashmob, role);
 	}
 }

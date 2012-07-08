@@ -20,6 +20,8 @@ package de.ifgi.fmt.web.servlet.flashmobs;
 import java.net.URI;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -65,6 +67,7 @@ public class FlashmobsServlet extends AbstractServlet {
      * @return
      */
     @GET
+    @PermitAll
 	@Produces(MediaTypes.FLASHMOB_LIST)
 	public List<Flashmob> getFlashmobs(
 			@QueryParam(QueryParams.LIMIT) int limit,
@@ -107,6 +110,7 @@ public class FlashmobsServlet extends AbstractServlet {
 	 * @return
 	 */
 	@POST
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.FLASHMOB)
 	@Consumes(MediaTypes.FLASHMOB)
 	public Response createFlashmob(Flashmob f) {

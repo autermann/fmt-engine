@@ -24,6 +24,7 @@ import com.google.code.morphia.annotations.Polymorphic;
 import com.google.code.morphia.annotations.Property;
 
 import de.ifgi.fmt.utils.constants.JSONConstants;
+import de.ifgi.fmt.utils.constants.ModelConstants;
 
 /**
  * 
@@ -32,12 +33,7 @@ import de.ifgi.fmt.utils.constants.JSONConstants;
 @Polymorphic
 public class TextSignal extends Signal {
 
-    /**
-     * 
-     */
-    public static final String TEXT = "text";
-
-	@Property(TextSignal.TEXT)
+	@Property(ModelConstants.Signal.TEXT)
 	private String text;
 
 	/**

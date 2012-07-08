@@ -31,32 +31,19 @@ import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.PrePersist;
 import com.google.code.morphia.annotations.Property;
 
-import de.ifgi.fmt.model.Activity;
+import de.ifgi.fmt.utils.constants.ModelConstants;
 
 /**
  * 
  * @author Autermann, Demuth, Radtke
  */
-@Entity(Signal.COLLECTION_NAME)
+@Entity(ModelConstants.Signal.COLLECTION_NAME)
 public abstract class Signal {
-
-    /**
-     * 
-     */
-    public static final String COLLECTION_NAME = "signals";
-	/**
-	 * 
-	 */
-	public static final String CREATION_TIME = "creationTime";
-	/**
-	 * 
-	 */
-	public static final String LAST_CHANGED = "lastChanged";
 
 	@NotNull
 	@Past
 	@Indexed
-	@Property(Signal.CREATION_TIME)
+	@Property(ModelConstants.Common.CREATION_TIME)
 	private DateTime creationTime = new DateTime();
 
 	@NotNull
@@ -65,7 +52,7 @@ public abstract class Signal {
 
 	@NotNull
 	@Indexed
-	@Property(Activity.LAST_CHANGED)
+	@Property(ModelConstants.Common.LAST_CHANGED)
 	private DateTime lastChangedTime = new DateTime();
 
 	/**

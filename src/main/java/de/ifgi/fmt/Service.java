@@ -151,6 +151,7 @@ public class Service {
 	public void addRoleToActivity(Activity activity, Role role,
 			Flashmob flashmob) {
 		activity.addRole(role);
+		role.addActivity(activity);
 		getStore().roles().save(role);
 		getStore().activities().save(activity);
 	}
@@ -973,6 +974,18 @@ public class Service {
 		User u = getUser(user);
 		Flashmob f = getFlashmob(u, flashmob);
 		return getStore().roles().get(f, u);
+	}
+
+	public void removeTrigger(ObjectId flashmob, ObjectId trigger) {
+		//TODO delete trigger
+		throw new UnsupportedOperationException();
+		
+	}
+
+	public Trigger updateTrigger(ObjectId flashmob, ObjectId trigger, Trigger t) {
+		Trigger o = getTrigger(trigger, flashmob);
+		getStore().triggers().save(o = update(o, t));
+		return o;
 	}
 
 }

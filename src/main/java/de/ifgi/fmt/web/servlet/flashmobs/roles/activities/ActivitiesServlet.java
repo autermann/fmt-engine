@@ -20,6 +20,8 @@ package de.ifgi.fmt.web.servlet.flashmobs.roles.activities;
 import java.net.URI;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -48,6 +50,7 @@ public class ActivitiesServlet extends AbstractServlet {
      * @return
      */
     @GET
+    @PermitAll
 	@Produces(MediaTypes.ACTIVITY_LIST)
 	public List<Activity> getActivitiesOfRole(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
@@ -63,11 +66,13 @@ public class ActivitiesServlet extends AbstractServlet {
      * @return
      */
     @POST
+    @RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.ACTIVITY)
 	@Consumes(MediaTypes.ACTIVITY)
 	public Response setActivityOfRole(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role, Activity a) {
+    	canChangeFlashmob(flashmob);
 		Activity saved = getService().addRoleToActivity(a, role, flashmob);
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.ACTIVITY_OF_ROLE_OF_FLASHMOB)

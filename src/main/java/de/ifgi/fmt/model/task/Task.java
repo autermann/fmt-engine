@@ -35,53 +35,30 @@ import com.google.code.morphia.annotations.Reference;
 
 import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.model.Role;
+import de.ifgi.fmt.utils.constants.ModelConstants;
 
 /**
  * 
  * @author Autermann, Demuth, Radtke
  */
 @Polymorphic
-@Entity(Task.COLLECTION_NAME)
+@Entity(ModelConstants.Task.COLLECTION_NAME)
 public class Task {
-    /**
-     * 
-     */
-    public static final String ACTIVITY = "activity";
-	/**
-	 * 
-	 */
-	public static final String COLLECTION_NAME = "tasks";
-	/**
-	 * 
-	 */
-	public static final String CREATION_TIME = "creationTime";
-	/**
-	 * 
-	 */
-	public static final String DESCRIPTION = "description";
-	/**
-	 * 
-	 */
-	public static final String LAST_CHANGED = "lastChanged";
-	/**
-	 * 
-	 */
-	public static final String ROLE = "role";
 
 	@NotNull
 	@Indexed
-	@Reference(value = Task.ACTIVITY, lazy = true)
+	@Reference(value = ModelConstants.Task.ACTIVITY, lazy = true)
 	private Activity activity;
 
 	@NotNull
 	@Past
 	@Indexed
-	@Property(Task.CREATION_TIME)
+	@Property(ModelConstants.Common.CREATION_TIME)
 	private DateTime creationTime = new DateTime();
 
 	@NotBlank
 	@SafeHtml
-	@Property(Task.DESCRIPTION)
+	@Property(ModelConstants.Task.DESCRIPTION)
 	private String description;
 
 	@NotNull
@@ -90,12 +67,12 @@ public class Task {
 
 	@NotNull
 	@Indexed
-	@Property(Task.LAST_CHANGED)
+	@Property(ModelConstants.Common.LAST_CHANGED)
 	private DateTime lastChangedTime = new DateTime();
 
 	@NotNull
 	@Indexed
-	@Reference(value = Task.ROLE, lazy = true)
+	@Reference(value = ModelConstants.Task.ROLE, lazy = true)
 	private Role role;
 
 	/**
