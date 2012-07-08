@@ -71,6 +71,9 @@ public class TaskHandler extends JSONHandler<Task> {
 		if (line != null) {
 			t = new LineTask().setLine(parseGeometry(j, LineString.class, LINE_KEY));
 		} else if (href != null || type != null) {
+			if (href != null && type == null) {
+				throw ServiceError.badRequest("property 'type' is missing");
+			}
 			t = new LinkTask()
 				.setLink(parseURI(j, HREF_KEY))
 				.setType(parseEnum(j, Type.class, TYPE_KEY));
