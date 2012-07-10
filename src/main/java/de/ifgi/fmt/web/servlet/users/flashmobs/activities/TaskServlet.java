@@ -40,15 +40,14 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
  */
 @Path(Paths.TASK_OF_ACTIVITY_OF_FLASHMOB_OF_USER)
 public class TaskServlet extends AbstractServlet {
-
-    /**
-     * 
-     * @param user
-     * @param flashmob
-     * @param activity
-     * @return
-     */
-    @GET
+	/**
+	 * 
+	 * @param user
+	 * @param flashmob
+	 * @param activity
+	 * @return
+	 */
+	@GET
 	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.TASK)
 	public Task getTasks(@PathParam(PathParams.USER) String user,
@@ -57,6 +56,7 @@ public class TaskServlet extends AbstractServlet {
 		if (!isAdminOrUserWithId(user)) {
 			throw ServiceError.flashmobNotFound();
 		}
-		return getService().getTaskForActivity(activity, flashmob, user);
+		return getService().getTaskForActivity(activity, flashmob, user)
+				.setView(View.TASK_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB);
 	}
 }

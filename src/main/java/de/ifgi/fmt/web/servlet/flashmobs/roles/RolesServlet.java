@@ -43,34 +43,35 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.ROLES_FOR_FLASHMOB)
 public class RolesServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param flashmob
-     * @return
-     */
-    @GET
-    @PermitAll
+	/**
+	 * 
+	 * @param flashmob
+	 * @return
+	 */
+	@GET
+	@PermitAll
 	@Produces(MediaTypes.ROLE_LIST)
 	public List<Role> getRoles(@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-		return getService().getRoles(flashmob);
+		return view(View.ROLES_FOR_FLASHMOB, getService().getRoles(flashmob));
 	}
 
-    /**
-     * 
-     * @param flashmob
-     * @param r
-     * @return
-     */
-    @POST
-    @RolesAllowed({ Roles.USER, Roles.ADMIN })
+	/**
+	 * 
+	 * @param flashmob
+	 * @param r
+	 * @return
+	 */
+	@POST
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.ROLE)
 	@Consumes(MediaTypes.ROLE)
 	public Response addRole(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			Role r) {
-    	canChangeFlashmob(flashmob);
+		canChangeFlashmob(flashmob);
 		Role saved = getService().addRole(flashmob, r);
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.ROLE_FOR_FLASHMOB).build(flashmob, r);
-		return Response.created(uri).entity(saved).build();
+		return Response.created(uri)
+				.entity(saved.setView(View.ROLE_FOR_FLASHMOB)).build();
 	}
 }

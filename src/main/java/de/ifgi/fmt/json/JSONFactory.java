@@ -23,11 +23,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.ifgi.fmt.ServiceError;
+import de.ifgi.fmt.model.Viewable;
 import de.ifgi.fmt.utils.Implementations;
 import de.ifgi.fmt.utils.Stringifier;
 import de.ifgi.fmt.utils.Utils;
@@ -110,8 +112,15 @@ public class JSONFactory {
 	 * @param c
 	 * @return
 	 */
-	public static <T> JSONEncoder<T> getEncoder(Class<? extends T> c) {
+	public static <T extends Viewable<T>> JSONEncoder<T> getEncoder(Class<? extends T> c) {
 		JSONEncoder<?> enc = encoders.get(c);
+		if (enc == null) {
+			for (Entry<Class<?>, JSONEncoder<?>> e : encoders.entrySet()) {
+				if (e.getKey().isAssignableFrom(c))  {
+					return  (JSONEncoder<T>) e.getValue();
+				}
+			}
+		}
 		if (enc == null) {
 			throw ServiceError.internal("No JSON encoder for " + c + " found.");
 		}
@@ -126,6 +135,13 @@ public class JSONFactory {
 	 */
 	public static <T> JSONDecoder<T> getDecoder(Class<? extends T> c) {
 		JSONDecoder<?> dec = decoders.get(c);
+		if (dec == null) {
+			for (Entry<Class<?>, JSONDecoder<?>> e : decoders.entrySet()) {
+				if (e.getKey().isAssignableFrom(c))  {
+					return  (JSONDecoder<T>) e.getValue();
+				}
+			}
+		}
 		if (dec == null) {
 			throw ServiceError.internal("No JSON decoder for " + c + " found.");
 		}

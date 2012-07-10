@@ -55,6 +55,6 @@ public class FlashmobServlet extends AbstractServlet {
 		if (!isAdminOrUserWithId(user)) {
 			throw ServiceError.flashmobNotFound();
 		}
-		return getService().getFlashmob(user, flashmob);
+		return getService().getFlashmob(user, flashmob).setView(View.FLASHMOB_OF_USER);
 	}
 }

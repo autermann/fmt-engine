@@ -37,6 +37,7 @@ import com.sun.jersey.core.util.ReaderWriter;
 import de.ifgi.fmt.json.JSONDecoder;
 import de.ifgi.fmt.json.JSONEncoder;
 import de.ifgi.fmt.json.JSONFactory;
+import de.ifgi.fmt.model.Viewable;
 import de.ifgi.fmt.utils.Utils;
 
 /**
@@ -44,8 +45,8 @@ import de.ifgi.fmt.utils.Utils;
  * @author Autermann, Demuth, Radtke
  * @param <T>
  */
-public class AbstractJSONProvider<T> extends AbstractReaderWriterProvider<T> {
-
+public class AbstractJSONProvider<T extends Viewable<T>> extends AbstractReaderWriterProvider<T> {
+	
 	private JSONEncoder<T> enc;
 	private JSONDecoder<T> dec;
 

@@ -15,28 +15,33 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package de.ifgi.fmt.json;
+package de.ifgi.fmt.model;
 
-import javax.ws.rs.core.UriInfo;
+import com.google.code.morphia.annotations.Transient;
 
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
+import de.ifgi.fmt.utils.constants.RESTConstants.View;
 
-import de.ifgi.fmt.model.Viewable;
+public abstract class Viewable<T extends Viewable<T>> {
 
-/**
- * Encodes a Json Object
- * @author Autermann, Demuth, Radtke
- * @param <T> a type
- */
-public interface JSONEncoder<T extends Viewable<T>> {
+	@Transient
+	private View view;
 
-    /**
-     * Encodes a Type as a Json object
-     * @param t a Type
-     * @param uri a URI
-     * @return a JsonObejct
-     * @throws JSONException
-     */
-    public JSONObject encode(T t, UriInfo uri) throws JSONException;
+	public View getView() {
+		return this.view;
+	}
+
+	public boolean hasView() {
+		return this.view != null;
+	}
+	
+	public T optSetView(View view) {
+		return setView(hasView() ? getView() : view); 
+	}
+
+	@SuppressWarnings("unchecked")
+	public T setView(View view) {
+		this.view = view;
+		return (T) this;
+	}
+
 }

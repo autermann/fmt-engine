@@ -40,7 +40,7 @@ import de.ifgi.fmt.utils.constants.ModelConstants;
  * @author Autermann, Demuth, Radtke
  */
 @Entity(ModelConstants.Trigger.COLLECTION_NAME)
-public class Trigger {
+public class Trigger extends Viewable<Trigger> {
 	
 	@NotNull
 	@Past

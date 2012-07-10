@@ -99,9 +99,9 @@ public class FlashmobsServlet extends AbstractServlet {
 		if (near == null && sorting != null && sorting == Sorting.DISTANCE) {
 			throw ServiceError.invalidParameter(QueryParams.SORT, "can not sort by disance without point given");
 		}
-		return getService().getFlashmobs(limit, point, user, bbox, f, t,
+		return view(View.FLASHMOBS, getService().getFlashmobs(limit, point, user, bbox, f, t,
 				sorting, descending, show, search, participant,
-				minParticipants, maxParticipants);
+				minParticipants, maxParticipants));
 	}
 
 	/**
@@ -120,6 +120,6 @@ public class FlashmobsServlet extends AbstractServlet {
 		}
 		Flashmob saved = getService().createFlashmob(f);
 		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.FLASHMOB).build(f);
-		return Response.created(uri).entity(saved).build();
+		return Response.created(uri).entity(saved.setView(View.FLASHMOB)).build();
 	}
 }

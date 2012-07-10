@@ -44,7 +44,7 @@ import de.ifgi.fmt.utils.constants.ModelConstants;
  * @author Autermann, Demuth, Radtke
  */
 @Entity(ModelConstants.Flashmob.COLLECTION_NAME)
-public class Flashmob {
+public class Flashmob extends Viewable<Flashmob> {
 
     @NotNull
     @Reference(value = ModelConstants.Flashmob.ACTIVITIES, lazy = true)

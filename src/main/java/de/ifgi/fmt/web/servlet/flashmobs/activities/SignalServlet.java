@@ -41,19 +41,19 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.SIGNAL_OF_ACTIVITY)
 public class SignalServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param flashmob
-     * @param activity
-     * @return
-     */
-    @GET
-    @PermitAll
+	/**
+	 * 
+	 * @param flashmob
+	 * @param activity
+	 * @return
+	 */
+	@GET
+	@PermitAll
 	@Produces(MediaTypes.SIGNAL)
-	public Signal getSignals(
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	public Signal getSignals(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-		return getService().getSignal(flashmob, activity);
+		return getService().getSignal(flashmob, activity).setView(
+				View.SIGNAL_OF_ACTIVITY);
 	}
 
 	/**
@@ -72,7 +72,8 @@ public class SignalServlet extends AbstractServlet {
 			@PathParam(PathParams.ACTIVITY) ObjectId activity, Signal s) {
 		canChangeFlashmob(flashmob);
 		Signal saved = getService().addSignal(s, activity, flashmob);
-		return Response.created(getUriInfo().getRequestUri()).entity(saved).build();
+		return Response.created(getUriInfo().getRequestUri())
+				.entity(saved.setView(View.SIGNAL_OF_ACTIVITY)).build();
 	}
 
 	/**
@@ -90,6 +91,7 @@ public class SignalServlet extends AbstractServlet {
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity, Signal s) {
 		canChangeFlashmob(flashmob);
-		return getService().updateSignal(s, activity, flashmob);
+		return getService().updateSignal(s, activity, flashmob).setView(
+				View.SIGNAL_OF_ACTIVITY);
 	}
 }

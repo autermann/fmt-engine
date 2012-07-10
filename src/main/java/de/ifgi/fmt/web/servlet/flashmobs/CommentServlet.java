@@ -52,7 +52,7 @@ public class CommentServlet extends AbstractServlet {
 	public Comment getComment(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.COMMENT) ObjectId comment) {
-		return getService().getCommentForFlashmob(flashmob, comment);
+		return getService().getCommentForFlashmob(flashmob, comment).setView(View.COMMENT_FOR_FLASHMOB);
 	}
 
     /**
@@ -72,7 +72,7 @@ public class CommentServlet extends AbstractServlet {
 		if (!isAdminOrUserWithId(getComment(flashmob, comment).getUser().getUsername())) {
 			throw ServiceError.forbidden("You can only change your own comments");
 		}
-		return getService().updateComment(flashmob, comment, changes);
+		return getService().updateComment(flashmob, comment, changes).setView(View.COMMENT_FOR_FLASHMOB);
 	}
 
 }

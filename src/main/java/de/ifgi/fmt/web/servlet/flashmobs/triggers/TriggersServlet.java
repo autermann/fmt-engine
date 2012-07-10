@@ -53,7 +53,7 @@ public class TriggersServlet extends AbstractServlet {
 	@Produces(MediaTypes.TRIGGER_LIST)
 	public List<Trigger> getTriggers(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-		return getService().getTriggers(flashmob);
+		return view(View.TRIGGERS_OF_FLASHMOB, getService().getTriggers(flashmob));
 	}
 
 	/**
@@ -72,6 +72,6 @@ public class TriggersServlet extends AbstractServlet {
 		Trigger saved = getService().addTrigger(t, flashmob);
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.TRIGGER_OF_FLASHMOB).build(flashmob, saved.getId());
-		return Response.created(uri).entity(saved).build();
+		return Response.created(uri).entity(saved.setView(View.TRIGGER_OF_FLASHMOB)).build();
 	}
 }

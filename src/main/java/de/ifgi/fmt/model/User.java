@@ -48,7 +48,7 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Roles;
  * @author Autermann, Demuth, Radtke
  */
 @Entity(ModelConstants.User.COLLECTION_NAME)
-public class User {
+public class User extends Viewable<User> {
 
 	@Property(ModelConstants.User.AUTH_TOKEN)
 	private String authToken;

@@ -68,6 +68,6 @@ public class RoleServlet extends AbstractServlet {
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity,
 			@PathParam(PathParams.ROLE) ObjectId role) {
-		return getService().getRoleForActivity(flashmob, activity, role);
+		return getService().getRoleForActivity(flashmob, activity, role).setView(View.ROLE_OF_ACTIVITY_OF_FLASHMOB);
 	}
 }

@@ -39,23 +39,23 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.ACTIVITY_OF_ROLE_OF_FLASHMOB)
 public class ActivityServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param flashmob
-     * @param role
-     * @param activity
-     */
-    @DELETE
-    @RolesAllowed({ Roles.USER, Roles.ADMIN })
+	/**
+	 * 
+	 * @param flashmob
+	 * @param role
+	 * @param activity
+	 */
+	@DELETE
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	public void removeActivity(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-    	canChangeFlashmob(flashmob);
+		canChangeFlashmob(flashmob);
 		getService().removeRoleFromActivity(flashmob, activity, role);
 	}
-	
-	/**flashmobflashmobflashmob
+
+	/**
 	 * 
 	 * @param flashmob
 	 * @param role
@@ -69,9 +69,10 @@ public class ActivityServlet extends AbstractServlet {
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-		return getService().getActivityForRole(flashmob, role, activity);
+		return getService().getActivityForRole(flashmob, role, activity)
+				.setView(View.ACTIVITY_OF_ROLE_OF_FLASHMOB);
 	}
-	
+
 	/**
 	 * 
 	 * @param flashmob
@@ -83,10 +84,10 @@ public class ActivityServlet extends AbstractServlet {
 	@PermitAll
 	@Path(Paths.SIGNAL)
 	@Produces(MediaTypes.SIGNAL)
-	public Signal getSignals(
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	public Signal getSignals(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-		return getService().getSignal(flashmob, activity);
+		return getService().getSignal(flashmob, activity).setView(
+				View.SIGNAL_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB);
 	}
 }

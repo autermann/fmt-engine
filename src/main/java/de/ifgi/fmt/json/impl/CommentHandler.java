@@ -24,19 +24,20 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.TEXT_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.TIME_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.USER_KEY;
 
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import de.ifgi.fmt.json.JSONFactory;
 import de.ifgi.fmt.json.JSONFactory.Decodes;
 import de.ifgi.fmt.json.JSONFactory.Encodes;
 import de.ifgi.fmt.json.JSONHandler;
+import de.ifgi.fmt.json.JSONHandler.DefaultView;
 import de.ifgi.fmt.model.Comment;
-import de.ifgi.fmt.model.Flashmob;
-import de.ifgi.fmt.model.User;
+import de.ifgi.fmt.utils.constants.RESTConstants.PathParams;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
+import de.ifgi.fmt.utils.constants.RESTConstants.View;
 
 /**
  * 
@@ -44,15 +45,10 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
  */
 @Encodes(Comment.class)
 @Decodes(Comment.class)
+@DefaultView(View.COMMENT_FOR_FLASHMOB)
 public class CommentHandler extends JSONHandler<Comment> {
 
-    /**
-     * 
-     * @param j
-     * @return
-     * @throws JSONException
-     */
-    @Override
+	@Override
 	public Comment decode(JSONObject j) throws JSONException {
 		Comment c = new Comment();
 		c.setId(parseId(j));
@@ -62,47 +58,27 @@ public class CommentHandler extends JSONHandler<Comment> {
 		return c;
 	}
 
-	/**
-	 * 
-	 * @param t
-	 * @param uri
-	 * @return
-	 * @throws JSONException
-	 */
 	@Override
-	public JSONObject encode(Comment t, UriInfo uri) throws JSONException {
-		JSONObject j = new JSONObject().put(ID_KEY, t.getId());
-		if (t.getTime() != null) {
-			j.put(TIME_KEY, getDateTimeFormat().print(t.getTime()));
-		}
-		if (t.getText() != null) {
-			j.put(TEXT_KEY, t.getText());
-		}
-		if (uri != null) {
-			if (t.getFlashmob() != null) {
-				j.put(FLASHMOB_KEY, JSONFactory.getEncoder(Flashmob.class).encodeAsRef(t.getFlashmob(), uri));
-			}
-			if (t.getUser() != null) {
-				j.put(USER_KEY, JSONFactory.getEncoder(User.class).encodeAsRef(t.getUser(), uri));
-			}
-		}			
-
-		return j;
-	}
-
-	/**
-	 * 
-	 * @param t
-	 * @param uriInfo
-	 * @return
-	 * @throws JSONException
-	 */
-	@Override
-	public JSONObject encodeAsRef(Comment t, UriInfo uriInfo)
+	protected void encodeObject(JSONObject j, Comment t, UriInfo uri)
 			throws JSONException {
-		return new JSONObject()
-			.put(ID_KEY, t.getId())
-			.put(HREF_KEY, uriInfo.getAbsolutePathBuilder().path(Paths.COMMENT).build(t));
+		j.put(ID_KEY, t.getId());
+		if (t.getView() == View.COMMENT_FOR_FLASHMOB) {
+			j.put(TIME_KEY, encodeTime(t.getTime()));
+			j.put(TEXT_KEY, t.getText());
+			j.put(FLASHMOB_KEY, encode(t, t.getFlashmob(), uri));
+			j.put(USER_KEY, encode(t, t.getUser(), uri));
+		}
 	}
 
+	@Override
+	protected void encodeUris(JSONObject j, Comment t, UriInfo uri)
+			throws JSONException {
+		if (t.getView() != View.COMMENT_FOR_FLASHMOB) {
+			MultivaluedMap<String, String> map = uri.getPathParameters();
+			j.put(HREF_KEY,
+					uri.getBaseUriBuilder()
+							.path(Paths.COMMENT_FOR_FLASHMOB)
+							.build(map.getFirst(PathParams.FLASHMOB), t.getId()));
+		}
+	}
 }

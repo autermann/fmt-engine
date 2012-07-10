@@ -50,7 +50,7 @@ public class FlashmobServlet extends AbstractServlet {
 	@Produces(MediaTypes.FLASHMOB)
 	public Flashmob getFlashmob(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-		return getService().getFlashmob(flashmob);
+		return getService().getFlashmob(flashmob).setView(View.FLASHMOB);
 	}
 
     /**
@@ -66,7 +66,7 @@ public class FlashmobServlet extends AbstractServlet {
 	public Flashmob updateFlashmob(@PathParam(PathParams.FLASHMOB) ObjectId id,
 			Flashmob flashmob) {
     	canChangeFlashmob(id);
-		return getService().updateFlashmob(id, flashmob);
+		return getService().updateFlashmob(id, flashmob).setView(View.FLASHMOB);
 	}
 	
 	/**

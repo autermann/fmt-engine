@@ -55,7 +55,7 @@ public class ActivitiesServlet extends AbstractServlet {
 	public List<Activity> getActivitiesOfRole(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role) {
-		return getService().getActivitiesForRole(role, flashmob);
+		return view(View.ACTIVITIES_OF_ROLE_OF_FLASHMOB, getService().getActivitiesForRole(role, flashmob));
 	}
 
     /**
@@ -77,6 +77,6 @@ public class ActivitiesServlet extends AbstractServlet {
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.ACTIVITY_OF_ROLE_OF_FLASHMOB)
 				.build(flashmob, role, a.getId());
-		return Response.created(uri).entity(saved).build();
+		return Response.created(uri).entity(saved.setView(View.ACTIVITY_OF_ROLE_OF_FLASHMOB)).build();
 	}
 }

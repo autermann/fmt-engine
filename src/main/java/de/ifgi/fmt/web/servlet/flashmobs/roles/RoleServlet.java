@@ -40,18 +40,19 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.ROLE_FOR_FLASHMOB)
 public class RoleServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param flashmob
-     * @param role
-     * @return
-     */
-    @GET
-    @PermitAll
+	/**
+	 * 
+	 * @param flashmob
+	 * @param role
+	 * @return
+	 */
+	@GET
+	@PermitAll
 	@Produces(MediaTypes.ROLE)
 	public Role getRoles(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role) {
-		return getService().getRole(flashmob, role);
+		return getService().getRole(flashmob, role).setView(
+				View.ROLE_FOR_FLASHMOB);
 	}
 
 	/**
@@ -68,7 +69,8 @@ public class RoleServlet extends AbstractServlet {
 	public Role updateRole(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role, Role r) {
 		canChangeFlashmob(flashmob);
-		return getService().updateRole(r, role, flashmob);
+		return getService().updateRole(r, role, flashmob).setView(
+				View.ROLE_FOR_FLASHMOB);
 	}
 
 	/**
@@ -78,8 +80,7 @@ public class RoleServlet extends AbstractServlet {
 	 */
 	@DELETE
 	@RolesAllowed({ Roles.ADMIN, Roles.USER })
-	public void removeRole(
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	public void removeRole(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role) {
 		canChangeFlashmob(flashmob);
 		getService().removeRoleFromFlashmob(flashmob, role);

@@ -39,19 +39,20 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
  */
 @Path(Paths.TRIGGER_OF_FLASHMOB)
 public class TriggerServlet extends AbstractServlet {
-    /**
-     * 
-     * @param flashmob
-     * @param trigger
-     * @return
-     */
-    @GET
-    @PermitAll
+	/**
+	 * 
+	 * @param flashmob
+	 * @param trigger
+	 * @return
+	 */
+	@GET
+	@PermitAll
 	@Produces(MediaTypes.TRIGGER)
 	public Trigger getTrigger(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.TRIGGER) ObjectId trigger) {
-		return getService().getTrigger(trigger, flashmob);
+		return getService().getTrigger(trigger, flashmob).setView(
+				View.TRIGGER_OF_FLASHMOB);
 	}
 
 	/**
@@ -69,7 +70,8 @@ public class TriggerServlet extends AbstractServlet {
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.TRIGGER) ObjectId trigger, Trigger t) {
 		canChangeFlashmob(flashmob);
-		return getService().updateTrigger(flashmob, trigger, t);
+		return getService().updateTrigger(flashmob, trigger, t).setView(
+				View.TRIGGER_OF_FLASHMOB);
 	}
 
 	/**

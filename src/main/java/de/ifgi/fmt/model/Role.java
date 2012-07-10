@@ -44,7 +44,7 @@ import de.ifgi.fmt.utils.constants.ModelConstants;
  * @author Autermann, Demuth, Radtke
  */
 @Entity(ModelConstants.Role.COLLECTION_NAME)
-public class Role {
+public class Role extends Viewable<Role> {
 
 	/**
      * 

@@ -17,7 +17,8 @@
  */
 package de.ifgi.fmt.json.impl;
 
-import static de.ifgi.fmt.utils.constants.JSONConstants.*;
+import static de.ifgi.fmt.utils.constants.JSONConstants.EMAIL_KEY;
+import static de.ifgi.fmt.utils.constants.JSONConstants.FLASHMOBS_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.PASSWORD_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.USERNAME_KEY;
 
@@ -29,9 +30,11 @@ import org.codehaus.jettison.json.JSONObject;
 import de.ifgi.fmt.json.JSONFactory.Decodes;
 import de.ifgi.fmt.json.JSONFactory.Encodes;
 import de.ifgi.fmt.json.JSONHandler;
+import de.ifgi.fmt.json.JSONHandler.DefaultView;
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
+import de.ifgi.fmt.utils.constants.RESTConstants.View;
 
 /**
  * 
@@ -39,53 +42,32 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
  */
 @Encodes(User.class)
 @Decodes(User.class)
+@DefaultView(View.USER)
 public class UserHandler extends JSONHandler<User> {
 
-    /**
-     * 
-     * @param j
-     * @return
-     * @throws JSONException
-     */
-    @Override
+	@Override
 	public User decode(JSONObject j) throws JSONException {
 		User u = new User()
-				.setEmail(j.optString(EMAIL_KEY, null))
-				.setPassword(j.optString(PASSWORD_KEY, null))
-				.setUsername(j.optString(USERNAME_KEY, null));
+			.setEmail(j.optString(EMAIL_KEY, null))
+			.setPassword(j.optString(PASSWORD_KEY, null))
+			.setUsername(j.optString(USERNAME_KEY, null));
 		return u;
 	}
 
-	/**
-	 * 
-	 * @param t
-	 * @param uri
-	 * @return
-	 * @throws JSONException
-	 */
 	@Override
-	public JSONObject encode(User t, UriInfo uri) throws JSONException {
-		JSONObject j = new JSONObject()
-			.put(USERNAME_KEY, t.getUsername())
-			.put(EMAIL_KEY, t.getEmail());
-		if (uri != null) {
-			j.put(FLASHMOBS_KEY, uri.getAbsolutePathBuilder().path(Paths.FLASHMOBS).build());
+	protected void encodeObject(JSONObject j, User t, UriInfo uri) throws JSONException {
+		j.put(USERNAME_KEY, t.getUsername());
+		if (t.getView() == View.USER) {
+			j.put(EMAIL_KEY, t.getEmail());
+		} else if (uri != null) {
+			j.put(JSONConstants.HREF_KEY, uri.getBaseUriBuilder().path(Paths.USER).build(t));
 		}
-		return j;
-
 	}
 
-	/**
-	 * 
-	 * @param t
-	 * @param uriInfo
-	 * @return
-	 * @throws JSONException
-	 */
 	@Override
-	public JSONObject encodeAsRef(User t, UriInfo uriInfo) throws JSONException {
-		return new JSONObject()
-				.put(JSONConstants.USERNAME_KEY, t.getUsername())
-				.put(JSONConstants.HREF_KEY, uriInfo.getBaseUriBuilder().path(Paths.USER).build(t));
+	protected void encodeUris(JSONObject j, User t, UriInfo uri) throws JSONException {
+		if (t.getView() == View.USER) {
+			j.put(FLASHMOBS_KEY, uri.getBaseUriBuilder().path(Paths.FLASHMOBS_OF_USER).build(t.getUsername()));
+		}
 	}
 }

@@ -57,6 +57,7 @@ public abstract class AbstractWriterProvider<T> implements MessageBodyWriter<T> 
 	 */
 	public AbstractWriterProvider(Class<?> clazz, MediaType... type) {
 		this(clazz, false, type);
+		log.debug("Instantiation {}.", new Object[]{ getClass() });
 	}
 
 	/**

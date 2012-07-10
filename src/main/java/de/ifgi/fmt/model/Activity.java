@@ -52,7 +52,7 @@ import de.ifgi.fmt.utils.constants.ModelConstants;
  */
 @Polymorphic
 @Entity(ModelConstants.Activity.COLLECTION_NAME)
-public class Activity {
+public class Activity extends Viewable<Activity> {
 
 	@NotNull
 	@Past

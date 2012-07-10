@@ -18,6 +18,7 @@
 package de.ifgi.fmt.web.servlet;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
@@ -38,6 +39,7 @@ import com.vividsolutions.jts.geom.Point;
 import de.ifgi.fmt.Service;
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.User;
+import de.ifgi.fmt.model.Viewable;
 import de.ifgi.fmt.utils.constants.RESTConstants;
 import de.ifgi.fmt.web.filter.auth.FmtPrinciple;
 
@@ -209,4 +211,16 @@ public abstract class AbstractServlet implements RESTConstants {
 		double lat = Double.parseDouble(lonLat[1]);
 		return geomFactory.createPoint(new Coordinate(lon, lat));
 	}
+	
+	/**
+	 * 
+	 * @param v
+	 * @param obj
+	 * @return
+	 */
+	protected <T extends Viewable<T>> List<T> view(View v, List<T> obj) {
+		for (T o : obj) { o.setView(v); }
+		return obj;
+	}
+
 }

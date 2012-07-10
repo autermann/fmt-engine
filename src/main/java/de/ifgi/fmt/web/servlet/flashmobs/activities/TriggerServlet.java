@@ -44,40 +44,43 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.TRIGGER_OF_ACTIVITY)
 public class TriggerServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param flashmob
-     * @param activity
-     * @return
-     */
-    @GET
-    @PermitAll
+	/**
+	 * 
+	 * @param flashmob
+	 * @param activity
+	 * @return
+	 */
+	@GET
+	@PermitAll
 	@Produces(MediaTypes.TRIGGER)
 	public Trigger getTrigger(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-		return getService().getTriggerOfActivity(flashmob, activity);
+		return getService().getTriggerOfActivity(flashmob, activity).setView(
+				View.TRIGGER_OF_ACTIVITY);
 	}
 
-    /**
-     * 
-     * @param flashmob
-     * @param activity
-     * @param t
-     * @return
-     */
-    @POST
-    @RolesAllowed({ Roles.USER, Roles.ADMIN })
+	/**
+	 * 
+	 * @param flashmob
+	 * @param activity
+	 * @param t
+	 * @return
+	 */
+	@POST
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.TRIGGER)
 	@Consumes(MediaTypes.TRIGGER)
 	public Response setTrigger(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity, Trigger t) {
-    	canChangeFlashmob(flashmob);
-		Trigger saved = getService().setTriggerForActivity(flashmob, activity, t);
+		canChangeFlashmob(flashmob);
+		Trigger saved = getService().setTriggerForActivity(flashmob, activity,
+				t);
 		URI redirect = getUriInfo().getAbsolutePathBuilder()
 				.path(Paths.TRIGGER_OF_FLASHMOB).build(flashmob, saved.getId());
-		return Response.status(Status.CREATED).location(redirect).build();
+		return Response.status(Status.CREATED).location(redirect)
+				.entity(saved.setView(View.TRIGGER_OF_ACTIVITY)).build();
 	}
 
 	/**

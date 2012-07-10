@@ -35,6 +35,7 @@ import com.google.code.morphia.annotations.Reference;
 
 import de.ifgi.fmt.model.Activity;
 import de.ifgi.fmt.model.Role;
+import de.ifgi.fmt.model.Viewable;
 import de.ifgi.fmt.utils.constants.ModelConstants;
 
 /**
@@ -43,7 +44,7 @@ import de.ifgi.fmt.utils.constants.ModelConstants;
  */
 @Polymorphic
 @Entity(ModelConstants.Task.COLLECTION_NAME)
-public class Task {
+public class Task extends Viewable<Task> {
 
 	@NotNull
 	@Indexed

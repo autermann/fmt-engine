@@ -44,21 +44,21 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.TASK_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB)
 public class TaskServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param flashmob
-     * @param role
-     * @param activity
-     * @return
-     */
-    @GET
-    @PermitAll
+	/**
+	 * 
+	 * @param flashmob
+	 * @param role
+	 * @param activity
+	 * @return
+	 */
+	@GET
+	@PermitAll
 	@Produces(MediaTypes.TASK)
-	public Task getTasks(
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	public Task getTasks(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-		return getService().getTask(flashmob, role, activity);
+		return getService().getTask(flashmob, role, activity).setView(
+				View.TASK_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB);
 	}
 
 	/**
@@ -81,7 +81,11 @@ public class TaskServlet extends AbstractServlet {
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.TASK_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB)
 				.build(flashmob, role, activity);
-		return Response.created(uri).entity(saved).build();
+		return Response
+				.created(uri)
+				.entity(saved
+						.setView(View.TASK_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB))
+				.build();
 	}
 
 	/**
@@ -100,7 +104,8 @@ public class TaskServlet extends AbstractServlet {
 			@PathParam(PathParams.ROLE) ObjectId role,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity, Task t) {
 		canChangeFlashmob(flashmob);
-		return getService().updateTask(t, role, activity, flashmob);
+		return getService().updateTask(t, role, activity, flashmob).setView(
+				View.TASK_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB);
 	}
 
 	/**
@@ -111,11 +116,10 @@ public class TaskServlet extends AbstractServlet {
 	 */
 	@DELETE
 	@RolesAllowed({ Roles.USER, Roles.ADMIN })
-	public void removeTask(
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	public void removeTask(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
 		canChangeFlashmob(flashmob);
-	    getService().removeTaskFromRole(flashmob, role, activity);
+		getService().removeTaskFromRole(flashmob, role, activity);
 	}
 }

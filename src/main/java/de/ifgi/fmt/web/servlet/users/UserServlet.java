@@ -48,12 +48,12 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.USER)
 public class UserServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param user
-     * @return
-     */
-    @GET
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	@GET
 	@PermitAll
 	@Produces(MediaTypes.USER)
 	public User getUser(@PathParam(PathParams.USER) String user) {
@@ -61,46 +61,49 @@ public class UserServlet extends AbstractServlet {
 		if (u == null) {
 			throw ServiceError.userNotFound();
 		}
-		return u;
+		return u.setView(View.USER);
 	}
 
-    /**
-     * 
-     * @param userName
-     * @param changes
-     * @return
-     */
-    @PUT
-	@RolesAllowed({Roles.USER, Roles.ADMIN})
+	/**
+	 * 
+	 * @param userName
+	 * @param changes
+	 * @return
+	 */
+	@PUT
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.USER)
 	@Consumes(MediaTypes.USER)
-	public User updateUser(@PathParam(PathParams.USER) String userName, User changes) {
+	public User updateUser(@PathParam(PathParams.USER) String userName,
+			User changes) {
 
 		if (!isAdminOrUserWithId(userName)) {
 			throw ServiceError.forbidden("can only change yourself");
 		}
-		
-		return getService().updateUser(changes, userName);
+
+		return getService().updateUser(changes, userName).setView(View.USER);
 	}
 
-    /**
-     * 
-     * @param user
-     * @param sr
-     */
-    @DELETE
-	@RolesAllowed({Roles.USER, Roles.ADMIN})
-	public void deleteUser(@PathParam(PathParams.USER) String user, @Context HttpServletRequest sr) {
-		
+	/**
+	 * 
+	 * @param user
+	 * @param sr
+	 */
+	@DELETE
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
+	public void deleteUser(@PathParam(PathParams.USER) String user,
+			@Context HttpServletRequest sr) {
+
 		if (!isAdminOrUserWithId(user)) {
 			throw ServiceError.forbidden("can only delete yourself");
 		}
-		
+
 		getService().deleteUser(user);
 
 		// do not log out the admin...
 		if (isUser()) {
-			Authentication.deauthSession((ContainerRequest) getSecurityContext(), sr);
+			Authentication.deauthSession(
+					(ContainerRequest) getSecurityContext(), sr);
 		}
 	}
 }

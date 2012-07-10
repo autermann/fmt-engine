@@ -35,8 +35,8 @@ import javax.ws.rs.ext.MessageBodyReader;
  */
 public abstract class AbstractReaderWriterProvider<T> extends
 		AbstractWriterProvider<T> implements MessageBodyReader<T> {
-
-    /**
+	
+	/**
      * 
      * @param collectionClass
      * @param itemClass

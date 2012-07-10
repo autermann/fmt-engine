@@ -40,50 +40,52 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.ACTIVITY_OF_FLASHMOB)
 public class ActivityServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param flashmob
-     * @param activity
-     * @return
-     */
-    @GET
-    @PermitAll
+	/**
+	 * 
+	 * @param flashmob
+	 * @param activity
+	 * @return
+	 */
+	@GET
+	@PermitAll
 	@Produces(MediaTypes.ACTIVITY)
 	public Activity getActivity(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-		return getService().getActivity(flashmob, activity);
+		return getService().getActivity(flashmob, activity).setView(
+				View.ACTIVITY_OF_FLASHMOB);
 	}
 
-    /**
-     * 
-     * @param flashmob
-     * @param activity
-     * @param a
-     * @return
-     */
-    @PUT
-    @RolesAllowed({ Roles.USER, Roles.ADMIN })
+	/**
+	 * 
+	 * @param flashmob
+	 * @param activity
+	 * @param a
+	 * @return
+	 */
+	@PUT
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.ACTIVITY)
 	@Consumes(MediaTypes.ACTIVITY)
 	public Activity updateActivity(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity, Activity a) {
-    	canChangeFlashmob(flashmob);
-		return getService().updateActivity(a, activity, flashmob);
+		canChangeFlashmob(flashmob);
+		return getService().updateActivity(a, activity, flashmob).setView(
+				View.ACTIVITY_OF_FLASHMOB);
 	}
 
-    /**
-     * 
-     * @param flashmob
-     * @param activity
-     */
-    @DELETE
-    @RolesAllowed({ Roles.USER, Roles.ADMIN })
+	/**
+	 * 
+	 * @param flashmob
+	 * @param activity
+	 */
+	@DELETE
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	public void deleteActivity(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
-    	canChangeFlashmob(flashmob);
+		canChangeFlashmob(flashmob);
 		getService().deleteActivity(flashmob, activity);
 	}
 }

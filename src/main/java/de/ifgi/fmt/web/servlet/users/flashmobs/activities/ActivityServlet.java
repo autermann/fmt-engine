@@ -57,6 +57,6 @@ public class ActivityServlet extends AbstractServlet {
 		if (!isAdminOrUserWithId(user)) {
 			throw ServiceError.flashmobNotFound();
 		}
-		return getService().getActivityForUser(user, flashmob, activity);
+		return getService().getActivityForUser(user, flashmob, activity).setView(View.ACTIVITY_OF_FLASHMOB_OF_USER);
 	}
 }

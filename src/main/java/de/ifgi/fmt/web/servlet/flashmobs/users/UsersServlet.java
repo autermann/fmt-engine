@@ -47,6 +47,6 @@ public class UsersServlet extends AbstractServlet {
     @PermitAll
 	@Produces(MediaTypes.USER_LIST)
 	public List<User> getUsers(@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-		return getService().getUsersOfFlashmob(flashmob);
+		return view(View.USERS_OF_FLASHMOB, getService().getUsersOfFlashmob(flashmob));
 	}
 }

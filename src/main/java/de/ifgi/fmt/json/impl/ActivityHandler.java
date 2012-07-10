@@ -26,22 +26,22 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.SIGNAL_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.TITLE_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.TRIGGER_KEY;
 
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import de.ifgi.fmt.json.JSONEncoder;
-import de.ifgi.fmt.json.JSONFactory;
 import de.ifgi.fmt.json.JSONFactory.Decodes;
 import de.ifgi.fmt.json.JSONFactory.Encodes;
 import de.ifgi.fmt.json.JSONHandler;
+import de.ifgi.fmt.json.JSONHandler.DefaultView;
 import de.ifgi.fmt.model.Activity;
-import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.model.Role;
-import de.ifgi.fmt.model.Trigger;
-import de.ifgi.fmt.model.signal.Signal;
+import de.ifgi.fmt.utils.constants.RESTConstants.PathParams;
+import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
+import de.ifgi.fmt.utils.constants.RESTConstants.View;
 
 /**
  * 
@@ -49,15 +49,10 @@ import de.ifgi.fmt.model.signal.Signal;
  */
 @Decodes(Activity.class)
 @Encodes(Activity.class)
+@DefaultView(View.ACTIVITY_OF_FLASHMOB)
 public class ActivityHandler extends JSONHandler<Activity> {
 
-    /**
-     * 
-     * @param j
-     * @return
-     * @throws JSONException
-     */
-    @Override
+	@Override
 	public Activity decode(JSONObject j) throws JSONException {
 		Activity a = new Activity();
 		a.setId(parseId(j));
@@ -66,58 +61,55 @@ public class ActivityHandler extends JSONHandler<Activity> {
 		return a;
 	}
 
-	/**
-	 * 
-	 * @param t
-	 * @param uri
-	 * @return
-	 * @throws JSONException
-	 */
+
 	@Override
-	public JSONObject encode(Activity t, UriInfo uri) throws JSONException {
-		JSONObject j = new JSONObject().put(ID_KEY, t.getId());
-		if (t.getTitle() != null) {
-			j.put(TITLE_KEY, t.getTitle());
-		}
-		if (t.getDescription() != null) {
-			j.put(DESCRIPTION_KEY, t.getDescription());
-		}
+	protected void encodeObject(JSONObject j, Activity t, UriInfo uri)
+			throws JSONException {
+		j.put(ID_KEY, t.getId());
 		
-		if (uri != null) {
-			if (t.getFlashmob() != null) {
-				j.put(FLASHMOB_KEY, JSONFactory.getEncoder(Flashmob.class).encodeAsRef(t.getFlashmob(), uri));
+		switch(t.getView()) {
+		case ACTIVITY_OF_FLASHMOB:
+		case ACTIVITY_OF_FLASHMOB_OF_USER:
+		case ACTIVITY_OF_ROLE_OF_FLASHMOB:
+			j.put(TITLE_KEY, t.getTitle());
+			j.put(DESCRIPTION_KEY, t.getDescription());
+			j.put(FLASHMOB_KEY, encode(t, t.getFlashmob(), uri));
+			j.put(TRIGGER_KEY, encode(t, t.getTrigger(), uri));
+			j.put(SIGNAL_KEY, encode(t, t.getSignal(), uri));
+			
+			JSONArray roles = new JSONArray();
+			for (Role r : t.getRoles())
+				roles.put(encode(t, r, uri));
+			j.put(ROLES_KEY, roles);
+			break;
+			
+		case ACTIVITIES_OF_FLASHMOB:
+			if (uri != null) {
+				MultivaluedMap<String, String> map = uri.getPathParameters();
+				j.put(HREF_KEY, uri.getBaseUriBuilder().path(Paths.ACTIVITY_OF_FLASHMOB)
+						.build(map.getFirst(PathParams.FLASHMOB), t.getId()));
 			}
-			if (t.getTrigger() != null) {
-				j.put(TRIGGER_KEY, JSONFactory.getEncoder(Trigger.class).encodeAsRef(t.getTrigger(), uri));
+			break;
+		case ACTIVITIES_OF_FLASHMOB_OF_USER:
+			if (uri != null) {
+				MultivaluedMap<String, String> map = uri.getPathParameters();
+				j.put(HREF_KEY, uri.getBaseUriBuilder().path(Paths.ACTIVITY_OF_FLASHMOB_OF_USER)
+						.build(map.getFirst(PathParams.USER), map.getFirst(PathParams.FLASHMOB), t.getId()));
 			}
-			if (t.getSignal() != null) {
-				j.put(SIGNAL_KEY, JSONFactory.getEncoder(Signal.class).encodeAsRef(t.getSignal(), uri));
+			break;
+		case ACTIVITIES_OF_ROLE_OF_FLASHMOB:
+			if (uri != null) {
+				MultivaluedMap<String, String> map = uri.getPathParameters();
+				j.put(HREF_KEY, uri.getBaseUriBuilder().path(Paths.ACTIVITY_OF_ROLE_OF_FLASHMOB)
+						.build(map.getFirst(PathParams.FLASHMOB), map.getFirst(PathParams.ROLE), t.getId()));
 			}
-			if (t.getRoles() != null) {
-				JSONEncoder<Role> renc = JSONFactory.getEncoder(Role.class);
-				JSONArray roles = new JSONArray();
-				for (Role r : t.getRoles()) {
-					roles.put(renc.encodeAsRef(r, uri));
-				}
-				j.put(ROLES_KEY, roles);
-			}
+			break;
 		}
-		return j;
 	}
 
-	/**
-	 * 
-	 * @param t
-	 * @param uri
-	 * @return
-	 * @throws JSONException
-	 */
 	@Override
-	public JSONObject encodeAsRef(Activity t, UriInfo uri) throws JSONException {
-		return new JSONObject()
-			.put(ID_KEY, t)
-			.put(HREF_KEY, uri.getAbsolutePathBuilder().path("/{id}").build(t));
-	}
+	protected void encodeUris(JSONObject j, Activity t, UriInfo uri)
+			throws JSONException {}
 
 
 }

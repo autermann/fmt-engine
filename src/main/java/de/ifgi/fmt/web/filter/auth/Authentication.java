@@ -17,6 +17,7 @@
  */
 package de.ifgi.fmt.web.filter.auth;
 
+import java.lang.reflect.Type;
 import java.security.SecureRandom;
 import java.util.UUID;
 
@@ -48,15 +49,12 @@ import de.ifgi.fmt.model.User;
  * @author Autermann, Demuth, Radtke
  */
 public class Authentication implements ContainerResponseFilter, ContainerRequestFilter {
-	
+	private static final Logger log = LoggerFactory.getLogger(Authentication.class);
     public static final String COOKIE_NAME = "fmt_oid";
     private static final String USER_SESSION_ATTRIBUTE = "user";
     private static final String REMOVE_COOKIE_SESSION_ATTRIBUTE = "remove-cookie";
-	
-	private static final Logger log = LoggerFactory.getLogger(Authentication.class);
-	
-	
-	private final SecureRandom random = new SecureRandom();
+
+    private final SecureRandom random = new SecureRandom();
 	private @Context HttpServletRequest sr;
 	private @Context UriInfo uri;
 	
@@ -89,6 +87,7 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 		if (rq.getMethod().equals("OPTIONS")) {
 			return rs;
 		}
+		Type t = rs.getEntityType();
 		HttpSession s = sr.getSession(true);
 		if (s.getAttribute(USER_SESSION_ATTRIBUTE) != null && rq.getCookies().get(COOKIE_NAME) == null) {
 			ResponseBuilder rb = Response.fromResponse(rs.getResponse());
@@ -107,6 +106,7 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 			rs.setResponse(Response.fromResponse(rs.getResponse()).cookie(getInvalidCookie()).build());
 		}
 		s.invalidate();
+		rs.setEntity(rs.getEntity(), t);
 		return rs;
 	}
 	

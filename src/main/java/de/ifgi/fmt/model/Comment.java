@@ -39,7 +39,7 @@ import de.ifgi.fmt.utils.constants.ModelConstants;
  * @author Autermann, Demuth, Radtke
  */
 @Entity(ModelConstants.Comment.COLLECTION_NAME)
-public class Comment {
+public class Comment extends Viewable<Comment> {
 
     @NotNull
     @Past

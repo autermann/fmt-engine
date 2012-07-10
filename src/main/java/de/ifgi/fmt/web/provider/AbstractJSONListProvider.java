@@ -35,6 +35,7 @@ import com.sun.jersey.core.util.ReaderWriter;
 
 import de.ifgi.fmt.json.JSONEncoder;
 import de.ifgi.fmt.json.JSONFactory;
+import de.ifgi.fmt.model.Viewable;
 import de.ifgi.fmt.utils.Utils;
 
 /**
@@ -42,7 +43,7 @@ import de.ifgi.fmt.utils.Utils;
  * @author Autermann, Demuth, Radtke
  * @param <T>
  */
-public abstract class AbstractJSONListProvider<T> extends
+public abstract class AbstractJSONListProvider<T extends Viewable<T>> extends
 		AbstractWriterProvider<Iterable<T>> {
 
 	private String collectionName;
@@ -79,7 +80,7 @@ public abstract class AbstractJSONListProvider<T> extends
 		try {
 			JSONArray array = new JSONArray();
 			for (T o : list) {
-				array.put(enc.encodeAsRef(o, getUriInfo()));
+				array.put(enc.encode(o, getUriInfo()));
 			}
 			JSONObject j = new JSONObject().put(collectionName, array);
 			ReaderWriter.writeToAsString(Utils.toString(j), os, mt);

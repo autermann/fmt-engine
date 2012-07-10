@@ -33,17 +33,15 @@ import org.codehaus.jettison.json.JSONObject;
 import com.vividsolutions.jts.geom.LineString;
 
 import de.ifgi.fmt.ServiceError;
-import de.ifgi.fmt.json.JSONEncoder;
-import de.ifgi.fmt.json.JSONFactory;
 import de.ifgi.fmt.json.JSONFactory.Decodes;
 import de.ifgi.fmt.json.JSONFactory.Encodes;
 import de.ifgi.fmt.json.JSONHandler;
-import de.ifgi.fmt.model.Activity;
-import de.ifgi.fmt.model.Role;
+import de.ifgi.fmt.json.JSONHandler.DefaultView;
 import de.ifgi.fmt.model.task.LineTask;
 import de.ifgi.fmt.model.task.LinkTask;
 import de.ifgi.fmt.model.task.LinkTask.Type;
 import de.ifgi.fmt.model.task.Task;
+import de.ifgi.fmt.utils.constants.RESTConstants.View;
 
 /**
  * 
@@ -51,14 +49,9 @@ import de.ifgi.fmt.model.task.Task;
  */
 @Encodes(Task.class)
 @Decodes(Task.class)
+@DefaultView(View.TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB)
 public class TaskHandler extends JSONHandler<Task> {
 
-	/**
-     * 
-     * @param j
-     * @return
-     * @throws JSONException
-     */
     @Override
 	public Task decode(JSONObject j) throws JSONException {
 		Task t = null;
@@ -87,65 +80,25 @@ public class TaskHandler extends JSONHandler<Task> {
 		return t;
 	}
 
-	/**
-	 * 
-	 * @param t
-	 * @param uri
-	 * @return
-	 * @throws JSONException
-	 */
 	@Override
-	public JSONObject encode(Task t, UriInfo uri) throws JSONException {
-		JSONObject j = new JSONObject().put(ID_KEY, t.getId());
-		if (t.getDescription() != null) {
-			j.put(DESCRIPTION_KEY, t.getDescription());
-		}
-		if (uri != null) {
-			if (t.getActivity() != null) {
-				JSONEncoder<Activity> aenc = JSONFactory.getEncoder(Activity.class);
-				j.put(ACTIVITY_KEY, aenc.encodeAsRef(t.getActivity(), uri));
-			}
-			if (t.getRole() != null) {
-				JSONEncoder<Role> renc = JSONFactory.getEncoder(Role.class);
-				j.put(ROLE_KEY, renc.encodeAsRef(t.getRole(), uri));
-			}
-		}
+	protected void encodeObject(JSONObject j, Task t, UriInfo uri)
+			throws JSONException {
+		j.put(ID_KEY, t.getId());
+		j.put(DESCRIPTION_KEY, t.getDescription());
+		j.put(ACTIVITY_KEY, encode(t, t.getActivity(), uri));
+		j.put(ROLE_KEY, encode(t, t.getRole(), uri));
 		
 		if (t instanceof LineTask) {
-			LineString ls = ((LineTask) t).getLine();
-			if (ls != null) {
-				try {
-					j.put(LINE_KEY, new JSONObject(getGeometryEncoder().encodeGeometry(ls)));
-				} catch (Exception e) {
-					throw ServiceError.internal(e);
-				}
-			}
+			j.put(LINE_KEY, encodeGeometry(((LineTask) t).getLine()));
 		} else if (t instanceof LinkTask) {
 			LinkTask lt = (LinkTask) t;
-			if (lt.getType() != null) {
-				j.put(TYPE_KEY, lt.getType());
-			}
-			if (lt.getLink() != null) {
-				j.put(HREF_KEY, lt.getLink());
-			}
+			j.put(TYPE_KEY, lt.getType());
+			j.put(HREF_KEY, lt.getLink());
 		}
-		
-		return j;
 	}
 
-	/**
-	 * 
-	 * @param t
-	 * @param uriInfo
-	 * @return
-	 * @throws JSONException
-	 */
 	@Override
-	public JSONObject encodeAsRef(Task t, UriInfo uriInfo)
-			throws JSONException {
-		/* i don't think we need this one */
-		// TODO task as ref encoding
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
+	protected void encodeUris(JSONObject j, Task t, UriInfo uri)
+			throws JSONException {/* empty */}
 
 }

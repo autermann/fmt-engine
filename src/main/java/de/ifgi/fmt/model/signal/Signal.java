@@ -31,6 +31,7 @@ import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.PrePersist;
 import com.google.code.morphia.annotations.Property;
 
+import de.ifgi.fmt.model.Viewable;
 import de.ifgi.fmt.utils.constants.ModelConstants;
 
 /**
@@ -38,7 +39,7 @@ import de.ifgi.fmt.utils.constants.ModelConstants;
  * @author Autermann, Demuth, Radtke
  */
 @Entity(ModelConstants.Signal.COLLECTION_NAME)
-public abstract class Signal {
+public abstract class Signal extends Viewable<Signal> {
 
 	@NotNull
 	@Past

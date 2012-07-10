@@ -60,7 +60,7 @@ public class UsersServlet extends AbstractServlet {
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
 			@QueryParam(QueryParams.LIMIT) @DefaultValue(DEFAULT_LIMIT) int limit) {
-		return getService().getUsersForRole(flashmob, role, limit);
+		return view(View.USERS_OF_ROLE_OF_FLASHMOB, getService().getUsersForRole(flashmob, role, limit));
 	}
 
 	/**
@@ -84,6 +84,6 @@ public class UsersServlet extends AbstractServlet {
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.USER_OF_ROLE_OF_FLASHMOB)
 				.build(flashmob, role, saved);
-		return Response.created(uri).entity(saved).build();
+		return Response.created(uri).entity(saved.setView(View.USER_OF_ROLE_OF_FLASHMOB)).build();
 	}
 }

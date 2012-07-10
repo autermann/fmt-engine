@@ -62,9 +62,9 @@ public class UsersServlet extends AbstractServlet {
 	public List<User> getUsers(@QueryParam(QueryParams.SEARCH) String search,
 			@QueryParam(QueryParams.LIMIT) @DefaultValue(DEFAULT_LIMIT) int limit) {
     	if (search != null) {
-    		return getService().getUsers(search);
+    		return view(View.USERS, getService().getUsers(search));
     	} else {
-    		return getService().getUsers(limit);
+    		return view(View.USERS, getService().getUsers(limit));
     	}
 	}
 
@@ -84,7 +84,7 @@ public class UsersServlet extends AbstractServlet {
 			Authentication.authSession((ContainerRequest) getSecurityContext(), sr, saved);
 		}
 		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.USER).build(u);
-		return Response.created(uri).entity(saved).build();
+		return Response.created(uri).entity(saved.setView(View.USER)).build();
 	}
 
 }

@@ -32,6 +32,7 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.USERS_KEY;
 
 import java.util.Set;
 
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
 import org.codehaus.jettison.json.JSONArray;
@@ -40,16 +41,16 @@ import org.codehaus.jettison.json.JSONObject;
 
 import com.vividsolutions.jts.geom.Point;
 
-import de.ifgi.fmt.ServiceError;
-import de.ifgi.fmt.json.JSONFactory;
 import de.ifgi.fmt.json.JSONFactory.Decodes;
 import de.ifgi.fmt.json.JSONFactory.Encodes;
 import de.ifgi.fmt.json.JSONHandler;
-import de.ifgi.fmt.model.Flashmob;
+import de.ifgi.fmt.json.JSONHandler.DefaultView;
 import de.ifgi.fmt.model.Role;
 import de.ifgi.fmt.model.Role.Category;
 import de.ifgi.fmt.utils.Utils;
+import de.ifgi.fmt.utils.constants.RESTConstants.PathParams;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
+import de.ifgi.fmt.utils.constants.RESTConstants.View;
 
 /**
  * 
@@ -57,6 +58,7 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
  */
 @Encodes(Role.class)
 @Decodes(Role.class)
+@DefaultView(View.ROLE_FOR_FLASHMOB)
 public class RoleHandler extends JSONHandler<Role>{
 	
 //	public static void main(String[] args) throws JSONException {
@@ -79,12 +81,6 @@ public class RoleHandler extends JSONHandler<Role>{
 //		System.out.println(h.encode(r, null));
 //	}
 	
-    /**
-     * 
-     * @param j
-     * @return
-     * @throws JSONException
-     */
     @Override
 	public Role decode(JSONObject j) throws JSONException {
 		Role r = new Role();
@@ -115,75 +111,65 @@ public class RoleHandler extends JSONHandler<Role>{
 		return r;
 	}
 
-    /**
-     * 
-     * @param t
-     * @param uri
-     * @return
-     * @throws JSONException
-     */
-    @Override
-	public JSONObject encode(Role t, UriInfo uri) throws JSONException {
-		JSONObject j = new JSONObject().put(ID_KEY, t.getId());
-		
-		if (t.getItems() != null) {
-			JSONArray items = new JSONArray();
-			for (String item : t.getItems()) {
-				items.put(item);
-			}
-			j.put(ITEMS_KEY, items);
-		}
-		if (t.getTitle() != null) {
+	@Override
+	protected void encodeObject(JSONObject j, Role t, UriInfo uri) throws JSONException {
+		j.put(ID_KEY, t.getId());
+		switch(t.getView()) {
+		case ROLE_FOR_FLASHMOB:
+		case ROLE_OF_USER_IN_FLASHMOB:
+		case ROLE_OF_ACTIVITY_OF_FLASHMOB:
+			j.put(ITEMS_KEY, new JSONArray(t.getItems()));
 		    j.put(TITLE_KEY, t.getTitle());
-		}
-		
-		if (t.getMinCount() != null && t.getMinCount() >= 0) {
-			j.put(MIN_PARTICIPANTS_KEY, t.getMinCount());
-		}
-		if (t.getMaxCount() != null && t.getMaxCount() >= 0) {
-			j.put(MAX_PARTICIPANTS_KEY, t.getMaxCount());
-		}
-		if (t.getDescription() != null) {
 			j.put(DESCRIPTION_KEY, t.getDescription());
-		}
-		if (t.getStartPoint() != null) {
-			try {
-				j.put(LOCATION_KEY, new JSONObject(getGeometryEncoder().encodeGeometry(t.getStartPoint())));
-			} catch (Exception e) {
-				throw ServiceError.internal(e);
-			}
-		}
-		
-		if (t.getCategory() != null) {
+			j.put(LOCATION_KEY, encodeGeometry(t.getStartPoint()));
 			j.put(CATEGORY_KEY, t.getCategory());
-		}
-		
-		
-		if (uri != null) {
-			if (t.getFlashmob() != null) {
-				j.put(FLASHMOB_KEY, JSONFactory.getEncoder(Flashmob.class).encodeAsRef(t.getFlashmob(), uri));
+			j.put(FLASHMOB_KEY, encode(t, t.getFlashmob(), uri));
+			if (t.getMinCount() != null && t.getMinCount() >= 0) {
+				j.put(MIN_PARTICIPANTS_KEY, t.getMinCount());
 			}
-			
-			j.put(ACTIVITIES_KEY, uri.getAbsolutePathBuilder().path(Paths.ACTIVITIES).build());
-			j.put(USERS_KEY, uri.getAbsolutePathBuilder().path(Paths.USERS).build());
+			if (t.getMaxCount() != null && t.getMaxCount() >= 0) {
+				j.put(MAX_PARTICIPANTS_KEY, t.getMaxCount());
+			}
+			break;
+		case ACTIVITY_OF_ROLE_OF_FLASHMOB:
+		case ROLES_FOR_FLASHMOB:
+			if (uri != null) {
+				MultivaluedMap<String, String> map = uri.getPathParameters();
+				j.put(HREF_KEY, uri.getBaseUriBuilder().path(Paths.ROLE_FOR_FLASHMOB)
+						.build(map.getFirst(PathParams.FLASHMOB), t.getId()));
+			}
+			break;
+		case ACTIVITY_OF_FLASHMOB:
+		case ACTIVITY_OF_FLASHMOB_OF_USER:
+		case ROLES_OF_ACTIVITY_OF_FLASHMOB:
+			if (uri != null) {
+				MultivaluedMap<String, String> map = uri.getPathParameters();
+				j.put(HREF_KEY, uri.getBaseUriBuilder().path(Paths.ROLE_OF_ACTIVITY_OF_FLASHMOB)
+						.build(map.getFirst(PathParams.FLASHMOB), map.getFirst(PathParams.ACTIVITY), t.getId()));
+			}
+			break;
 		}
 		
-		return j;
 	}
 
-    /**
-     * 
-     * @param t
-     * @param uriInfo
-     * @return
-     * @throws JSONException
-     */
-    @Override
-	public JSONObject encodeAsRef(Role t, UriInfo uriInfo) throws JSONException {
-		//TODO check if its an role of an activity (different urls)
-		return new JSONObject()
-			.put(ID_KEY, t.getId())
-			.put(HREF_KEY, uriInfo.getBaseUriBuilder().path(Paths.ROLE_FOR_FLASHMOB).build(t.getFlashmob().getId(), t));
+	@Override
+	protected void encodeUris(JSONObject j, Role t, UriInfo uri)
+			throws JSONException {
+		MultivaluedMap<String, String> map = uri.getPathParameters();
+		switch (t.getView()) {
+		case ROLE_FOR_FLASHMOB:
+		case ROLE_OF_ACTIVITY_OF_FLASHMOB:
+			j.put(ACTIVITIES_KEY, uri.getBaseUriBuilder().path(Paths.ACTIVITIES_OF_ROLE_OF_FLASHMOB)
+					.build(map.getFirst(PathParams.FLASHMOB), map.getFirst(PathParams.ROLE)));
+			j.put(USERS_KEY, uri.getBaseUriBuilder().path(Paths.USERS_OF_ROLE_OF_FLASHMOB)
+					.build(map.getFirst(PathParams.FLASHMOB), map.getFirst(PathParams.ROLE)));
+			break;
+		case ROLE_OF_USER_IN_FLASHMOB:
+			j.put(ACTIVITIES_KEY, uri.getBaseUriBuilder().path(Paths.ACTIVITIES_OF_FLASHMOB_OF_USER)
+					.build(map.get(PathParams.USER), map.getFirst(PathParams.FLASHMOB), t.getId()));
+			j.put(USERS_KEY, uri.getBaseUriBuilder().path(Paths.USERS_OF_ROLE_OF_FLASHMOB)
+					.build(map.getFirst(PathParams.FLASHMOB), map.getFirst(PathParams.ROLE)));
+			break;
+		}
 	}
-
 }

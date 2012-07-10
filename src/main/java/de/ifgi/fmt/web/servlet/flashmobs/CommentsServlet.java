@@ -42,7 +42,7 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
  */
 @Path(Paths.COMMENTS_FOR_FLASHMOB)
 public class CommentsServlet extends AbstractServlet {
-
+	
     /**
      * 
      * @param flashmob
@@ -53,7 +53,7 @@ public class CommentsServlet extends AbstractServlet {
 	@Produces(MediaTypes.COMMENT_LIST)
 	public List<Comment> getComments(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-		return getService().getCommentsForFlashmob(flashmob);
+    	return view(View.COMMENTS_FOR_FLASHMOB, getService().getCommentsForFlashmob(flashmob));
 	}
 	
 	/**
@@ -69,6 +69,6 @@ public class CommentsServlet extends AbstractServlet {
 	public Response addComment(@PathParam(PathParams.FLASHMOB) ObjectId flashmob, Comment comment) {
 		Comment c = getService().addComment(flashmob, comment.setUser(getUser()));
 		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.COMMENT_FOR_FLASHMOB).build(flashmob, c.getId());
-		return Response.created(uri).entity(c).build();
+		return Response.created(uri).entity(c.setView(View.COMMENT_FOR_FLASHMOB)).build();
 	}
 }

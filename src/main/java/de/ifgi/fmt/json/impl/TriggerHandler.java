@@ -31,14 +31,13 @@ import org.codehaus.jettison.json.JSONObject;
 
 import com.vividsolutions.jts.geom.Point;
 
-import de.ifgi.fmt.ServiceError;
-import de.ifgi.fmt.json.JSONFactory;
 import de.ifgi.fmt.json.JSONFactory.Decodes;
 import de.ifgi.fmt.json.JSONFactory.Encodes;
 import de.ifgi.fmt.json.JSONHandler;
-import de.ifgi.fmt.model.Flashmob;
+import de.ifgi.fmt.json.JSONHandler.DefaultView;
 import de.ifgi.fmt.model.Trigger;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
+import de.ifgi.fmt.utils.constants.RESTConstants.View;
 
 /**
  * 
@@ -46,74 +45,36 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
  */
 @Encodes(Trigger.class)
 @Decodes(Trigger.class)
+@DefaultView(View.TRIGGER_OF_FLASHMOB)
 public class TriggerHandler extends JSONHandler<Trigger> {
 
-    /**
-     * 
-     * @param j
-     * @return
-     * @throws JSONException
-     */
     @Override
 	public Trigger decode(JSONObject j) throws JSONException {
 		final Trigger t = new Trigger();
-		
-//		if (Utils.moreThanOneNotNull(time, geom, desc)) {
-//			throw ServiceError.badRequest(String.format(
-//					"Only one of %s, %s and %s can be present", 
-//					TIME_KEY, LOCATION_KEY, DESCRIPTION_KEY));
-//		}
-		
 		t.setDescription(j.optString(DESCRIPTION_KEY, null));
 		t.setLocation(parseGeometry(j, Point.class, LOCATION_KEY));
 		t.setTime(parseTime(j, TIME_KEY));
 		return t.setId(parseId(j));
 	}
 
-	/**
-	 * 
-	 * @param t
-	 * @param uri
-	 * @return
-	 * @throws JSONException
-	 */
 	@Override
-	public JSONObject encode(Trigger t, UriInfo uri) throws JSONException {
-		JSONObject j = new JSONObject().put(ID_KEY, t.getId());
-		if (uri != null) {
-			if (t.getFlashmob() != null) {
-				j.put(FLASHMOB_KEY, JSONFactory.getEncoder(Flashmob.class)
-						.encodeAsRef(t.getFlashmob(), uri));
-			}
-		}
-		if (t.getTime() != null) {
-			j.put(TIME_KEY, getDateTimeFormat().print(t.getTime()));
-		} 
-		if (t.getDescription() != null) {
+	protected void encodeObject(JSONObject j, Trigger t, UriInfo uri) throws JSONException {
+		j.put(ID_KEY, t.getId());
+		switch(t.getView()) {
+		case TRIGGER_OF_FLASHMOB:
+			j.put(FLASHMOB_KEY, encode(t, t.getFlashmob(), uri));
+			j.put(TIME_KEY, encodeTime(t.getTime()));
 			j.put(DESCRIPTION_KEY, t.getDescription());
-		}
-		if (t.getLocation() != null){
-			try {
-				j.put(LOCATION_KEY, getGeometryEncoder().encodeGeometry(t.getLocation()));
-			} catch (Exception e) {
-				throw ServiceError.internal(e);
+			j.put(LOCATION_KEY, encodeGeometry(t.getLocation()));
+			break;
+		default:
+			if (uri != null) {
+				j.put(HREF_KEY, uri.getBaseUriBuilder().path(Paths.TRIGGER_OF_FLASHMOB).build(t.getFlashmob(), t.getId()));
 			}
 		}
-		return j;
 	}
 
-	/**
-	 * 
-	 * @param t
-	 * @param uriInfo
-	 * @return
-	 * @throws JSONException
-	 */
 	@Override
-	public JSONObject encodeAsRef(Trigger t, UriInfo uriInfo)
-			throws JSONException {
-		return new JSONObject().put(ID_KEY, t.getId()).put(HREF_KEY,
-				uriInfo.getBaseUriBuilder().path(Paths.TRIGGER_OF_FLASHMOB).build(t.getFlashmob(), t));
-	}
+	protected void encodeUris(JSONObject j, Trigger t, UriInfo uri) throws JSONException {/* empty */}
 
 }

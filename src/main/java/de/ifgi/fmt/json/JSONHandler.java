@@ -19,15 +19,25 @@ package de.ifgi.fmt.json;
 
 import static de.ifgi.fmt.utils.constants.JSONConstants.ID_KEY;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.ws.rs.core.UriInfo;
+
+import org.apache.xmlbeans.XmlException;
 import org.bson.types.ObjectId;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.uncertweb.api.gml.io.JSONGeometryDecoder;
 import org.uncertweb.api.gml.io.JSONGeometryEncoder;
 
@@ -35,14 +45,24 @@ import com.vividsolutions.jts.geom.Geometry;
 
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.User;
+import de.ifgi.fmt.model.Viewable;
+import de.ifgi.fmt.utils.constants.RESTConstants.View;
 
 /**
  * 
  * @author Autermann, Demuth, Radtke
  * @param <T>
  */
-public abstract class JSONHandler<T> implements JSONDecoder<T>, JSONEncoder<T> {
+public abstract class JSONHandler<T extends Viewable<T>> implements JSONDecoder<T>, JSONEncoder<T> {
+	
+	@Documented
+	@Target(ElementType.TYPE)
+	@Retention(RetentionPolicy.RUNTIME)
+	public static @interface DefaultView {
+		public View value();
+	}
 
+	protected static final Logger log = LoggerFactory.getLogger(JSONHandler.class);
 	private final DateTimeFormatter dtf = ISODateTimeFormat.dateTime();
 	private final JSONGeometryEncoder geomenc = new JSONGeometryEncoder();
 	private final JSONGeometryDecoder geomdec = new JSONGeometryDecoder();
@@ -93,6 +113,19 @@ public abstract class JSONHandler<T> implements JSONDecoder<T>, JSONEncoder<T> {
 			return getDateTimeFormat().parseDateTime(time);
 		}
 		return null;
+	}
+	
+	protected String encodeTime(DateTime dt) {
+		if (dt == null) {
+			return null;
+		}
+		return getDateTimeFormat().print(dt);
+	}
+	
+	protected Boolean parseBoolean(JSONObject j, String key) {
+		String bool = j.optString(key, null);
+		if (bool == null) return null;
+		return Boolean.valueOf(bool);
 	}
 	
 	/**
@@ -149,6 +182,19 @@ public abstract class JSONHandler<T> implements JSONDecoder<T>, JSONEncoder<T> {
 		throw ServiceError.badRequest("only "+gt.getCanonicalName()+" are allowed");
 	}
 	
+	protected JSONObject encodeGeometry(Geometry g) throws JSONException {
+		if (g == null) {
+			return null;
+		}
+		try {
+			return new JSONObject(getGeometryEncoder().encodeGeometry(g));
+		} catch (XmlException e) {
+			throw ServiceError.internal(e);
+		} catch (org.json.JSONException e) {
+			throw ServiceError.internal(e);
+		}
+	}
+	
 	/**
 	 * 
 	 * @param j
@@ -167,27 +213,50 @@ public abstract class JSONHandler<T> implements JSONDecoder<T>, JSONEncoder<T> {
 		return null;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	protected DateTimeFormatter getDateTimeFormat() {
+	@SuppressWarnings("unchecked")
+	protected <X extends Viewable<X>> JSONObject encode(Viewable<?> parent,
+			X t, UriInfo uri) throws JSONException {
+		if (t == null || parent == null) {
+			return null;
+		}
+		JSONEncoder<X> enc = JSONFactory.getEncoder(t.getClass());
+		return enc.encode(t.setView(parent.getView()), uri);
+	}
+
+	private DateTimeFormatter getDateTimeFormat() {
 		return dtf;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	protected JSONGeometryDecoder getGeometryDecoder() {
+	private JSONGeometryDecoder getGeometryDecoder() {
 		return geomdec;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	protected JSONGeometryEncoder getGeometryEncoder() {
+	private JSONGeometryEncoder getGeometryEncoder() {
 		return geomenc;
 	}
+
+	private View getDefaultView() {
+		DefaultView df = getClass().getAnnotation(DefaultView.class);
+		if (df == null)
+			return null;
+		return df.value();
+	}
+	
+	@Override
+	public JSONObject encode(T t, UriInfo uri) throws JSONException {
+		JSONObject j = new JSONObject();
+		t.optSetView(getDefaultView());
+		log.debug("Encoding {} for View {}.", t.getClass(), t.getView());
+		encodeObject(j, t, uri);
+		if (uri != null) {
+			encodeUris(j, t, uri);
+		}
+		return j;
+	}
+	
+	protected abstract void encodeObject(JSONObject j, T t, UriInfo uri) throws JSONException;
+	protected abstract void encodeUris(JSONObject j, T t, UriInfo uri) throws JSONException;
+
+	@Override
+	public abstract T decode(JSONObject j) throws JSONException;
 }
