@@ -51,6 +51,7 @@ public class Triggers implements ExtendedDao<Trigger> {
 	public Triggers(Store store) {
 		this.store = store;
 	}
+
 	/**
 	 * 
 	 * @param id
@@ -65,6 +66,7 @@ public class Triggers implements ExtendedDao<Trigger> {
 		}
 		return t;
 	}
+
 	/**
 	 * 
 	 * @param t
@@ -76,6 +78,7 @@ public class Triggers implements ExtendedDao<Trigger> {
 		getTriggerDao().save(t);
 		return t;
 	}
+
 	/**
 	 * 
 	 * @param triggers
@@ -87,6 +90,7 @@ public class Triggers implements ExtendedDao<Trigger> {
 			save(t);
 		}
 	}
+
 	/**
 	 * 
 	 * @param t

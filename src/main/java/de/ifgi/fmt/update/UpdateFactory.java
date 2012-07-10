@@ -39,29 +39,31 @@ import de.ifgi.fmt.utils.Utils;
 @SuppressWarnings("unchecked")
 public class UpdateFactory {
 
-    /**
+	/**
      * 
      */
-    @Documented
+	@Documented
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
 	public static @interface Updates {
-	/**
-	 * 
-	 * @return
-	 */
-	public Class<?> value();
+		/**
+		 * 
+		 * @return
+		 */
+		public Class<?> value();
 	}
 
 	/**
 	 * 
 	 */
-	protected static final Logger log = LoggerFactory.getLogger(UpdateFactory.class);
-	
+	protected static final Logger log = LoggerFactory
+			.getLogger(UpdateFactory.class);
+
 	private static Map<Class<?>, EntityUpdater<?>> updaters = Utils.map();
 
 	static {
-		for (Class<?> c : Implementations.getAnnotatedSubclasses(EntityUpdater.class, Updates.class)) {
+		for (Class<?> c : Implementations.getAnnotatedSubclasses(
+				EntityUpdater.class, Updates.class)) {
 			try {
 				EntityUpdater<?> enc = (EntityUpdater<?>) c.newInstance();
 				updaters.put(c.getAnnotation(Updates.class).value(), enc);
@@ -71,13 +73,16 @@ public class UpdateFactory {
 		}
 		if (log.isDebugEnabled()) {
 			if (log.isDebugEnabled()) {
-				log.debug("EntityUpdater classes found:\n{}", Utils.join(new Stringifier() {
-					public String toString(Object t) { return "  " + t.getClass().toString(); }
-				},"\n", updaters.values()));
+				log.debug("EntityUpdater classes found:\n{}",
+						Utils.join(new Stringifier() {
+							public String toString(Object t) {
+								return "  " + t.getClass().toString();
+							}
+						}, "\n", updaters.values()));
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param <T>
@@ -91,7 +96,7 @@ public class UpdateFactory {
 		}
 		return (EntityUpdater<T>) enc;
 	}
-	
+
 	/**
 	 * 
 	 * @param <T>
@@ -100,7 +105,8 @@ public class UpdateFactory {
 	 * @return
 	 */
 	public static <T> T update(T original, T changes) {
-		return getUpdater((Class<T>) changes.getClass()).update(original, changes);
+		return getUpdater((Class<T>) changes.getClass()).update(original,
+				changes);
 	}
 
 }

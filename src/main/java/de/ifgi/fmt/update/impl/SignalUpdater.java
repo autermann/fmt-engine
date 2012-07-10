@@ -32,13 +32,13 @@ import de.ifgi.fmt.update.UpdateFactory.Updates;
 @Updates(Signal.class)
 public class SignalUpdater extends EntityUpdater<Signal> {
 
-    /**
-     * 
-     * @param old
-     * @param changes
-     * @return
-     */
-    @Override
+	/**
+	 * 
+	 * @param old
+	 * @param changes
+	 * @return
+	 */
+	@Override
 	public Signal update(Signal old, Signal changes) {
 		if (old instanceof SoundSignal) {
 			if (!(changes instanceof SoundSignal)) {
@@ -52,7 +52,7 @@ public class SignalUpdater extends EntityUpdater<Signal> {
 			if (!(changes instanceof VibrationSignal)) {
 				throw ServiceError.badRequest("mismatching signal types");
 			}
-		} else  if (old instanceof TextSignal) {
+		} else if (old instanceof TextSignal) {
 			if (!(changes instanceof TextSignal)) {
 				throw ServiceError.badRequest("mismatching signal types");
 			}

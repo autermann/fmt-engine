@@ -23,10 +23,10 @@ package de.ifgi.fmt.utils;
  * @param <T>
  */
 public interface Filter<T> {
-    /**
-     * 
-     * @param t
-     * @return
-     */
-    public boolean test(T t);
+	/**
+	 * 
+	 * @param t
+	 * @return
+	 */
+	public boolean test(T t);
 }

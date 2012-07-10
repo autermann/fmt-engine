@@ -64,13 +64,14 @@ import de.ifgi.fmt.utils.constants.RESTConstants.View;
 @Encodes(Flashmob.class)
 @DefaultView(View.FLASHMOB)
 public class FlashmobHandler extends JSONHandler<Flashmob> {
-	private static final Logger log = LoggerFactory.getLogger(FlashmobHandler.class);
+	private static final Logger log = LoggerFactory
+			.getLogger(FlashmobHandler.class);
 
 	@Override
 	public Flashmob decode(JSONObject j) throws JSONException {
 		log.debug("Decoding Flashmob {}", j);
 		Flashmob f = new Flashmob();
-		
+
 		f.setId(parseId(j));
 		f.setTitle(j.optString(TITLE_KEY, null));
 		f.setDescription(j.optString(DESCRIPTION_KEY, null));
@@ -109,57 +110,80 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 			j.put(REQUIRED_USERS_KEY, f.getRequiredUsers());
 			j.put(USERS_KEY, f.getRegisteredUsers());
 			j.put(PUBLIC_KEY, f.isPublic());
-		
+
 		}
 		if (uri != null) {
 			/* set href attribute */
-			switch(f.getView()) {
+			switch (f.getView()) {
 			case FLASHMOB:
 			case FLASHMOB_OF_USER:
 				/* do nothing */
-			break;
+				break;
 			case USER:
 			case USERS:
 			case FLASHMOBS_OF_USER:
 			case ROLE_OF_USER_IN_FLASHMOB:
 			case ACTIVITIES_OF_FLASHMOB_OF_USER:
 			case ACTIVITY_OF_FLASHMOB_OF_USER:
-			case TASK_OF_ACTIVITY_OF_FLASHMOB_OF_USER: 
+			case TASK_OF_ACTIVITY_OF_FLASHMOB_OF_USER:
 			case SIGNAL_OF_ACTIVITY_OF_FLASHMOB_OF_USER:
 				/* user based flashmob */
-				j.put(HREF_KEY, uri.getBaseUriBuilder().path(Paths.FLASHMOB_OF_USER).build(uri.getPathParameters().getFirst(PathParams.USER), f.getId()));
-			break;
+				j.put(HREF_KEY,
+						uri.getBaseUriBuilder()
+								.path(Paths.FLASHMOB_OF_USER)
+								.build(uri.getPathParameters().getFirst(
+										PathParams.USER), f.getId()));
+				break;
 			default:
-				j.put(HREF_KEY, uri.getBaseUriBuilder().path(Paths.FLASHMOB).build(f.getId()));
+				j.put(HREF_KEY, uri.getBaseUriBuilder().path(Paths.FLASHMOB)
+						.build(f.getId()));
 			}
 		}
-		
-		
-		
+
 	}
 
 	@Override
 	protected void encodeUris(JSONObject j, Flashmob f, UriInfo uri)
 			throws JSONException {
-		
-		switch(f.getView()) {
-			case FLASHMOB:
-				j.put(ACTIVITIES_KEY, uri.getBaseUriBuilder().path(Paths.ACTIVITIES_OF_FLASHMOB).build(f));
-				j.put(ROLES_KEY, uri.getBaseUriBuilder().path(Paths.ROLES_FOR_FLASHMOB).build(f));
-				j.put(TRIGGERS_KEY, uri.getBaseUriBuilder().path(Paths.TRIGGERS_OF_FLASHMOB).build(f));
-				j.put(COMMENTS_KEY, uri.getBaseUriBuilder().path(Paths.COMMENTS_FOR_FLASHMOB).build(f));
-				j.put(PARTICIPANTS_KEY, uri.getBaseUriBuilder().path(Paths.USERS_OF_FLASHMOB).build(f));
+
+		switch (f.getView()) {
+		case FLASHMOB:
+			j.put(ACTIVITIES_KEY,
+					uri.getBaseUriBuilder().path(Paths.ACTIVITIES_OF_FLASHMOB)
+							.build(f));
+			j.put(ROLES_KEY,
+					uri.getBaseUriBuilder().path(Paths.ROLES_FOR_FLASHMOB)
+							.build(f));
+			j.put(TRIGGERS_KEY,
+					uri.getBaseUriBuilder().path(Paths.TRIGGERS_OF_FLASHMOB)
+							.build(f));
+			j.put(COMMENTS_KEY,
+					uri.getBaseUriBuilder().path(Paths.COMMENTS_FOR_FLASHMOB)
+							.build(f));
+			j.put(PARTICIPANTS_KEY,
+					uri.getBaseUriBuilder().path(Paths.USERS_OF_FLASHMOB)
+							.build(f));
 			break;
-			case FLASHMOBS_OF_USER:
-				//TODO:
-				j.put(ACTIVITIES_KEY, uri.getBaseUriBuilder().path(Paths.ACTIVITIES_OF_FLASHMOB).build(f));
-				j.put(ROLES_KEY, uri.getBaseUriBuilder().path(Paths.ROLES_FOR_FLASHMOB).build(f));
-				j.put(TRIGGERS_KEY, uri.getBaseUriBuilder().path(Paths.TRIGGERS_OF_FLASHMOB).build(f));
-				j.put(COMMENTS_KEY, uri.getBaseUriBuilder().path(Paths.COMMENTS_FOR_FLASHMOB).build(f));
-				j.put(PARTICIPANTS_KEY, uri.getBaseUriBuilder().path(Paths.USERS_OF_FLASHMOB).build(f));
+		case FLASHMOBS_OF_USER:
+			// TODO:
+			j.put(ACTIVITIES_KEY,
+					uri.getBaseUriBuilder().path(Paths.ACTIVITIES_OF_FLASHMOB)
+							.build(f));
+			j.put(ROLES_KEY,
+					uri.getBaseUriBuilder().path(Paths.ROLES_FOR_FLASHMOB)
+							.build(f));
+			j.put(TRIGGERS_KEY,
+					uri.getBaseUriBuilder().path(Paths.TRIGGERS_OF_FLASHMOB)
+							.build(f));
+			j.put(COMMENTS_KEY,
+					uri.getBaseUriBuilder().path(Paths.COMMENTS_FOR_FLASHMOB)
+							.build(f));
+			j.put(PARTICIPANTS_KEY,
+					uri.getBaseUriBuilder().path(Paths.USERS_OF_FLASHMOB)
+							.build(f));
 			break;
 		}
-		
+
 	}
 
 }

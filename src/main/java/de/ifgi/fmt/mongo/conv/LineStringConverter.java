@@ -36,8 +36,7 @@ public class LineStringConverter extends TypeConverter implements
 		SimpleValueConverter {
 	private GeometryFactory f = new GeometryFactory();
 	private PointConverter pc = new PointConverter();
-	
-	
+
 	/**
 	 * 
 	 */
@@ -66,7 +65,6 @@ public class LineStringConverter extends TypeConverter implements
 		return line;
 	}
 
-	
 	/**
 	 * 
 	 * @param mc
@@ -76,7 +74,8 @@ public class LineStringConverter extends TypeConverter implements
 	 * @throws MappingException
 	 */
 	@Override
-	public LineString decode(Class mc, Object o, MappedField m) throws MappingException {
+	public LineString decode(Class mc, Object o, MappedField m)
+			throws MappingException {
 		if (o == null) {
 			return null;
 		} else if (o instanceof LineString) {
@@ -85,13 +84,14 @@ public class LineStringConverter extends TypeConverter implements
 			double[][] a = (double[][]) o;
 			Coordinate[] c = new Coordinate[a.length];
 			for (int i = 0; i < c.length; ++i)
-				c[i] = new Coordinate(a[i][0],a[i][1]); 
+				c[i] = new Coordinate(a[i][0], a[i][1]);
 			return f.createLineString(c);
 		} else if (o instanceof BasicDBList) {
 			BasicDBList list = (BasicDBList) o;
 			Coordinate[] c = new Coordinate[list.size()];
 			for (int i = 0; i < c.length; ++i)
-				c[i] = pc.decode(Point.class, list.get(i), null).getCoordinate();
+				c[i] = pc.decode(Point.class, list.get(i), null)
+						.getCoordinate();
 			return f.createLineString(c);
 		} else {
 			throw new RuntimeException("Can not decode "

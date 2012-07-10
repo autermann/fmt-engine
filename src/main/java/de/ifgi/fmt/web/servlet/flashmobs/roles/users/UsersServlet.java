@@ -46,21 +46,22 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.USERS_OF_ROLE_OF_FLASHMOB)
 public class UsersServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param flashmob
-     * @param role
-     * @param limit
-     * @return
-     */
-    @GET
-    @PermitAll
+	/**
+	 * 
+	 * @param flashmob
+	 * @param role
+	 * @param limit
+	 * @return
+	 */
+	@GET
+	@PermitAll
 	@Produces(MediaTypes.USER_LIST)
 	public List<User> getUsers(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
 			@QueryParam(QueryParams.LIMIT) @DefaultValue(DEFAULT_LIMIT) int limit) {
-		return view(View.USERS_OF_ROLE_OF_FLASHMOB, getService().getUsersForRole(flashmob, role, limit));
+		return view(View.USERS_OF_ROLE_OF_FLASHMOB, getService()
+				.getUsersForRole(flashmob, role, limit));
 	}
 
 	/**
@@ -78,12 +79,14 @@ public class UsersServlet extends AbstractServlet {
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role, User u) {
 		if (!isAdminOrUserWithId(u.getUsername())) {
-			throw ServiceError.forbidden("can only be done by the user himself");
+			throw ServiceError
+					.forbidden("can only be done by the user himself");
 		}
 		User saved = getService().registerUser(u, role, flashmob);
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.USER_OF_ROLE_OF_FLASHMOB)
 				.build(flashmob, role, saved);
-		return Response.created(uri).entity(saved.setView(View.USER_OF_ROLE_OF_FLASHMOB)).build();
+		return Response.created(uri)
+				.entity(saved.setView(View.USER_OF_ROLE_OF_FLASHMOB)).build();
 	}
 }

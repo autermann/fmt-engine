@@ -32,7 +32,7 @@ import com.mongodb.util.JSON;
  */
 @SuppressWarnings("rawtypes")
 public class JSONConverter extends TypeConverter implements
-    SimpleValueConverter {
+		SimpleValueConverter {
 
 	/**
 	 * 
@@ -65,7 +65,7 @@ public class JSONConverter extends TypeConverter implements
 	 */
 	@Override
 	public Object decode(Class c, Object o, MappedField i)
-	    throws MappingException {
+			throws MappingException {
 		if (o == null)
 			return null;
 		try {

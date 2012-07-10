@@ -23,11 +23,10 @@ package de.ifgi.fmt.utils.constants;
  */
 public class JSONConstants {
 
-	
-    /**
+	/**
      * 
      */
-    public static final String USERS_KEY = "users";
+	public static final String USERS_KEY = "users";
 	/**
 	 * 
 	 */
@@ -40,7 +39,7 @@ public class JSONConstants {
 	 * 
 	 */
 	public static final String ACTIVITY_KEY = "activity";
-	
+
 	/**
 	 * 
 	 */
@@ -73,12 +72,12 @@ public class JSONConstants {
 	 * 
 	 */
 	public static final String TRIGGER_KEY = "trigger";
-	
+
 	/**
 	 * 
 	 */
 	public static final String SIGNAL_KEY = "signal";
-	
+
 	/**
 	 * 
 	 */
@@ -136,7 +135,7 @@ public class JSONConstants {
 	 * 
 	 */
 	public static final String LOCATION_KEY = "location";
-	
+
 	/**
 	 * 
 	 */
@@ -145,7 +144,7 @@ public class JSONConstants {
 	 * 
 	 */
 	public static final String PARTICIPANTS_KEY = "participants";
-	
+
 	/**
 	 * 
 	 */
@@ -171,8 +170,7 @@ public class JSONConstants {
 	 * 
 	 */
 	public static final String CATEGORY_KEY = "category";
-	
-	
+
 	/**
 	 * 
 	 */
@@ -185,7 +183,7 @@ public class JSONConstants {
 	 * 
 	 */
 	public static final String EMAIL_KEY = "email";
-	
+
 	/**
 	 * 
 	 */
@@ -206,5 +204,5 @@ public class JSONConstants {
 	 * 
 	 */
 	public static final String VALUE = "value";
-	
+
 }

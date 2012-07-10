@@ -35,21 +35,22 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.USER_OF_ROLE_OF_FLASHMOB)
 public class UserServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param flashmob
-     * @param role
-     * @param user
-     */
-    @DELETE
+	/**
+	 * 
+	 * @param flashmob
+	 * @param role
+	 * @param user
+	 */
+	@DELETE
 	@RolesAllowed({ Roles.ADMIN, Roles.USER })
 	public void unregisterUser(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
 			@PathParam(PathParams.USER) String user) {
-		
+
 		if (!isAdminOrUserWithId(user)) {
-			throw ServiceError.forbidden("can only be done by the user himself");
+			throw ServiceError
+					.forbidden("can only be done by the user himself");
 		}
 		getService().unregisterUserFromRole(user, role, flashmob);
 	}

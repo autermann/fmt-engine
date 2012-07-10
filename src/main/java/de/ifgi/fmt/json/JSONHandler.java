@@ -53,8 +53,9 @@ import de.ifgi.fmt.utils.constants.RESTConstants.View;
  * @author Autermann, Demuth, Radtke
  * @param <T>
  */
-public abstract class JSONHandler<T extends Viewable<T>> implements JSONDecoder<T>, JSONEncoder<T> {
-	
+public abstract class JSONHandler<T extends Viewable<T>> implements
+		JSONDecoder<T>, JSONEncoder<T> {
+
 	@Documented
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
@@ -62,7 +63,8 @@ public abstract class JSONHandler<T extends Viewable<T>> implements JSONDecoder<
 		public View value();
 	}
 
-	protected static final Logger log = LoggerFactory.getLogger(JSONHandler.class);
+	protected static final Logger log = LoggerFactory
+			.getLogger(JSONHandler.class);
 	private final DateTimeFormatter dtf = ISODateTimeFormat.dateTime();
 	private final JSONGeometryEncoder geomenc = new JSONGeometryEncoder();
 	private final JSONGeometryDecoder geomdec = new JSONGeometryDecoder();
@@ -79,7 +81,7 @@ public abstract class JSONHandler<T extends Viewable<T>> implements JSONDecoder<
 		}
 		return new ObjectId();
 	}
-	
+
 	/**
 	 * 
 	 * @param j
@@ -90,7 +92,7 @@ public abstract class JSONHandler<T extends Viewable<T>> implements JSONDecoder<
 	public boolean isNull(JSONObject j, String key) throws JSONException {
 		return j.has(key) && j.get(key) == JSONObject.NULL;
 	}
-	
+
 	/**
 	 * 
 	 * @param j
@@ -100,7 +102,7 @@ public abstract class JSONHandler<T extends Viewable<T>> implements JSONDecoder<
 	public boolean hasKeyNotNull(JSONObject j, String key) {
 		return !JSONObject.NULL.equals(j.opt(key));
 	}
-	
+
 	/**
 	 * 
 	 * @param j
@@ -114,20 +116,21 @@ public abstract class JSONHandler<T extends Viewable<T>> implements JSONDecoder<
 		}
 		return null;
 	}
-	
+
 	protected String encodeTime(DateTime dt) {
 		if (dt == null) {
 			return null;
 		}
 		return getDateTimeFormat().print(dt);
 	}
-	
+
 	protected Boolean parseBoolean(JSONObject j, String key) {
 		String bool = j.optString(key, null);
-		if (bool == null) return null;
+		if (bool == null)
+			return null;
 		return Boolean.valueOf(bool);
 	}
-	
+
 	/**
 	 * 
 	 * @param j
@@ -141,7 +144,7 @@ public abstract class JSONHandler<T extends Viewable<T>> implements JSONDecoder<
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @param j
@@ -149,9 +152,10 @@ public abstract class JSONHandler<T extends Viewable<T>> implements JSONDecoder<
 	 * @param key
 	 * @return
 	 */
-	protected <E extends Enum<E>> E parseEnum(JSONObject j, Class<E> e, String key) {
+	protected <E extends Enum<E>> E parseEnum(JSONObject j, Class<E> e,
+			String key) {
 		String s = j.optString(key, null);
-		if (s == null) 
+		if (s == null)
 			return null;
 		try {
 			return Enum.valueOf(e, s);
@@ -159,7 +163,7 @@ public abstract class JSONHandler<T extends Viewable<T>> implements JSONDecoder<
 			throw ServiceError.badRequest(x);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param j
@@ -168,9 +172,10 @@ public abstract class JSONHandler<T extends Viewable<T>> implements JSONDecoder<
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	protected <G extends Geometry> G parseGeometry(JSONObject j, Class<G> gt, String key) {
+	protected <G extends Geometry> G parseGeometry(JSONObject j, Class<G> gt,
+			String key) {
 		String geom = j.optString(key, null);
-		if (geom == null) 
+		if (geom == null)
 			return null;
 		try {
 			Geometry g = getGeometryDecoder().parseUwGeometry(geom);
@@ -179,9 +184,10 @@ public abstract class JSONHandler<T extends Viewable<T>> implements JSONDecoder<
 		} catch (Exception e) {
 			throw ServiceError.badRequest(e);
 		}
-		throw ServiceError.badRequest("only "+gt.getCanonicalName()+" are allowed");
+		throw ServiceError.badRequest("only " + gt.getCanonicalName()
+				+ " are allowed");
 	}
-	
+
 	protected JSONObject encodeGeometry(Geometry g) throws JSONException {
 		if (g == null) {
 			return null;
@@ -194,7 +200,7 @@ public abstract class JSONHandler<T extends Viewable<T>> implements JSONDecoder<
 			throw ServiceError.internal(e);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param j
@@ -212,7 +218,7 @@ public abstract class JSONHandler<T extends Viewable<T>> implements JSONDecoder<
 		}
 		return null;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	protected <X extends Viewable<X>> JSONObject encode(Viewable<?> parent,
 			X t, UriInfo uri) throws JSONException {
@@ -241,7 +247,7 @@ public abstract class JSONHandler<T extends Viewable<T>> implements JSONDecoder<
 			return null;
 		return df.value();
 	}
-	
+
 	@Override
 	public JSONObject encode(T t, UriInfo uri) throws JSONException {
 		JSONObject j = new JSONObject();
@@ -253,9 +259,12 @@ public abstract class JSONHandler<T extends Viewable<T>> implements JSONDecoder<
 		}
 		return j;
 	}
-	
-	protected abstract void encodeObject(JSONObject j, T t, UriInfo uri) throws JSONException;
-	protected abstract void encodeUris(JSONObject j, T t, UriInfo uri) throws JSONException;
+
+	protected abstract void encodeObject(JSONObject j, T t, UriInfo uri)
+			throws JSONException;
+
+	protected abstract void encodeUris(JSONObject j, T t, UriInfo uri)
+			throws JSONException;
 
 	@Override
 	public abstract T decode(JSONObject j) throws JSONException;

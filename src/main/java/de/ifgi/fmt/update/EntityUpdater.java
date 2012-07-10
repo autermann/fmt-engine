@@ -23,11 +23,11 @@ package de.ifgi.fmt.update;
  * @param <T>
  */
 public abstract class EntityUpdater<T> {
-    /**
-     * 
-     * @param old
-     * @param changes
-     * @return
-     */
-    public abstract T update(T old, T changes);
+	/**
+	 * 
+	 * @param old
+	 * @param changes
+	 * @return
+	 */
+	public abstract T update(T old, T changes);
 }

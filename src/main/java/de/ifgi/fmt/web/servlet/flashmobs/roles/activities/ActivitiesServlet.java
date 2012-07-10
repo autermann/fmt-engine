@@ -43,40 +43,43 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.ACTIVITIES_OF_ROLE_OF_FLASHMOB)
 public class ActivitiesServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param flashmob
-     * @param role
-     * @return
-     */
-    @GET
-    @PermitAll
+	/**
+	 * 
+	 * @param flashmob
+	 * @param role
+	 * @return
+	 */
+	@GET
+	@PermitAll
 	@Produces(MediaTypes.ACTIVITY_LIST)
 	public List<Activity> getActivitiesOfRole(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role) {
-		return view(View.ACTIVITIES_OF_ROLE_OF_FLASHMOB, getService().getActivitiesForRole(role, flashmob));
+		return view(View.ACTIVITIES_OF_ROLE_OF_FLASHMOB, getService()
+				.getActivitiesForRole(role, flashmob));
 	}
 
-    /**
-     * 
-     * @param flashmob
-     * @param role
-     * @param a
-     * @return
-     */
-    @POST
-    @RolesAllowed({ Roles.USER, Roles.ADMIN })
+	/**
+	 * 
+	 * @param flashmob
+	 * @param role
+	 * @param a
+	 * @return
+	 */
+	@POST
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.ACTIVITY)
 	@Consumes(MediaTypes.ACTIVITY)
 	public Response setActivityOfRole(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role, Activity a) {
-    	canChangeFlashmob(flashmob);
+		canChangeFlashmob(flashmob);
 		Activity saved = getService().addRoleToActivity(a, role, flashmob);
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.ACTIVITY_OF_ROLE_OF_FLASHMOB)
 				.build(flashmob, role, a.getId());
-		return Response.created(uri).entity(saved.setView(View.ACTIVITY_OF_ROLE_OF_FLASHMOB)).build();
+		return Response.created(uri)
+				.entity(saved.setView(View.ACTIVITY_OF_ROLE_OF_FLASHMOB))
+				.build();
 	}
 }

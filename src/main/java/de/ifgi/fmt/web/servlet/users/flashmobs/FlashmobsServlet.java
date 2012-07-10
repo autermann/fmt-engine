@@ -41,19 +41,20 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.FLASHMOBS_OF_USER)
 public class FlashmobsServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param user
-     * @return
-     */
-    @GET
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	@GET
 	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.FLASHMOB_LIST)
 	public List<Flashmob> getFlashmobs(@PathParam(PathParams.USER) String user) {
 		if (!isAdminOrUserWithId(user)) {
 			throw ServiceError.flashmobNotFound();
 		}
-		return (List<Flashmob>) view(View.FLASHMOBS_OF_USER, getService().getFlashmobsFromUser(user));
+		return (List<Flashmob>) view(View.FLASHMOBS_OF_USER, getService()
+				.getFlashmobsFromUser(user));
 	}
 
 }

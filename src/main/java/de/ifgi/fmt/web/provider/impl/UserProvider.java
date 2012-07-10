@@ -34,10 +34,10 @@ import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 @Consumes(MediaTypes.USER)
 public class UserProvider extends AbstractJSONProvider<User> {
 
-    /**
+	/**
      * 
      */
-    public UserProvider() {
+	public UserProvider() {
 		super(User.class, MediaTypes.USER_TYPE);
 	}
 

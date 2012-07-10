@@ -26,17 +26,22 @@ import de.ifgi.fmt.model.Viewable;
 
 /**
  * Encodes a Json Object
+ * 
  * @author Autermann, Demuth, Radtke
- * @param <T> a type
+ * @param <T>
+ *            a type
  */
 public interface JSONEncoder<T extends Viewable<T>> {
 
-    /**
-     * Encodes a Type as a Json object
-     * @param t a Type
-     * @param uri a URI
-     * @return a JsonObejct
-     * @throws JSONException
-     */
-    public JSONObject encode(T t, UriInfo uri) throws JSONException;
+	/**
+	 * Encodes a Type as a Json object
+	 * 
+	 * @param t
+	 *            a Type
+	 * @param uri
+	 *            a URI
+	 * @return a JsonObejct
+	 * @throws JSONException
+	 */
+	public JSONObject encode(T t, UriInfo uri) throws JSONException;
 }

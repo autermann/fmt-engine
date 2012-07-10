@@ -46,7 +46,7 @@ import de.ifgi.fmt.utils.constants.ModelConstants;
  * 
  * @author Autermann, Demuth, Radtke
  */
-public class Users implements ExtendedDao<User>{
+public class Users implements ExtendedDao<User> {
 	private static final Logger log = LoggerFactory.getLogger(Users.class);
 	private final Store store;
 
@@ -75,17 +75,18 @@ public class Users implements ExtendedDao<User>{
 	/**
 	 * 
 	 * @param limit
-	 * @param search 
+	 * @param search
 	 * @return
 	 */
 	public List<User> get(int limit) {
-		return getUserDao().find(getUserDao().createQuery().limit(limit)).asList();
+		return getUserDao().find(getUserDao().createQuery().limit(limit))
+				.asList();
 	}
 
 	/**
 	 * 
 	 * @param limit
-	 * @param search 
+	 * @param search
 	 * @return
 	 */
 	public List<User> search(String search) {
@@ -101,17 +102,20 @@ public class Users implements ExtendedDao<User>{
 	 */
 	public User save(User u) {
 		try {
-			log.debug("Saving User {}", JSONFactory.getEncoder(User.class).encode(u, null).toString(4));
+			log.debug("Saving User {}", JSONFactory.getEncoder(User.class)
+					.encode(u, null).toString(4));
 		} catch (JSONException e) {
 			throw ServiceError.internal(e);
 		}
 		try {
 			getUserDao().save(u);
 		} catch (MongoException.DuplicateKey e) {
-			throw ServiceError.badRequest("Duplicate username or email address");
+			throw ServiceError
+					.badRequest("Duplicate username or email address");
 		}
 		return u;
 	}
+
 	/**
 	 * 
 	 * @param u
@@ -121,6 +125,7 @@ public class Users implements ExtendedDao<User>{
 		log.debug("Saving {} Users", u.size());
 		getUserDao().saveAll(u);
 	}
+
 	/**
 	 * 
 	 * @param u
@@ -133,6 +138,7 @@ public class Users implements ExtendedDao<User>{
 		deleteFromComments(u, this.store.comments().get(u));
 		DaoFactory.getUserDao().delete(u);
 	}
+
 	/**
 	 * 
 	 * @param users
@@ -198,6 +204,7 @@ public class Users implements ExtendedDao<User>{
 	public List<User> get(Query<User> q) {
 		return getUserDao().find(Store.g(q)).asList();
 	}
+
 	/**
 	 * 
 	 * @param q
@@ -234,7 +241,7 @@ public class Users implements ExtendedDao<User>{
 	public User getByAuthToken(String token) {
 		return getOne(Queries.userByAuthToken(token));
 	}
-	
+
 	/**
 	 * 
 	 * @param username
@@ -251,7 +258,9 @@ public class Users implements ExtendedDao<User>{
 	 */
 	public void setAuthToken(User u, String token) {
 		getUserDao().update(
-				getUserDao().createQuery().field(Mapper.ID_KEY).equal(u.getUsername()),
-				getUserDao().createUpdateOperations().set(ModelConstants.User.AUTH_TOKEN, token));
+				getUserDao().createQuery().field(Mapper.ID_KEY)
+						.equal(u.getUsername()),
+				getUserDao().createUpdateOperations().set(
+						ModelConstants.User.AUTH_TOKEN, token));
 	}
 }

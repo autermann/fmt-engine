@@ -32,7 +32,8 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Roles;
  */
 public class FmtSecurityContext implements SecurityContext {
 	private final User u;
-	private @Context UriInfo uri;
+	private @Context
+	UriInfo uri;
 
 	/**
 	 * 
@@ -48,7 +49,7 @@ public class FmtSecurityContext implements SecurityContext {
 	 */
 	@Override
 	public Principal getUserPrincipal() {
-		if (getUser() == null) { 
+		if (getUser() == null) {
 			return null;
 		}
 		return new FmtPrinciple(getUser());
@@ -61,7 +62,7 @@ public class FmtSecurityContext implements SecurityContext {
 	public User getUser() {
 		return this.u;
 	}
-	
+
 	/**
 	 * 
 	 * @param r
@@ -74,7 +75,7 @@ public class FmtSecurityContext implements SecurityContext {
 		}
 		return getUser().hasRole(r);
 	}
-		
+
 	/**
 	 * 
 	 * @return

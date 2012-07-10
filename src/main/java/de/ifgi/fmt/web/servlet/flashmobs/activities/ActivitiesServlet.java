@@ -43,17 +43,18 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.ACTIVITIES_OF_FLASHMOB)
 public class ActivitiesServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param flashmob
-     * @return
-     */
-    @GET
-    @PermitAll
+	/**
+	 * 
+	 * @param flashmob
+	 * @return
+	 */
+	@GET
+	@PermitAll
 	@Produces(MediaTypes.ACTIVITY_LIST)
 	public List<Activity> getActivities(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-		return view(View.ACTIVITIES_OF_FLASHMOB, getService().getActivities(flashmob));
+		return view(View.ACTIVITIES_OF_FLASHMOB,
+				getService().getActivities(flashmob));
 	}
 
 	/**
@@ -73,6 +74,7 @@ public class ActivitiesServlet extends AbstractServlet {
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.ACTIVITY_OF_FLASHMOB)
 				.build(flashmob, saved.getId());
-		return Response.created(uri).entity(saved.setView(View.ACTIVITY_OF_FLASHMOB)).build();
+		return Response.created(uri)
+				.entity(saved.setView(View.ACTIVITY_OF_FLASHMOB)).build();
 	}
 }

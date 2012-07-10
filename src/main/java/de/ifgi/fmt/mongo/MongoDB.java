@@ -112,13 +112,13 @@ public class MongoDB {
 							}
 						}, "\n", classes));
 			}
-			
+
 			for (Class<? extends TypeConverter> c : classes) {
 				dc.addConverter(c);
 			}
 
 			new MorphiaValidation().applyTo(this.morphia);
-			
+
 			String auth = p.getProperty(AUTH_PROPERTY);
 			auth = (auth == null || auth.trim().isEmpty()) ? "false" : auth;
 			String dbna = p.getProperty(DATABASE_PROPERTY);
@@ -177,11 +177,11 @@ public class MongoDB {
 	 */
 	public static class MongoDao<T> extends BasicDAO<T, ObjectId> {
 
-	    /**
-	     * 
-	     * @param entityClass
-	     */
-	    protected MongoDao(Class<T> entityClass) {
+		/**
+		 * 
+		 * @param entityClass
+		 */
+		protected MongoDao(Class<T> entityClass) {
 			super(entityClass, getInstance().getDatastore());
 			getDatastore().setDefaultWriteConcern(WriteConcern.SAFE);
 			getDatastore().ensureCaps();
@@ -197,7 +197,7 @@ public class MongoDB {
 				save(t);
 			}
 		}
-		
+
 		/**
 		 * 
 		 * @param col

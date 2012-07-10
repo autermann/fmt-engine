@@ -30,12 +30,12 @@ import com.google.code.morphia.mapping.MappingException;
  */
 @SuppressWarnings("rawtypes")
 public class DurationConverter extends TypeConverter implements
-    SimpleValueConverter {
+		SimpleValueConverter {
 
-    /**
+	/**
      * 
      */
-    public DurationConverter() {
+	public DurationConverter() {
 		super(Duration.class);
 	}
 
@@ -63,7 +63,7 @@ public class DurationConverter extends TypeConverter implements
 	 */
 	@Override
 	public Object decode(Class c, Object o, MappedField i)
-	    throws MappingException {
+			throws MappingException {
 		if (o == null) {
 			return null;
 		} else if (o instanceof Duration) {

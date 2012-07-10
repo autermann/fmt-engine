@@ -47,27 +47,31 @@ public class UserHandler extends JSONHandler<User> {
 
 	@Override
 	public User decode(JSONObject j) throws JSONException {
-		User u = new User()
-			.setEmail(j.optString(EMAIL_KEY, null))
-			.setPassword(j.optString(PASSWORD_KEY, null))
-			.setUsername(j.optString(USERNAME_KEY, null));
+		User u = new User().setEmail(j.optString(EMAIL_KEY, null))
+				.setPassword(j.optString(PASSWORD_KEY, null))
+				.setUsername(j.optString(USERNAME_KEY, null));
 		return u;
 	}
 
 	@Override
-	protected void encodeObject(JSONObject j, User t, UriInfo uri) throws JSONException {
+	protected void encodeObject(JSONObject j, User t, UriInfo uri)
+			throws JSONException {
 		j.put(USERNAME_KEY, t.getUsername());
 		if (t.getView() == View.USER) {
 			j.put(EMAIL_KEY, t.getEmail());
 		} else if (uri != null) {
-			j.put(JSONConstants.HREF_KEY, uri.getBaseUriBuilder().path(Paths.USER).build(t));
+			j.put(JSONConstants.HREF_KEY,
+					uri.getBaseUriBuilder().path(Paths.USER).build(t));
 		}
 	}
 
 	@Override
-	protected void encodeUris(JSONObject j, User t, UriInfo uri) throws JSONException {
+	protected void encodeUris(JSONObject j, User t, UriInfo uri)
+			throws JSONException {
 		if (t.getView() == View.USER) {
-			j.put(FLASHMOBS_KEY, uri.getBaseUriBuilder().path(Paths.FLASHMOBS_OF_USER).build(t.getUsername()));
+			j.put(FLASHMOBS_KEY,
+					uri.getBaseUriBuilder().path(Paths.FLASHMOBS_OF_USER)
+							.build(t.getUsername()));
 		}
 	}
 }

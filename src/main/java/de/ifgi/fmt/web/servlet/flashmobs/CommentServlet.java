@@ -40,39 +40,43 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.COMMENT_FOR_FLASHMOB)
 public class CommentServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param flashmob
-     * @param comment
-     * @return
-     */
-    @GET
-    @PermitAll
+	/**
+	 * 
+	 * @param flashmob
+	 * @param comment
+	 * @return
+	 */
+	@GET
+	@PermitAll
 	@Produces(MediaTypes.COMMENT)
 	public Comment getComment(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.COMMENT) ObjectId comment) {
-		return getService().getCommentForFlashmob(flashmob, comment).setView(View.COMMENT_FOR_FLASHMOB);
+		return getService().getCommentForFlashmob(flashmob, comment).setView(
+				View.COMMENT_FOR_FLASHMOB);
 	}
 
-    /**
-     * 
-     * @param flashmob
-     * @param comment
-     * @param changes
-     * @return
-     */
-    @PUT
+	/**
+	 * 
+	 * @param flashmob
+	 * @param comment
+	 * @param changes
+	 * @return
+	 */
+	@PUT
 	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Consumes(MediaTypes.COMMENT)
 	@Produces(MediaTypes.COMMENT)
 	public Comment changeComment(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.COMMENT) ObjectId comment, Comment changes) {
-		if (!isAdminOrUserWithId(getComment(flashmob, comment).getUser().getUsername())) {
-			throw ServiceError.forbidden("You can only change your own comments");
+		if (!isAdminOrUserWithId(getComment(flashmob, comment).getUser()
+				.getUsername())) {
+			throw ServiceError
+					.forbidden("You can only change your own comments");
 		}
-		return getService().updateComment(flashmob, comment, changes).setView(View.COMMENT_FOR_FLASHMOB);
+		return getService().updateComment(flashmob, comment, changes).setView(
+				View.COMMENT_FOR_FLASHMOB);
 	}
 
 }

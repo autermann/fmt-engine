@@ -24,18 +24,19 @@ import java.util.regex.Pattern;
  * @author Autermann, Demuth, Radtke
  */
 public abstract class Constants {
-    /**
+	/**
      * 
      */
-    public static abstract class Regex {
-	/**
+	public static abstract class Regex {
+		/**
 	 * 
 	 */
-	public static final Pattern USERNAME = Pattern.compile("^[\\w]{4,}$");
+		public static final Pattern USERNAME = Pattern.compile("^[\\w]{4,}$");
 		/**
 		 * 
 		 */
-		public static final Pattern EMAIL = Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$");
+		public static final Pattern EMAIL = Pattern
+				.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$");
 		/**
 		 * 
 		 */

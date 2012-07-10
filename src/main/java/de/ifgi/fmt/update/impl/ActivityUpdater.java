@@ -28,13 +28,13 @@ import de.ifgi.fmt.update.UpdateFactory.Updates;
 @Updates(Activity.class)
 public class ActivityUpdater extends EntityUpdater<Activity> {
 
-    /**
-     * 
-     * @param old
-     * @param changes
-     * @return
-     */
-    @Override
+	/**
+	 * 
+	 * @param old
+	 * @param changes
+	 * @return
+	 */
+	@Override
 	public Activity update(Activity old, Activity changes) {
 		if (changes.getDescription() != null) {
 			old.setDescription(changes.getDescription());

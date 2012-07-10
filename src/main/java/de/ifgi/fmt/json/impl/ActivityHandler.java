@@ -61,13 +61,12 @@ public class ActivityHandler extends JSONHandler<Activity> {
 		return a;
 	}
 
-
 	@Override
 	protected void encodeObject(JSONObject j, Activity t, UriInfo uri)
 			throws JSONException {
 		j.put(ID_KEY, t.getId());
-		
-		switch(t.getView()) {
+
+		switch (t.getView()) {
 		case ACTIVITY_OF_FLASHMOB:
 		case ACTIVITY_OF_FLASHMOB_OF_USER:
 		case ACTIVITY_OF_ROLE_OF_FLASHMOB:
@@ -76,32 +75,43 @@ public class ActivityHandler extends JSONHandler<Activity> {
 			j.put(FLASHMOB_KEY, encode(t, t.getFlashmob(), uri));
 			j.put(TRIGGER_KEY, encode(t, t.getTrigger(), uri));
 			j.put(SIGNAL_KEY, encode(t, t.getSignal(), uri));
-			
+
 			JSONArray roles = new JSONArray();
 			for (Role r : t.getRoles())
 				roles.put(encode(t, r, uri));
 			j.put(ROLES_KEY, roles);
 			break;
-			
+
 		case ACTIVITIES_OF_FLASHMOB:
 			if (uri != null) {
 				MultivaluedMap<String, String> map = uri.getPathParameters();
-				j.put(HREF_KEY, uri.getBaseUriBuilder().path(Paths.ACTIVITY_OF_FLASHMOB)
-						.build(map.getFirst(PathParams.FLASHMOB), t.getId()));
+				j.put(HREF_KEY,
+						uri.getBaseUriBuilder()
+								.path(Paths.ACTIVITY_OF_FLASHMOB)
+								.build(map.getFirst(PathParams.FLASHMOB),
+										t.getId()));
 			}
 			break;
 		case ACTIVITIES_OF_FLASHMOB_OF_USER:
 			if (uri != null) {
 				MultivaluedMap<String, String> map = uri.getPathParameters();
-				j.put(HREF_KEY, uri.getBaseUriBuilder().path(Paths.ACTIVITY_OF_FLASHMOB_OF_USER)
-						.build(map.getFirst(PathParams.USER), map.getFirst(PathParams.FLASHMOB), t.getId()));
+				j.put(HREF_KEY,
+						uri.getBaseUriBuilder()
+								.path(Paths.ACTIVITY_OF_FLASHMOB_OF_USER)
+								.build(map.getFirst(PathParams.USER),
+										map.getFirst(PathParams.FLASHMOB),
+										t.getId()));
 			}
 			break;
 		case ACTIVITIES_OF_ROLE_OF_FLASHMOB:
 			if (uri != null) {
 				MultivaluedMap<String, String> map = uri.getPathParameters();
-				j.put(HREF_KEY, uri.getBaseUriBuilder().path(Paths.ACTIVITY_OF_ROLE_OF_FLASHMOB)
-						.build(map.getFirst(PathParams.FLASHMOB), map.getFirst(PathParams.ROLE), t.getId()));
+				j.put(HREF_KEY,
+						uri.getBaseUriBuilder()
+								.path(Paths.ACTIVITY_OF_ROLE_OF_FLASHMOB)
+								.build(map.getFirst(PathParams.FLASHMOB),
+										map.getFirst(PathParams.ROLE),
+										t.getId()));
 			}
 			break;
 		}
@@ -109,7 +119,7 @@ public class ActivityHandler extends JSONHandler<Activity> {
 
 	@Override
 	protected void encodeUris(JSONObject j, Activity t, UriInfo uri)
-			throws JSONException {}
-
+			throws JSONException {
+	}
 
 }

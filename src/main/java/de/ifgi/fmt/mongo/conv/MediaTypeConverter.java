@@ -30,11 +30,11 @@ import com.google.code.morphia.mapping.MappingException;
  */
 @SuppressWarnings("rawtypes")
 public class MediaTypeConverter extends TypeConverter implements
-    SimpleValueConverter {
-    /**
+		SimpleValueConverter {
+	/**
      * 
      */
-    public MediaTypeConverter() {
+	public MediaTypeConverter() {
 		super(MediaType.class);
 	}
 
@@ -61,7 +61,7 @@ public class MediaTypeConverter extends TypeConverter implements
 	 */
 	@Override
 	public Object decode(Class c, Object o, MappedField i)
-	    throws MappingException {
+			throws MappingException {
 		if (o == null)
 			return null;
 		return MediaType.valueOf(o.toString());

@@ -33,9 +33,9 @@ public abstract class Viewable<T extends Viewable<T>> {
 	public boolean hasView() {
 		return this.view != null;
 	}
-	
+
 	public T optSetView(View view) {
-		return setView(hasView() ? getView() : view); 
+		return setView(hasView() ? getView() : view);
 	}
 
 	@SuppressWarnings("unchecked")

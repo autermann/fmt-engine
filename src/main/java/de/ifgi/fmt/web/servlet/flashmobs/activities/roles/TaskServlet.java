@@ -44,47 +44,48 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB)
 public class TaskServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param flashmob
-     * @param activity
-     * @param role
-     * @return
-     */
-    @GET
-    @PermitAll
+	/**
+	 * 
+	 * @param flashmob
+	 * @param activity
+	 * @param role
+	 * @return
+	 */
+	@GET
+	@PermitAll
 	@Produces(MediaTypes.TASK)
-	public Task getTasks(
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	public Task getTasks(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity,
 			@PathParam(PathParams.ROLE) ObjectId role) {
-		return getService().getTask(flashmob, role, activity)
-				.setView(View.TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB);
+		return getService().getTask(flashmob, role, activity).setView(
+				View.TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB);
 	}
 
-    /**
-     * 
-     * @param flashmob
-     * @param activity
-     * @param role
-     * @param t
-     * @return
-     */
-    @POST
-    @RolesAllowed({ Roles.USER, Roles.ADMIN })
+	/**
+	 * 
+	 * @param flashmob
+	 * @param activity
+	 * @param role
+	 * @param t
+	 * @return
+	 */
+	@POST
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.TASK)
 	@Consumes(MediaTypes.TASK)
-	public Response setTask(
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	public Response setTask(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity,
 			@PathParam(PathParams.ROLE) ObjectId role, Task t) {
-    	canChangeFlashmob(flashmob);
+		canChangeFlashmob(flashmob);
 		Task saved = getService().addTask(t, role, activity, flashmob);
 		URI uri = getUriInfo().getBaseUriBuilder()
 				.path(Paths.TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB)
 				.build(flashmob, activity, role);
-		return Response.created(uri).entity(saved
-				.setView(View.TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB)).build();
+		return Response
+				.created(uri)
+				.entity(saved
+						.setView(View.TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB))
+				.build();
 	}
 
 	/**
@@ -99,13 +100,12 @@ public class TaskServlet extends AbstractServlet {
 	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.TASK)
 	@Consumes(MediaTypes.TASK)
-	public Task updateTask(
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	public Task updateTask(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity,
 			@PathParam(PathParams.ROLE) ObjectId role, Task t) {
 		canChangeFlashmob(flashmob);
-		return getService().updateTask(t, role, activity, flashmob)
-				.setView(View.TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB);
+		return getService().updateTask(t, role, activity, flashmob).setView(
+				View.TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB);
 	}
 
 	/**
@@ -116,8 +116,7 @@ public class TaskServlet extends AbstractServlet {
 	 */
 	@DELETE
 	@RolesAllowed({ Roles.ADMIN, Roles.USER })
-	public void removeTask(
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	public void removeTask(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ROLE) ObjectId role,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity) {
 		canChangeFlashmob(flashmob);

@@ -43,7 +43,7 @@ import org.codehaus.jettison.json.JSONObject;
 @SuppressWarnings("serial")
 public class Utils {
 	private static final boolean FORMAT_JSON = true;
-	
+
 	private static Stringifier DEFAULT_STRINGIFIER = new Stringifier() {
 		public String toString(Object t) {
 			if (t == null)
@@ -196,7 +196,7 @@ public class Utils {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param <T>
@@ -208,7 +208,7 @@ public class Utils {
 			Filter<? super T> filter) {
 		return filter(s, filter, Utils.<T> list());
 	}
-	
+
 	/**
 	 * 
 	 * @param <T>
@@ -216,11 +216,10 @@ public class Utils {
 	 * @param filter
 	 * @return
 	 */
-	public static <T> Set<T> filter(Set<? extends T> s,
-			Filter<? super T> filter) {
+	public static <T> Set<T> filter(Set<? extends T> s, Filter<? super T> filter) {
 		return filter(s, filter, Utils.<T> set());
 	}
-	
+
 	/**
 	 * 
 	 * @param <T>
@@ -404,9 +403,15 @@ public class Utils {
 	 * @return
 	 */
 	public static <T> List<T> asList(final Iterable<T> set) {
-		return new LinkedList<T>() {{ for (T t : set) { add(t); } }};
+		return new LinkedList<T>() {
+			{
+				for (T t : set) {
+					add(t);
+				}
+			}
+		};
 	}
-	
+
 	/**
 	 * 
 	 * @param <T>

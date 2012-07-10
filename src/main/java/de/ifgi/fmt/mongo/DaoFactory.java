@@ -32,11 +32,11 @@ import de.ifgi.fmt.mongo.MongoDB.MongoDao;
  * @author Autermann, Demuth, Radtke
  */
 public class DaoFactory {
-    /**
-     * 
-     * @param <T>
-     */
-    public static class ThreadLocalDao<T> extends ThreadLocal<MongoDao<T>> {
+	/**
+	 * 
+	 * @param <T>
+	 */
+	public static class ThreadLocalDao<T> extends ThreadLocal<MongoDao<T>> {
 		private final Class<T> clazz;
 
 		/**
@@ -65,80 +65,112 @@ public class DaoFactory {
 	/**
 	 * 
 	 */
-	protected static ThreadLocalDao<Flashmob> flashmobThreadLocal = ThreadLocalDao.get(Flashmob.class);
+	protected static ThreadLocalDao<Flashmob> flashmobThreadLocal = ThreadLocalDao
+			.get(Flashmob.class);
+
 	/**
 	 * 
 	 * @return
 	 */
-	public static MongoDao<Flashmob> getFlashmobDao() { return flashmobThreadLocal.get(); }
+	public static MongoDao<Flashmob> getFlashmobDao() {
+		return flashmobThreadLocal.get();
+	}
 
 	/**
 	 * 
 	 */
-	protected static ThreadLocalDao<Activity> activityThreadLocal = ThreadLocalDao.get(Activity.class);
+	protected static ThreadLocalDao<Activity> activityThreadLocal = ThreadLocalDao
+			.get(Activity.class);
+
 	/**
 	 * 
 	 * @return
 	 */
-	public static MongoDao<Activity> getActivityDao() { return activityThreadLocal.get(); }
-	
+	public static MongoDao<Activity> getActivityDao() {
+		return activityThreadLocal.get();
+	}
+
 	/**
 	 * 
 	 */
-	protected static ThreadLocalDao<Role> roleThreadLocal = ThreadLocalDao.get(Role.class);
-	/**
-	 * 
-	 * @return
-	 */
-	public static MongoDao<Role> getRoleDao() { return roleThreadLocal.get(); }
-	
-	/**
-	 * 
-	 */
-	protected static ThreadLocalDao<Trigger> triggerThreadLocal = ThreadLocalDao.get(Trigger.class);
+	protected static ThreadLocalDao<Role> roleThreadLocal = ThreadLocalDao
+			.get(Role.class);
+
 	/**
 	 * 
 	 * @return
 	 */
-	public static MongoDao<Trigger> getTriggerDao() { return triggerThreadLocal.get(); }
-	
+	public static MongoDao<Role> getRoleDao() {
+		return roleThreadLocal.get();
+	}
+
 	/**
 	 * 
 	 */
-	protected static ThreadLocalDao<Comment> commentThreadLocal = ThreadLocalDao.get(Comment.class);
-	/**
-	 * 
-	 * @return
-	 */
-	public static MongoDao<Comment> getCommentDao() { return commentThreadLocal.get(); } 
-	
-	/**
-	 * 
-	 */
-	protected static ThreadLocalDao<Signal> signalThreadLocal = ThreadLocalDao.get(Signal.class);
+	protected static ThreadLocalDao<Trigger> triggerThreadLocal = ThreadLocalDao
+			.get(Trigger.class);
+
 	/**
 	 * 
 	 * @return
 	 */
-	public static MongoDao<Signal> getSignalDao() { return signalThreadLocal.get(); }
-	
+	public static MongoDao<Trigger> getTriggerDao() {
+		return triggerThreadLocal.get();
+	}
+
 	/**
 	 * 
 	 */
-	protected static ThreadLocalDao<Task> taskThreadLocal = ThreadLocalDao.get(Task.class);
-	/**
-	 * 
-	 * @return
-	 */
-	public static MongoDao<Task> getTaskDao() { return taskThreadLocal.get(); }
-	
-	/**
-	 * 
-	 */
-	protected static ThreadLocalDao<User> userThreadLocal = ThreadLocalDao.get(User.class);
+	protected static ThreadLocalDao<Comment> commentThreadLocal = ThreadLocalDao
+			.get(Comment.class);
+
 	/**
 	 * 
 	 * @return
 	 */
-	public static MongoDao<User> getUserDao() { return userThreadLocal.get(); }
+	public static MongoDao<Comment> getCommentDao() {
+		return commentThreadLocal.get();
+	}
+
+	/**
+	 * 
+	 */
+	protected static ThreadLocalDao<Signal> signalThreadLocal = ThreadLocalDao
+			.get(Signal.class);
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static MongoDao<Signal> getSignalDao() {
+		return signalThreadLocal.get();
+	}
+
+	/**
+	 * 
+	 */
+	protected static ThreadLocalDao<Task> taskThreadLocal = ThreadLocalDao
+			.get(Task.class);
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static MongoDao<Task> getTaskDao() {
+		return taskThreadLocal.get();
+	}
+
+	/**
+	 * 
+	 */
+	protected static ThreadLocalDao<User> userThreadLocal = ThreadLocalDao
+			.get(User.class);
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static MongoDao<User> getUserDao() {
+		return userThreadLocal.get();
+	}
 }

@@ -33,11 +33,12 @@ import de.ifgi.fmt.web.provider.AbstractJSONListProvider;
 @Produces(MediaTypes.FLASHMOB_LIST)
 public class FlashmobListProvider extends AbstractJSONListProvider<Flashmob> {
 
-    /**
+	/**
      * 
      */
-    public FlashmobListProvider() {
-		super(Flashmob.class, JSONConstants.FLASHMOBS_KEY, MediaTypes.FLASHMOB_LIST_TYPE);
+	public FlashmobListProvider() {
+		super(Flashmob.class, JSONConstants.FLASHMOBS_KEY,
+				MediaTypes.FLASHMOB_LIST_TYPE);
 	}
 
 }

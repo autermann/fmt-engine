@@ -51,21 +51,22 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.USERS)
 public class UsersServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param limit
-     * @return
-     */
-    @GET
+	/**
+	 * 
+	 * @param limit
+	 * @return
+	 */
+	@GET
 	@PermitAll
 	@Produces(MediaTypes.USER_LIST)
-	public List<User> getUsers(@QueryParam(QueryParams.SEARCH) String search,
+	public List<User> getUsers(
+			@QueryParam(QueryParams.SEARCH) String search,
 			@QueryParam(QueryParams.LIMIT) @DefaultValue(DEFAULT_LIMIT) int limit) {
-    	if (search != null) {
-    		return view(View.USERS, getService().getUsers(search));
-    	} else {
-    		return view(View.USERS, getService().getUsers(limit));
-    	}
+		if (search != null) {
+			return view(View.USERS, getService().getUsers(search));
+		} else {
+			return view(View.USERS, getService().getUsers(limit));
+		}
 	}
 
 	/**
@@ -81,7 +82,8 @@ public class UsersServlet extends AbstractServlet {
 	public Response createUser(User u, @Context HttpServletRequest sr) {
 		User saved = getService().createUser(u);
 		if (!isAdmin()) {
-			Authentication.authSession((ContainerRequest) getSecurityContext(), sr, saved);
+			Authentication.authSession((ContainerRequest) getSecurityContext(),
+					sr, saved);
 		}
 		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.USER).build(u);
 		return Response.created(uri).entity(saved.setView(View.USER)).build();

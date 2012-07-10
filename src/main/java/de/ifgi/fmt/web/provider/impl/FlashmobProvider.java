@@ -34,10 +34,10 @@ import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 @Consumes(MediaTypes.FLASHMOB)
 public class FlashmobProvider extends AbstractJSONProvider<Flashmob> {
 
-    /**
+	/**
      * 
      */
-    public FlashmobProvider() {
+	public FlashmobProvider() {
 		super(Flashmob.class, MediaTypes.FLASHMOB_TYPE);
 	}
 

@@ -48,16 +48,20 @@ import de.ifgi.fmt.model.User;
  * 
  * @author Autermann, Demuth, Radtke
  */
-public class Authentication implements ContainerResponseFilter, ContainerRequestFilter {
-	private static final Logger log = LoggerFactory.getLogger(Authentication.class);
-    public static final String COOKIE_NAME = "fmt_oid";
-    private static final String USER_SESSION_ATTRIBUTE = "user";
-    private static final String REMOVE_COOKIE_SESSION_ATTRIBUTE = "remove-cookie";
+public class Authentication implements ContainerResponseFilter,
+		ContainerRequestFilter {
+	private static final Logger log = LoggerFactory
+			.getLogger(Authentication.class);
+	public static final String COOKIE_NAME = "fmt_oid";
+	private static final String USER_SESSION_ATTRIBUTE = "user";
+	private static final String REMOVE_COOKIE_SESSION_ATTRIBUTE = "remove-cookie";
 
-    private final SecureRandom random = new SecureRandom();
-	private @Context HttpServletRequest sr;
-	private @Context UriInfo uri;
-	
+	private final SecureRandom random = new SecureRandom();
+	private @Context
+	HttpServletRequest sr;
+	private @Context
+	UriInfo uri;
+
 	/**
 	 * 
 	 * @param cr
@@ -75,7 +79,7 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 		}
 		return cr;
 	}
-	
+
 	/**
 	 * 
 	 * @param rq
@@ -89,7 +93,8 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 		}
 		Type t = rs.getEntityType();
 		HttpSession s = sr.getSession(true);
-		if (s.getAttribute(USER_SESSION_ATTRIBUTE) != null && rq.getCookies().get(COOKIE_NAME) == null) {
+		if (s.getAttribute(USER_SESSION_ATTRIBUTE) != null
+				&& rq.getCookies().get(COOKIE_NAME) == null) {
 			ResponseBuilder rb = Response.fromResponse(rs.getResponse());
 			User u = (User) s.getAttribute(USER_SESSION_ATTRIBUTE);
 			if (u != null) {
@@ -103,53 +108,57 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 				u.setAuthToken(null);
 				Service.getInstance().getStore().users().save(u);
 			}
-			rs.setResponse(Response.fromResponse(rs.getResponse()).cookie(getInvalidCookie()).build());
+			rs.setResponse(Response.fromResponse(rs.getResponse())
+					.cookie(getInvalidCookie()).build());
 		}
 		s.invalidate();
 		rs.setEntity(rs.getEntity(), t);
 		return rs;
 	}
-	
+
 	private boolean headerLogin(ContainerRequest cr) {
 		String auth = cr.getHeaderValue(HttpHeaders.AUTHORIZATION);
 		if (auth == null) {
 			return false;
 		}
 		if (!auth.startsWith("Basic ")) {
-			throw ServiceError.badRequest("Authentication not supported: " + auth);
+			throw ServiceError.badRequest("Authentication not supported: "
+					+ auth);
 		}
 		auth = new String(Base64.decodeBase64(auth.replaceFirst("Basic ", "")));
 		String[] uap = auth.split(":");
 		if (uap.length != 2) {
-			throw ServiceError.badRequest("Could not decode user:pass: " + auth);
+			throw ServiceError
+					.badRequest("Could not decode user:pass: " + auth);
 		}
-		
+
 		User u = Service.getInstance().getStore().users().get(uap[0]);
 		if (u == null) {
-			throw ServiceError.forbidden("no such username");//TODO 401 or 403?
+			throw ServiceError.forbidden("no such username");// TODO 401 or 403?
 		}
 		if (u.isValidPassword(uap[1])) {
 			authSession(cr, u);
-			//set new cookie
+			// set new cookie
 			return true;
 		} else {
 			throw ServiceError.notAuthorized("invalid password");
 		}
 	}
-	
+
 	private boolean cookieLogin(ContainerRequest cr) {
-//		if (sr != null && sr.getSession(false) != null) {
-//			Object su = sr.getAttribute(USER_SESSION_ATTRIBUTE);
-//			if (su != null) {
-//				authSession(cr, (User) su);
-//				return true;
-//			}
-//		}
+		// if (sr != null && sr.getSession(false) != null) {
+		// Object su = sr.getAttribute(USER_SESSION_ATTRIBUTE);
+		// if (su != null) {
+		// authSession(cr, (User) su);
+		// return true;
+		// }
+		// }
 		Cookie c = cr.getCookies().get(COOKIE_NAME);
 		if (c == null) {
 			return false;
 		}
-		User u = Service.getInstance().getStore().users().getByAuthToken(c.getValue());
+		User u = Service.getInstance().getStore().users()
+				.getByAuthToken(c.getValue());
 		if (u == null) {
 			log.warn("No user with this auth token!");
 			return false;
@@ -157,7 +166,7 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 		authSession(cr, u);
 		return true;
 	}
-	
+
 	/**
 	 * 
 	 * @param cr
@@ -166,7 +175,7 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 	public void authSession(ContainerRequest cr, User u) {
 		authSession(cr, sr, u);
 	}
-	
+
 	// TODO logout?
 	@SuppressWarnings("unused")
 	private void deauthSession(ContainerRequest cr) {
@@ -177,11 +186,13 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 		return new NewCookie(COOKIE_NAME, "", uri.getBaseUri().getPath(), uri
 				.getBaseUri().getHost(), 1, null, 0, false);
 	}
+
 	private NewCookie createCookie(User u) {
 		String token = getAuthToken(u);
 		String path = uri.getBaseUri().getPath();
 		if (path.endsWith("/")) {
-			path = (path.length() == 1) ? null : path.substring(0, path.length() - 1);
+			path = (path.length() == 1) ? null : path.substring(0,
+					path.length() - 1);
 		}
 		Service.getInstance().getStore().users().setAuthToken(u, token);
 		return new NewCookie(COOKIE_NAME, token, path, null, null, -1, false);
@@ -190,17 +201,10 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 	private String getAuthToken(User u) {
 		final byte[] bytes = new byte[16];
 		random.nextBytes(bytes);
-		final String t = new StringBuilder()
-			.append(UUID.randomUUID())
-			.append("|")
-			.append(new String(bytes))
-			.append("|")
-			.append("fmt")
-			.append("|")
-			.append(u.getUsername())
-			.append("|")
-			.append(u.getCreationTime())
-			.toString();
+		final String t = new StringBuilder().append(UUID.randomUUID())
+				.append("|").append(new String(bytes)).append("|")
+				.append("fmt").append("|").append(u.getUsername()).append("|")
+				.append(u.getCreationTime()).toString();
 		return new String(Base64.encodeBase64(t.getBytes()));
 	}
 
@@ -212,20 +216,22 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 	public static void deauthSession(ContainerRequest cr, HttpServletRequest sr) {
 		if (sr != null) {
 			sr.getSession(true).removeAttribute(USER_SESSION_ATTRIBUTE);
-			sr.getSession(true).setAttribute(REMOVE_COOKIE_SESSION_ATTRIBUTE, new Boolean(true));
+			sr.getSession(true).setAttribute(REMOVE_COOKIE_SESSION_ATTRIBUTE,
+					new Boolean(true));
 		}
 		if (cr != null) {
 			cr.setSecurityContext(new FmtSecurityContext(null));
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param cr
 	 * @param sr
 	 * @param u
 	 */
-	public static void authSession(ContainerRequest cr, HttpServletRequest sr, User u) {
+	public static void authSession(ContainerRequest cr, HttpServletRequest sr,
+			User u) {
 		log.debug("Authorizing session for user {}", u);
 		if (sr != null) {
 			sr.getSession(true).setAttribute(USER_SESSION_ATTRIBUTE, u);
@@ -234,5 +240,5 @@ public class Authentication implements ContainerResponseFilter, ContainerRequest
 			cr.setSecurityContext(new FmtSecurityContext(u));
 		}
 	}
-	
+
 }

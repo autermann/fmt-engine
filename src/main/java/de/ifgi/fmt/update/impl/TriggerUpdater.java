@@ -28,23 +28,23 @@ import de.ifgi.fmt.update.UpdateFactory.Updates;
 @Updates(Trigger.class)
 public class TriggerUpdater extends EntityUpdater<Trigger> {
 
-    /**
-     * 
-     * @param old
-     * @param changes
-     * @return
-     */
-    @Override
+	/**
+	 * 
+	 * @param old
+	 * @param changes
+	 * @return
+	 */
+	@Override
 	public Trigger update(Trigger old, Trigger changes) {
-    	if (changes.getDescription() != null) {
-    		old.setDescription(changes.getDescription());
-    	}
-    	if (changes.getLocation() != null) {
-    		old.setLocation(changes.getLocation());
-    	}
-    	if (changes.getTime() != null) {
-    		old.setTime(changes.getTime());
-    	}
+		if (changes.getDescription() != null) {
+			old.setDescription(changes.getDescription());
+		}
+		if (changes.getLocation() != null) {
+			old.setLocation(changes.getLocation());
+		}
+		if (changes.getTime() != null) {
+			old.setTime(changes.getTime());
+		}
 		return old;
 	}
 

@@ -33,11 +33,12 @@ import de.ifgi.fmt.web.provider.AbstractJSONListProvider;
 @Produces(MediaTypes.ACTIVITY_LIST)
 public class ActivityListProvider extends AbstractJSONListProvider<Activity> {
 
-    /**
+	/**
      * 
      */
-    public ActivityListProvider() {
-		super(Activity.class, JSONConstants.ACTIVITIES_KEY, MediaTypes.ACTIVITY_LIST_TYPE);
+	public ActivityListProvider() {
+		super(Activity.class, JSONConstants.ACTIVITIES_KEY,
+				MediaTypes.ACTIVITY_LIST_TYPE);
 	}
 
 }

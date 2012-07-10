@@ -33,10 +33,10 @@ import de.ifgi.fmt.web.provider.AbstractJSONListProvider;
 @Produces(MediaTypes.USER_LIST)
 public class UserListProvider extends AbstractJSONListProvider<User> {
 
-    /**
+	/**
      * 
      */
-    public UserListProvider() {
+	public UserListProvider() {
 		super(User.class, JSONConstants.USERS_KEY, MediaTypes.USER_LIST_TYPE);
 	}
 

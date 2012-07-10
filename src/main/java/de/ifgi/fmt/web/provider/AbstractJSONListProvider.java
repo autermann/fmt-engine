@@ -55,7 +55,8 @@ public abstract class AbstractJSONListProvider<T extends Viewable<T>> extends
 	 * @param collectionName
 	 * @param mt
 	 */
-	public AbstractJSONListProvider(Class<T> clazz, String collectionName, MediaType mt) {
+	public AbstractJSONListProvider(Class<T> clazz, String collectionName,
+			MediaType mt) {
 		super(clazz, true, mt);
 		this.collectionName = collectionName;
 		this.enc = JSONFactory.getEncoder(clazz);
@@ -89,6 +90,5 @@ public abstract class AbstractJSONListProvider<T extends Viewable<T>> extends
 		}
 
 	}
-
 
 }

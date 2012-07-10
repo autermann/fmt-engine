@@ -32,11 +32,11 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
  */
 public class JerseyLoggingListener implements ServletContextListener {
 
-    /**
-     * 
-     * @param sce
-     */
-    @Override
+	/**
+	 * 
+	 * @param sce
+	 */
+	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		Logger rootLogger = LogManager.getLogManager().getLogger("");
 		Handler[] handlers = rootLogger.getHandlers();
@@ -51,6 +51,7 @@ public class JerseyLoggingListener implements ServletContextListener {
 	 * @param sce
 	 */
 	@Override
-	public void contextDestroyed(ServletContextEvent sce) {}
+	public void contextDestroyed(ServletContextEvent sce) {
+	}
 
 }

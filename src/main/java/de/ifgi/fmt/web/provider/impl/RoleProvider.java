@@ -34,10 +34,10 @@ import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 @Consumes(MediaTypes.ROLE)
 public class RoleProvider extends AbstractJSONProvider<Role> {
 
-    /**
+	/**
      * 
      */
-    public RoleProvider() {
+	public RoleProvider() {
 		super(Role.class, MediaTypes.ROLE_TYPE);
 	}
 

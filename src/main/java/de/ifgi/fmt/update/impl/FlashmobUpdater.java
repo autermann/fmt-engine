@@ -27,15 +27,15 @@ import de.ifgi.fmt.update.UpdateFactory.Updates;
  * @author Autermann, Demuth, Radtke
  */
 @Updates(Flashmob.class)
-public class FlashmobUpdater extends EntityUpdater<Flashmob>{
+public class FlashmobUpdater extends EntityUpdater<Flashmob> {
 
-    /**
-     * 
-     * @param old
-     * @param changes
-     * @return
-     */
-    @Override
+	/**
+	 * 
+	 * @param old
+	 * @param changes
+	 * @return
+	 */
+	@Override
 	public Flashmob update(Flashmob old, Flashmob changes) {
 		if (changes.getDescription() != null) {
 			old.setDescription(changes.getDescription());

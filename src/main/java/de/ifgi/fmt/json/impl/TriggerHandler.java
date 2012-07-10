@@ -48,7 +48,7 @@ import de.ifgi.fmt.utils.constants.RESTConstants.View;
 @DefaultView(View.TRIGGER_OF_FLASHMOB)
 public class TriggerHandler extends JSONHandler<Trigger> {
 
-    @Override
+	@Override
 	public Trigger decode(JSONObject j) throws JSONException {
 		final Trigger t = new Trigger();
 		t.setDescription(j.optString(DESCRIPTION_KEY, null));
@@ -58,9 +58,10 @@ public class TriggerHandler extends JSONHandler<Trigger> {
 	}
 
 	@Override
-	protected void encodeObject(JSONObject j, Trigger t, UriInfo uri) throws JSONException {
+	protected void encodeObject(JSONObject j, Trigger t, UriInfo uri)
+			throws JSONException {
 		j.put(ID_KEY, t.getId());
-		switch(t.getView()) {
+		switch (t.getView()) {
 		case TRIGGER_OF_FLASHMOB:
 			j.put(FLASHMOB_KEY, encode(t, t.getFlashmob(), uri));
 			j.put(TIME_KEY, encodeTime(t.getTime()));
@@ -69,12 +70,16 @@ public class TriggerHandler extends JSONHandler<Trigger> {
 			break;
 		default:
 			if (uri != null) {
-				j.put(HREF_KEY, uri.getBaseUriBuilder().path(Paths.TRIGGER_OF_FLASHMOB).build(t.getFlashmob(), t.getId()));
+				j.put(HREF_KEY,
+						uri.getBaseUriBuilder().path(Paths.TRIGGER_OF_FLASHMOB)
+								.build(t.getFlashmob(), t.getId()));
 			}
 		}
 	}
 
 	@Override
-	protected void encodeUris(JSONObject j, Trigger t, UriInfo uri) throws JSONException {/* empty */}
+	protected void encodeUris(JSONObject j, Trigger t, UriInfo uri)
+			throws JSONException {/* empty */
+	}
 
 }

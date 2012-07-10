@@ -30,17 +30,17 @@ import com.google.code.morphia.query.Query;
  * @param <T>
  */
 public interface ExtendedDao<T> {
-    /**
-     * 
-     * @param t
-     */
-    void delete(T t);
+	/**
+	 * 
+	 * @param t
+	 */
+	void delete(T t);
 
-    /**
-     * 
-     * @param ts
-     */
-    void delete(Collection<T> ts);
+	/**
+	 * 
+	 * @param ts
+	 */
+	void delete(Collection<T> ts);
 
 	/**
 	 * 

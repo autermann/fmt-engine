@@ -34,10 +34,10 @@ import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 @Consumes(MediaTypes.TRIGGER)
 public class TriggerProvider extends AbstractJSONProvider<Trigger> {
 
-    /**
+	/**
      * 
      */
-    public TriggerProvider() {
+	public TriggerProvider() {
 		super(Trigger.class, MediaTypes.TRIGGER_TYPE);
 	}
 

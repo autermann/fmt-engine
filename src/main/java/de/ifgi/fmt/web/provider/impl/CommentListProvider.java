@@ -33,10 +33,10 @@ import de.ifgi.fmt.web.provider.AbstractJSONListProvider;
 @Produces(MediaTypes.COMMENT_LIST)
 public class CommentListProvider extends AbstractJSONListProvider<Comment> {
 
-    /**
+	/**
      * 
      */
-    public CommentListProvider() {
+	public CommentListProvider() {
 		super(Comment.class, JSONConstants.COMMENTS_KEY,
 				MediaTypes.COMMENT_LIST_TYPE);
 	}

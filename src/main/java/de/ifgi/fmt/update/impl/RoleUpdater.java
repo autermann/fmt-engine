@@ -29,13 +29,13 @@ import de.ifgi.fmt.utils.Utils;
 @Updates(Role.class)
 public class RoleUpdater extends EntityUpdater<Role> {
 
-    /**
-     * 
-     * @param old
-     * @param changes
-     * @return
-     */
-    @Override
+	/**
+	 * 
+	 * @param old
+	 * @param changes
+	 * @return
+	 */
+	@Override
 	public Role update(Role old, Role changes) {
 		if (changes.getCategory() != null) {
 			old.setCategory(changes.getCategory());
@@ -56,7 +56,7 @@ public class RoleUpdater extends EntityUpdater<Role> {
 			old.setTitle(changes.getTitle());
 		}
 		if (changes.getItems() == null) {
-			old.setItems(Utils.<String>set());
+			old.setItems(Utils.<String> set());
 		} else if (!changes.getItems().isEmpty()) {
 			old.setItems(changes.getItems());
 		}

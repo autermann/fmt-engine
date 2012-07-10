@@ -45,8 +45,9 @@ import de.ifgi.fmt.utils.Utils;
  * @author Autermann, Demuth, Radtke
  * @param <T>
  */
-public class AbstractJSONProvider<T extends Viewable<T>> extends AbstractReaderWriterProvider<T> {
-	
+public class AbstractJSONProvider<T extends Viewable<T>> extends
+		AbstractReaderWriterProvider<T> {
+
 	private JSONEncoder<T> enc;
 	private JSONDecoder<T> dec;
 
@@ -60,7 +61,7 @@ public class AbstractJSONProvider<T extends Viewable<T>> extends AbstractReaderW
 		this.enc = JSONFactory.getEncoder(itemClass);
 		this.dec = JSONFactory.getDecoder(itemClass);
 	}
-	
+
 	/**
 	 * 
 	 * @param t
@@ -107,6 +108,5 @@ public class AbstractJSONProvider<T extends Viewable<T>> extends AbstractReaderW
 			throw new WebApplicationException(e, Status.INTERNAL_SERVER_ERROR);
 		}
 	}
-
 
 }

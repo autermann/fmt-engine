@@ -22,10 +22,10 @@ package de.ifgi.fmt.utils;
  * @author Autermann, Demuth, Radtke
  */
 public interface Stringifier {
-    /**
-     * 
-     * @param t
-     * @return
-     */
-    public String toString(Object t);
+	/**
+	 * 
+	 * @param t
+	 * @return
+	 */
+	public String toString(Object t);
 }

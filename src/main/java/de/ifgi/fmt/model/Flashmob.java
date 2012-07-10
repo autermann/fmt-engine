@@ -41,491 +41,556 @@ import de.ifgi.fmt.utils.constants.ModelConstants;
 
 /**
  * This class represents a Flashmob
+ * 
  * @author Autermann, Demuth, Radtke
  */
 @Entity(ModelConstants.Flashmob.COLLECTION_NAME)
 public class Flashmob extends Viewable<Flashmob> {
 
-    @NotNull
-    @Reference(value = ModelConstants.Flashmob.ACTIVITIES, lazy = true)
-    private List<Activity> activities = Utils.list();
-    @NotNull
-    @Reference(value = ModelConstants.Flashmob.COORDINATOR, lazy = true)
-    private User coordinator;
-    @NotNull
-    @Past
-    @Indexed
-    @Property(ModelConstants.Common.CREATION_TIME)
-    private DateTime creationTime = new DateTime();
-    @NotBlank
-    @SafeHtml
-    @Property(ModelConstants.Flashmob.DESCRIPTION)
-    private String description;
-    @Property(ModelConstants.Flashmob.END)
-    private DateTime endTime;
-    @NotNull
-    @Id
-    private ObjectId id = new ObjectId();
-    @Property(ModelConstants.Flashmob.PUBLIC)
-    private Boolean isPublic;
-    @Property(ModelConstants.Flashmob.KEY)
-    private String key;
-    @NotNull
-    @Indexed
-    @Property(ModelConstants.Common.LAST_CHANGED)
-    private DateTime lastChangedTime = new DateTime();
-    @NotNull
-    @Indexed(IndexDirection.GEO2D)
-    @Property(ModelConstants.Flashmob.LOCATION)
-    private Point location;
-    @Property(ModelConstants.Flashmob.PUBLISH)
-    private DateTime publishTime;
-    @NotNull
-    @Reference(value = ModelConstants.Flashmob.ROLES, lazy = true)
-    private List<Role> roles = Utils.list();
-    @NotNull
-    @Property(ModelConstants.Flashmob.START)
-    private DateTime startTime;
-    @NotBlank
-    @SafeHtml
-    @Property(ModelConstants.Flashmob.TITLE)
-    private String title;
-    @NotNull
-    @Reference(value = ModelConstants.Flashmob.TRIGGERS, lazy = true)
-    private List<Trigger> triggers = Utils.list();
-    @Property(ModelConstants.Flashmob.VALIDITY)
-    private Validity validity = Validity.NOT_CHECKED;
+	@NotNull
+	@Reference(value = ModelConstants.Flashmob.ACTIVITIES, lazy = true)
+	private List<Activity> activities = Utils.list();
+	@NotNull
+	@Reference(value = ModelConstants.Flashmob.COORDINATOR, lazy = true)
+	private User coordinator;
+	@NotNull
+	@Past
+	@Indexed
+	@Property(ModelConstants.Common.CREATION_TIME)
+	private DateTime creationTime = new DateTime();
+	@NotBlank
+	@SafeHtml
+	@Property(ModelConstants.Flashmob.DESCRIPTION)
+	private String description;
+	@Property(ModelConstants.Flashmob.END)
+	private DateTime endTime;
+	@NotNull
+	@Id
+	private ObjectId id = new ObjectId();
+	@Property(ModelConstants.Flashmob.PUBLIC)
+	private Boolean isPublic;
+	@Property(ModelConstants.Flashmob.KEY)
+	private String key;
+	@NotNull
+	@Indexed
+	@Property(ModelConstants.Common.LAST_CHANGED)
+	private DateTime lastChangedTime = new DateTime();
+	@NotNull
+	@Indexed(IndexDirection.GEO2D)
+	@Property(ModelConstants.Flashmob.LOCATION)
+	private Point location;
+	@Property(ModelConstants.Flashmob.PUBLISH)
+	private DateTime publishTime;
+	@NotNull
+	@Reference(value = ModelConstants.Flashmob.ROLES, lazy = true)
+	private List<Role> roles = Utils.list();
+	@NotNull
+	@Property(ModelConstants.Flashmob.START)
+	private DateTime startTime;
+	@NotBlank
+	@SafeHtml
+	@Property(ModelConstants.Flashmob.TITLE)
+	private String title;
+	@NotNull
+	@Reference(value = ModelConstants.Flashmob.TRIGGERS, lazy = true)
+	private List<Trigger> triggers = Utils.list();
+	@Property(ModelConstants.Flashmob.VALIDITY)
+	private Validity validity = Validity.NOT_CHECKED;
 
-    /**
-     * Adds an Activity to a Flashmob
-     * @param activity an Activity
-     * @return this flashmob
-     */
-    public Flashmob addActivity(Activity activity) {
-	getActivities().add(activity.setFlashmob(this));
-	return this;
-    }
-
-    /**
-     * Adds a Role to a Flashmob
-     * @param role a Role
-     * @return this flashmob
-     */
-    public Flashmob addRole(Role role) {
-	getRoles().add(role.setFlashmob(this));
-	return this;
-    }
-
-    /**
-     * Adds a Trigger to a Flashmob
-     * @param trigger a Trigger
-     * @return this Flashmob
-     */
-    public Flashmob addTrigger(Trigger trigger) {
-	getTriggers().add(trigger.setFlashmob(this));
-	return this;
-    }
-
-    /**
-     * Set the time of the last change of this Flashmob to the actual time 
-     */
-    @PrePersist
-    public void changed() {
-	setLastChangedTime(new DateTime());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-	if (o instanceof Flashmob) {
-	    return getId().equals(((Flashmob) o).getId());
+	/**
+	 * Adds an Activity to a Flashmob
+	 * 
+	 * @param activity
+	 *            an Activity
+	 * @return this flashmob
+	 */
+	public Flashmob addActivity(Activity activity) {
+		getActivities().add(activity.setFlashmob(this));
+		return this;
 	}
-	return false;
-    }
 
-    /**
-     * List activities associated to this flashmob
-     * @return a list of activites
-     */
-    public List<Activity> getActivities() {
-	return activities;
-    }
-
-    /**
-     * Return the coordinator of this flashmob
-     * @return a User
-     */
-    public User getCoordinator() {
-	return coordinator;
-    }
-
-    /**
-     * Return the creation time of a flasmob
-     * @return a datetime
-     */
-    public DateTime getCreationTime() {
-	return creationTime;
-    }
-
-    /**
-     * return the description of a flashmob
-     * @return a string
-     */
-    public String getDescription() {
-	return description;
-    }
-
-    /**
-     * Retunr the End-Time of the flashmob
-     * @return datetime object
-     */
-    public DateTime getEnd() {
-	return endTime;
-    }
-
-    /**
-     * Retunrn the id of a flashmob
-     * @return an object id
-     */
-    public ObjectId getId() {
-	return id;
-    }
-
-    /**
-     * return the enrollment key of the flashmob
-     * @return a key
-     */
-    public String getKey() {
-	return key;
-    }
-
-    /**
-     * return the time when the flashmob was changed last
-     * @return a datetime
-     */
-    public DateTime getLastChangedTime() {
-	return lastChangedTime;
-    }
-
-    /**
-     * return the location of a flashmob
-     * @return a point pbject
-     */
-    public Point getLocation() {
-	return location;
-    }
-
-    /**
-     * return the publication time of a flashmob
-     * @return a datetime
-     */
-    public DateTime getPublish() {
-	return publishTime;
-    }
-
-    /**
-     * return the amount of registered users
-     * @return an int
-     */
-    public int getRegisteredUsers() {
-	int registered = 0;
-	for (Role r : getRoles()) {
-	    registered += r.getUsers().size();
+	/**
+	 * Adds a Role to a Flashmob
+	 * 
+	 * @param role
+	 *            a Role
+	 * @return this flashmob
+	 */
+	public Flashmob addRole(Role role) {
+		getRoles().add(role.setFlashmob(this));
+		return this;
 	}
-	return registered;
-    }
 
-    /**
-     * return the amount of users required to perform the flashmob
-     * @return an int
-     */
-    public int getRequiredUsers() {
-	int required = 0;
-	for (Role r : getRoles()) {
-	    required += r.getMinCount();
+	/**
+	 * Adds a Trigger to a Flashmob
+	 * 
+	 * @param trigger
+	 *            a Trigger
+	 * @return this Flashmob
+	 */
+	public Flashmob addTrigger(Trigger trigger) {
+		getTriggers().add(trigger.setFlashmob(this));
+		return this;
 	}
-	return required;
-    }
 
-    /**
-     * return a list of roles
-     * @return a list of roles
-     */
-    public List<Role> getRoles() {
-	return this.roles;
-    }
-
-    /**
-     * retunr the starttime of the flashmob
-     * @return a datetime
-     */
-    public DateTime getStart() {
-	return startTime;
-    }
-
-    /**
-     * return the title of the flashmob
-     * @return a string
-     */
-    public String getTitle() {
-	return title;
-    }
-
-    /**
-     * return a list of triggers
-     * @return trigger-list
-     */
-    public List<Trigger> getTriggers() {
-	return triggers;
-    }
-
-    /**
-     * Return if a flashmob is valid
-     * @return a validity-object
-     */
-    public Validity getValidity() {
-	return validity;
-    }
-
-    @Override
-    public int hashCode() {
-	return getId().hashCode();
-    }
-
-    /**
-     * Return if a User U has enrolled for a flashmob
-     * @param u the user
-     * @return boolean, true if u is enrolled
-     */
-    public boolean hasUser(User u) {
-	for (Role r : getRoles()) {
-	    if (r.getUsers().contains(u)) {
-		return true;
-	    }
+	/**
+	 * Set the time of the last change of this Flashmob to the actual time
+	 */
+	@PrePersist
+	public void changed() {
+		setLastChangedTime(new DateTime());
 	}
-	return false;
-    }
 
-    /**
-     * Return true if the flashmob is not checked
-     * @return boolean
-     */
-    public boolean isNotChecked() {
-	return getValidity() == Validity.NOT_CHECKED;
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Flashmob) {
+			return getId().equals(((Flashmob) o).getId());
+		}
+		return false;
+	}
 
-    /**
-     * Return true if the flashmob is invalid
-     * @return a boolean
-     */
-    public boolean isNotValid() {
-	return getValidity() == Validity.NOT_VALID;
-    }
+	/**
+	 * List activities associated to this flashmob
+	 * 
+	 * @return a list of activites
+	 */
+	public List<Activity> getActivities() {
+		return activities;
+	}
 
-    /**
-     * return if the flashmob is public
-     * @return a boolean
-     */
-    public Boolean isPublic() {
-	return isPublic;
-    }
+	/**
+	 * Return the coordinator of this flashmob
+	 * 
+	 * @return a User
+	 */
+	public User getCoordinator() {
+		return coordinator;
+	}
 
-    /**
-     * return true if the flashmob is valid
-     * @return a boolean
-     */
-    public boolean isValid() {
-	return getValidity() == Validity.VALID;
-    }
+	/**
+	 * Return the creation time of a flasmob
+	 * 
+	 * @return a datetime
+	 */
+	public DateTime getCreationTime() {
+		return creationTime;
+	}
 
-    /**
-     * Associate a list of activities with this flashmob
-     * @param activities list of activities
-     * @return this flashmob
-     */
-    public Flashmob setActivities(List<Activity> activities) {
-	this.activities = activities;
-	return this;
-    }
+	/**
+	 * return the description of a flashmob
+	 * 
+	 * @return a string
+	 */
+	public String getDescription() {
+		return description;
+	}
 
-    /**
-     * Set the coordinator of this flashmob
-     * @param coordinator a user
-     * @return this flashmob
-     */
-    public Flashmob setCoordinator(User coordinator) {
-	this.coordinator = coordinator;
-	return this;
-    }
+	/**
+	 * Retunr the End-Time of the flashmob
+	 * 
+	 * @return datetime object
+	 */
+	public DateTime getEnd() {
+		return endTime;
+	}
 
-    /**
-     * set the creation time of a fglashmob
-     * @param creationTime a datetime
-     * @return this flashmob
-     */
-    public Flashmob setCreationTime(DateTime creationTime) {
-	this.creationTime = creationTime;
-	return this;
-    }
+	/**
+	 * Retunrn the id of a flashmob
+	 * 
+	 * @return an object id
+	 */
+	public ObjectId getId() {
+		return id;
+	}
 
-    /**
-     * Set the description of this Flashmob
-     * @param description a string
-     * @return this flashmob
-     */
-    public Flashmob setDescription(String description) {
-	this.description = description;
-	return this;
-    }
+	/**
+	 * return the enrollment key of the flashmob
+	 * 
+	 * @return a key
+	 */
+	public String getKey() {
+		return key;
+	}
 
-    /**
-     * Set the endtime of this flashmob
-     * @param end a datetime
-     * @return this flashmob
-     */
-    public Flashmob setEnd(DateTime end) {
-	this.endTime = end;
-	return this;
-    }
+	/**
+	 * return the time when the flashmob was changed last
+	 * 
+	 * @return a datetime
+	 */
+	public DateTime getLastChangedTime() {
+		return lastChangedTime;
+	}
 
-    /**
-     * Set the ID of this flashmob
-     * @param id an obejctid
-     * @return this flashmob
-     */
-    public Flashmob setId(ObjectId id) {
-	this.id = id;
-	return this;
-    }
+	/**
+	 * return the location of a flashmob
+	 * 
+	 * @return a point pbject
+	 */
+	public Point getLocation() {
+		return location;
+	}
 
-    /**
-     * set the ernollment key of this flashmob
-     * @param key a string
-     * @return this flashmob
-     */
-    public Flashmob setKey(String key) {
-	this.key = key;
-	return this;
-    }
+	/**
+	 * return the publication time of a flashmob
+	 * 
+	 * @return a datetime
+	 */
+	public DateTime getPublish() {
+		return publishTime;
+	}
 
-    /**
-     * set the time when the flashmob was changed last
-     * @param lastChangedTime a datetime
-     * @return this flashmob
-     */
-    public Flashmob setLastChangedTime(DateTime lastChangedTime) {
-	this.lastChangedTime = lastChangedTime;
-	return this;
-    }
+	/**
+	 * return the amount of registered users
+	 * 
+	 * @return an int
+	 */
+	public int getRegisteredUsers() {
+		int registered = 0;
+		for (Role r : getRoles()) {
+			registered += r.getUsers().size();
+		}
+		return registered;
+	}
 
-    /**
-     * set the location of the flashmob
-     * @param location a point
-     * @return this flashmob
-     */
-    public Flashmob setLocation(Point location) {
-	this.location = location;
-	return this;
-    }
+	/**
+	 * return the amount of users required to perform the flashmob
+	 * 
+	 * @return an int
+	 */
+	public int getRequiredUsers() {
+		int required = 0;
+		for (Role r : getRoles()) {
+			required += r.getMinCount();
+		}
+		return required;
+	}
 
-    /**
-     * set the validity of a flashmob to NOT_CHECKED
-     * @return this flashmob
-     */
-    public Flashmob setNotChecked() {
-	setValidity(Validity.NOT_CHECKED);
-	return this;
-    }
+	/**
+	 * return a list of roles
+	 * 
+	 * @return a list of roles
+	 */
+	public List<Role> getRoles() {
+		return this.roles;
+	}
 
-    /**
-     * set the validity of this Flashmob to NOT_VALID
-     * @return this flashmob
-     */
-    public Flashmob setNotValid() {
-	setValidity(Validity.NOT_VALID);
-	return this;
-    }
+	/**
+	 * retunr the starttime of the flashmob
+	 * 
+	 * @return a datetime
+	 */
+	public DateTime getStart() {
+		return startTime;
+	}
 
-    /**
-     * set the flashmob to public /notpublic
-     * @param isPublic boolean
-     * @return this flashmob
-     */
-    public Flashmob setPublic(Boolean isPublic) {
-	this.isPublic = isPublic;
-	return this;
-    }
+	/**
+	 * return the title of the flashmob
+	 * 
+	 * @return a string
+	 */
+	public String getTitle() {
+		return title;
+	}
 
-    /**
-     * Set the time when the flashmob has to be published
-     * @param publish a datetime
-     * @return this flashmob
-     */
-    public Flashmob setPublish(DateTime publish) {
-	this.publishTime = publish;
-	return this;
-    }
+	/**
+	 * return a list of triggers
+	 * 
+	 * @return trigger-list
+	 */
+	public List<Trigger> getTriggers() {
+		return triggers;
+	}
 
-    /**
-     * Associate a list of roles with a flasmob
-     * @param roles a list of roles
-     * @return this flashmob
-     */
-    public Flashmob setRoles(List<Role> roles) {
-	this.roles = roles;
-	return this;
-    }
+	/**
+	 * Return if a flashmob is valid
+	 * 
+	 * @return a validity-object
+	 */
+	public Validity getValidity() {
+		return validity;
+	}
 
-    /**
-     * Set the starttime of a flashmob
-     * @param start a datetime
-     * @return this flashmob
-     */
-    public Flashmob setStart(DateTime start) {
-	this.startTime = start;
-	return this;
-    }
+	@Override
+	public int hashCode() {
+		return getId().hashCode();
+	}
 
-    /**
-     * set the title of a flashmob
-     * @param title a string
-     * @return this flashmob
-     */
-    public Flashmob setTitle(String title) {
-	this.title = title;
-	return this;
-    }
+	/**
+	 * Return if a User U has enrolled for a flashmob
+	 * 
+	 * @param u
+	 *            the user
+	 * @return boolean, true if u is enrolled
+	 */
+	public boolean hasUser(User u) {
+		for (Role r : getRoles()) {
+			if (r.getUsers().contains(u)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    /**
-     * Associate a lsit of triggers with this flashmob
-     * @param triggers a list of triggers
-     * @return this flashmob
-     */
-    public Flashmob setTriggers(List<Trigger> triggers) {
-	this.triggers = triggers;
-	return this;
-    }
+	/**
+	 * Return true if the flashmob is not checked
+	 * 
+	 * @return boolean
+	 */
+	public boolean isNotChecked() {
+		return getValidity() == Validity.NOT_CHECKED;
+	}
 
-    /**
-     * Set the validity of a flashmob to VALID
-     * @return this flashmob
-     */
-    public Flashmob setValid() {
-	setValidity(Validity.VALID);
-	return this;
-    }
+	/**
+	 * Return true if the flashmob is invalid
+	 * 
+	 * @return a boolean
+	 */
+	public boolean isNotValid() {
+		return getValidity() == Validity.NOT_VALID;
+	}
 
-    /**
-     * set the validity to a certain value
-     * @param validity a valid validity
-     * @return this flashmob
-     */
-    public Flashmob setValidity(Validity validity) {
-	this.validity = validity;
-	return this;
-    }
+	/**
+	 * return if the flashmob is public
+	 * 
+	 * @return a boolean
+	 */
+	public Boolean isPublic() {
+		return isPublic;
+	}
 
-    @Override
-    public String toString() {
-	return getId().toString();
-    }
+	/**
+	 * return true if the flashmob is valid
+	 * 
+	 * @return a boolean
+	 */
+	public boolean isValid() {
+		return getValidity() == Validity.VALID;
+	}
+
+	/**
+	 * Associate a list of activities with this flashmob
+	 * 
+	 * @param activities
+	 *            list of activities
+	 * @return this flashmob
+	 */
+	public Flashmob setActivities(List<Activity> activities) {
+		this.activities = activities;
+		return this;
+	}
+
+	/**
+	 * Set the coordinator of this flashmob
+	 * 
+	 * @param coordinator
+	 *            a user
+	 * @return this flashmob
+	 */
+	public Flashmob setCoordinator(User coordinator) {
+		this.coordinator = coordinator;
+		return this;
+	}
+
+	/**
+	 * set the creation time of a fglashmob
+	 * 
+	 * @param creationTime
+	 *            a datetime
+	 * @return this flashmob
+	 */
+	public Flashmob setCreationTime(DateTime creationTime) {
+		this.creationTime = creationTime;
+		return this;
+	}
+
+	/**
+	 * Set the description of this Flashmob
+	 * 
+	 * @param description
+	 *            a string
+	 * @return this flashmob
+	 */
+	public Flashmob setDescription(String description) {
+		this.description = description;
+		return this;
+	}
+
+	/**
+	 * Set the endtime of this flashmob
+	 * 
+	 * @param end
+	 *            a datetime
+	 * @return this flashmob
+	 */
+	public Flashmob setEnd(DateTime end) {
+		this.endTime = end;
+		return this;
+	}
+
+	/**
+	 * Set the ID of this flashmob
+	 * 
+	 * @param id
+	 *            an obejctid
+	 * @return this flashmob
+	 */
+	public Flashmob setId(ObjectId id) {
+		this.id = id;
+		return this;
+	}
+
+	/**
+	 * set the ernollment key of this flashmob
+	 * 
+	 * @param key
+	 *            a string
+	 * @return this flashmob
+	 */
+	public Flashmob setKey(String key) {
+		this.key = key;
+		return this;
+	}
+
+	/**
+	 * set the time when the flashmob was changed last
+	 * 
+	 * @param lastChangedTime
+	 *            a datetime
+	 * @return this flashmob
+	 */
+	public Flashmob setLastChangedTime(DateTime lastChangedTime) {
+		this.lastChangedTime = lastChangedTime;
+		return this;
+	}
+
+	/**
+	 * set the location of the flashmob
+	 * 
+	 * @param location
+	 *            a point
+	 * @return this flashmob
+	 */
+	public Flashmob setLocation(Point location) {
+		this.location = location;
+		return this;
+	}
+
+	/**
+	 * set the validity of a flashmob to NOT_CHECKED
+	 * 
+	 * @return this flashmob
+	 */
+	public Flashmob setNotChecked() {
+		setValidity(Validity.NOT_CHECKED);
+		return this;
+	}
+
+	/**
+	 * set the validity of this Flashmob to NOT_VALID
+	 * 
+	 * @return this flashmob
+	 */
+	public Flashmob setNotValid() {
+		setValidity(Validity.NOT_VALID);
+		return this;
+	}
+
+	/**
+	 * set the flashmob to public /notpublic
+	 * 
+	 * @param isPublic
+	 *            boolean
+	 * @return this flashmob
+	 */
+	public Flashmob setPublic(Boolean isPublic) {
+		this.isPublic = isPublic;
+		return this;
+	}
+
+	/**
+	 * Set the time when the flashmob has to be published
+	 * 
+	 * @param publish
+	 *            a datetime
+	 * @return this flashmob
+	 */
+	public Flashmob setPublish(DateTime publish) {
+		this.publishTime = publish;
+		return this;
+	}
+
+	/**
+	 * Associate a list of roles with a flasmob
+	 * 
+	 * @param roles
+	 *            a list of roles
+	 * @return this flashmob
+	 */
+	public Flashmob setRoles(List<Role> roles) {
+		this.roles = roles;
+		return this;
+	}
+
+	/**
+	 * Set the starttime of a flashmob
+	 * 
+	 * @param start
+	 *            a datetime
+	 * @return this flashmob
+	 */
+	public Flashmob setStart(DateTime start) {
+		this.startTime = start;
+		return this;
+	}
+
+	/**
+	 * set the title of a flashmob
+	 * 
+	 * @param title
+	 *            a string
+	 * @return this flashmob
+	 */
+	public Flashmob setTitle(String title) {
+		this.title = title;
+		return this;
+	}
+
+	/**
+	 * Associate a lsit of triggers with this flashmob
+	 * 
+	 * @param triggers
+	 *            a list of triggers
+	 * @return this flashmob
+	 */
+	public Flashmob setTriggers(List<Trigger> triggers) {
+		this.triggers = triggers;
+		return this;
+	}
+
+	/**
+	 * Set the validity of a flashmob to VALID
+	 * 
+	 * @return this flashmob
+	 */
+	public Flashmob setValid() {
+		setValidity(Validity.VALID);
+		return this;
+	}
+
+	/**
+	 * set the validity to a certain value
+	 * 
+	 * @param validity
+	 *            a valid validity
+	 * @return this flashmob
+	 */
+	public Flashmob setValidity(Validity validity) {
+		this.validity = validity;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return getId().toString();
+	}
 }

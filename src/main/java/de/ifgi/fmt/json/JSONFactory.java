@@ -41,18 +41,18 @@ import de.ifgi.fmt.utils.Utils;
 @SuppressWarnings("unchecked")
 public class JSONFactory {
 
-    /**
+	/**
      * 
      */
-    @Documented
+	@Documented
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
 	public static @interface Decodes {
-	    /**
-	     * 
-	     * @return
-	     */
-	    public Class<?> value();
+		/**
+		 * 
+		 * @return
+		 */
+		public Class<?> value();
 	}
 
 	/**
@@ -62,23 +62,25 @@ public class JSONFactory {
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
 	public static @interface Encodes {
-	    /**
-	     * 
-	     * @return
-	     */
-	    public Class<?> value();
+		/**
+		 * 
+		 * @return
+		 */
+		public Class<?> value();
 	}
 
 	/**
 	 * 
 	 */
-	protected static final Logger log = LoggerFactory.getLogger(JSONFactory.class);
-	
+	protected static final Logger log = LoggerFactory
+			.getLogger(JSONFactory.class);
+
 	private static Map<Class<?>, JSONEncoder<?>> encoders = Utils.map();
 	private static Map<Class<?>, JSONDecoder<?>> decoders = Utils.map();
 
 	static {
-		for (Class<?> c : Implementations.getAnnotatedSubclasses(JSONEncoder.class, Encodes.class)) {
+		for (Class<?> c : Implementations.getAnnotatedSubclasses(
+				JSONEncoder.class, Encodes.class)) {
 			try {
 				JSONEncoder<?> enc = (JSONEncoder<?>) c.newInstance();
 				encoders.put(c.getAnnotation(Encodes.class).value(), enc);
@@ -86,7 +88,8 @@ public class JSONFactory {
 				log.error("Can not instantiate encoder!", e);
 			}
 		}
-		for (Class<?> c : Implementations.getAnnotatedSubclasses(JSONDecoder.class, Decodes.class)) {
+		for (Class<?> c : Implementations.getAnnotatedSubclasses(
+				JSONDecoder.class, Decodes.class)) {
 			try {
 				JSONDecoder<?> dec = (JSONDecoder<?>) c.newInstance();
 				decoders.put(c.getAnnotation(Decodes.class).value(), dec);
@@ -96,28 +99,35 @@ public class JSONFactory {
 		}
 		if (log.isDebugEnabled()) {
 			if (log.isDebugEnabled()) {
-				log.debug("JSON decoder classes found:\n{}", Utils.join(new Stringifier() {
-					public String toString(Object t) { return "  " + t.getClass().toString(); }
-				},"\n", decoders.values()));
-				log.debug("JSON encoder classes found:\n{}", Utils.join(new Stringifier() {
-					public String toString(Object t) { return "  " + t.getClass().toString(); }
-				},"\n", encoders.values()));
+				log.debug("JSON decoder classes found:\n{}",
+						Utils.join(new Stringifier() {
+							public String toString(Object t) {
+								return "  " + t.getClass().toString();
+							}
+						}, "\n", decoders.values()));
+				log.debug("JSON encoder classes found:\n{}",
+						Utils.join(new Stringifier() {
+							public String toString(Object t) {
+								return "  " + t.getClass().toString();
+							}
+						}, "\n", encoders.values()));
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param <T>
 	 * @param c
 	 * @return
 	 */
-	public static <T extends Viewable<T>> JSONEncoder<T> getEncoder(Class<? extends T> c) {
+	public static <T extends Viewable<T>> JSONEncoder<T> getEncoder(
+			Class<? extends T> c) {
 		JSONEncoder<?> enc = encoders.get(c);
 		if (enc == null) {
 			for (Entry<Class<?>, JSONEncoder<?>> e : encoders.entrySet()) {
-				if (e.getKey().isAssignableFrom(c))  {
-					return  (JSONEncoder<T>) e.getValue();
+				if (e.getKey().isAssignableFrom(c)) {
+					return (JSONEncoder<T>) e.getValue();
 				}
 			}
 		}
@@ -137,8 +147,8 @@ public class JSONFactory {
 		JSONDecoder<?> dec = decoders.get(c);
 		if (dec == null) {
 			for (Entry<Class<?>, JSONDecoder<?>> e : decoders.entrySet()) {
-				if (e.getKey().isAssignableFrom(c))  {
-					return  (JSONDecoder<T>) e.getValue();
+				if (e.getKey().isAssignableFrom(c)) {
+					return (JSONDecoder<T>) e.getValue();
 				}
 			}
 		}

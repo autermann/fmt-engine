@@ -30,21 +30,21 @@ import com.google.code.morphia.mapping.MappingException;
  */
 @SuppressWarnings("rawtypes")
 public class FileConverter extends TypeConverter implements
-    SimpleValueConverter {
-    /**
+		SimpleValueConverter {
+	/**
      * 
      */
-    public FileConverter() {
+	public FileConverter() {
 		super(File.class);
 	}
 
-    /**
-     * 
-     * @param value
-     * @param optionalExtraInfo
-     * @return
-     */
-    @Override
+	/**
+	 * 
+	 * @param value
+	 * @param optionalExtraInfo
+	 * @return
+	 */
+	@Override
 	public Object encode(Object value, MappedField optionalExtraInfo) {
 		if (value == null)
 			return null;
@@ -62,7 +62,7 @@ public class FileConverter extends TypeConverter implements
 	 */
 	@Override
 	public Object decode(Class c, Object o, MappedField i)
-	    throws MappingException {
+			throws MappingException {
 		if (o == null) {
 			return null;
 		} else if (o instanceof File) {

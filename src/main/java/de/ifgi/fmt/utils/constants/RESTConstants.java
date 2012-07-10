@@ -24,14 +24,14 @@ import javax.ws.rs.core.MediaType;
  * @author Autermann, Demuth, Radtke
  */
 public interface RESTConstants {
-    /**
+	/**
      * 
      */
-    public static abstract class Roles {
-	/**
+	public static abstract class Roles {
+		/**
 	 * 
 	 */
-	public static final String GUEST = "GUEST";
+		public static final String GUEST = "GUEST";
 		/**
 		 * 
 		 */
@@ -41,15 +41,15 @@ public interface RESTConstants {
 		 */
 		public static final String ADMIN = "ADMIN";
 	}
-	
-    /**
+
+	/**
      * 
      */
-    public static abstract class MediaTypes {
-	    /**
+	public static abstract class MediaTypes {
+		/**
 	     * 
 	     */
-	    public static final String FLASHMOB = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/flashmob\"";
+		public static final String FLASHMOB = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/flashmob\"";
 		/**
 		 * 
 		 */
@@ -110,23 +110,27 @@ public interface RESTConstants {
 		 * 
 		 */
 		public static final String COMMENT_LIST = "application/json; profile=\"http://giv-flashmob.uni-muenster.de/schema/comment-list\"";
-		
+
 		/**
 		 * 
 		 */
-		public static final MediaType FLASHMOB_TYPE = MediaType.valueOf(FLASHMOB);
+		public static final MediaType FLASHMOB_TYPE = MediaType
+				.valueOf(FLASHMOB);
 		/**
 		 * 
 		 */
-		public static final MediaType FLASHMOB_LIST_TYPE = MediaType.valueOf(FLASHMOB_LIST);
+		public static final MediaType FLASHMOB_LIST_TYPE = MediaType
+				.valueOf(FLASHMOB_LIST);
 		/**
 		 * 
 		 */
-		public static final MediaType ACTIVITY_TYPE = MediaType.valueOf(ACTIVITY);
+		public static final MediaType ACTIVITY_TYPE = MediaType
+				.valueOf(ACTIVITY);
 		/**
 		 * 
 		 */
-		public static final MediaType ACTIVITY_LIST_TYPE = MediaType.valueOf(ACTIVITY_LIST);
+		public static final MediaType ACTIVITY_LIST_TYPE = MediaType
+				.valueOf(ACTIVITY_LIST);
 		/**
 		 * 
 		 */
@@ -134,7 +138,8 @@ public interface RESTConstants {
 		/**
 		 * 
 		 */
-		public static final MediaType TRIGGER_LIST_TYPE = MediaType.valueOf(TRIGGER_LIST);
+		public static final MediaType TRIGGER_LIST_TYPE = MediaType
+				.valueOf(TRIGGER_LIST);
 		/**
 		 * 
 		 */
@@ -142,7 +147,8 @@ public interface RESTConstants {
 		/**
 		 * 
 		 */
-		public static final MediaType ROLE_LIST_TYPE = MediaType.valueOf(ROLE_LIST);
+		public static final MediaType ROLE_LIST_TYPE = MediaType
+				.valueOf(ROLE_LIST);
 		/**
 		 * 
 		 */
@@ -150,7 +156,8 @@ public interface RESTConstants {
 		/**
 		 * 
 		 */
-		public static final MediaType SIGNAL_LIST_TYPE = MediaType.valueOf(SIGNAL_LIST);
+		public static final MediaType SIGNAL_LIST_TYPE = MediaType
+				.valueOf(SIGNAL_LIST);
 		/**
 		 * 
 		 */
@@ -158,7 +165,8 @@ public interface RESTConstants {
 		/**
 		 * 
 		 */
-		public static final MediaType USER_LIST_TYPE = MediaType.valueOf(USER_LIST);
+		public static final MediaType USER_LIST_TYPE = MediaType
+				.valueOf(USER_LIST);
 		/**
 		 * 
 		 */
@@ -166,7 +174,8 @@ public interface RESTConstants {
 		/**
 		 * 
 		 */
-		public static final MediaType TASK_LIST_TYPE = MediaType.valueOf(TASK_LIST);
+		public static final MediaType TASK_LIST_TYPE = MediaType
+				.valueOf(TASK_LIST);
 		/**
 		 * 
 		 */
@@ -174,8 +183,9 @@ public interface RESTConstants {
 		/**
 		 * 
 		 */
-		public static final MediaType COMMENT_LIST_TYPE = MediaType.valueOf(COMMENT_LIST);
-		
+		public static final MediaType COMMENT_LIST_TYPE = MediaType
+				.valueOf(COMMENT_LIST);
+
 		/**
 		 * 
 		 */
@@ -190,10 +200,10 @@ public interface RESTConstants {
 	 * 
 	 */
 	public static abstract class PathParams {
-	    /**
+		/**
 	     * 
 	     */
-	    public static final String FLASHMOB = "flashmob";
+		public static final String FLASHMOB = "flashmob";
 		/**
 		 * 
 		 */
@@ -226,10 +236,10 @@ public interface RESTConstants {
 	 * 
 	 */
 	public static abstract class QueryParams {
-	    /**
+		/**
 	     * 
 	     */
-	    public static final String LIMIT = "limit";
+		public static final String LIMIT = "limit";
 		/**
 		 * 
 		 */
@@ -284,14 +294,14 @@ public interface RESTConstants {
 	 * 
 	 */
 	public enum Sorting {
-	    /**
+		/**
 	     * 
 	     */
-	    START_TIME, 
+		START_TIME,
 		/**
 		 * 
 		 */
-		PARTICIPANTS, 
+		PARTICIPANTS,
 		/**
 		 * 
 		 */
@@ -304,8 +314,8 @@ public interface RESTConstants {
 		 * 
 		 */
 		TITLE;
-		
-		//TODO private String order;
+
+		// TODO private String order;
 	}
 
 	/**
@@ -313,46 +323,44 @@ public interface RESTConstants {
 	 */
 	public enum ShowStatus {
 
-	    /**
+		/**
 	     * 
 	     */
-	    PUBLIC,
-	    /**
+		PUBLIC,
+		/**
 	     * 
 	     */
-	    PRIVATE;
+		PRIVATE;
 	}
 
 	/*
-	 * TODO refactor URL's to enable access to resource params.
-	 * e.g 
-	 * 	ROLES="/roles"
-	 *  ROLE ="/{role}"
-	 *	servlet subresources 
-	 *	@Path(ROLES)
-	 *	class RolesServlet {
-	 *		@Path(ROLE)
-	 *		public Role getRole(@PathParam(PathParams.ROLE) ObjectId role) {
-	 *			return bla;
-	 *		}
-	 *	}
+	 * TODO refactor URL's to enable access to resource params. e.g
+	 * ROLES="/roles" ROLE ="/{role}" servlet subresources
 	 * 
+	 * @Path(ROLES) class RolesServlet {
+	 * 
+	 * @Path(ROLE) public Role getRole(@PathParam(PathParams.ROLE) ObjectId
+	 * role) { return bla; } }
 	 */
 	/**
 	 * 
 	 */
 	public static abstract class Paths {
-	    public static final String ROOT = "/"; 
+		public static final String ROOT = "/";
 		public static final String FLASHMOBS = "/flashmobs";
-		public static final String FLASHMOB = FLASHMOBS + "/" + PathParams.FLASHMOB_P;
+		public static final String FLASHMOB = FLASHMOBS + "/"
+				+ PathParams.FLASHMOB_P;
 		public static final String ROLES = "/roles";
 		public static final String COMMENTS = "/comments";
-		public static final String COMMENT = COMMENTS + "/" + PathParams.COMMENT_P;
+		public static final String COMMENT = COMMENTS + "/"
+				+ PathParams.COMMENT_P;
 		public static final String ROLE = ROLES + "/" + PathParams.ROLE_P;
 		public static final String ACTIVITIES = "/activities";
-		public static final String ACTIVITY = ACTIVITIES + "/" + PathParams.ACTIVITY_P;
+		public static final String ACTIVITY = ACTIVITIES + "/"
+				+ PathParams.ACTIVITY_P;
 		public static final String TRIGGERS = "/triggers";
-		public static final String TRIGGER = TRIGGERS + "/" + PathParams.TRIGGER_P;
+		public static final String TRIGGER = TRIGGERS + "/"
+				+ PathParams.TRIGGER_P;
 		public static final String USERS = "/users";
 		public static final String USER = USERS + "/" + PathParams.USER_P;
 		public static final String TASK = "/task";
@@ -360,63 +368,50 @@ public interface RESTConstants {
 		public static final String ROLE_FOR_FLASHMOB = FLASHMOB + ROLE;
 		public static final String COMMENTS_FOR_FLASHMOB = FLASHMOB + COMMENTS;
 		public static final String COMMENT_FOR_FLASHMOB = FLASHMOB + COMMENT;
-		public static final String USERS_OF_ROLE_OF_FLASHMOB = ROLE_FOR_FLASHMOB + USERS;
-		public static final String USER_OF_ROLE_OF_FLASHMOB = ROLE_FOR_FLASHMOB + USER;
-		public static final String ACTIVITIES_OF_ROLE_OF_FLASHMOB = ROLE_FOR_FLASHMOB + ACTIVITIES;
-		public static final String ACTIVITY_OF_ROLE_OF_FLASHMOB = ROLE_FOR_FLASHMOB + ACTIVITY;
-		public static final String TASK_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB = ACTIVITY_OF_ROLE_OF_FLASHMOB + TASK;
+		public static final String USERS_OF_ROLE_OF_FLASHMOB = ROLE_FOR_FLASHMOB
+				+ USERS;
+		public static final String USER_OF_ROLE_OF_FLASHMOB = ROLE_FOR_FLASHMOB
+				+ USER;
+		public static final String ACTIVITIES_OF_ROLE_OF_FLASHMOB = ROLE_FOR_FLASHMOB
+				+ ACTIVITIES;
+		public static final String ACTIVITY_OF_ROLE_OF_FLASHMOB = ROLE_FOR_FLASHMOB
+				+ ACTIVITY;
+		public static final String TASK_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB = ACTIVITY_OF_ROLE_OF_FLASHMOB
+				+ TASK;
 		public static final String USERS_OF_FLASHMOB = FLASHMOB + USERS;
-		public static final String ACTIVITIES_OF_FLASHMOB = FLASHMOB + ACTIVITIES;
+		public static final String ACTIVITIES_OF_FLASHMOB = FLASHMOB
+				+ ACTIVITIES;
 		public static final String ACTIVITY_OF_FLASHMOB = FLASHMOB + ACTIVITY;
-		public static final String ROLES_OF_ACTIVITY_OF_FLASHMOB = ACTIVITY_OF_FLASHMOB + ROLES;
-		public static final String ROLE_OF_ACTIVITY_OF_FLASHMOB = ACTIVITY_OF_FLASHMOB + ROLE;
-		public static final String TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB = ROLE_OF_ACTIVITY_OF_FLASHMOB + TASK;
-		public static final String TRIGGER_OF_ACTIVITY = ACTIVITY_OF_FLASHMOB + "/trigger";
+		public static final String ROLES_OF_ACTIVITY_OF_FLASHMOB = ACTIVITY_OF_FLASHMOB
+				+ ROLES;
+		public static final String ROLE_OF_ACTIVITY_OF_FLASHMOB = ACTIVITY_OF_FLASHMOB
+				+ ROLE;
+		public static final String TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB = ROLE_OF_ACTIVITY_OF_FLASHMOB
+				+ TASK;
+		public static final String TRIGGER_OF_ACTIVITY = ACTIVITY_OF_FLASHMOB
+				+ "/trigger";
 		public static final String SIGNAL = "/signal";
-		public static final String SIGNAL_OF_ACTIVITY = ACTIVITY_OF_FLASHMOB + SIGNAL;
+		public static final String SIGNAL_OF_ACTIVITY = ACTIVITY_OF_FLASHMOB
+				+ SIGNAL;
 		public static final String TRIGGERS_OF_FLASHMOB = FLASHMOB + TRIGGERS;
 		public static final String TRIGGER_OF_FLASHMOB = FLASHMOB + TRIGGER;
 		public static final String FLASHMOBS_OF_USER = USER + FLASHMOBS;
 		public static final String FLASHMOB_OF_USER = USER + FLASHMOB;
-		public static final String ROLE_OF_USER_IN_FLASHMOB = FLASHMOB_OF_USER + "/role";
-		public static final String ACTIVITIES_OF_FLASHMOB_OF_USER = FLASHMOB_OF_USER + ACTIVITIES;
-		public static final String ACTIVITY_OF_FLASHMOB_OF_USER = FLASHMOB_OF_USER + ACTIVITY;
-		public static final String TASK_OF_ACTIVITY_OF_FLASHMOB_OF_USER = ACTIVITY_OF_FLASHMOB_OF_USER + TASK;
-		public static final String SIGNAL_OF_ACTIVITY_OF_FLASHMOB_OF_USER = ACTIVITY_OF_FLASHMOB_OF_USER + SIGNAL;
+		public static final String ROLE_OF_USER_IN_FLASHMOB = FLASHMOB_OF_USER
+				+ "/role";
+		public static final String ACTIVITIES_OF_FLASHMOB_OF_USER = FLASHMOB_OF_USER
+				+ ACTIVITIES;
+		public static final String ACTIVITY_OF_FLASHMOB_OF_USER = FLASHMOB_OF_USER
+				+ ACTIVITY;
+		public static final String TASK_OF_ACTIVITY_OF_FLASHMOB_OF_USER = ACTIVITY_OF_FLASHMOB_OF_USER
+				+ TASK;
+		public static final String SIGNAL_OF_ACTIVITY_OF_FLASHMOB_OF_USER = ACTIVITY_OF_FLASHMOB_OF_USER
+				+ SIGNAL;
 	}
-	
-	public enum View {
-		FLASHMOBS,
-		FLASHMOB,
-		ROLES_FOR_FLASHMOB,
-		ROLE_FOR_FLASHMOB,
-		COMMENTS_FOR_FLASHMOB,
-		COMMENT_FOR_FLASHMOB,
-		USERS_OF_ROLE_OF_FLASHMOB,
-		USER_OF_ROLE_OF_FLASHMOB,
-		ACTIVITIES_OF_ROLE_OF_FLASHMOB,
-		ACTIVITY_OF_ROLE_OF_FLASHMOB,
-		TASK_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB,
-		SIGNAL_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB,
-		USERS_OF_FLASHMOB,
-		ACTIVITIES_OF_FLASHMOB,
-		ACTIVITY_OF_FLASHMOB,
-		ROLES_OF_ACTIVITY_OF_FLASHMOB,
-		ROLE_OF_ACTIVITY_OF_FLASHMOB,
-		TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB,
-		TRIGGER_OF_ACTIVITY,
-		SIGNAL_OF_ACTIVITY,
-		TRIGGERS_OF_FLASHMOB,
-		TRIGGER_OF_FLASHMOB,
 
-		USERS,
-		USER,
-		FLASHMOBS_OF_USER,
-		FLASHMOB_OF_USER,
-		ROLE_OF_USER_IN_FLASHMOB,
-		ACTIVITIES_OF_FLASHMOB_OF_USER,
-		ACTIVITY_OF_FLASHMOB_OF_USER,
-		TASK_OF_ACTIVITY_OF_FLASHMOB_OF_USER, 
-		SIGNAL_OF_ACTIVITY_OF_FLASHMOB_OF_USER;
+	public enum View {
+		FLASHMOBS, FLASHMOB, ROLES_FOR_FLASHMOB, ROLE_FOR_FLASHMOB, COMMENTS_FOR_FLASHMOB, COMMENT_FOR_FLASHMOB, USERS_OF_ROLE_OF_FLASHMOB, USER_OF_ROLE_OF_FLASHMOB, ACTIVITIES_OF_ROLE_OF_FLASHMOB, ACTIVITY_OF_ROLE_OF_FLASHMOB, TASK_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB, SIGNAL_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB, USERS_OF_FLASHMOB, ACTIVITIES_OF_FLASHMOB, ACTIVITY_OF_FLASHMOB, ROLES_OF_ACTIVITY_OF_FLASHMOB, ROLE_OF_ACTIVITY_OF_FLASHMOB, TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB, TRIGGER_OF_ACTIVITY, SIGNAL_OF_ACTIVITY, TRIGGERS_OF_FLASHMOB, TRIGGER_OF_FLASHMOB,
+
+		USERS, USER, FLASHMOBS_OF_USER, FLASHMOB_OF_USER, ROLE_OF_USER_IN_FLASHMOB, ACTIVITIES_OF_FLASHMOB_OF_USER, ACTIVITY_OF_FLASHMOB_OF_USER, TASK_OF_ACTIVITY_OF_FLASHMOB_OF_USER, SIGNAL_OF_ACTIVITY_OF_FLASHMOB_OF_USER;
 	}
 }

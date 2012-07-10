@@ -36,190 +36,212 @@ import de.ifgi.fmt.utils.constants.ModelConstants;
 
 /**
  * This Class reoresents a Comment
+ * 
  * @author Autermann, Demuth, Radtke
  */
 @Entity(ModelConstants.Comment.COLLECTION_NAME)
 public class Comment extends Viewable<Comment> {
 
-    @NotNull
-    @Past
-    @Indexed
-    @Property(ModelConstants.Common.CREATION_TIME)
-    private DateTime creationTime = new DateTime();
-    @NotNull
-    @Indexed
-    @Reference(value = ModelConstants.Comment.FLASHMOB, lazy = true)
-    private Flashmob flashmob;
-    @NotNull
-    @Id
-    private ObjectId id = new ObjectId();
-    @NotNull
-    @Indexed
-    @Property(ModelConstants.Common.LAST_CHANGED)
-    private DateTime lastChangedTime = new DateTime();
-    @SafeHtml
-    @NotBlank
-    @Property(ModelConstants.Comment.TEXT)
-    private String text;
-    @NotNull
-    @Indexed
-    @Past
-    @Property(ModelConstants.Comment.TIME)
-    private DateTime time;
-    @NotNull
-    @Indexed
-    @Reference(value = ModelConstants.Comment.USER, lazy = true)
-    private User user;
+	@NotNull
+	@Past
+	@Indexed
+	@Property(ModelConstants.Common.CREATION_TIME)
+	private DateTime creationTime = new DateTime();
+	@NotNull
+	@Indexed
+	@Reference(value = ModelConstants.Comment.FLASHMOB, lazy = true)
+	private Flashmob flashmob;
+	@NotNull
+	@Id
+	private ObjectId id = new ObjectId();
+	@NotNull
+	@Indexed
+	@Property(ModelConstants.Common.LAST_CHANGED)
+	private DateTime lastChangedTime = new DateTime();
+	@SafeHtml
+	@NotBlank
+	@Property(ModelConstants.Comment.TEXT)
+	private String text;
+	@NotNull
+	@Indexed
+	@Past
+	@Property(ModelConstants.Comment.TIME)
+	private DateTime time;
+	@NotNull
+	@Indexed
+	@Reference(value = ModelConstants.Comment.USER, lazy = true)
+	private User user;
 
-    /**
-     * Set the time when this comment was changed last
-     */
-    @PrePersist
-    public void changed() {
-	setLastChangedTime(new DateTime());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-	if (o instanceof Comment) {
-	    return getId().equals(((Comment) o).getId());
+	/**
+	 * Set the time when this comment was changed last
+	 */
+	@PrePersist
+	public void changed() {
+		setLastChangedTime(new DateTime());
 	}
-	return false;
-    }
 
-    /**
-     * Return the time when this comment was created
-     * @return a datetime
-     */
-    public DateTime getCreationTime() {
-	return creationTime;
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Comment) {
+			return getId().equals(((Comment) o).getId());
+		}
+		return false;
+	}
 
-    /**
-     * Return the Flashmob associated to this comment
-     * @return a flashmob
-     */
-    public Flashmob getFlashmob() {
-	return flashmob;
-    }
+	/**
+	 * Return the time when this comment was created
+	 * 
+	 * @return a datetime
+	 */
+	public DateTime getCreationTime() {
+		return creationTime;
+	}
 
-    /**
-     * retunr the id of this comment
-     * @return ObjectID
-     */
-    public ObjectId getId() {
-	return id;
-    }
+	/**
+	 * Return the Flashmob associated to this comment
+	 * 
+	 * @return a flashmob
+	 */
+	public Flashmob getFlashmob() {
+		return flashmob;
+	}
 
-    /**
-     * Retunr the time when this comment was changed last
-     * @return datetime
-     */
-    public DateTime getLastChangedTime() {
-	return lastChangedTime;
-    }
+	/**
+	 * retunr the id of this comment
+	 * 
+	 * @return ObjectID
+	 */
+	public ObjectId getId() {
+		return id;
+	}
 
-    /**
-     * Get the comment-text of this Comment
-     * @return a String
-     */
-    public String getText() {
-	return text;
-    }
+	/**
+	 * Retunr the time when this comment was changed last
+	 * 
+	 * @return datetime
+	 */
+	public DateTime getLastChangedTime() {
+		return lastChangedTime;
+	}
 
-    /**
-     * Get the time-attribute of a comment
-     * @return a datetime
-     */
-    public DateTime getTime() {
-	return time;
-    }
+	/**
+	 * Get the comment-text of this Comment
+	 * 
+	 * @return a String
+	 */
+	public String getText() {
+		return text;
+	}
 
-    /**
-     * Get the User associated to this comment
-     * @return a User
-     */
-    public User getUser() {
-	return user;
-    }
+	/**
+	 * Get the time-attribute of a comment
+	 * 
+	 * @return a datetime
+	 */
+	public DateTime getTime() {
+		return time;
+	}
 
-    @Override
-    public int hashCode() {
-	return getId().hashCode();
-    }
+	/**
+	 * Get the User associated to this comment
+	 * 
+	 * @return a User
+	 */
+	public User getUser() {
+		return user;
+	}
 
-    /**
-     * Set the Creationtime of this comment
-     * @param creationTime a datetime
-     * @return this comment
-     */
-    public Comment setCreationTime(DateTime creationTime) {
-	this.creationTime = creationTime;
-	return this;
-    }
+	@Override
+	public int hashCode() {
+		return getId().hashCode();
+	}
 
-    /**
-     * Associated a flashmob with this comment
-     * @param flashmob a flashmob
-     * @return this comment
-     */
-    public Comment setFlashmob(Flashmob flashmob) {
-	this.flashmob = flashmob;
-	return this;
-    }
+	/**
+	 * Set the Creationtime of this comment
+	 * 
+	 * @param creationTime
+	 *            a datetime
+	 * @return this comment
+	 */
+	public Comment setCreationTime(DateTime creationTime) {
+		this.creationTime = creationTime;
+		return this;
+	}
 
-    /**
-     * Set the ObjectID of this comment
-     * @param id an objectid
-     * @return this comment
-     */
-    public Comment setId(ObjectId id) {
-	this.id = id;
-	return this;
-    }
+	/**
+	 * Associated a flashmob with this comment
+	 * 
+	 * @param flashmob
+	 *            a flashmob
+	 * @return this comment
+	 */
+	public Comment setFlashmob(Flashmob flashmob) {
+		this.flashmob = flashmob;
+		return this;
+	}
 
-    /**
-     * Set the time when this comment was changed last
-     * @param lastChangedTime a datetime
-     * @return this comment
-     */
-    public Comment setLastChangedTime(DateTime lastChangedTime) {
-	this.lastChangedTime = lastChangedTime;
-	return this;
-    }
+	/**
+	 * Set the ObjectID of this comment
+	 * 
+	 * @param id
+	 *            an objectid
+	 * @return this comment
+	 */
+	public Comment setId(ObjectId id) {
+		this.id = id;
+		return this;
+	}
 
-    /**
-     * Set the text of a comment
-     * @param text a String
-     * @return this comment
-     */
-    public Comment setText(String text) {
-	this.text = text;
-	return this;
-    }
+	/**
+	 * Set the time when this comment was changed last
+	 * 
+	 * @param lastChangedTime
+	 *            a datetime
+	 * @return this comment
+	 */
+	public Comment setLastChangedTime(DateTime lastChangedTime) {
+		this.lastChangedTime = lastChangedTime;
+		return this;
+	}
 
-    /**
-     * Set the time of this comment
-     * @param time a datetime
-     * @return this comment
-     */
-    public Comment setTime(DateTime time) {
-	this.time = time;
-	return this;
-    }
+	/**
+	 * Set the text of a comment
+	 * 
+	 * @param text
+	 *            a String
+	 * @return this comment
+	 */
+	public Comment setText(String text) {
+		this.text = text;
+		return this;
+	}
 
-    /**
-     * Set the User of a Comment
-     * @param user a User
-     * @return this comment
-     */
-    public Comment setUser(User user) {
-	this.user = user;
-	return this;
-    }
+	/**
+	 * Set the time of this comment
+	 * 
+	 * @param time
+	 *            a datetime
+	 * @return this comment
+	 */
+	public Comment setTime(DateTime time) {
+		this.time = time;
+		return this;
+	}
 
-    @Override
-    public String toString() {
-	return getId().toString();
-    }
+	/**
+	 * Set the User of a Comment
+	 * 
+	 * @param user
+	 *            a User
+	 * @return this comment
+	 */
+	public Comment setUser(User user) {
+		this.user = user;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return getId().toString();
+	}
 }

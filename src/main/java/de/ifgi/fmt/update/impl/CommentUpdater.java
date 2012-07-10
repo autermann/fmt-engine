@@ -28,13 +28,13 @@ import de.ifgi.fmt.update.UpdateFactory.Updates;
 @Updates(Comment.class)
 public class CommentUpdater extends EntityUpdater<Comment> {
 
-    /**
-     * 
-     * @param old
-     * @param changes
-     * @return
-     */
-    @Override
+	/**
+	 * 
+	 * @param old
+	 * @param changes
+	 * @return
+	 */
+	@Override
 	public Comment update(Comment old, Comment changes) {
 		if (changes.getText() != null) {
 			old.setText(changes.getText());

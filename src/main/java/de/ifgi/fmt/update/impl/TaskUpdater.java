@@ -31,15 +31,15 @@ import de.ifgi.fmt.update.UpdateFactory.Updates;
 @Updates(Task.class)
 public class TaskUpdater extends EntityUpdater<Task> {
 
-    /**
-     * 
-     * @param old
-     * @param changes
-     * @return
-     */
-    @Override
+	/**
+	 * 
+	 * @param old
+	 * @param changes
+	 * @return
+	 */
+	@Override
 	public Task update(Task old, Task changes) {
-		if (old instanceof LineTask ) {
+		if (old instanceof LineTask) {
 			if (changes instanceof LinkTask) {
 				throw ServiceError.badRequest("incompatible task types");
 			}

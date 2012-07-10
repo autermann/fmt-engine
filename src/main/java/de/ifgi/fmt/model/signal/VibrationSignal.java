@@ -27,12 +27,12 @@ import com.google.code.morphia.annotations.Polymorphic;
  */
 @Polymorphic
 public class VibrationSignal extends Signal {
-    /**
-     * 
-     * @param j
-     * @return
-     */
-    @Override
+	/**
+	 * 
+	 * @param j
+	 * @return
+	 */
+	@Override
 	public Signal decode(JSONObject j) {
 		return this;
 	}

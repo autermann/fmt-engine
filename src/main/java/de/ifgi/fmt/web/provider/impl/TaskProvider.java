@@ -34,10 +34,10 @@ import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 @Consumes(MediaTypes.TASK)
 public class TaskProvider extends AbstractJSONProvider<Task> {
 
-    /**
+	/**
      * 
      */
-    public TaskProvider() {
+	public TaskProvider() {
 		super(Task.class, MediaTypes.TASK_TYPE);
 	}
 

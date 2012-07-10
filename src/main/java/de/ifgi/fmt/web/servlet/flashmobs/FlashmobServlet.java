@@ -40,35 +40,35 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.FLASHMOB)
 public class FlashmobServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param flashmob
-     * @return
-     */
-    @GET
-    @PermitAll
+	/**
+	 * 
+	 * @param flashmob
+	 * @return
+	 */
+	@GET
+	@PermitAll
 	@Produces(MediaTypes.FLASHMOB)
 	public Flashmob getFlashmob(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
 		return getService().getFlashmob(flashmob).setView(View.FLASHMOB);
 	}
 
-    /**
-     * 
-     * @param id
-     * @param flashmob
-     * @return
-     */
-    @PUT
-    @RolesAllowed({ Roles.USER, Roles.ADMIN })
+	/**
+	 * 
+	 * @param id
+	 * @param flashmob
+	 * @return
+	 */
+	@PUT
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.FLASHMOB)
 	@Consumes(MediaTypes.FLASHMOB)
 	public Flashmob updateFlashmob(@PathParam(PathParams.FLASHMOB) ObjectId id,
 			Flashmob flashmob) {
-    	canChangeFlashmob(id);
+		canChangeFlashmob(id);
 		return getService().updateFlashmob(id, flashmob).setView(View.FLASHMOB);
 	}
-	
+
 	/**
 	 * 
 	 * @param id

@@ -52,31 +52,32 @@ import de.ifgi.fmt.utils.constants.RESTConstants.View;
 @DefaultView(View.TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB)
 public class TaskHandler extends JSONHandler<Task> {
 
-    @Override
+	@Override
 	public Task decode(JSONObject j) throws JSONException {
 		Task t = null;
 		String href = j.optString(HREF_KEY, null);
 		String line = j.optString(LINE_KEY, null);
 		String type = j.optString(TYPE_KEY, null);
 		if (line != null && (href != null || type != null)) {
-			throw ServiceError.badRequest("tasks can only hold a link or a line");
+			throw ServiceError
+					.badRequest("tasks can only hold a link or a line");
 		}
 		if (line != null) {
-			t = new LineTask().setLine(parseGeometry(j, LineString.class, LINE_KEY));
+			t = new LineTask().setLine(parseGeometry(j, LineString.class,
+					LINE_KEY));
 		} else if (href != null || type != null) {
 			if (href != null && type == null) {
 				throw ServiceError.badRequest("property 'type' is missing");
 			}
-			t = new LinkTask()
-				.setLink(parseURI(j, HREF_KEY))
-				.setType(parseEnum(j, Type.class, TYPE_KEY));
+			t = new LinkTask().setLink(parseURI(j, HREF_KEY)).setType(
+					parseEnum(j, Type.class, TYPE_KEY));
 		} else {
 			t = new Task();
 		}
-		
+
 		t.setId(parseId(j));
 		t.setDescription(j.optString(DESCRIPTION_KEY, null));
-		
+
 		return t;
 	}
 
@@ -87,7 +88,7 @@ public class TaskHandler extends JSONHandler<Task> {
 		j.put(DESCRIPTION_KEY, t.getDescription());
 		j.put(ACTIVITY_KEY, encode(t, t.getActivity(), uri));
 		j.put(ROLE_KEY, encode(t, t.getRole(), uri));
-		
+
 		if (t instanceof LineTask) {
 			j.put(LINE_KEY, encodeGeometry(((LineTask) t).getLine()));
 		} else if (t instanceof LinkTask) {
@@ -99,6 +100,7 @@ public class TaskHandler extends JSONHandler<Task> {
 
 	@Override
 	protected void encodeUris(JSONObject j, Task t, UriInfo uri)
-			throws JSONException {/* empty */}
+			throws JSONException {/* empty */
+	}
 
 }

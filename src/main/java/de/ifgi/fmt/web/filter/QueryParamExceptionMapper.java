@@ -32,12 +32,12 @@ import com.sun.jersey.api.ParamException.QueryParamException;
 public class QueryParamExceptionMapper implements
 		ExceptionMapper<QueryParamException> {
 
-    /**
-     * 
-     * @param e
-     * @return
-     */
-    @Override
+	/**
+	 * 
+	 * @param e
+	 * @return
+	 */
+	@Override
 	public Response toResponse(QueryParamException e) {
 		return Response.fromResponse(e.getResponse())
 				.status(Status.BAD_REQUEST).build();

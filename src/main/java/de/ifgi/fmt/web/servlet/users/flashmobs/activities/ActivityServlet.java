@@ -41,15 +41,15 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.ACTIVITY_OF_FLASHMOB_OF_USER)
 public class ActivityServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param user
-     * @param flashmob
-     * @param activity
-     * @return
-     */
-    @GET
-	@RolesAllowed({Roles.USER, Roles.ADMIN })
+	/**
+	 * 
+	 * @param user
+	 * @param flashmob
+	 * @param activity
+	 * @return
+	 */
+	@GET
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Produces(MediaTypes.ACTIVITY)
 	public Activity getActivity(@PathParam(PathParams.USER) String user,
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
@@ -57,6 +57,7 @@ public class ActivityServlet extends AbstractServlet {
 		if (!isAdminOrUserWithId(user)) {
 			throw ServiceError.flashmobNotFound();
 		}
-		return getService().getActivityForUser(user, flashmob, activity).setView(View.ACTIVITY_OF_FLASHMOB_OF_USER);
+		return getService().getActivityForUser(user, flashmob, activity)
+				.setView(View.ACTIVITY_OF_FLASHMOB_OF_USER);
 	}
 }

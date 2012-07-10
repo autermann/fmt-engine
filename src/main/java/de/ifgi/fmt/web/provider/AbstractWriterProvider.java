@@ -41,10 +41,11 @@ import de.ifgi.fmt.utils.Utils;
  * @param <T>
  */
 public abstract class AbstractWriterProvider<T> implements MessageBodyWriter<T> {
-    /**
+	/**
      * 
      */
-    protected static final Logger log = LoggerFactory.getLogger(AbstractWriterProvider.class);
+	protected static final Logger log = LoggerFactory
+			.getLogger(AbstractWriterProvider.class);
 	private Class<?> collectionClass;
 	private Class<?> itemClass;
 	private Set<MediaType> mimes;
@@ -57,7 +58,7 @@ public abstract class AbstractWriterProvider<T> implements MessageBodyWriter<T> 
 	 */
 	public AbstractWriterProvider(Class<?> clazz, MediaType... type) {
 		this(clazz, false, type);
-		log.debug("Instantiation {}.", new Object[]{ getClass() });
+		log.debug("Instantiation {}.", new Object[] { getClass() });
 	}
 
 	/**
@@ -66,7 +67,7 @@ public abstract class AbstractWriterProvider<T> implements MessageBodyWriter<T> 
 	 * @param collection
 	 * @param type
 	 */
-	public AbstractWriterProvider(Class<?> itemClass, boolean collection, 
+	public AbstractWriterProvider(Class<?> itemClass, boolean collection,
 			MediaType... type) {
 		this.itemClass = itemClass;
 		if (collection) {

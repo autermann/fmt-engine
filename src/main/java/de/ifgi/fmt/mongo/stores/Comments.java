@@ -40,7 +40,7 @@ import de.ifgi.fmt.mongo.Store.Queries;
  * 
  * @author Autermann, Demuth, Radtke
  */
-public class Comments implements ExtendedDao<Comment>{
+public class Comments implements ExtendedDao<Comment> {
 	private static final Logger log = LoggerFactory.getLogger(Comments.class);
 	@SuppressWarnings("unused")
 	private final Store store;
@@ -66,7 +66,7 @@ public class Comments implements ExtendedDao<Comment>{
 		}
 		return c;
 	}
-	
+
 	/**
 	 * 
 	 * @param c
@@ -90,7 +90,7 @@ public class Comments implements ExtendedDao<Comment>{
 			save(c);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param c
@@ -136,7 +136,7 @@ public class Comments implements ExtendedDao<Comment>{
 		log.debug("Getting Comments of User {}", u);
 		return get(Queries.commentsOfUser(u));
 	}
-	
+
 	/**
 	 * 
 	 * @param q

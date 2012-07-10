@@ -82,7 +82,7 @@ public class PointConverter extends TypeConverter implements
 			p = f.createPoint(new Coordinate(a.getX(), a.getY()));
 		} else if (o instanceof double[]) {
 			double[] a = (double[]) o;
-			p =  f.createPoint(new Coordinate(a[0], a[1]));
+			p = f.createPoint(new Coordinate(a[0], a[1]));
 		} else if (o instanceof BasicDBList) {
 			BasicDBList list = (BasicDBList) o;
 			p = f.createPoint(new Coordinate((Double) list.get(0),

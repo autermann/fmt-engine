@@ -48,7 +48,7 @@ import de.ifgi.fmt.utils.constants.RESTConstants.Sorting;
 public class Service {
 
 	private static Service service;
-	
+
 	/**
 	 * 
 	 * @return an instance of the running service
@@ -56,10 +56,12 @@ public class Service {
 	public static Service getInstance() {
 		return (service == null) ? service = new Service() : service;
 	}
-	
+
 	/**
 	 * Decides whether a flashmob is valid
-	 * @param f a flashmob which has to be validated
+	 * 
+	 * @param f
+	 *            a flashmob which has to be validated
 	 */
 	private static boolean validateFlashmob(Flashmob f) {
 
@@ -83,8 +85,8 @@ public class Service {
 				|| f.getTriggers().isEmpty()) {
 			return false;
 		}
-		
-		//TODO hier fehlt noch einiges
+
+		// TODO hier fehlt noch einiges
 
 		return true;
 	}
@@ -93,8 +95,11 @@ public class Service {
 
 	/**
 	 * Adds an ACTIVITY to a FLASHMOB
-	 * @param a the activity which shall be added
-	 * @param flashmob the id of the flashmob which shall receive the activity
+	 * 
+	 * @param a
+	 *            the activity which shall be added
+	 * @param flashmob
+	 *            the id of the flashmob which shall receive the activity
 	 * @return the added activity
 	 */
 	public Activity addActivity(Activity a, ObjectId flashmob) {
@@ -105,8 +110,11 @@ public class Service {
 
 	/**
 	 * Adds a COMMENT tot a FLASHMOB
-	 * @param flashmob the id of a flashmob which shall receive a comment
-	 * @param comment the comment which should be added to the flashmob
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob which shall receive a comment
+	 * @param comment
+	 *            the comment which should be added to the flashmob
 	 * @return a comment object
 	 */
 	public Comment addComment(ObjectId flashmob, Comment comment) {
@@ -116,9 +124,12 @@ public class Service {
 
 	/**
 	 * Adds a ROLE to a FLASHMOB
-	 * @param flashmob the flashmob which shall recieve a role
-	 * @param r the role which shall be added to the flashmob
-	 * @return the added role 
+	 * 
+	 * @param flashmob
+	 *            the flashmob which shall recieve a role
+	 * @param r
+	 *            the role which shall be added to the flashmob
+	 * @return the added role
 	 */
 	public Role addRole(ObjectId flashmob, Role r) {
 		Flashmob f = getFlashmob(flashmob);
@@ -128,9 +139,13 @@ public class Service {
 
 	/**
 	 * Adds a ROLE to an ACTIVITY
-	 * @param activity an activity which shall receive the role
-	 * @param role the id of an role which shall be added to the activity
-	 * @param flashmob the id of a flashmob which is associated to the activity
+	 * 
+	 * @param activity
+	 *            an activity which shall receive the role
+	 * @param role
+	 *            the id of an role which shall be added to the activity
+	 * @param flashmob
+	 *            the id of a flashmob which is associated to the activity
 	 * @return the added activity
 	 */
 	public Activity addRoleToActivity(Activity activity, ObjectId role,
@@ -144,9 +159,13 @@ public class Service {
 
 	/**
 	 * Adds a ROLE to an ACTIVITY
-	 * @param activity an activity which shall receive the role
-	 * @param role the role which shall be added to the activity
-	 * @param flashmob a flashmob which is associated to the activity
+	 * 
+	 * @param activity
+	 *            an activity which shall receive the role
+	 * @param role
+	 *            the role which shall be added to the activity
+	 * @param flashmob
+	 *            a flashmob which is associated to the activity
 	 */
 	public void addRoleToActivity(Activity activity, Role role,
 			Flashmob flashmob) {
@@ -158,9 +177,13 @@ public class Service {
 
 	/**
 	 * Adds a ROLE to an ACTIVITY
-	 * @param activity the ID of an activity which shall receive the role
-	 * @param role the role which shall be added to the activity
-	 * @param flashmob th id of a flashmob which is associated to the activity
+	 * 
+	 * @param activity
+	 *            the ID of an activity which shall receive the role
+	 * @param role
+	 *            the role which shall be added to the activity
+	 * @param flashmob
+	 *            th id of a flashmob which is associated to the activity
 	 * @return the added activity
 	 */
 	public Role addRoleToActivity(ObjectId activity, Role role,
@@ -174,9 +197,13 @@ public class Service {
 
 	/**
 	 * Adds a SIGNAL to an ACTIVITY of a FLASHMOB
-	 * @param s a signal which shall be added
-	 * @param activity the id of an activity
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param s
+	 *            a signal which shall be added
+	 * @param activity
+	 *            the id of an activity
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return the added signal
 	 */
 	public Signal addSignal(Signal s, ObjectId activity, ObjectId flashmob) {
@@ -188,10 +215,15 @@ public class Service {
 
 	/**
 	 * Adds a TASK to an ACTIVITY, the task is mapped to the associated role
-	 * @param t a task which shall be added
-	 * @param role the id of a role which is associated to the task
-	 * @param activity the id of the activity which shall receive the task
-	 * @param flashmob the id of a flashmob which contains the activity/role
+	 * 
+	 * @param t
+	 *            a task which shall be added
+	 * @param role
+	 *            the id of a role which is associated to the task
+	 * @param activity
+	 *            the id of the activity which shall receive the task
+	 * @param flashmob
+	 *            the id of a flashmob which contains the activity/role
 	 * @return the added task
 	 */
 	public Task addTask(Task t, ObjectId role, ObjectId activity,
@@ -201,11 +233,14 @@ public class Service {
 	}
 
 	/**
-	/**
-	 * Adds a TASK to an ACTIVITY, the task is mapped to the associated role
-	 * @param t a task which shall be added
-	 * @param role a role which is associated to the task
-	 * @param activity an activity which shall receive the task
+	 * /** Adds a TASK to an ACTIVITY, the task is mapped to the associated role
+	 * 
+	 * @param t
+	 *            a task which shall be added
+	 * @param role
+	 *            a role which is associated to the task
+	 * @param activity
+	 *            an activity which shall receive the task
 	 * @return the added task
 	 */
 	public Task addTask(Task t, Role role, Activity activity) {
@@ -215,8 +250,11 @@ public class Service {
 
 	/**
 	 * Adds a TRIGGER to a FLASHMOB
-	 * @param t a trigger
-	 * @param flashmob a flashmob
+	 * 
+	 * @param t
+	 *            a trigger
+	 * @param flashmob
+	 *            a flashmob
 	 * @return the added trigger
 	 */
 	public Trigger addTrigger(Trigger t, Flashmob flashmob) {
@@ -226,8 +264,11 @@ public class Service {
 
 	/**
 	 * Adds a TRIGGER to a FLASHMOB
-	 * @param t a trigger
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param t
+	 *            a trigger
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return the added trigger
 	 */
 	public Trigger addTrigger(Trigger t, ObjectId flashmob) {
@@ -236,7 +277,9 @@ public class Service {
 
 	/**
 	 * Saves the FLASHMOB in the datastore
-	 * @param f a flasmob
+	 * 
+	 * @param f
+	 *            a flasmob
 	 * @return the saved flashmob
 	 */
 	public Flashmob createFlashmob(Flashmob f) {
@@ -245,7 +288,9 @@ public class Service {
 
 	/**
 	 * Saves the USER in the datastore
-	 * @param u a user
+	 * 
+	 * @param u
+	 *            a user
 	 * @return the saved user
 	 */
 	public User createUser(User u) {
@@ -258,8 +303,11 @@ public class Service {
 
 	/**
 	 * Deletes an ACTIVITY from the datastore
-	 * @param flashmob a flashmob
-	 * @param activity an activity
+	 * 
+	 * @param flashmob
+	 *            a flashmob
+	 * @param activity
+	 *            an activity
 	 */
 	public void deleteActivity(Flashmob flashmob, Activity activity) {
 		getStore().activities().delete(activity);
@@ -267,8 +315,11 @@ public class Service {
 
 	/**
 	 * Deletes an ACTIVITY from the datastore
-	 * @param flashmob a flashmob
-	 * @param activity the id of an activity
+	 * 
+	 * @param flashmob
+	 *            a flashmob
+	 * @param activity
+	 *            the id of an activity
 	 */
 	public void deleteActivity(Flashmob flashmob, ObjectId activity) {
 		deleteActivity(flashmob, getActivity(flashmob, activity));
@@ -276,8 +327,11 @@ public class Service {
 
 	/**
 	 * Deletes an ACTIVITY from the datastore
-	 * @param flashmob the id of a flashmob
-	 * @param activity the id of an activity
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param activity
+	 *            the id of an activity
 	 */
 	public void deleteActivity(ObjectId flashmob, ObjectId activity) {
 		deleteActivity(getFlashmob(flashmob), activity);
@@ -285,7 +339,9 @@ public class Service {
 
 	/**
 	 * Deletes a FLASHMOB from the datastore
-	 * @param flashmob a flashmob
+	 * 
+	 * @param flashmob
+	 *            a flashmob
 	 */
 	public void deleteFlashmob(Flashmob flashmob) {
 		getStore().flashmobs().delete(flashmob);
@@ -293,7 +349,9 @@ public class Service {
 
 	/**
 	 * Deletes a FLASHMOB from the datastors
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
 	 */
 	public void deleteFlashmob(ObjectId flashmob) {
 		deleteFlashmob(getFlashmob(flashmob));
@@ -301,8 +359,11 @@ public class Service {
 
 	/**
 	 * Deletes a TRIGGER from a FLASHMOB
-	 * @param flashmob a flashmob
-	 * @param trigger the id of a trigger
+	 * 
+	 * @param flashmob
+	 *            a flashmob
+	 * @param trigger
+	 *            the id of a trigger
 	 */
 	public void deleteTrigger(Flashmob flashmob, ObjectId trigger) {
 		deleteTrigger(flashmob, getTrigger(flashmob, trigger));
@@ -310,8 +371,11 @@ public class Service {
 
 	/**
 	 * Deletes a TRIGGER from a FLASHMOB
-	 * @param flashmob a flashmob
-	 * @param trigger a trigger
+	 * 
+	 * @param flashmob
+	 *            a flashmob
+	 * @param trigger
+	 *            a trigger
 	 */
 	public void deleteTrigger(Flashmob flashmob, Trigger trigger) {
 		getStore().triggers().delete(trigger);
@@ -319,8 +383,11 @@ public class Service {
 
 	/**
 	 * Deletes a TRIGGER from a FLASHMOB
-	 * @param flashmob the id of a flashmob
-	 * @param trigger the id of a trigger
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param trigger
+	 *            the id of a trigger
 	 */
 	public void deleteTrigger(ObjectId flashmob, ObjectId trigger) {
 		deleteTrigger(getFlashmob(flashmob), trigger);
@@ -328,7 +395,9 @@ public class Service {
 
 	/**
 	 * Deletes a USER from the datastore
-	 * @param user the username
+	 * 
+	 * @param user
+	 *            the username
 	 */
 	public void deleteUser(String user) {
 		deleteUser(getUser(user));
@@ -336,7 +405,9 @@ public class Service {
 
 	/**
 	 * Deletes a USER from the datastore
-	 * @param user a user
+	 * 
+	 * @param user
+	 *            a user
 	 */
 	public void deleteUser(User user) {
 		getStore().users().delete(user);
@@ -344,7 +415,9 @@ public class Service {
 
 	/**
 	 * List all ACTIVITIES of a FLASHMOB
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return a list of activities
 	 */
 	public List<Activity> getActivities(ObjectId flashmob) {
@@ -353,18 +426,25 @@ public class Service {
 
 	/**
 	 * List all ACTIVITIES associated to a ROLE of a FLASHMOB
-	 * @param role the id of a role
-	 * @param flashmob the id of a flashmonb
+	 * 
+	 * @param role
+	 *            the id of a role
+	 * @param flashmob
+	 *            the id of a flashmonb
 	 * @return a list of activities
 	 */
 	public List<Activity> getActivitiesForRole(ObjectId role, ObjectId flashmob) {
-		return Utils.asList(getRole(getFlashmob(flashmob), role).getActivities());
+		return Utils.asList(getRole(getFlashmob(flashmob), role)
+				.getActivities());
 	}
 
 	/**
 	 * List all ACTIVITIES for a USER participating in a FLASHMOB
-	 * @param user a username
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param user
+	 *            a username
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return a list of activites
 	 */
 	public List<Activity> getActivitiesForUser(String user, ObjectId flashmob) {
@@ -374,8 +454,11 @@ public class Service {
 
 	/**
 	 * Return a certain ACTIVITY of a FLASHMOB
-	 * @param flashmob a flashmob
-	 * @param activity the id of an activity
+	 * 
+	 * @param flashmob
+	 *            a flashmob
+	 * @param activity
+	 *            the id of an activity
 	 * @return an activity
 	 */
 	public Activity getActivity(Flashmob flashmob, ObjectId activity) {
@@ -389,8 +472,11 @@ public class Service {
 
 	/**
 	 * Return a certain ACTIVITY of a FLASHMOB
-	 * @param flashmob the id of a flashmob
-	 * @param activity the id of an activity
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param activity
+	 *            the id of an activity
 	 * @return an activity
 	 */
 	public Activity getActivity(ObjectId flashmob, ObjectId activity) {
@@ -399,7 +485,9 @@ public class Service {
 
 	/**
 	 * List COMMENTS of a FLASHMOB
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return a list of comments
 	 */
 	public List<Comment> getCommentsForFlashmob(ObjectId flashmob) {
@@ -408,7 +496,9 @@ public class Service {
 
 	/**
 	 * Return a FLASHMOB with a certin id
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return a flashmob
 	 */
 	public Flashmob getFlashmob(ObjectId flashmob) {
@@ -426,8 +516,11 @@ public class Service {
 
 	/**
 	 * Return a FLASHMOB of a USER
-	 * @param user a username
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param user
+	 *            a username
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return a flashmob
 	 */
 	public Flashmob getFlashmob(String user, ObjectId flashmob) {
@@ -436,8 +529,11 @@ public class Service {
 
 	/**
 	 * Return a FLASHMOB of a USER
-	 * @param user a user
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param user
+	 *            a user
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return a flashmob
 	 */
 	public Flashmob getFlashmob(User user, ObjectId flashmob) {
@@ -450,22 +546,36 @@ public class Service {
 
 	/**
 	 * List Flashmobs
-	 * @param limit the size of the list which shall be returned
-	 * @param near a point in the neighbourhood of a flashmob
-	 * @param user name of a certain user
-	 * @param bbox a boundingbox containing the flashmobs
-	 * @param from flashmob shall not happen earlier than this datetime
-	 * @param to flashmob shall not happen later than this datetim
-	 * @param sorting by which attribute how shall the list be sorted?
-	 * @param descending if true, the list will be sorted descending
-	 * @param show the showstatus
-	 * @param search a searchstring
-	 * @param participant username of a certain participant
-	 * @param minParticipants number of minimal participants
-	 * @param maxParticipants number of maximal participants
+	 * 
+	 * @param limit
+	 *            the size of the list which shall be returned
+	 * @param near
+	 *            a point in the neighbourhood of a flashmob
+	 * @param user
+	 *            name of a certain user
+	 * @param bbox
+	 *            a boundingbox containing the flashmobs
+	 * @param from
+	 *            flashmob shall not happen earlier than this datetime
+	 * @param to
+	 *            flashmob shall not happen later than this datetim
+	 * @param sorting
+	 *            by which attribute how shall the list be sorted?
+	 * @param descending
+	 *            if true, the list will be sorted descending
+	 * @param show
+	 *            the showstatus
+	 * @param search
+	 *            a searchstring
+	 * @param participant
+	 *            username of a certain participant
+	 * @param minParticipants
+	 *            number of minimal participants
+	 * @param maxParticipants
+	 *            number of maximal participants
 	 * @return a list of flashmobs
 	 */
-	//TODO javadoc: search, show
+	// TODO javadoc: search, show
 	public List<Flashmob> getFlashmobs(int limit, Point near, String user,
 			BoundingBox bbox, DateTime from, DateTime to, Sorting sorting,
 			boolean descending, ShowStatus show, String search,
@@ -477,7 +587,9 @@ public class Service {
 
 	/**
 	 * List FLASHMOBS of a USER
-	 * @param user a username
+	 * 
+	 * @param user
+	 *            a username
 	 * @return a list of flashmobs
 	 */
 	public List<Flashmob> getFlashmobsFromUser(String user) {
@@ -486,8 +598,11 @@ public class Service {
 
 	/**
 	 * Return a ROLE of a FLASHMOB
-	 * @param f a flashmob
-	 * @param role the id of a role
+	 * 
+	 * @param f
+	 *            a flashmob
+	 * @param role
+	 *            the id of a role
 	 * @return a role
 	 */
 	public Role getRole(Flashmob f, ObjectId role) {
@@ -500,8 +615,11 @@ public class Service {
 
 	/**
 	 * return a ROLE of a FLASHMOB
-	 * @param flashmob the id of a flashmob
-	 * @param role the id of a role
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param role
+	 *            the id of a role
 	 * @return a role
 	 */
 	public Role getRole(ObjectId flashmob, ObjectId role) {
@@ -511,7 +629,9 @@ public class Service {
 
 	/**
 	 * List ROLES of a FLASHMOB
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return a list of roles
 	 */
 	public List<Role> getRoles(ObjectId flashmob) {
@@ -520,8 +640,11 @@ public class Service {
 
 	/**
 	 * List ROLES of an ACTIVITY in a FLASHMOB
-	 * @param activity the id of an activity
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param activity
+	 *            the id of an activity
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return a list of roles
 	 */
 	public List<Role> getRoles(ObjectId activity, ObjectId flashmob) {
@@ -530,8 +653,11 @@ public class Service {
 
 	/**
 	 * Return a SIGNAL of an ACTIVITY in a FLASHMOB
-	 * @param flashmob the id of a flashmob
-	 * @param activity the id of an activity
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param activity
+	 *            the id of an activity
 	 * @return a signal
 	 */
 	public Signal getSignal(ObjectId flashmob, ObjectId activity) {
@@ -541,6 +667,7 @@ public class Service {
 
 	/**
 	 * Return the local datastore
+	 * 
 	 * @return the datastor
 	 */
 	public Store getStore() {
@@ -549,9 +676,13 @@ public class Service {
 
 	/**
 	 * Return a TASK of an ACTIVITY / ROLE in a FLASHMOB
-	 * @param flashmob the id of a flashmob
-	 * @param role the id of a role
-	 * @param activity the id og an activity
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param role
+	 *            the id of a role
+	 * @param activity
+	 *            the id og an activity
 	 * @return the TASK
 	 */
 	public Task getTask(ObjectId flashmob, ObjectId role, ObjectId activity) {
@@ -565,9 +696,13 @@ public class Service {
 
 	/**
 	 * Return the TASK of a USER in an ACTIVITY of a FLASHMOB
-	 * @param activity the id of an activity
-	 * @param flashmob th id of a flashmob
-	 * @param user a username
+	 * 
+	 * @param activity
+	 *            the id of an activity
+	 * @param flashmob
+	 *            th id of a flashmob
+	 * @param user
+	 *            a username
 	 * @return a task
 	 */
 	public Task getTaskForActivity(ObjectId activity, ObjectId flashmob,
@@ -584,8 +719,11 @@ public class Service {
 
 	/**
 	 * Return a TRIGGER of a FLASHMOB
-	 * @param flashmob a flashmob
-	 * @param trigger the id of a trigger
+	 * 
+	 * @param flashmob
+	 *            a flashmob
+	 * @param trigger
+	 *            the id of a trigger
 	 * @return a trigger
 	 */
 	public Trigger getTrigger(Flashmob flashmob, ObjectId trigger) {
@@ -599,8 +737,11 @@ public class Service {
 
 	/**
 	 * Return a TRIGGER of a FLASHMOB
-	 * @param trigger the id of a trigger
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param trigger
+	 *            the id of a trigger
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return a trigger
 	 */
 	public Trigger getTrigger(ObjectId trigger, ObjectId flashmob) {
@@ -609,8 +750,11 @@ public class Service {
 
 	/**
 	 * Return a TRIGGER of an ACTIVITY in a FLASHMOB
-	 * @param flashmob the id of a flashmob
-	 * @param activity the id of an activity
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param activity
+	 *            the id of an activity
 	 * @return a trigger
 	 */
 	public Trigger getTriggerOfActivity(ObjectId flashmob, ObjectId activity) {
@@ -619,7 +763,9 @@ public class Service {
 
 	/**
 	 * List TRIGGERS of a FLASHMOB
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return a list of triggers
 	 */
 	public List<Trigger> getTriggers(ObjectId flashmob) {
@@ -628,7 +774,9 @@ public class Service {
 
 	/**
 	 * Return a USER with a certain username
-	 * @param user the username
+	 * 
+	 * @param user
+	 *            the username
 	 * @return a user
 	 */
 	public User getUser(String user) {
@@ -640,22 +788,28 @@ public class Service {
 
 	/**
 	 * returns a list of USERs
-	 * @param limit length of the lis
+	 * 
+	 * @param limit
+	 *            length of the lis
 	 * @return list of users
 	 */
 	public List<User> getUsers(int limit) {
 		return getStore().users().get(limit);
 	}
-	
+
 	public List<User> getUsers(String search) {
 		return getStore().users().search(search);
 	}
 
 	/**
 	 * List USERS participating in a ROLE of a FLASHMOB
-	 * @param flashmob the id of a flashmob
-	 * @param role the id of a role
-	 * @param limit lenght-limit of the list
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param role
+	 *            the id of a role
+	 * @param limit
+	 *            lenght-limit of the list
 	 * @return a list of users
 	 */
 	public List<User> getUsersForRole(ObjectId flashmob, ObjectId role,
@@ -666,7 +820,9 @@ public class Service {
 
 	/**
 	 * List USERS participating in a FLASHMOB
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return a list of users
 	 */
 	public List<User> getUsersOfFlashmob(ObjectId flashmob) {
@@ -680,9 +836,13 @@ public class Service {
 
 	/**
 	 * Register a USER as participating in a ROLE of a FLASHMOB
-	 * @param u a user
-	 * @param role the id of a role
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param u
+	 *            a user
+	 * @param role
+	 *            the id of a role
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return a user
 	 */
 	public User registerUser(User u, ObjectId role, ObjectId flashmob) {
@@ -690,28 +850,35 @@ public class Service {
 		getStore().roles().save(r.addUser(u));
 		return u;
 	}
-	
 
 	/**
 	 * Unregister a USER from a ROLE
-	 * @param user a username
-	 * @param role the id of a role
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param user
+	 *            a username
+	 * @param role
+	 *            the id of a role
+	 * @param flashmob
+	 *            the id of a flashmob
 	 */
-	public void unregisterUserFromRole(String user, ObjectId role, ObjectId flashmob){
-	    Role r = getRole(flashmob, role);
-	    User u = getUser(user);
-	    r.getUsers().remove(u);
-	    u.getRoles().remove(r);
-	    
-	    getStore().users().save(u);
-	    getStore().roles().save(r);
+	public void unregisterUserFromRole(String user, ObjectId role,
+			ObjectId flashmob) {
+		Role r = getRole(flashmob, role);
+		User u = getUser(user);
+		r.getUsers().remove(u);
+		u.getRoles().remove(r);
+
+		getStore().users().save(u);
+		getStore().roles().save(r);
 	}
-	
+
 	/**
 	 * Removes a TRIGGER from an ACTIVITY in a FLASHMOB
-	 * @param flashmob the id of a flashmob
-	 * @param activity the id of an activity
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param activity
+	 *            the id of an activity
 	 */
 	public void removeTriggerFromActivity(ObjectId flashmob, ObjectId activity) {
 		Flashmob f = getFlashmob(flashmob);
@@ -722,9 +889,13 @@ public class Service {
 
 	/**
 	 * Sets the TRIGGER of an ACTIVITY in a FLASHMOB
-	 * @param flashmob the id of a flashmob
-	 * @param activity the id of an activity
-	 * @param t a trigger
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param activity
+	 *            the id of an activity
+	 * @param t
+	 *            a trigger
 	 * @return the trigger
 	 */
 	public Trigger setTriggerForActivity(ObjectId flashmob, ObjectId activity,
@@ -738,10 +909,14 @@ public class Service {
 	}
 
 	/**
-	 * Updates the ACTIVITY activity of a FLASHMOB with the ACTIVITY changes 
-	 * @param changes an activity containing the new data
-	 * @param activity the id of the activity which has to be updated
-	 * @param flashmob the id of a flashmob
+	 * Updates the ACTIVITY activity of a FLASHMOB with the ACTIVITY changes
+	 * 
+	 * @param changes
+	 *            an activity containing the new data
+	 * @param activity
+	 *            the id of the activity which has to be updated
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return the updated activity
 	 */
 	public Activity updateActivity(Activity changes, ObjectId activity,
@@ -752,8 +927,11 @@ public class Service {
 
 	/**
 	 * Updates a FLASHMOB id with the FLASHMOB flashmob
-	 * @param id the id of the flashmob which has to be updated
-	 * @param flashmob the new flashmob
+	 * 
+	 * @param id
+	 *            the id of the flashmob which has to be updated
+	 * @param flashmob
+	 *            the new flashmob
 	 * @return the updated flashmob
 	 */
 	public Flashmob updateFlashmob(ObjectId id, Flashmob flashmob) {
@@ -762,9 +940,13 @@ public class Service {
 
 	/**
 	 * Updates a ROLES role of a FLASHMOB with the ROLE changes
-	 * @param changes a role containing the new data
-	 * @param role the id of the role which shall be updated
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param changes
+	 *            a role containing the new data
+	 * @param role
+	 *            the id of the role which shall be updated
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return the updated roles
 	 */
 	public Role updateRole(Role changes, ObjectId role, ObjectId flashmob) {
@@ -774,9 +956,13 @@ public class Service {
 
 	/**
 	 * Updates a SIGNAL of an ACTIVITY in a FLASHMOB
-	 * @param signal the new signal
-	 * @param activity the id of an activity
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param signal
+	 *            the new signal
+	 * @param activity
+	 *            the id of an activity
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return the updated signal
 	 */
 	public Signal updateSignal(Signal signal, ObjectId activity,
@@ -790,10 +976,15 @@ public class Service {
 
 	/**
 	 * Updates the TASK of an ACTIVITY of a FLASHMOB
-	 * @param task the new task
-	 * @param role the id of a role containing the task
-	 * @param activity the id of an activity containing the task
-	 * @param flashmob the id of a flashmob
+	 * 
+	 * @param task
+	 *            the new task
+	 * @param role
+	 *            the id of a role containing the task
+	 * @param activity
+	 *            the id of an activity containing the task
+	 * @param flashmob
+	 *            the id of a flashmob
 	 * @return the updated task
 	 */
 	public Task updateTask(Task task, ObjectId role, ObjectId activity,
@@ -812,8 +1003,11 @@ public class Service {
 
 	/**
 	 * Updates a USER with a certain username
-	 * @param updates a modified user
-	 * @param user a username
+	 * 
+	 * @param updates
+	 *            a modified user
+	 * @param user
+	 *            a username
 	 * @return the updated user
 	 */
 	public User updateUser(User updates, String user) {
@@ -825,9 +1019,13 @@ public class Service {
 
 	/**
 	 * Retunrs an ACTIVITY of a USERname in a FLASHMOB
-	 * @param user a username
-	 * @param flashmob the id of a flashmob
-	 * @param activity the id of an activity
+	 * 
+	 * @param user
+	 *            a username
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param activity
+	 *            the id of an activity
 	 * @return an activity
 	 */
 	public Activity getActivityForUser(String user, ObjectId flashmob,
@@ -850,8 +1048,11 @@ public class Service {
 
 	/**
 	 * Return a COMMENT of a FLASHMON
-	 * @param flashmob the id of a flashmob
-	 * @param comment the id of a comment
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param comment
+	 *            the id of a comment
 	 * @return a comment
 	 */
 	public Comment getCommentForFlashmob(ObjectId flashmob, ObjectId comment) {
@@ -865,9 +1066,13 @@ public class Service {
 
 	/**
 	 * Updates a COMMENT of a FLASHMOB
-	 * @param flashmob the id of a flashmob
-	 * @param comment the id of the comment which has to be changed
-	 * @param changes the new comment
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param comment
+	 *            the id of the comment which has to be changed
+	 * @param changes
+	 *            the new comment
 	 * @return the updated comment
 	 */
 	public Comment updateComment(ObjectId flashmob, ObjectId comment,
@@ -878,15 +1083,20 @@ public class Service {
 
 	/**
 	 * Return a ROLE of an ACTIVITY of a FLASHMOB
-	 * @param flashmob the id of a flashmob
-	 * @param activity the id of an activity
-	 * @param role the id of a role
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param activity
+	 *            the id of an activity
+	 * @param role
+	 *            the id of a role
 	 * @return a roles
 	 */
-	public Role getRoleForActivity(ObjectId flashmob, ObjectId activity, ObjectId role) {
+	public Role getRoleForActivity(ObjectId flashmob, ObjectId activity,
+			ObjectId role) {
 		Flashmob f = getFlashmob(flashmob);
 		Activity a = getActivity(f, activity);
-		Role r =  getRole(f, role);
+		Role r = getRole(f, role);
 		if (!a.getRoles().contains(r) || !r.getActivities().contains(a)) {
 			throw ServiceError.roleNotFound();
 		}
@@ -895,36 +1105,43 @@ public class Service {
 
 	/**
 	 * Removes a ROLE from an ACTIVITY in a FLAHMOB
-	 * @param flashmob the id of a flashmob
-	 * @param activity the id of an activity
-	 * @param role the id of a role
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param activity
+	 *            the id of an activity
+	 * @param role
+	 *            the id of a role
 	 */
 	public void removeRoleFromActivity(ObjectId flashmob, ObjectId activity,
 			ObjectId role) {
 		Flashmob f = getFlashmob(flashmob);
-		Role r =  getRole(f, role);
+		Role r = getRole(f, role);
 		Activity a = getActivity(f, activity);
-		
+
 		r.getActivities().remove(a);
 		a.getRoles().remove(r);
-		
+
 		getStore().activities().save(a);
 		getStore().roles().save(r);
-		
+
 	}
-	
 
 	/**
 	 * Retunrs an ACTIVIT of a ROLE
-	 * @param flashmob the id of a flashmob
-	 * @param role the id of a role
-	 * @param activity the id of an activity
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param role
+	 *            the id of a role
+	 * @param activity
+	 *            the id of an activity
 	 * @return an activity
 	 */
 	public Activity getActivityForRole(ObjectId flashmob, ObjectId role,
 			ObjectId activity) {
 		Flashmob f = getFlashmob(flashmob);
-		Role r =  getRole(f, role);
+		Role r = getRole(f, role);
 		Activity a = getActivity(f, activity);
 		if (!a.getRoles().contains(r) || !r.getActivities().contains(a)) {
 			throw ServiceError.activityNotFound();
@@ -934,42 +1151,53 @@ public class Service {
 
 	/**
 	 * Removes a ROLE from a FLASHMOB
-	 * @param flashmob the id of a flashmob
-	 * @param role the id of a role
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param role
+	 *            the id of a role
 	 */
 	public void removeRoleFromFlashmob(ObjectId flashmob, ObjectId role) {
-	    Flashmob f = getFlashmob(flashmob);
-	    Role r = getRole(f, role);
-	    
-	    f.getRoles().remove(r);
-	    //TODO : muss hier noch der FM aus der role gelöscht werden?
-	    getStore().flashmobs().save(f);
-    }
+		Flashmob f = getFlashmob(flashmob);
+		Role r = getRole(f, role);
 
-    /**
-     * Removes a TASK from a ROLE of an ACTIVITY
-     * @param flashmob the id of a flashmob
-     * @param role the id of a role
-     * @param activity the id of an activity
-     */
-    public void removeTaskFromRole(ObjectId flashmob, ObjectId role, ObjectId activity) {
-	    Flashmob f = getFlashmob(flashmob);
-	    Role r = getRole(f, role);
-	    Activity a = getActivity(f, activity);
-	    
-	   r.getActivities().remove(a);
-	   a.getRoles().remove(r);
-	   
-	   getStore().roles().save(r);
-	   getStore().activities().save(a);
-    }
+		f.getRoles().remove(r);
+		// TODO : muss hier noch der FM aus der role gelöscht werden?
+		getStore().flashmobs().save(f);
+	}
 
-    /**
-     * Gets the ROLE of a USER in a FLASHMOB
-     * @param flashmob the flashmob id
-     * @param user the username
-     * @return the role
-     */
+	/**
+	 * Removes a TASK from a ROLE of an ACTIVITY
+	 * 
+	 * @param flashmob
+	 *            the id of a flashmob
+	 * @param role
+	 *            the id of a role
+	 * @param activity
+	 *            the id of an activity
+	 */
+	public void removeTaskFromRole(ObjectId flashmob, ObjectId role,
+			ObjectId activity) {
+		Flashmob f = getFlashmob(flashmob);
+		Role r = getRole(f, role);
+		Activity a = getActivity(f, activity);
+
+		r.getActivities().remove(a);
+		a.getRoles().remove(r);
+
+		getStore().roles().save(r);
+		getStore().activities().save(a);
+	}
+
+	/**
+	 * Gets the ROLE of a USER in a FLASHMOB
+	 * 
+	 * @param flashmob
+	 *            the flashmob id
+	 * @param user
+	 *            the username
+	 * @return the role
+	 */
 	public Role getRoleOfUserInFlashmob(ObjectId flashmob, String user) {
 		User u = getUser(user);
 		Flashmob f = getFlashmob(u, flashmob);
@@ -977,9 +1205,9 @@ public class Service {
 	}
 
 	public void removeTrigger(ObjectId flashmob, ObjectId trigger) {
-		//TODO delete trigger
+		// TODO delete trigger
 		throw new UnsupportedOperationException();
-		
+
 	}
 
 	public Trigger updateTrigger(ObjectId flashmob, ObjectId trigger, Trigger t) {

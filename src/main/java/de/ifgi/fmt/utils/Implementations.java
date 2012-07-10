@@ -36,28 +36,28 @@ import org.slf4j.LoggerFactory;
  * @author Autermann, Demuth, Radtke
  */
 public class Implementations {
-    /**
+	/**
      * 
      */
-    protected static class InstantiableFilter implements Filter<Class<?>> {
-	    /**
-	     * 
-	     * @param t
-	     * @return
-	     */
-	    public boolean test(Class<?> t) {
+	protected static class InstantiableFilter implements Filter<Class<?>> {
+		/**
+		 * 
+		 * @param t
+		 * @return
+		 */
+		public boolean test(Class<?> t) {
 			int mod = t.getModifiers();
-			return !(Modifier.isInterface(mod) 
-					&& Modifier.isAbstract(mod) 
-					&& Modifier.isPublic(mod));
+			return !(Modifier.isInterface(mod) && Modifier.isAbstract(mod) && Modifier
+					.isPublic(mod));
 		}
 	};
-	
+
 	/**
 	 * 
 	 */
 	protected static class AnnotationFilter implements Filter<Class<?>> {
 		private Class<? extends Annotation>[] a;
+
 		/**
 		 * 
 		 * @param a
@@ -65,6 +65,7 @@ public class Implementations {
 		public AnnotationFilter(Class<? extends Annotation>... a) {
 			this.a = a;
 		}
+
 		/**
 		 * 
 		 * @param t
@@ -78,15 +79,17 @@ public class Implementations {
 			return true;
 		}
 	}
-	
+
 	/**
 	 * 
 	 */
-	protected static final Logger log = LoggerFactory.getLogger(Implementations.class);
+	protected static final Logger log = LoggerFactory
+			.getLogger(Implementations.class);
 	private static final String PROPERTIES_FILE = "/provider.properties";
 
 	private static Map<String, String> implementations = Utils.map();
-	private static final Reflections r = new Reflections("de.ifgi.fmt", new SubTypesScanner());
+	private static final Reflections r = new Reflections("de.ifgi.fmt",
+			new SubTypesScanner());
 
 	static {
 		InputStream is = Implementations.class
@@ -119,8 +122,9 @@ public class Implementations {
 		if (classes.isEmpty()) {
 			String impl = implementations.get(t.getCanonicalName());
 			if (impl == null) {
-				throw new NullPointerException("can not find implementation for "
-						+ t.getCanonicalName());
+				throw new NullPointerException(
+						"can not find implementation for "
+								+ t.getCanonicalName());
 			}
 			try {
 				return (Class<T>) Class.forName(impl);
@@ -128,7 +132,7 @@ public class Implementations {
 				throw new RuntimeException(e);
 			}
 		}
-		
+
 		Class<? extends T> c = classes.iterator().next();
 		if (classes.size() > 1 && log.isWarnEnabled()) {
 			StringBuffer buf = new StringBuffer();
@@ -141,9 +145,9 @@ public class Implementations {
 			log.warn(buf.toString());
 		}
 		return c;
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * @param <T>
@@ -161,7 +165,8 @@ public class Implementations {
 	 * @param a
 	 * @return
 	 */
-	public static <T> Set<Class<? extends T>> getAnnotatedSubclasses(Class<T> clazz, final Class<? extends Annotation>... a) {
+	public static <T> Set<Class<? extends T>> getAnnotatedSubclasses(
+			Class<T> clazz, final Class<? extends Annotation>... a) {
 		return Utils.filter(getSubclasses(clazz), new AnnotationFilter(a));
 	}
 }

@@ -33,11 +33,12 @@ import de.ifgi.fmt.web.provider.AbstractJSONListProvider;
 @Produces(MediaTypes.TRIGGER_LIST)
 public class TriggerListProvider extends AbstractJSONListProvider<Trigger> {
 
-    /**
+	/**
      * 
      */
-    public TriggerListProvider() {
-		super(Trigger.class, JSONConstants.TRIGGERS_KEY, MediaTypes.TRIGGER_LIST_TYPE);
+	public TriggerListProvider() {
+		super(Trigger.class, JSONConstants.TRIGGERS_KEY,
+				MediaTypes.TRIGGER_LIST_TYPE);
 	}
 
 }

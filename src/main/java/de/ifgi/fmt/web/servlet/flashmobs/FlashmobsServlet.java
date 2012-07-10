@@ -48,26 +48,26 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
  */
 @Path(Paths.FLASHMOBS)
 public class FlashmobsServlet extends AbstractServlet {
-	
-    /**
-     * 
-     * @param limit
-     * @param near
-     * @param user
-     * @param bbox
-     * @param from
-     * @param to
-     * @param sorting
-     * @param descending
-     * @param show
-     * @param search
-     * @param minParticipants
-     * @param maxParticipants
-     * @param participant
-     * @return
-     */
-    @GET
-    @PermitAll
+
+	/**
+	 * 
+	 * @param limit
+	 * @param near
+	 * @param user
+	 * @param bbox
+	 * @param from
+	 * @param to
+	 * @param sorting
+	 * @param descending
+	 * @param show
+	 * @param search
+	 * @param minParticipants
+	 * @param maxParticipants
+	 * @param participant
+	 * @return
+	 */
+	@GET
+	@PermitAll
 	@Produces(MediaTypes.FLASHMOB_LIST)
 	public List<Flashmob> getFlashmobs(
 			@QueryParam(QueryParams.LIMIT) int limit,
@@ -83,7 +83,7 @@ public class FlashmobsServlet extends AbstractServlet {
 			@QueryParam(QueryParams.MIN_PARTICIPANTS) @DefaultValue(ZERO) int minParticipants,
 			@QueryParam(QueryParams.MAX_PARTICIPANTS) @DefaultValue(MINUS_ONE) int maxParticipants,
 			@QueryParam(QueryParams.PARTICIPANT) String participant) {
-		
+
 		DateTime t = null;
 		if (to != null) {
 			t = parseDateTime(to, QueryParams.TO);
@@ -97,11 +97,14 @@ public class FlashmobsServlet extends AbstractServlet {
 			point = parsePoint(near, QueryParams.POSITION);
 		}
 		if (near == null && sorting != null && sorting == Sorting.DISTANCE) {
-			throw ServiceError.invalidParameter(QueryParams.SORT, "can not sort by disance without point given");
+			throw ServiceError.invalidParameter(QueryParams.SORT,
+					"can not sort by disance without point given");
 		}
-		return view(View.FLASHMOBS, getService().getFlashmobs(limit, point, user, bbox, f, t,
-				sorting, descending, show, search, participant,
-				minParticipants, maxParticipants));
+		return view(
+				View.FLASHMOBS,
+				getService().getFlashmobs(limit, point, user, bbox, f, t,
+						sorting, descending, show, search, participant,
+						minParticipants, maxParticipants));
 	}
 
 	/**
@@ -119,7 +122,9 @@ public class FlashmobsServlet extends AbstractServlet {
 			f.setCoordinator(u);
 		}
 		Flashmob saved = getService().createFlashmob(f);
-		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.FLASHMOB).build(f);
-		return Response.created(uri).entity(saved.setView(View.FLASHMOB)).build();
+		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.FLASHMOB)
+				.build(f);
+		return Response.created(uri).entity(saved.setView(View.FLASHMOB))
+				.build();
 	}
 }

@@ -49,10 +49,10 @@ import de.ifgi.fmt.web.filter.auth.FmtPrinciple;
  */
 public abstract class AbstractServlet implements RESTConstants {
 
-    /**
+	/**
      * 
      */
-    protected static final String DEFAULT_LIMIT = "20";
+	protected static final String DEFAULT_LIMIT = "20";
 	/**
 	 * 
 	 */
@@ -73,14 +73,18 @@ public abstract class AbstractServlet implements RESTConstants {
 	/**
 	 * 
 	 */
-	protected static final Logger log = LoggerFactory	.getLogger(RootServlet.class);
-	private static final DateTimeFormatter ISO8601 = ISODateTimeFormat.dateTime();
-	
+	protected static final Logger log = LoggerFactory
+			.getLogger(RootServlet.class);
+	private static final DateTimeFormatter ISO8601 = ISODateTimeFormat
+			.dateTime();
+
 	private final Service service = Service.getInstance();
 	private final GeometryFactory geomFactory = new GeometryFactory();
 
-	private @Context UriInfo uriInfo;
-	private @Context SecurityContext securityContext;
+	private @Context
+	UriInfo uriInfo;
+	private @Context
+	SecurityContext securityContext;
 
 	/**
 	 * 
@@ -94,7 +98,7 @@ public abstract class AbstractServlet implements RESTConstants {
 		}
 		return getSecurityContext().isUserInRole(role);
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -106,16 +110,17 @@ public abstract class AbstractServlet implements RESTConstants {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @param username
 	 * @return
 	 */
 	protected boolean isAdminOrUserWithId(String username) {
-		return isAdmin() || (isUser() && getUser().getUsername().equals(username));
+		return isAdmin()
+				|| (isUser() && getUser().getUsername().equals(username));
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -123,7 +128,7 @@ public abstract class AbstractServlet implements RESTConstants {
 	protected boolean isLoggedIn() {
 		return isUser() || isAdmin();
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -131,6 +136,7 @@ public abstract class AbstractServlet implements RESTConstants {
 	protected boolean isAdmin() {
 		return hasRole(Roles.ADMIN);
 	}
+
 	/**
 	 * 
 	 * @return
@@ -138,15 +144,18 @@ public abstract class AbstractServlet implements RESTConstants {
 	protected boolean isUser() {
 		return hasRole(Roles.USER);
 	}
+
 	/**
 	 * 
 	 * @param flashmob
 	 */
 	protected void canChangeFlashmob(ObjectId flashmob) {
-		if (!isAdminOrUserWithId(getService().getFlashmob(flashmob).getCoordinator().getUsername())) {
+		if (!isAdminOrUserWithId(getService().getFlashmob(flashmob)
+				.getCoordinator().getUsername())) {
 			throw ServiceError.notCoordinator();
 		}
 	}
+
 	/**
 	 * 
 	 * @return
@@ -154,15 +163,15 @@ public abstract class AbstractServlet implements RESTConstants {
 	protected boolean isGuest() {
 		return hasRole(Roles.GUEST) || !(isUser() || isAdmin());
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	protected SecurityContext getSecurityContext(){
+	protected SecurityContext getSecurityContext() {
 		return securityContext;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -211,7 +220,7 @@ public abstract class AbstractServlet implements RESTConstants {
 		double lat = Double.parseDouble(lonLat[1]);
 		return geomFactory.createPoint(new Coordinate(lon, lat));
 	}
-	
+
 	/**
 	 * 
 	 * @param v
@@ -219,7 +228,9 @@ public abstract class AbstractServlet implements RESTConstants {
 	 * @return
 	 */
 	protected <T extends Viewable<T>> List<T> view(View v, List<T> obj) {
-		for (T o : obj) { o.setView(v); }
+		for (T o : obj) {
+			o.setView(v);
+		}
 		return obj;
 	}
 

@@ -28,7 +28,7 @@ import de.ifgi.fmt.model.task.Task;
  * @author Autermann, Demuth, Radtke
  */
 public class TaskForRole {
-    public static final String ROLE = "role";
+	public static final String ROLE = "role";
 	public static final String TASK = "task";
 
 	@NotNull

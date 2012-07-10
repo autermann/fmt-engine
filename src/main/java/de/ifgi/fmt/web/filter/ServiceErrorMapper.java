@@ -54,14 +54,13 @@ public class ServiceErrorMapper implements ExceptionMapper<ServiceError> {
 	public Response toResponse(ServiceError e) {
 		if (e.getMessage() != null) {
 			try {
-			log.info("Mapping Exception: HTTP {}: {}", e.getErrorCode(),e.getMessage());
-			JSONObject j = new JSONObject()
-				.put(JSONConstants.ERRORS_KEY, new JSONArray()
-					.put(new JSONObject()
-						.put(JSONConstants.MESSAGE, e.getMessage())));
-			return Response.status(e.getErrorCode())
-					.entity(j).type(MediaTypes.ERRORS)
-					.build();
+				log.info("Mapping Exception: HTTP {}: {}", e.getErrorCode(),
+						e.getMessage());
+				JSONObject j = new JSONObject().put(JSONConstants.ERRORS_KEY,
+						new JSONArray().put(new JSONObject().put(
+								JSONConstants.MESSAGE, e.getMessage())));
+				return Response.status(e.getErrorCode()).entity(j)
+						.type(MediaTypes.ERRORS).build();
 			} catch (JSONException e1) {
 				throw ServiceError.internal(e);
 			}
@@ -79,7 +78,7 @@ public class ServiceErrorMapper implements ExceptionMapper<ServiceError> {
 			} finally {
 				IOUtils.closeQuietly(out);
 			}
-					
+
 		}
 
 	}

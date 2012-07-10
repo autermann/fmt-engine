@@ -109,7 +109,8 @@ public class Activity extends Viewable<Activity> {
 	 * @return this activity
 	 */
 	public Activity addTask(Role role, Task task) {
-		this.tasks.put(role.addActivity(this), task.setActivity(this).setRole(role));
+		this.tasks.put(role.addActivity(this),
+				task.setActivity(this).setRole(role));
 		return this;
 	}
 

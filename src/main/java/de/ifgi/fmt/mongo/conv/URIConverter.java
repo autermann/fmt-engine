@@ -33,10 +33,10 @@ import de.ifgi.fmt.ServiceError;
  */
 @SuppressWarnings("rawtypes")
 public class URIConverter extends TypeConverter implements SimpleValueConverter {
-    /**
+	/**
      * 
      */
-    public URIConverter() {
+	public URIConverter() {
 		super(URI.class);
 	}
 
@@ -63,7 +63,7 @@ public class URIConverter extends TypeConverter implements SimpleValueConverter 
 	 */
 	@Override
 	public Object decode(Class c, Object o, MappedField i)
-	    throws MappingException {
+			throws MappingException {
 		if (o == null)
 			return null;
 		try {

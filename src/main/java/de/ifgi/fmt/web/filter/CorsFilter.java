@@ -38,15 +38,17 @@ public class CorsFilter implements ContainerResponseFilter {
 	/**
 	 * 
 	 * @param request
-	 * @param response 
+	 * @param response
 	 * @return
 	 */
-	public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
+	public ContainerResponse filter(ContainerRequest request,
+			ContainerResponse response) {
 		response.getHttpHeaders().add(MAX_AGE, MAX_AGE_VALUE);
 		response.getHttpHeaders().add(ALLOW_HEADERS, ALLOWED_HEADERS);
 		response.getHttpHeaders().add(ALLOW_METHODS, ALLOWED_METHODS);
 		String origin = request.getHeaderValue(ORIGIN);
-		response.getHttpHeaders().add(ALLOW_ORIGIN, origin == null ? "*" : origin);
+		response.getHttpHeaders().add(ALLOW_ORIGIN,
+				origin == null ? "*" : origin);
 		return response;
 	}
 }

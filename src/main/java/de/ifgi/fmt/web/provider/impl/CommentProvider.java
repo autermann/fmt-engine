@@ -34,10 +34,10 @@ import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 @Consumes(MediaTypes.COMMENT)
 public class CommentProvider extends AbstractJSONProvider<Comment> {
 
-    /**
+	/**
      * 
      */
-    public CommentProvider() {
+	public CommentProvider() {
 		super(Comment.class, MediaTypes.COMMENT_TYPE);
 	}
 

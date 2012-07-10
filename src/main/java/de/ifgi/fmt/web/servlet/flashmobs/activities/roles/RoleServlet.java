@@ -38,22 +38,21 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.ROLE_OF_ACTIVITY_OF_FLASHMOB)
 public class RoleServlet extends AbstractServlet {
 
-    /**
-     * 
-     * @param flashmob
-     * @param activity
-     * @param role
-     */
-    @DELETE
-    @RolesAllowed({ Roles.USER, Roles.ADMIN })
-	public void removeRole(
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	/**
+	 * 
+	 * @param flashmob
+	 * @param activity
+	 * @param role
+	 */
+	@DELETE
+	@RolesAllowed({ Roles.USER, Roles.ADMIN })
+	public void removeRole(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity,
 			@PathParam(PathParams.ROLE) ObjectId role) {
-    	canChangeFlashmob(flashmob);
+		canChangeFlashmob(flashmob);
 		getService().removeRoleFromActivity(flashmob, activity, role);
 	}
-	
+
 	/**
 	 * 
 	 * @param flashmob
@@ -64,10 +63,10 @@ public class RoleServlet extends AbstractServlet {
 	@GET
 	@PermitAll
 	@Produces(MediaTypes.ROLE)
-	public Role getRole(
-			@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
+	public Role getRole(@PathParam(PathParams.FLASHMOB) ObjectId flashmob,
 			@PathParam(PathParams.ACTIVITY) ObjectId activity,
 			@PathParam(PathParams.ROLE) ObjectId role) {
-		return getService().getRoleForActivity(flashmob, activity, role).setView(View.ROLE_OF_ACTIVITY_OF_FLASHMOB);
+		return getService().getRoleForActivity(flashmob, activity, role)
+				.setView(View.ROLE_OF_ACTIVITY_OF_FLASHMOB);
 	}
 }

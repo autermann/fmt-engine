@@ -31,10 +31,10 @@ import com.google.code.morphia.mapping.MappingException;
  */
 @SuppressWarnings("rawtypes")
 public class URLConverter extends TypeConverter implements SimpleValueConverter {
-    /**
+	/**
      * 
      */
-    public URLConverter() {
+	public URLConverter() {
 		super(URL.class);
 	}
 
@@ -61,7 +61,7 @@ public class URLConverter extends TypeConverter implements SimpleValueConverter 
 	 */
 	@Override
 	public Object decode(Class c, Object o, MappedField i)
-	    throws MappingException {
+			throws MappingException {
 		if (o == null)
 			return null;
 		try {

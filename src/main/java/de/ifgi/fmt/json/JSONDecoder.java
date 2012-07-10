@@ -22,17 +22,20 @@ import org.codehaus.jettison.json.JSONObject;
 
 /**
  * Decodes a Json Object
+ * 
  * @author Autermann, Demuth, Radtke
- * @param <T> a type which has to be decoded
+ * @param <T>
+ *            a type which has to be decoded
  */
 public interface JSONDecoder<T> {
 
-    /**
-     * 
-     * @param j a Json Object
-     * @return A Decoded Type
-     * @throws JSONException
-     */
-    public T decode(JSONObject j) throws JSONException;
-	
+	/**
+	 * 
+	 * @param j
+	 *            a Json Object
+	 * @return A Decoded Type
+	 * @throws JSONException
+	 */
+	public T decode(JSONObject j) throws JSONException;
+
 }

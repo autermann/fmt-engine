@@ -55,11 +55,19 @@ public class RolesAllowedFilterFactory implements ResourceFilterFactory {
 
 		protected Filter(String[] rolesAllowed) {
 			this.denyAll = false;
-			this.rolesAllowed = (rolesAllowed != null) ? rolesAllowed : new String[] {};
+			this.rolesAllowed = (rolesAllowed != null) ? rolesAllowed
+					: new String[] {};
 		}
 
-		@Override public ContainerRequestFilter getRequestFilter() { return this; }
-		@Override public ContainerResponseFilter getResponseFilter() { return null; }
+		@Override
+		public ContainerRequestFilter getRequestFilter() {
+			return this;
+		}
+
+		@Override
+		public ContainerResponseFilter getResponseFilter() {
+			return null;
+		}
 
 		@Override
 		public ContainerRequest filter(ContainerRequest request) {

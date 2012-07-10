@@ -29,13 +29,13 @@ import de.ifgi.fmt.update.UpdateFactory.Updates;
 @Updates(User.class)
 public class UserUpdater extends EntityUpdater<User> {
 
-    /**
-     * 
-     * @param old
-     * @param changes
-     * @return
-     */
-    @Override
+	/**
+	 * 
+	 * @param old
+	 * @param changes
+	 * @return
+	 */
+	@Override
 	public User update(User old, User changes) {
 		if (changes.getEmail() != null) {
 			old.setEmail(changes.getEmail());

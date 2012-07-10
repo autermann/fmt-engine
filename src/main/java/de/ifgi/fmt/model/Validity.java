@@ -19,20 +19,21 @@ package de.ifgi.fmt.model;
 
 /**
  * This class represents a validity
+ * 
  * @author Autermann, Demuth, Radtke
  */
 public enum Validity {
 
-    /**
-     * definition
-     */
-    NOT_CHECKED,
-    /**
-     * definition
-     */
-    NOT_VALID,
-    /**
-     * definition
-     */
-    VALID;
+	/**
+	 * definition
+	 */
+	NOT_CHECKED,
+	/**
+	 * definition
+	 */
+	NOT_VALID,
+	/**
+	 * definition
+	 */
+	VALID;
 }

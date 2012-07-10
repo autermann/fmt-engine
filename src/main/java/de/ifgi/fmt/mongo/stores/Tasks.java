@@ -39,7 +39,7 @@ import de.ifgi.fmt.mongo.Store;
  * 
  * @author Autermann, Demuth, Radtke
  */
-public class Tasks implements ExtendedDao<Task>{
+public class Tasks implements ExtendedDao<Task> {
 	private static final Logger log = LoggerFactory.getLogger(Tasks.class);
 
 	private final Store store;
@@ -73,7 +73,8 @@ public class Tasks implements ExtendedDao<Task>{
 	 */
 	public Task save(Task t) {
 		try {
-			log.debug("Saving Task: {}", JSONFactory.getEncoder(Task.class).encode(t, null));
+			log.debug("Saving Task: {}", JSONFactory.getEncoder(Task.class)
+					.encode(t, null));
 		} catch (JSONException e) {
 			log.error("Error: ", e);
 		}

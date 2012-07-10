@@ -31,25 +31,24 @@ import de.ifgi.fmt.utils.constants.ModelConstants;
 @Polymorphic
 public class LinkTask extends Task {
 
-    /**
+	/**
      * 
      */
-    public enum Type {
+	public enum Type {
 
-	/**
+		/**
 	 * 
 	 */
-	AUDIO,
-	/**
+		AUDIO,
+		/**
 	 * 
 	 */
-	VIDEO,
-	/**
+		VIDEO,
+		/**
 	 * 
 	 */
-	YOUTUBE;
+		YOUTUBE;
 	}
-
 
 	@Property(ModelConstants.Task.LINK)
 	private URI link;

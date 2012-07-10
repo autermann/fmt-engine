@@ -32,12 +32,12 @@ import com.mongodb.DBObject;
  */
 @SuppressWarnings("rawtypes")
 public class IntervalConverter extends TypeConverter implements
-    SimpleValueConverter {
+		SimpleValueConverter {
 
-    /**
+	/**
      * 
      */
-    public IntervalConverter() {
+	public IntervalConverter() {
 		super(Interval.class);
 	}
 
@@ -68,12 +68,13 @@ public class IntervalConverter extends TypeConverter implements
 	 */
 	@Override
 	public Interval decode(Class c, Object o, MappedField i)
-	    throws MappingException {
+			throws MappingException {
 		if (o == null) {
 			return null;
 		} else if (o instanceof DBObject) {
 			DBObject dbo = (DBObject) o;
-			return new Interval(getLong(dbo.get("start")), getLong(dbo.get("end")));
+			return new Interval(getLong(dbo.get("start")),
+					getLong(dbo.get("end")));
 		}
 		return new Interval(o);
 	}

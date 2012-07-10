@@ -42,20 +42,21 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
  */
 @Path(Paths.COMMENTS_FOR_FLASHMOB)
 public class CommentsServlet extends AbstractServlet {
-	
-    /**
-     * 
-     * @param flashmob
-     * @return
-     */
-    @GET
-    @PermitAll
+
+	/**
+	 * 
+	 * @param flashmob
+	 * @return
+	 */
+	@GET
+	@PermitAll
 	@Produces(MediaTypes.COMMENT_LIST)
 	public List<Comment> getComments(
 			@PathParam(PathParams.FLASHMOB) ObjectId flashmob) {
-    	return view(View.COMMENTS_FOR_FLASHMOB, getService().getCommentsForFlashmob(flashmob));
+		return view(View.COMMENTS_FOR_FLASHMOB, getService()
+				.getCommentsForFlashmob(flashmob));
 	}
-	
+
 	/**
 	 * 
 	 * @param flashmob
@@ -66,9 +67,13 @@ public class CommentsServlet extends AbstractServlet {
 	@RolesAllowed({ Roles.USER, Roles.ADMIN })
 	@Consumes(MediaTypes.COMMENT)
 	@Produces(MediaTypes.COMMENT)
-	public Response addComment(@PathParam(PathParams.FLASHMOB) ObjectId flashmob, Comment comment) {
-		Comment c = getService().addComment(flashmob, comment.setUser(getUser()));
-		URI uri = getUriInfo().getBaseUriBuilder().path(Paths.COMMENT_FOR_FLASHMOB).build(flashmob, c.getId());
-		return Response.created(uri).entity(c.setView(View.COMMENT_FOR_FLASHMOB)).build();
+	public Response addComment(
+			@PathParam(PathParams.FLASHMOB) ObjectId flashmob, Comment comment) {
+		Comment c = getService().addComment(flashmob,
+				comment.setUser(getUser()));
+		URI uri = getUriInfo().getBaseUriBuilder()
+				.path(Paths.COMMENT_FOR_FLASHMOB).build(flashmob, c.getId());
+		return Response.created(uri)
+				.entity(c.setView(View.COMMENT_FOR_FLASHMOB)).build();
 	}
 }

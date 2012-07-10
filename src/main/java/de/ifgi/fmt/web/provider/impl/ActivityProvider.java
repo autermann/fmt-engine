@@ -34,10 +34,10 @@ import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 @Consumes(MediaTypes.ACTIVITY)
 public class ActivityProvider extends AbstractJSONProvider<Activity> {
 
-    /**
+	/**
      * 
      */
-    public ActivityProvider() {
+	public ActivityProvider() {
 		super(Activity.class, MediaTypes.ACTIVITY_TYPE);
 	}
 

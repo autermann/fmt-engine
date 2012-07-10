@@ -67,17 +67,17 @@ public class Store {
 	private static final String DB_REF_ID = "$id";
 
 	private static final Logger log = LoggerFactory.getLogger(Store.class);
-	
+
 	/**
 	 * 
 	 */
 	public static final class Queries {
 
-	    /**
-	     * 
-	     * @return
-	     */
-	    public static Query<Trigger> allTriggers() {
+		/**
+		 * 
+		 * @return
+		 */
+		public static Query<Trigger> allTriggers() {
 			return getTriggerDao().createQuery();
 		}
 
@@ -87,7 +87,8 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Trigger> triggersOfFlashmob(Flashmob f) {
-			return getTriggerDao().createQuery().field(ModelConstants.Trigger.FLASHMOB).equal(f);
+			return getTriggerDao().createQuery()
+					.field(ModelConstants.Trigger.FLASHMOB).equal(f);
 		}
 
 		/**
@@ -96,7 +97,8 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Activity> activitiesOfFlashmob(Flashmob f) {
-			return getActivityDao().createQuery().field(ModelConstants.Activity.FLASHMOB).equal(f);
+			return getActivityDao().createQuery()
+					.field(ModelConstants.Activity.FLASHMOB).equal(f);
 		}
 
 		/**
@@ -105,7 +107,8 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Activity> activitiesOfTrigger(Trigger t) {
-			return getActivityDao().createQuery().field(ModelConstants.Activity.TRIGGER).equal(t);
+			return getActivityDao().createQuery()
+					.field(ModelConstants.Activity.TRIGGER).equal(t);
 		}
 
 		/**
@@ -114,7 +117,8 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Comment> commentsOfFlashmob(Flashmob f) {
-			return getCommentDao().createQuery().field(ModelConstants.Comment.FLASHMOB).equal(f);
+			return getCommentDao().createQuery()
+					.field(ModelConstants.Comment.FLASHMOB).equal(f);
 		}
 
 		/**
@@ -123,7 +127,8 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Comment> commentsOfUser(User u) {
-			return getCommentDao().createQuery().field(ModelConstants.Comment.USER).equal(u);
+			return getCommentDao().createQuery()
+					.field(ModelConstants.Comment.USER).equal(u);
 		}
 
 		/**
@@ -150,7 +155,8 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Role> rolesOfUser(User u) {
-			return getRoleDao().createQuery().field(ModelConstants.Role.USERS).hasThisElement(u);
+			return getRoleDao().createQuery().field(ModelConstants.Role.USERS)
+					.hasThisElement(u);
 		}
 
 		/**
@@ -160,7 +166,8 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Role> rolesOfUserInFlashmob(User u, Flashmob f) {
-			return Queries.rolesOfUser(u).field(ModelConstants.Role.FLASHMOB).equal(f);
+			return Queries.rolesOfUser(u).field(ModelConstants.Role.FLASHMOB)
+					.equal(f);
 		}
 
 		/**
@@ -170,7 +177,8 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Flashmob> near(Query<Flashmob> q, Point p) {
-			return q.field(ModelConstants.Flashmob.LOCATION).near(p.getX(), p.getY(), true);
+			return q.field(ModelConstants.Flashmob.LOCATION).near(p.getX(),
+					p.getY(), true);
 		}
 
 		/**
@@ -180,8 +188,9 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Flashmob> in(Query<Flashmob> q, BoundingBox bbox) {
-			return q.field(ModelConstants.Flashmob.LOCATION).within(bbox.getLeft(),
-					bbox.getBottom(), bbox.getRight(), bbox.getTop());
+			return q.field(ModelConstants.Flashmob.LOCATION).within(
+					bbox.getLeft(), bbox.getBottom(), bbox.getRight(),
+					bbox.getTop());
 		}
 
 		/**
@@ -211,9 +220,9 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Flashmob> before(Query<Flashmob> q, DateTime dt) {
-			q.or(q.and(q.criteria(ModelConstants.Flashmob.END).equal(null),
-					   q.criteria(ModelConstants.Flashmob.START).lessThanOrEq(dt)),
-			     q.criteria(ModelConstants.Flashmob.END).lessThanOrEq(dt));
+			q.or(q.and(q.criteria(ModelConstants.Flashmob.END).equal(null), q
+					.criteria(ModelConstants.Flashmob.START).lessThanOrEq(dt)),
+					q.criteria(ModelConstants.Flashmob.END).lessThanOrEq(dt));
 			return q;
 		}
 
@@ -224,8 +233,9 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Flashmob> search(Query<Flashmob> q, String search) {
-			q.or(q.criteria(ModelConstants.Flashmob.TITLE).containsIgnoreCase(search),
-					q.criteria(ModelConstants.Flashmob.DESCRIPTION).containsIgnoreCase(search));
+			q.or(q.criteria(ModelConstants.Flashmob.TITLE).containsIgnoreCase(
+					search), q.criteria(ModelConstants.Flashmob.DESCRIPTION)
+					.containsIgnoreCase(search));
 			return q;
 		}
 
@@ -236,11 +246,14 @@ public class Store {
 		 * @return
 		 */
 		public static Query<Flashmob> hasUser(Query<Flashmob> q, User u) {
-			DBObject keys = new BasicDBObject(ModelConstants.Role.FLASHMOB + "." + DB_REF_ID, true);
-			DBObject query  = new BasicDBObject(ModelConstants.Role.USERS + "." + DB_REF_ID, u.getUsername());
+			DBObject keys = new BasicDBObject(ModelConstants.Role.FLASHMOB
+					+ "." + DB_REF_ID, true);
+			DBObject query = new BasicDBObject(ModelConstants.Role.USERS + "."
+					+ DB_REF_ID, u.getUsername());
 			BasicDBList fids = new BasicDBList();
 			for (DBObject r : getRoleDao().getCollection().find(query, keys)) {
-				fids.add((ObjectId) ((DBObject) r.get(ModelConstants.Role.FLASHMOB)).get(DB_REF_ID));
+				fids.add((ObjectId) ((DBObject) r
+						.get(ModelConstants.Role.FLASHMOB)).get(DB_REF_ID));
 			}
 			return q.field(Mapper.ID_KEY).hasAnyOf(fids);
 		}
@@ -270,7 +283,8 @@ public class Store {
 		 * @return
 		 */
 		public static Query<User> userByAuthToken(String token) {
-			return getUserDao().createQuery().field(ModelConstants.User.AUTH_TOKEN).equal(token);
+			return getUserDao().createQuery()
+					.field(ModelConstants.User.AUTH_TOKEN).equal(token);
 		}
 
 		/**
@@ -279,7 +293,8 @@ public class Store {
 		 * @return
 		 */
 		public static Query<User> userByName(String username) {
-			return getUserDao().createQuery().field(ModelConstants.User.USERNAME).equal(username);
+			return getUserDao().createQuery()
+					.field(ModelConstants.User.USERNAME).equal(username);
 		}
 
 	}
@@ -315,7 +330,7 @@ public class Store {
 		}
 		return q;
 	}
-	
+
 	private Flashmobs flashmobs;
 	private Triggers triggers;
 	private Users users;
@@ -323,13 +338,14 @@ public class Store {
 	private Roles roles;
 	private Tasks tasks;
 	private Comments comments;
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public Flashmobs flashmobs() {
-		return (flashmobs == null) ? flashmobs = new Flashmobs(this) : flashmobs;
+		return (flashmobs == null) ? flashmobs = new Flashmobs(this)
+				: flashmobs;
 	}
 
 	/**
@@ -345,7 +361,8 @@ public class Store {
 	 * @return
 	 */
 	public Activities activities() {
-		return (activities == null) ? activities = new Activities(this) : activities;
+		return (activities == null) ? activities = new Activities(this)
+				: activities;
 	}
 
 	/**
@@ -379,7 +396,7 @@ public class Store {
 	public Comments comments() {
 		return (comments == null) ? comments = new Comments(this) : comments;
 	}
-	
+
 	/**
 	 * 
 	 * @param args
@@ -394,9 +411,12 @@ public class Store {
 
 		Point p = gf.createPoint(new Coordinate(52.0, 7.0));
 		p.setSRID(4326);
-		User user1 = new User().setUsername("user1").setEmail("user1@fmt.de").setPassword("password1");
-		User user2 = new User().setUsername("user2").setEmail("user2@fmt.de").setPassword("password2");
-		User user3 = new User().setUsername("user3").setEmail("user3@fmt.de").setPassword("password3");
+		User user1 = new User().setUsername("user1").setEmail("user1@fmt.de")
+				.setPassword("password1");
+		User user2 = new User().setUsername("user2").setEmail("user2@fmt.de")
+				.setPassword("password2");
+		User user3 = new User().setUsername("user3").setEmail("user3@fmt.de")
+				.setPassword("password3");
 
 		Role role1 = new Role().setCategory(Category.EASY).setTitle("Rolle 1")
 				.setDescription("Rolle 1").setMaxCount(200).setMinCount(50)
@@ -407,41 +427,43 @@ public class Store {
 				.setStartPoint(p).setUsers(Utils.set(user3));
 
 		Trigger t = new Trigger().setTime(begin.plusMinutes(5));
-		
-		Activity activity = new Activity().setDescription("Activity 1").setTitle("Activity 1")
-				.setTrigger(t).setSignal(new VibrationSignal())
+
+		Activity activity = new Activity().setDescription("Activity 1")
+				.setTitle("Activity 1").setTrigger(t)
+				.setSignal(new VibrationSignal())
 				.addTask(role1, new Task().setDescription("Geh nach links"))
 				.addTask(role2, new Task().setDescription("Geh nach rechts"));
 
-		Flashmob f = new Flashmob()
-				.addRole(role1)
-				.setCoordinator(user2)
-				.addRole(role2)
-				.addTrigger(t)
-				.addActivity(activity).setDescription("Was weiß ich")
-				.setEnd(begin.plusHours(2)).setStart(begin).setPublic(false)
-				.setKey("geheim").setTitle("Ein FlashMob").setLocation(p);
-		
+		Flashmob f = new Flashmob().addRole(role1).setCoordinator(user2)
+				.addRole(role2).addTrigger(t).addActivity(activity)
+				.setDescription("Was weiß ich").setEnd(begin.plusHours(2))
+				.setStart(begin).setPublic(false).setKey("geheim")
+				.setTitle("Ein FlashMob").setLocation(p);
+
 		activity.addTask(role1, new Task().setDescription("task1"));
 		activity.addTask(role2, new Task().setDescription("task2"));
 
 		Store s = new Store();
 		s.users().save(Utils.list(user1, user2, user3));
 		s.flashmobs().save(f);
-		
-		s.comments().save(new Comment().setText("war ganz dolle").setUser(user1).setTime(begin.minusHours(20)).setFlashmob(f));
-		s.comments().save(new Comment().setText("war wirklich ganz dolle").setUser(user2).setTime(begin.minusHours(19)).setFlashmob(f));
-//		ObjectId oid = f.getId();
-//
-////		s.users().delete(user1);
-//
-//		f = s.flashmobs().get(oid);
-//
-//		try {
-//			System.err.println(JSONFactory.getEncoder(Flashmob.class)
-//					.encode(f, null).toString(4));
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
+
+		s.comments().save(
+				new Comment().setText("war ganz dolle").setUser(user1)
+						.setTime(begin.minusHours(20)).setFlashmob(f));
+		s.comments().save(
+				new Comment().setText("war wirklich ganz dolle").setUser(user2)
+						.setTime(begin.minusHours(19)).setFlashmob(f));
+		// ObjectId oid = f.getId();
+		//
+		// // s.users().delete(user1);
+		//
+		// f = s.flashmobs().get(oid);
+		//
+		// try {
+		// System.err.println(JSONFactory.getEncoder(Flashmob.class)
+		// .encode(f, null).toString(4));
+		// } catch (JSONException e) {
+		// e.printStackTrace();
+		// }
 	}
 }

@@ -34,10 +34,10 @@ import de.ifgi.fmt.web.provider.AbstractJSONProvider;
 @Consumes(MediaTypes.SIGNAL)
 public class SignalProvider extends AbstractJSONProvider<Signal> {
 
-    /**
+	/**
      * 
      */
-    public SignalProvider() {
+	public SignalProvider() {
 		super(Signal.class, MediaTypes.SIGNAL_TYPE);
 	}
 

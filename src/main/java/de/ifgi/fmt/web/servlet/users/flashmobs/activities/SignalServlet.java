@@ -41,7 +41,6 @@ import de.ifgi.fmt.web.servlet.AbstractServlet;
 @Path(Paths.SIGNAL_OF_ACTIVITY_OF_FLASHMOB_OF_USER)
 public class SignalServlet extends AbstractServlet {
 
-
 	/**
 	 * 
 	 * @param user

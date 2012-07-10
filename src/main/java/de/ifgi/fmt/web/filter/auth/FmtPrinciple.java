@@ -43,7 +43,7 @@ public class FmtPrinciple implements Principal {
 	public String getName() {
 		return getUser().getUsername();
 	}
-	
+
 	/**
 	 * 
 	 * @return
