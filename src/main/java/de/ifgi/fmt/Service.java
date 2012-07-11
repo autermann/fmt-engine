@@ -661,8 +661,12 @@ public class Service {
 	 * @return a signal
 	 */
 	public Signal getSignal(ObjectId flashmob, ObjectId activity) {
-		return getStore().activities().getSignalOfActivity(
+		Signal s = getStore().activities().getSignalOfActivity(
 				getActivity(getFlashmob(flashmob), activity));
+		if (s == null) {
+			throw ServiceError.signalNotFound();
+		}
+		return s;
 	}
 
 	/**
