@@ -44,7 +44,7 @@ import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.utils.constants.RESTConstants.QueryParams;
-import de.ifgi.fmt.web.filter.auth.Authentication;
+import de.ifgi.fmt.web.filter.auth.Authorization;
 
 public class FlashMobTest extends AbstractFlashMobTest {
 	
@@ -130,7 +130,7 @@ public class FlashMobTest extends AbstractFlashMobTest {
 		isCreated(cr);
 		Cookie token = null;
 		for (Cookie c : cr.getCookies()) {
-			if (c.getName().equals(Authentication.COOKIE_NAME)) {
+			if (c.getName().equals(Authorization.COOKIE_NAME)) {
 				token  = c;
 			}
 		}

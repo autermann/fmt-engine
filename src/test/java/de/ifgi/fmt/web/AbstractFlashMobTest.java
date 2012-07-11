@@ -53,13 +53,13 @@ import de.ifgi.fmt.utils.constants.JSONConstants;
 import de.ifgi.fmt.utils.constants.RESTConstants.MediaTypes;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.filter.CorsFilter;
-import de.ifgi.fmt.web.filter.auth.Authentication;
+import de.ifgi.fmt.web.filter.auth.Authorization;
 import de.ifgi.fmt.web.filter.auth.RolesAllowedFilterFactory;
 
 public class AbstractFlashMobTest extends JerseyTest {
 	protected static final Logger log = LoggerFactory.getLogger(AbstractFlashMobTest.class);
 	private static final String LOG = LoggingFilter.class.getName();
-	private static final String AUTH = Authentication.class.getName();
+	private static final String AUTH = Authorization.class.getName();
 	private static final String CORS = CorsFilter.class.getName();
 	private static final String ROLES_ALLOWED = RolesAllowedFilterFactory.class.getName();
 	private static final String PACKAGES = "de.ifgi.fmt";

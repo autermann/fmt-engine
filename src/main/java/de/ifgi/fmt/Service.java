@@ -732,7 +732,7 @@ public class Service {
 	 */
 	public Trigger getTrigger(Flashmob flashmob, ObjectId trigger) {
 		Trigger t = getStore().triggers().get(trigger);
-		if (!flashmob.getTriggers().contains(t)
+		if (t == null || !flashmob.getTriggers().contains(t)
 				|| !t.getFlashmob().equals(flashmob)) {
 			throw ServiceError.triggerNotFound();
 		}
@@ -762,7 +762,11 @@ public class Service {
 	 * @return a trigger
 	 */
 	public Trigger getTriggerOfActivity(ObjectId flashmob, ObjectId activity) {
-		return getActivity(getFlashmob(flashmob), activity).getTrigger();
+		Trigger t = getActivity(getFlashmob(flashmob), activity).getTrigger();
+		if (t == null) {
+			throw ServiceError.triggerNotFound();
+		}
+		return t;
 	}
 
 	/**

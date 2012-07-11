@@ -22,7 +22,6 @@ import java.security.SecureRandom;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
@@ -43,67 +42,129 @@ import com.sun.jersey.spi.container.ContainerResponseFilter;
 import de.ifgi.fmt.Service;
 import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.User;
+import de.ifgi.fmt.utils.constants.RESTConstants.Headers;
 
 /**
  * 
  * @author Autermann, Demuth, Radtke
  */
-public class Authentication implements ContainerResponseFilter,
+public class Authorization implements ContainerResponseFilter,
 		ContainerRequestFilter {
 	private static final Logger log = LoggerFactory
-			.getLogger(Authentication.class);
+			.getLogger(Authorization.class);
 	public static final String COOKIE_NAME = "fmt_oid";
 	private static final String USER_SESSION_ATTRIBUTE = "user";
+	private static final String AUTH_TYPE_SESSION_ATTRIBUTE = "authType";
 	private static final String REMOVE_COOKIE_SESSION_ATTRIBUTE = "remove-cookie";
-
+	
 	private final SecureRandom random = new SecureRandom();
 	private @Context
 	HttpServletRequest sr;
 	private @Context
 	UriInfo uri;
 
-	/**
-	 * 
-	 * @param cr
-	 * @return
-	 */
+	private enum Auth {
+		HEADER, COOKIE, HTTP_BASIC;
+	}
+	
+	protected User tokenAuth(String token) {
+		if (token == null)  return null;
+		User u = Service.getInstance().getStore().users().getByAuthToken(token);
+		if (u == null) {
+			log.warn("No user with this auth token!");
+			throw ServiceError.forbidden("invalid auth token");
+		}
+		return u;
+	}
+	
+	protected User cookieAuth(Cookie cookie) {
+		User u = null;
+		if (cookie != null) {
+			u = tokenAuth(cookie.getValue());
+		}
+		return u;
+	}
+	
+	protected User httpBasicAuth(String headerValue) {
+		User u = null;
+		if (headerValue != null) {
+			if (!headerValue.startsWith("Basic ")) {
+				throw ServiceError.badRequest("Authentication not supported: " + headerValue);
+			}
+			headerValue = new String(Base64.decodeBase64(headerValue.replaceFirst("Basic ", "")));
+			String[] uap = headerValue.split(":");
+			if (uap.length != 2) {
+				throw ServiceError.badRequest("Could not decode user:pass: " + headerValue);
+			}
+
+			u = Service.getInstance().getStore().users().get(uap[0]);
+			if (u == null) {
+				throw ServiceError.forbidden("no such username");// TODO 401 or 403?
+			}
+			if (!u.isValidPassword(uap[1])) {
+				throw ServiceError.notAuthorized("invalid password");
+			}
+		}
+		return u;
+	}
+
 	@Override
 	public ContainerRequest filter(ContainerRequest cr) {
 		if (cr.getMethod().equals("OPTIONS")) {
 			return cr;
 		}
-		if (!cookieLogin(cr)) {
-			if (!headerLogin(cr)) {
-				cr.setSecurityContext(new FmtSecurityContext(null));
+		Auth a = null;
+		User u = null;
+		if (u == null) {
+			if ((u = cookieAuth(cr.getCookies().get(COOKIE_NAME))) != null) {
+				a = Auth.COOKIE;
 			}
+		}
+		if (u == null) {
+			if ((u = tokenAuth(cr.getHeaderValue(Headers.FMT_AUTH_TOKEN))) != null) {
+				a = Auth.HEADER;
+			}
+		}
+		if (u == null) {
+			if ((u = httpBasicAuth(cr.getHeaderValue(HttpHeaders.AUTHORIZATION))) != null) {
+				a = Auth.HTTP_BASIC;
+			}
+		}
+		
+		if (sr != null) {
+			log.debug("AuthType: {}", a);
+			sr.setAttribute(AUTH_TYPE_SESSION_ATTRIBUTE, a);
+		}
+		
+		if (u == null) {
+			cr.setSecurityContext(new FmtSecurityContext(null));
+		} else {
+			authSession(cr, u);
 		}
 		return cr;
 	}
 
-	/**
-	 * 
-	 * @param rq
-	 * @param rs
-	 * @return
-	 */
 	@Override
 	public ContainerResponse filter(ContainerRequest rq, ContainerResponse rs) {
 		if (rq.getMethod().equals("OPTIONS")) {
 			return rs;
 		}
 		Type t = rs.getEntityType();
-		HttpSession s = sr.getSession(true);
-		if (s.getAttribute(USER_SESSION_ATTRIBUTE) != null
-				&& rq.getCookies().get(COOKIE_NAME) == null) {
+		Auth type = (Auth) sr.getAttribute(AUTH_TYPE_SESSION_ATTRIBUTE);
+		log.debug("AuthType: {}", type);
+		if (type == null) type = Auth.HTTP_BASIC;
+		if (sr.getAttribute(USER_SESSION_ATTRIBUTE) != null && type == Auth.HTTP_BASIC) {
 			ResponseBuilder rb = Response.fromResponse(rs.getResponse());
-			User u = (User) s.getAttribute(USER_SESSION_ATTRIBUTE);
+			User u = (User) sr.getAttribute(USER_SESSION_ATTRIBUTE);
 			if (u != null) {
-				rb.cookie(createCookie(u));
+				NewCookie c = createCookie(u);
+				rb.cookie(c);
+				rb.header(Headers.FMT_AUTH_TOKEN, c.getValue());
 			}
 			rs.setResponse(rb.build());
 		} else if (sr.getAttribute(REMOVE_COOKIE_SESSION_ATTRIBUTE) != null) {
 			sr.removeAttribute(REMOVE_COOKIE_SESSION_ATTRIBUTE);
-			User u = (User) s.getAttribute(USER_SESSION_ATTRIBUTE);
+			User u = (User) sr.getAttribute(USER_SESSION_ATTRIBUTE);
 			if (u != null) {
 				u.setAuthToken(null);
 				Service.getInstance().getStore().users().save(u);
@@ -111,60 +172,8 @@ public class Authentication implements ContainerResponseFilter,
 			rs.setResponse(Response.fromResponse(rs.getResponse())
 					.cookie(getInvalidCookie()).build());
 		}
-		s.invalidate();
 		rs.setEntity(rs.getEntity(), t);
 		return rs;
-	}
-
-	private boolean headerLogin(ContainerRequest cr) {
-		String auth = cr.getHeaderValue(HttpHeaders.AUTHORIZATION);
-		if (auth == null) {
-			return false;
-		}
-		if (!auth.startsWith("Basic ")) {
-			throw ServiceError.badRequest("Authentication not supported: "
-					+ auth);
-		}
-		auth = new String(Base64.decodeBase64(auth.replaceFirst("Basic ", "")));
-		String[] uap = auth.split(":");
-		if (uap.length != 2) {
-			throw ServiceError
-					.badRequest("Could not decode user:pass: " + auth);
-		}
-
-		User u = Service.getInstance().getStore().users().get(uap[0]);
-		if (u == null) {
-			throw ServiceError.forbidden("no such username");// TODO 401 or 403?
-		}
-		if (u.isValidPassword(uap[1])) {
-			authSession(cr, u);
-			// set new cookie
-			return true;
-		} else {
-			throw ServiceError.notAuthorized("invalid password");
-		}
-	}
-
-	private boolean cookieLogin(ContainerRequest cr) {
-		// if (sr != null && sr.getSession(false) != null) {
-		// Object su = sr.getAttribute(USER_SESSION_ATTRIBUTE);
-		// if (su != null) {
-		// authSession(cr, (User) su);
-		// return true;
-		// }
-		// }
-		Cookie c = cr.getCookies().get(COOKIE_NAME);
-		if (c == null) {
-			return false;
-		}
-		User u = Service.getInstance().getStore().users()
-				.getByAuthToken(c.getValue());
-		if (u == null) {
-			log.warn("No user with this auth token!");
-			return false;
-		}
-		authSession(cr, u);
-		return true;
 	}
 
 	/**
@@ -173,13 +182,13 @@ public class Authentication implements ContainerResponseFilter,
 	 * @param u
 	 */
 	public void authSession(ContainerRequest cr, User u) {
-		authSession(cr, sr, u);
+		auth(cr, sr, u);
 	}
 
 	// TODO logout?
 	@SuppressWarnings("unused")
 	private void deauthSession(ContainerRequest cr) {
-		deauthSession(cr, sr);
+		deauth(cr, sr);
 	}
 
 	private NewCookie getInvalidCookie() {
@@ -213,11 +222,10 @@ public class Authentication implements ContainerResponseFilter,
 	 * @param cr
 	 * @param sr
 	 */
-	public static void deauthSession(ContainerRequest cr, HttpServletRequest sr) {
+	public static void deauth(ContainerRequest cr, HttpServletRequest sr) {
 		if (sr != null) {
-			sr.getSession(true).removeAttribute(USER_SESSION_ATTRIBUTE);
-			sr.getSession(true).setAttribute(REMOVE_COOKIE_SESSION_ATTRIBUTE,
-					new Boolean(true));
+			sr.removeAttribute(USER_SESSION_ATTRIBUTE);
+			sr.setAttribute(REMOVE_COOKIE_SESSION_ATTRIBUTE, new Boolean(true));
 		}
 		if (cr != null) {
 			cr.setSecurityContext(new FmtSecurityContext(null));
@@ -230,11 +238,13 @@ public class Authentication implements ContainerResponseFilter,
 	 * @param sr
 	 * @param u
 	 */
-	public static void authSession(ContainerRequest cr, HttpServletRequest sr,
-			User u) {
+	public static void auth(ContainerRequest cr, HttpServletRequest sr, User u) {
 		log.debug("Authorizing session for user {}", u);
 		if (sr != null) {
-			sr.getSession(true).setAttribute(USER_SESSION_ATTRIBUTE, u);
+			if (sr.getAttribute(AUTH_TYPE_SESSION_ATTRIBUTE) == null) {
+				sr.setAttribute(AUTH_TYPE_SESSION_ATTRIBUTE, Auth.HTTP_BASIC);
+			}
+			sr.setAttribute(USER_SESSION_ATTRIBUTE, u);
 		}
 		if (cr != null) {
 			cr.setSecurityContext(new FmtSecurityContext(u));
