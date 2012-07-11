@@ -170,27 +170,23 @@ public class RoleHandler extends JSONHandler<Role> {
 			j.put(ACTIVITIES_KEY,
 					uri.getBaseUriBuilder()
 							.path(Paths.ACTIVITIES_OF_ROLE_OF_FLASHMOB)
-							.build(map.getFirst(PathParams.FLASHMOB),
-									map.getFirst(PathParams.ROLE)));
+							.build(t.getFlashmob().getId(), t.getId()));
 			j.put(USERS_KEY,
 					uri.getBaseUriBuilder()
 							.path(Paths.USERS_OF_ROLE_OF_FLASHMOB)
-							.build(map.getFirst(PathParams.FLASHMOB),
-									map.getFirst(PathParams.ROLE)));
-			break;
+							.build(t.getFlashmob().getId(), t.getId()));
+		break;
 		case ROLE_OF_USER_IN_FLASHMOB:
 			j.put(ACTIVITIES_KEY,
 					uri.getBaseUriBuilder()
 							.path(Paths.ACTIVITIES_OF_FLASHMOB_OF_USER)
 							.build(map.get(PathParams.USER),
-									map.getFirst(PathParams.FLASHMOB),
-									t.getId()));
+									t.getFlashmob().getId(), t.getId()));
 			j.put(USERS_KEY,
 					uri.getBaseUriBuilder()
 							.path(Paths.USERS_OF_ROLE_OF_FLASHMOB)
-							.build(map.getFirst(PathParams.FLASHMOB),
-									map.getFirst(PathParams.ROLE)));
-			break;
+							.build(map.getFirst(PathParams.FLASHMOB), t.getId()));
+		break;
 		}
 	}
 }
