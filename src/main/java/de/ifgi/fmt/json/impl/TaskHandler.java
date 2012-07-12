@@ -96,6 +96,8 @@ public class TaskHandler extends JSONHandler<Task> {
 			j.put(TYPE_KEY, lt.getType());
 			j.put(HREF_KEY, lt.getLink());
 		}
+		j.put(ROLE_KEY, encode(t, t.getRole(), uri));
+		j.put(ACTIVITY_KEY, encode(t, t.getActivity(), uri));
 	}
 
 	@Override

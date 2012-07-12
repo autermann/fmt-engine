@@ -147,6 +147,7 @@ public class RoleHandler extends JSONHandler<Role> {
 		case ACTIVITY_OF_FLASHMOB:
 		case ACTIVITY_OF_FLASHMOB_OF_USER:
 		case ROLES_OF_ACTIVITY_OF_FLASHMOB:
+		case TASK_OF_ACTIVITY_OF_FLASHMOB_OF_USER:
 			if (uri != null) {
 				MultivaluedMap<String, String> map = uri.getPathParameters();
 				j.put(HREF_KEY,
@@ -157,8 +158,17 @@ public class RoleHandler extends JSONHandler<Role> {
 										t.getId()));
 			}
 			break;
+		case TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB:
+		case TASK_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB:
+			if (uri != null) {
+				MultivaluedMap<String, String> map = uri.getPathParameters();
+				j.put(HREF_KEY,	uri.getBaseUriBuilder()
+								.path(Paths.ROLE_OF_ACTIVITY_OF_FLASHMOB)
+								.build(map.getFirst(PathParams.FLASHMOB), 
+									   map.getFirst(PathParams.ACTIVITY), t.getId()));
+			}
+			break;
 		}
-
 	}
 
 	@Override
