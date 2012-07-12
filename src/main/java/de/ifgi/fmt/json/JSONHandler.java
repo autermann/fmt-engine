@@ -24,6 +24,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -44,6 +45,8 @@ import org.uncertweb.api.gml.io.JSONGeometryEncoder;
 import com.vividsolutions.jts.geom.Geometry;
 
 import de.ifgi.fmt.ServiceError;
+import de.ifgi.fmt.model.Signal;
+import de.ifgi.fmt.model.Signal.Type;
 import de.ifgi.fmt.model.User;
 import de.ifgi.fmt.model.Viewable;
 import de.ifgi.fmt.utils.constants.RESTConstants.View;
@@ -158,7 +161,7 @@ public abstract class JSONHandler<T extends Viewable<T>> implements
 		if (s == null)
 			return null;
 		try {
-			return Enum.valueOf(e, s);
+			return Enum.valueOf(e, s.toUpperCase());
 		} catch (IllegalArgumentException x) {
 			throw ServiceError.badRequest(x);
 		}
@@ -268,4 +271,10 @@ public abstract class JSONHandler<T extends Viewable<T>> implements
 
 	@Override
 	public abstract T decode(JSONObject j) throws JSONException;
+	
+	
+	public static void main(String[] args) throws MalformedURLException, JSONException {
+		Signal s = new Signal().setType(Type.SOUND).setView(View.SIGNAL_OF_ACTIVITY);
+		System.out.println(JSONFactory.getEncoder(s.getClass()).encode(s, null).toString(4));
+	}
 }

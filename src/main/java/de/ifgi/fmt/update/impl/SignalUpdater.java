@@ -17,11 +17,7 @@
  */
 package de.ifgi.fmt.update.impl;
 
-import de.ifgi.fmt.ServiceError;
-import de.ifgi.fmt.model.signal.Signal;
-import de.ifgi.fmt.model.signal.SoundSignal;
-import de.ifgi.fmt.model.signal.TextSignal;
-import de.ifgi.fmt.model.signal.VibrationSignal;
+import de.ifgi.fmt.model.Signal;
 import de.ifgi.fmt.update.EntityUpdater;
 import de.ifgi.fmt.update.UpdateFactory.Updates;
 
@@ -40,26 +36,11 @@ public class SignalUpdater extends EntityUpdater<Signal> {
 	 */
 	@Override
 	public Signal update(Signal old, Signal changes) {
-		if (old instanceof SoundSignal) {
-			if (!(changes instanceof SoundSignal)) {
-				throw ServiceError.badRequest("mismatching signal types");
-			}
-			SoundSignal ss = (SoundSignal) changes;
-			if (ss.getLink() != null) {
-				((SoundSignal) old).setLink(ss.getLink());
-			}
-		} else if (old instanceof VibrationSignal) {
-			if (!(changes instanceof VibrationSignal)) {
-				throw ServiceError.badRequest("mismatching signal types");
-			}
-		} else if (old instanceof TextSignal) {
-			if (!(changes instanceof TextSignal)) {
-				throw ServiceError.badRequest("mismatching signal types");
-			}
-			TextSignal ts = (TextSignal) changes;
-			if (ts.getText() != null) {
-				((TextSignal) old).setText(ts.getText());
-			}
+		if (changes.getType() != null) {
+			old.setType(changes.getType());
+		}
+		if (changes.getText() != null) {
+			old.setText(changes.getText());
 		}
 		return old;
 	}

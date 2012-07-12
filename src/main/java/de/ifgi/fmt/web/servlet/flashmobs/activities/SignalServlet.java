@@ -30,7 +30,7 @@ import javax.ws.rs.core.Response;
 
 import org.bson.types.ObjectId;
 
-import de.ifgi.fmt.model.signal.Signal;
+import de.ifgi.fmt.model.Signal;
 import de.ifgi.fmt.utils.constants.RESTConstants.Paths;
 import de.ifgi.fmt.web.servlet.AbstractServlet;
 

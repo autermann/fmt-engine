@@ -43,10 +43,11 @@ import de.ifgi.fmt.model.BoundingBox;
 import de.ifgi.fmt.model.Comment;
 import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.model.Role;
+import de.ifgi.fmt.model.Signal;
 import de.ifgi.fmt.model.Role.Category;
+import de.ifgi.fmt.model.Signal.Type;
 import de.ifgi.fmt.model.Trigger;
 import de.ifgi.fmt.model.User;
-import de.ifgi.fmt.model.signal.VibrationSignal;
 import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.mongo.stores.Activities;
 import de.ifgi.fmt.mongo.stores.Comments;
@@ -430,7 +431,7 @@ public class Store {
 
 		Activity activity = new Activity().setDescription("Activity 1")
 				.setTitle("Activity 1").setTrigger(t)
-				.setSignal(new VibrationSignal())
+				.setSignal(new Signal().setType(Type.VIBRATION))
 				.addTask(role1, new Task().setDescription("Geh nach links"))
 				.addTask(role2, new Task().setDescription("Geh nach rechts"));
 
