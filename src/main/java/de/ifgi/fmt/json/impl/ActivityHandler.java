@@ -23,6 +23,7 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.HREF_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.ID_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.ROLES_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.SIGNAL_KEY;
+import static de.ifgi.fmt.utils.constants.JSONConstants.TASK_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.TITLE_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.TRIGGER_KEY;
 
@@ -120,6 +121,21 @@ public class ActivityHandler extends JSONHandler<Activity> {
 	@Override
 	protected void encodeUris(JSONObject j, Activity t, UriInfo uri)
 			throws JSONException {
+		MultivaluedMap<String, String> map = uri.getPathParameters();
+		switch (t.getView()) {
+		case ACTIVITY_OF_ROLE_OF_FLASHMOB:
+			j.put(TASK_KEY, uri.getBaseUriBuilder()
+					.path(Paths.TASK_OF_ACTIVITY_OF_ROLE_OF_FLASHMOB)
+					.build(t.getFlashmob().getId(), 
+							map.getFirst(PathParams.ROLE), t.getId()));
+			break;
+		case ACTIVITY_OF_FLASHMOB_OF_USER:
+			j.put(TASK_KEY, uri.getBaseUriBuilder()
+					.path(Paths.TASK_OF_ACTIVITY_OF_FLASHMOB_OF_USER)
+					.build(map.getFirst(PathParams.USER), 
+							t.getFlashmob().getId(), t.getId()));
+			break;
+		}
 	}
 
 }

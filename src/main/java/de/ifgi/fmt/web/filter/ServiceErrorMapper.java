@@ -58,7 +58,7 @@ public class ServiceErrorMapper implements ExceptionMapper<ServiceError> {
 						e.getMessage());
 				JSONObject j = new JSONObject().put(JSONConstants.ERRORS_KEY,
 						new JSONArray().put(new JSONObject().put(
-								JSONConstants.MESSAGE, e.getMessage())));
+								JSONConstants.MESSAGE_KEY, e.getMessage())));
 				return Response.status(e.getErrorCode()).entity(j)
 						.type(MediaTypes.ERRORS).build();
 			} catch (JSONException e1) {

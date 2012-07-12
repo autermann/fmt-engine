@@ -55,7 +55,7 @@ public class UnsupportedOperationExceptionMapper implements
 			log.warn("Not yet implemented: {}", elem);
 			JSONObject j = new JSONObject().put(JSONConstants.ERRORS_KEY,
 					new JSONArray().put(new JSONObject().put(
-							JSONConstants.MESSAGE, elem
+							JSONConstants.MESSAGE_KEY, elem
 									+ " is not yet implemented.")));
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(j)
 					.type(MediaTypes.ERRORS).build();

@@ -27,6 +27,7 @@ import static de.ifgi.fmt.utils.constants.JSONConstants.ITEMS_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.LOCATION_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.MAX_PARTICIPANTS_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.MIN_PARTICIPANTS_KEY;
+import static de.ifgi.fmt.utils.constants.JSONConstants.TASK_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.TITLE_KEY;
 import static de.ifgi.fmt.utils.constants.JSONConstants.USERS_KEY;
 
@@ -185,8 +186,14 @@ public class RoleHandler extends JSONHandler<Role> {
 			j.put(USERS_KEY,
 					uri.getBaseUriBuilder()
 							.path(Paths.USERS_OF_ROLE_OF_FLASHMOB)
-							.build(map.getFirst(PathParams.FLASHMOB), t.getId()));
+							.build(t.getFlashmob().getId(), t.getId()));
 		break;
+		}
+		if (t.getView() == View.ROLE_OF_ACTIVITY_OF_FLASHMOB) {
+			j.put(TASK_KEY, uri.getBaseUriBuilder()
+					.path(Paths.TASK_OF_ROLE_OF_ACTIVITY_OF_FLASHMOB)
+					.build(t.getFlashmob().getId(), 
+							map.getFirst(PathParams.ACTIVITY), t.getId()));
 		}
 	}
 }

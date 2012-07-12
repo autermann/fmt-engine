@@ -56,11 +56,11 @@ public class ValidationExceptionMapper implements
 			JSONArray a = new JSONArray();
 			for (ConstraintViolation<?> cv : ex.getConstraintViolations()) {
 				JSONObject e = new JSONObject();
-				e.put(JSONConstants.CLASS, cv.getRootBeanClass()
+				e.put(JSONConstants.CLASS_KEY, cv.getRootBeanClass()
 						.getSimpleName());
-				e.put(JSONConstants.PROPERTY, cv.getPropertyPath());
-				e.put(JSONConstants.VALUE, cv.getInvalidValue());
-				e.put(JSONConstants.MESSAGE, cv.getMessage());
+				e.put(JSONConstants.PROPERTY_KEY, cv.getPropertyPath());
+				e.put(JSONConstants.VALUE_KEY, cv.getInvalidValue());
+				e.put(JSONConstants.MESSAGE_KEY, cv.getMessage());
 				a.put(e);
 			}
 			JSONObject j = new JSONObject().put(JSONConstants.ERRORS_KEY, a);
