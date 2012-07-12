@@ -66,17 +66,16 @@ public class ActivityHandler extends JSONHandler<Activity> {
 	protected void encodeObject(JSONObject j, Activity t, UriInfo uri)
 			throws JSONException {
 		j.put(ID_KEY, t.getId());
+		j.put(TITLE_KEY, t.getTitle());
 
 		switch (t.getView()) {
 		case ACTIVITY_OF_FLASHMOB:
 		case ACTIVITY_OF_FLASHMOB_OF_USER:
 		case ACTIVITY_OF_ROLE_OF_FLASHMOB:
-			j.put(TITLE_KEY, t.getTitle());
 			j.put(DESCRIPTION_KEY, t.getDescription());
 			j.put(FLASHMOB_KEY, encode(t, t.getFlashmob(), uri));
 			j.put(TRIGGER_KEY, encode(t, t.getTrigger(), uri));
 			j.put(SIGNAL_KEY, encode(t, t.getSignal(), uri));
-
 			JSONArray roles = new JSONArray();
 			for (Role r : t.getRoles())
 				roles.put(encode(t, r, uri));

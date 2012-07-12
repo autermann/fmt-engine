@@ -93,6 +93,7 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 	protected void encodeObject(JSONObject j, Flashmob f, UriInfo uri)
 			throws JSONException {
 		j.put(ID_KEY, f.getId());
+		j.put(TITLE_KEY, f.getTitle());
 		switch (f.getView()) {
 		case FLASHMOB:
 		case FLASHMOB_OF_USER:
@@ -101,7 +102,6 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 		case FLASHMOBS:
 		case FLASHMOBS_OF_USER:
 			j.put(LOCATION_KEY, encodeGeometry(f.getLocation()));
-			j.put(TITLE_KEY, f.getTitle());
 			j.put(DESCRIPTION_KEY, f.getDescription());
 			j.put(START_TIME_KEY, encodeTime(f.getStart()));
 			j.put(END_TIME_KEY, encodeTime(f.getEnd()));

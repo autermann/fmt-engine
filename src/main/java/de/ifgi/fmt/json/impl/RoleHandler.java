@@ -116,12 +116,12 @@ public class RoleHandler extends JSONHandler<Role> {
 	protected void encodeObject(JSONObject j, Role t, UriInfo uri)
 			throws JSONException {
 		j.put(ID_KEY, t.getId());
+		j.put(TITLE_KEY, t.getTitle());
 		switch (t.getView()) {
 		case ROLE_FOR_FLASHMOB:
 		case ROLE_OF_USER_IN_FLASHMOB:
 		case ROLE_OF_ACTIVITY_OF_FLASHMOB:
 			j.put(ITEMS_KEY, new JSONArray(t.getItems()));
-			j.put(TITLE_KEY, t.getTitle());
 			j.put(DESCRIPTION_KEY, t.getDescription());
 			j.put(LOCATION_KEY, encodeGeometry(t.getStartPoint()));
 			j.put(CATEGORY_KEY, t.getCategory());
