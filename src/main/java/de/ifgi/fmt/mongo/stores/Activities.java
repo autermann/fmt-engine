@@ -21,6 +21,7 @@ import static de.ifgi.fmt.mongo.DaoFactory.getActivityDao;
 import static de.ifgi.fmt.mongo.DaoFactory.getSignalDao;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -149,7 +150,9 @@ public class Activities implements ExtendedDao<Activity> {
 	 * @return
 	 */
 	public List<Activity> get(Query<Activity> q) {
-		return getActivityDao().find(Store.g(q)).asList();
+		List<Activity> l = getActivityDao().find(Store.g(q)).asList();
+		Collections.reverse(l);
+		return l;
 	}
 
 	/**
