@@ -217,4 +217,8 @@ public class Activities implements ExtendedDao<Activity> {
 	public Query<Activity> all() {
 		return getActivityDao().createQuery();
 	}
+
+	public Signal getSignal(ObjectId id) {
+		return getSignalDao().get(id);
+	}
 }

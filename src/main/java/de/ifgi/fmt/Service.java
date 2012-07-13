@@ -104,6 +104,12 @@ public class Service {
 	 */
 	public Activity addActivity(Activity a, ObjectId flashmob) {
 		Flashmob f = getFlashmob(flashmob);
+
+//		Activity a2 = getStore().activities().get(a.getId());
+//		if (a2 != null) {
+//			throw ServiceError.badRequest("activity already present");
+//		}
+		
 		getStore().flashmobs().save(f.addActivity(a));
 		return a;
 	}
@@ -118,6 +124,10 @@ public class Service {
 	 * @return a comment object
 	 */
 	public Comment addComment(ObjectId flashmob, Comment comment) {
+//		Comment c2 = getStore().comments().get(comment.getId());
+//		if (c2 != null) {
+//			throw ServiceError.badRequest("comment already present");
+//		}
 		getStore().comments().save(comment.setFlashmob(getFlashmob(flashmob)));
 		return comment;
 	}
@@ -133,6 +143,10 @@ public class Service {
 	 */
 	public Role addRole(ObjectId flashmob, Role r) {
 		Flashmob f = getFlashmob(flashmob);
+//		Role r2 = getStore().roles().get(r.getId());
+//		if (r2 != null) {
+//			throw ServiceError.badRequest("activity already present");
+//		}
 		getStore().flashmobs().save(f.addRole(r));
 		return r;
 	}
@@ -209,6 +223,10 @@ public class Service {
 	public Signal addSignal(Signal s, ObjectId activity, ObjectId flashmob) {
 		Flashmob f = getFlashmob(flashmob);
 		Activity a = getActivity(f, activity);
+//		Signal s2 = getStore().activities().getSignal(s.getId());
+//		if (s2 != null) {
+//			throw ServiceError.badRequest("signal already present");
+//		}
 		getStore().activities().save(a.setSignal(s));
 		return s;
 	}
@@ -244,6 +262,10 @@ public class Service {
 	 * @return the added task
 	 */
 	public Task addTask(Task t, Role role, Activity activity) {
+//		Task t2 = getStore().tasks().get(t.getId());
+//		if (t2 != null) {
+//			throw ServiceError.badRequest("task already present");
+//		}
 		getStore().activities().save(activity.addTask(role, t));
 		return t;
 	}
@@ -258,6 +280,10 @@ public class Service {
 	 * @return the added trigger
 	 */
 	public Trigger addTrigger(Trigger t, Flashmob flashmob) {
+//		Trigger t2 = getStore().triggers().get(t.getId());
+//		if (t2 != null) {
+//			throw ServiceError.badRequest("trigger already present");
+//		}
 		getStore().flashmobs().save(flashmob.addTrigger(t));
 		return t;
 	}
@@ -283,6 +309,12 @@ public class Service {
 	 * @return the saved flashmob
 	 */
 	public Flashmob createFlashmob(Flashmob f) {
+		
+//		Flashmob f2 = getStore().flashmobs().get(f.getId());
+//		if (f2 != null) {
+//			throw ServiceError.badRequest("flashmob already present");
+//		}
+		
 		return getStore().flashmobs().save(f);
 	}
 
@@ -1168,9 +1200,8 @@ public class Service {
 	public void removeRoleFromFlashmob(ObjectId flashmob, ObjectId role) {
 		Flashmob f = getFlashmob(flashmob);
 		Role r = getRole(f, role);
-
+		// TODO : remove role from activities/tasks
 		f.getRoles().remove(r);
-		// TODO : muss hier noch der FM aus der role gelöscht werden?
 		getStore().flashmobs().save(f);
 	}
 
@@ -1213,9 +1244,9 @@ public class Service {
 	}
 
 	public void removeTrigger(ObjectId flashmob, ObjectId trigger) {
-		// TODO delete trigger
-		throw new UnsupportedOperationException();
-
+		Flashmob f = getFlashmob(flashmob);
+		Trigger t = getTrigger(f, trigger);
+		getStore().triggers().delete(t);
 	}
 
 	public Trigger updateTrigger(ObjectId flashmob, ObjectId trigger, Trigger t) {
