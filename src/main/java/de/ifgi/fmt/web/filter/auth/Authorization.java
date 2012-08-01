@@ -185,7 +185,6 @@ public class Authorization implements ContainerResponseFilter,
 		auth(cr, sr, u);
 	}
 
-	// TODO logout?
 	@SuppressWarnings("unused")
 	private void deauthSession(ContainerRequest cr) {
 		deauth(cr, sr);

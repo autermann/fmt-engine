@@ -235,10 +235,6 @@ public class Activity extends Viewable<Activity> {
 		return getId().hashCode();
 	}
 
-	// TODO Javadoc
-	/**
-	 * Iterate all tasks to .... ?
-	 */
 	@PostLoad
 	public void postLoad() {
 		for (TaskForRole p : savedTasks) {
@@ -246,10 +242,6 @@ public class Activity extends Viewable<Activity> {
 		}
 	}
 
-	// TODO Javadoc
-	/**
-	 * Iterate all Role,Task mapping in the entryset of tasks to .... ?
-	 */
 	@PrePersist
 	public void prePersist() {
 		savedTasks = Utils.list();

@@ -141,7 +141,7 @@ public class Activities implements ExtendedDao<Activity> {
 	 */
 	public Signal getSignalOfActivity(Activity activity) {
 		log.debug("Getting Signal of Activity {}", activity);
-		return activity.getSignal(); // TODO get the signal from the DB
+		return activity.getSignal();
 	}
 
 	/**
@@ -172,10 +172,9 @@ public class Activities implements ExtendedDao<Activity> {
 	public void delete(Activity t) {
 		log.debug("Deleting Activity {}", t);
 		store.tasks().delete(t.getTasks().values());
+		t.getFlashmob().getActivities().remove(t);
+		store.flashmobs().save(t.getFlashmob());
 		getActivityDao().delete(t);
-
-		// TODO activity deletion
-		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	/**

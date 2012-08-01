@@ -85,9 +85,6 @@ public class Service {
 				|| f.getTriggers().isEmpty()) {
 			return false;
 		}
-
-		// TODO hier fehlt noch einiges
-
 		return true;
 	}
 
@@ -181,12 +178,10 @@ public class Service {
 	 * @param flashmob
 	 *            a flashmob which is associated to the activity
 	 */
-	public void addRoleToActivity(Activity activity, Role role,
-			Flashmob flashmob) {
+	public void addRoleToActivity(Activity activity, Role role, Flashmob flashmob) {
 		activity.addRole(role);
-		role.addActivity(activity);
-		getStore().roles().save(role);
 		getStore().activities().save(activity);
+		getStore().roles().save(role);
 	}
 
 	/**
@@ -596,9 +591,9 @@ public class Service {
 	 * @param descending
 	 *            if true, the list will be sorted descending
 	 * @param show
-	 *            the showstatus
+	 *            the showstatus; public/private
 	 * @param search
-	 *            a searchstring
+	 *            a search string
 	 * @param participant
 	 *            username of a certain participant
 	 * @param minParticipants
@@ -607,7 +602,6 @@ public class Service {
 	 *            number of maximal participants
 	 * @return a list of flashmobs
 	 */
-	// TODO javadoc: search, show
 	public List<Flashmob> getFlashmobs(int limit, Point near, String user,
 			BoundingBox bbox, DateTime from, DateTime to, Sorting sorting,
 			boolean descending, ShowStatus show, String search,
@@ -1200,8 +1194,15 @@ public class Service {
 	public void removeRoleFromFlashmob(ObjectId flashmob, ObjectId role) {
 		Flashmob f = getFlashmob(flashmob);
 		Role r = getRole(f, role);
-		// TODO : remove role from activities/tasks
 		f.getRoles().remove(r);
+		for (Activity a : r.getActivities()) {
+			a.removeRole(r);
+			getStore().activities().save(a);
+			Task t = a.getTask(r);
+			if (t != null) {
+				getStore().tasks().delete(t);
+			}
+		}
 		getStore().flashmobs().save(f);
 	}
 

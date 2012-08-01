@@ -165,7 +165,6 @@ public class FlashmobHandler extends JSONHandler<Flashmob> {
 							.build(f));
 			break;
 		case FLASHMOBS_OF_USER:
-			// TODO:
 			j.put(ACTIVITIES_KEY,
 					uri.getBaseUriBuilder().path(Paths.ACTIVITIES_OF_FLASHMOB)
 							.build(f));
