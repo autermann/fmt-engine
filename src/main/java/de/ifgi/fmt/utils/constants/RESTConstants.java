@@ -107,23 +107,11 @@ public interface RESTConstants {
 		public static final String BBOX = "bbox";
 		public static final String FROM = "from";
 		public static final String TO = "to";
-		public static final String SORT = "sort";
-		public static final String DESCENDING = "descending";
 		public static final String SHOW = "show";
 		public static final String SEARCH = "search";
 		public static final String PARTICIPANT = "participant";
 		public static final String MIN_PARTICIPANTS = "minParticipants";
 		public static final String MAX_PARTICIPANTS = "maxParticipants";
-	}
-
-	public enum Sorting {
-		START_TIME,
-		PARTICIPANTS,
-		CREATION_TIME,
-		DISTANCE,
-		TITLE;
-
-		// TODO private String order;
 	}
 
 	public enum ShowStatus {

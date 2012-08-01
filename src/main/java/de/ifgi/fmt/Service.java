@@ -39,7 +39,6 @@ import de.ifgi.fmt.model.task.Task;
 import de.ifgi.fmt.mongo.Store;
 import de.ifgi.fmt.utils.Utils;
 import de.ifgi.fmt.utils.constants.RESTConstants.ShowStatus;
-import de.ifgi.fmt.utils.constants.RESTConstants.Sorting;
 
 /**
  * 
@@ -603,12 +602,12 @@ public class Service {
 	 * @return a list of flashmobs
 	 */
 	public List<Flashmob> getFlashmobs(int limit, Point near, String user,
-			BoundingBox bbox, DateTime from, DateTime to, Sorting sorting,
-			boolean descending, ShowStatus show, String search,
-			String participant, int minParticipants, int maxParticipants) {
+			BoundingBox bbox, DateTime from, DateTime to, ShowStatus show,
+			String search, String participant, int minParticipants,
+			int maxParticipants) {
 		return getStore().flashmobs().get(limit, near, getUser(user), bbox,
-				from, to, sorting, descending, show, search,
-				getUser(participant), minParticipants, maxParticipants);
+				from, to, show, search, getUser(participant), minParticipants,
+				maxParticipants);
 	}
 
 	/**

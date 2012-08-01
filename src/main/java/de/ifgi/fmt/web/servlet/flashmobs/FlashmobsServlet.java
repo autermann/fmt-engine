@@ -35,7 +35,6 @@ import org.joda.time.DateTime;
 
 import com.vividsolutions.jts.geom.Point;
 
-import de.ifgi.fmt.ServiceError;
 import de.ifgi.fmt.model.BoundingBox;
 import de.ifgi.fmt.model.Flashmob;
 import de.ifgi.fmt.model.User;
@@ -76,8 +75,6 @@ public class FlashmobsServlet extends AbstractServlet {
 			@QueryParam(QueryParams.BBOX) BoundingBox bbox,
 			@QueryParam(QueryParams.FROM) String from,
 			@QueryParam(QueryParams.TO) String to,
-			@QueryParam(QueryParams.SORT) Sorting sorting,
-			@QueryParam(QueryParams.DESCENDING) @DefaultValue(TRUE) boolean descending,
 			@QueryParam(QueryParams.SHOW) ShowStatus show,
 			@QueryParam(QueryParams.SEARCH) String search,
 			@QueryParam(QueryParams.MIN_PARTICIPANTS) @DefaultValue(ZERO) int minParticipants,
@@ -96,15 +93,10 @@ public class FlashmobsServlet extends AbstractServlet {
 		if (near != null) {
 			point = parsePoint(near, QueryParams.POSITION);
 		}
-		if (near == null && sorting != null && sorting == Sorting.DISTANCE) {
-			throw ServiceError.invalidParameter(QueryParams.SORT,
-					"can not sort by disance without point given");
-		}
 		return view(
 				View.FLASHMOBS,
-				getService().getFlashmobs(limit, point, user, bbox, f, t,
-						sorting, descending, show, search, participant,
-						minParticipants, maxParticipants));
+				getService().getFlashmobs(limit, point, user, bbox, f, t, show,
+						search, participant, minParticipants, maxParticipants));
 	}
 
 	/**
