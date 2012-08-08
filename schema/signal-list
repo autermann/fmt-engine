@@ -1,10 +1,10 @@
 {
-    "$schema": "http://json-schema.org/draft-03/schema", 
-    "id": "http://giv-flashmob.uni-muenster.de/schema/signal-list#", 
-    "properties": {
-        "signals": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref-list#"
-        }
-    }, 
-    "type": "object"
+	"$schema": "http://json-schema.org/draft-03/schema", 
+	"id": "http://giv-flashmob.uni-muenster.de/schema/signal-list#", 
+	"properties": {
+		"signals": {
+			"$ref": "http://giv-flashmob.uni-muenster.de/schema/ref-list#"
+		}
+	}, 
+	"type": "object"
 }

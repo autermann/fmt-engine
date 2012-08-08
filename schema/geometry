@@ -1,43 +1,43 @@
 {
-    "$schema": "http://json-schema.org/draft-03/schema", 
-    "id": "http://giv-flashmob.uni-muenster.de/schema/geometry#", 
-    "properties": {
-        "coordinates": {
-            "required": true, 
-            "type": "array"
-        }, 
-        "crs": {
-            "properties": {
-                "properties": {
-                    "properties": {
-                        "name": {
-                            "format": "uri", 
-                            "pattern": "^http://www\\.opengis\\.net/def/crs/EPSG/0/[\\d]{4,5}$", 
-                            "required": true, 
-                            "type": "string"
-                        }, 
-                        "required": true, 
-                        "type": "object"
-                    }
-                }, 
-                "type": {
-                    "enum": [
-                        "name"
-                    ], 
-                    "required": true, 
-                    "type": "string"
-                }
-            }, 
-            "required": true, 
-            "type": "object"
-        }, 
-        "type": {
-            "enum": [
-                "Point", 
-                "LineString"
-            ], 
-            "required": true, 
-            "type": "string"
-        }
-    }
+	"$schema": "http://json-schema.org/draft-03/schema", 
+	"id": "http://giv-flashmob.uni-muenster.de/schema/geometry#", 
+	"properties": {
+		"coordinates": {
+			"required": true, 
+			"type": "array"
+		}, 
+		"crs": {
+			"properties": {
+				"properties": {
+					"properties": {
+						"name": {
+							"format": "uri", 
+							"pattern": "^http://www\\.opengis\\.net/def/crs/EPSG/0/[\\d]{4,5}$", 
+							"required": true, 
+							"type": "string"
+						}, 
+						"required": true, 
+						"type": "object"
+					}
+				}, 
+				"type": {
+					"enum": [
+						"name"
+					], 
+					"required": true, 
+					"type": "string"
+				}
+			}, 
+			"required": true, 
+			"type": "object"
+		}, 
+		"type": {
+			"enum": [
+				"Point", 
+				"LineString"
+			], 
+			"required": true, 
+			"type": "string"
+		}
+	}
 }

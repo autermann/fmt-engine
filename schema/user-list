@@ -1,13 +1,13 @@
 {
-    "$schema": "http://json-schema.org/draft-03/schema", 
-    "id": "http://giv-flashmob.uni-muenster.de/schema/user-list#", 
-    "properties": {
-        "users": {
+	"$schema": "http://json-schema.org/draft-03/schema", 
+	"id": "http://giv-flashmob.uni-muenster.de/schema/user-list#", 
+	"properties": {
+		"users": {
 			"type": "array",
 			"items": {
-	            "$ref": "http://giv-flashmob.uni-muenster.de/schema/userref#"
+				"$ref": "http://giv-flashmob.uni-muenster.de/schema/userref#"
 			}
-        }
-    }, 
-    "type": "object"
+		}
+	}, 
+	"type": "object"
 }

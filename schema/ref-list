@@ -1,9 +1,9 @@
 {
-    "$schema": "http://json-schema.org/draft-03/schema", 
-    "id": "http://giv-flashmob.uni-muenster.de/schema/ref-list#", 
-    "items": {
-        "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref#"
-    }, 
-    "required": true, 
-    "type": "array"
+	"$schema": "http://json-schema.org/draft-03/schema", 
+	"id": "http://giv-flashmob.uni-muenster.de/schema/ref-list#", 
+	"items": {
+		"$ref": "http://giv-flashmob.uni-muenster.de/schema/ref#"
+	}, 
+	"required": true, 
+	"type": "array"
 }

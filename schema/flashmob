@@ -1,76 +1,76 @@
 {
-    "$schema": "http://json-schema.org/draft-03/schema", 
-    "id": "http://giv-flashmob.uni-muenster.de/schema/flashmob#", 
-    "properties": {
-        "activities": {
-            "format": "uri", 
-            "type": "string"
-        }, 
-        "coordinator": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/userref#"
-        }, 
-        "description": {
-            "required": "true", 
-            "type": "string"
-        }, 
-        "endTime": {
-            "format": "date-time", 
-            "required": "true", 
-            "type": "string"
-        }, 
-        "id": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid#"
-        }, 
-        "key": {
-            "required": "false", 
-            "type": "string"
-        }, 
-        "location": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/point#"
-        }, 
-        "participants": {
-            "format": "uri", 
-            "type": "string"
-        }, 
-        "public": {
-            "default": "true", 
-            "type": "boolean"
-        }, 
-        "publishTime": {
-            "format": "date-time", 
-            "type": "string"
-        }, 
-        "requiredUsers": {
-            "minimum": 0, 
-            "required": "true", 
-            "type": "integer"
-        }, 
-        "roles": {
-            "format": "uri", 
-            "type": "string"
-        }, 
-        "startTime": {
-            "format": "date-time", 
-            "required": "true", 
-            "type": "string"
-        }, 
-        "title": {
-            "required": "true", 
-            "type": "string"
-        }, 
-        "users": {
-            "default": 0, 
-            "minimum": 0, 
-            "type": "integer"
-        }, 
-        "validity": {
-            "enum": [
-                "NOT_CHECKED", 
-                "VALID", 
-                "NOT_VALID"
-            ], 
-            "type": "string"
-        }
-    }, 
-    "type": "object"
+	"$schema": "http://json-schema.org/draft-03/schema", 
+	"id": "http://giv-flashmob.uni-muenster.de/schema/flashmob#", 
+	"properties": {
+		"activities": {
+			"format": "uri", 
+			"type": "string"
+		}, 
+		"coordinator": {
+			"$ref": "http://giv-flashmob.uni-muenster.de/schema/userref#"
+		}, 
+		"description": {
+			"required": "true", 
+			"type": "string"
+		}, 
+		"endTime": {
+			"format": "date-time", 
+			"required": "true", 
+			"type": "string"
+		}, 
+		"id": {
+			"$ref": "http://giv-flashmob.uni-muenster.de/schema/oid#"
+		}, 
+		"key": {
+			"required": "false", 
+			"type": "string"
+		}, 
+		"location": {
+			"$ref": "http://giv-flashmob.uni-muenster.de/schema/point#"
+		}, 
+		"participants": {
+			"format": "uri", 
+			"type": "string"
+		}, 
+		"public": {
+			"default": "true", 
+			"type": "boolean"
+		}, 
+		"publishTime": {
+			"format": "date-time", 
+			"type": "string"
+		}, 
+		"requiredUsers": {
+			"minimum": 0, 
+			"required": "true", 
+			"type": "integer"
+		}, 
+		"roles": {
+			"format": "uri", 
+			"type": "string"
+		}, 
+		"startTime": {
+			"format": "date-time", 
+			"required": "true", 
+			"type": "string"
+		}, 
+		"title": {
+			"required": "true", 
+			"type": "string"
+		}, 
+		"users": {
+			"default": 0, 
+			"minimum": 0, 
+			"type": "integer"
+		}, 
+		"validity": {
+			"enum": [
+				"NOT_CHECKED", 
+				"VALID", 
+				"NOT_VALID"
+			], 
+			"type": "string"
+		}
+	}, 
+	"type": "object"
 }

@@ -1,19 +1,19 @@
 {
-    "$schema": "http://json-schema.org/draft-03/schema", 
-    "id": "http://giv-flashmob.uni-muenster.de/schema/flashmob-list#", 
-    "properties": {
-        "flashmobs": {
-            "items": [
-                {
-                    "$ref": "http://giv-flashmob.uni-muenster.de/schema/flashmob#"
-                }, 
-                {
-                    "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid#"
-                }
-            ], 
-            "required": true, 
-            "type": "array"
-        }
-    }, 
-    "type": "object"
+	"$schema": "http://json-schema.org/draft-03/schema", 
+	"id": "http://giv-flashmob.uni-muenster.de/schema/flashmob-list#", 
+	"properties": {
+		"flashmobs": {
+			"items": [
+				{
+					"$ref": "http://giv-flashmob.uni-muenster.de/schema/flashmob#"
+				}, 
+				{
+					"$ref": "http://giv-flashmob.uni-muenster.de/schema/oid#"
+				}
+			], 
+			"required": true, 
+			"type": "array"
+		}
+	}, 
+	"type": "object"
 }

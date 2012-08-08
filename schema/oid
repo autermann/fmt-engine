@@ -1,7 +1,7 @@
 {
-    "$schema": "http://json-schema.org/draft-03/schema", 
-    "description": "A ObjectId", 
-    "id": "http://giv-flashmob.uni-muenster.de/schema/oid#", 
-    "pattern": "^[a-fA-F}\\\\d]{24}$", 
-    "type": "string"
+	"$schema": "http://json-schema.org/draft-03/schema", 
+	"description": "A ObjectId", 
+	"id": "http://giv-flashmob.uni-muenster.de/schema/oid#", 
+	"pattern": "^[a-fA-F}\\\\d]{24}$", 
+	"type": "string"
 }

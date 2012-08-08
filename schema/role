@@ -1,54 +1,54 @@
 {
-    "$schema": "http://json-schema.org/draft-03/schema", 
-    "id": "http://giv-flashmob.uni-muenster.de/schema/role#", 
-    "properties": {
-        "activities": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref#"
-        }, 
-        "category": {
-            "enum": [
-                "EASY", 
-                "HARD", 
-                "ULTRA"
-            ], 
-            "type": "string"
-        }, 
-        "description": {
-            "type": "string"
-        }, 
-        "flashmob": [
-            {
-                "$ref": "http://giv-flashmob.uni-muenster.de/schema/flashmob#"
-            }, 
-            {
-                "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid#"
-            }
-        ], 
-        "id": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/oid#"
-        }, 
-        "items": {
-            "items": "string",
-            "minItems": 0, 
-            "type": [ "array", "string" ]
-        }, 
-        "location": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/point#"
-        }, 
-        "maxParticipants": {
-            "minimum": 0, 
-            "type": "integer"
-        }, 
-        "minParticipants": {
-            "minimum": 0, 
-            "type": "integer"
-        }, 
-        "title": {
-            "type": "string"
-        }, 
-        "users": {
-            "$ref": "http://giv-flashmob.uni-muenster.de/schema/ref#"
-        }
-    }, 
-    "type": "object"
+	"$schema": "http://json-schema.org/draft-03/schema", 
+	"id": "http://giv-flashmob.uni-muenster.de/schema/role#", 
+	"properties": {
+		"activities": {
+			"$ref": "http://giv-flashmob.uni-muenster.de/schema/ref#"
+		}, 
+		"category": {
+			"enum": [
+				"EASY", 
+				"HARD", 
+				"ULTRA"
+			], 
+			"type": "string"
+		}, 
+		"description": {
+			"type": "string"
+		}, 
+		"flashmob": [
+			{
+				"$ref": "http://giv-flashmob.uni-muenster.de/schema/flashmob#"
+			}, 
+			{
+				"$ref": "http://giv-flashmob.uni-muenster.de/schema/oid#"
+			}
+		], 
+		"id": {
+			"$ref": "http://giv-flashmob.uni-muenster.de/schema/oid#"
+		}, 
+		"items": {
+			"items": "string",
+			"minItems": 0, 
+			"type": [ "array", "string" ]
+		}, 
+		"location": {
+			"$ref": "http://giv-flashmob.uni-muenster.de/schema/point#"
+		}, 
+		"maxParticipants": {
+			"minimum": 0, 
+			"type": "integer"
+		}, 
+		"minParticipants": {
+			"minimum": 0, 
+			"type": "integer"
+		}, 
+		"title": {
+			"type": "string"
+		}, 
+		"users": {
+			"$ref": "http://giv-flashmob.uni-muenster.de/schema/ref#"
+		}
+	}, 
+	"type": "object"
 }
