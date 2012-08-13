@@ -16,7 +16,7 @@ Switch to the project directory and run the following:
 	mvn -DskipTests package
 
 ## Installing ##
-After building move the generated WAR file to th webapps folder of your Tomcat installation (e.g. `/var/lib/tomcat6/webapps`).
+After building move the generated WAR file to the webapps folder of your Tomcat installation (e.g. `/var/lib/tomcat6/webapps`).
 	
 	sudo mv target/fmt.war ${webapps}
 
