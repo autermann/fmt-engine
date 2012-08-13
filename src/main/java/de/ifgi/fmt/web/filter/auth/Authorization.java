@@ -58,10 +58,11 @@ public class Authorization implements ContainerResponseFilter,
 	private static final String REMOVE_COOKIE_SESSION_ATTRIBUTE = "remove-cookie";
 	
 	private final SecureRandom random = new SecureRandom();
-	private @Context
-	HttpServletRequest sr;
-	private @Context
-	UriInfo uri;
+
+	@Context
+	private HttpServletRequest sr;
+	@Context
+	private UriInfo uri;
 
 	private enum Auth {
 		HEADER, COOKIE, HTTP_BASIC;

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Flashmob Toolkit Service Installation Guide</title>
+	<meta name="author" content="Christian Autermann"/>
+	<meta name="date" content="August 11, 2012"/>
+</head>
+<body>
+
+<h3 id="flashmobtoolkitserviceinstallationguide">Flashmob Toolkit Service Installation Guide</h3>
+
+<h4 id="installingdependencies">Installing Dependencies</h4>
+
+<ul>
+<li>Install <a href="http://maven.apache.org/">Maven</a></li>
+<li>Install and start <a href="http://www.mongodb.org/">MongoDB</a></li>
+<li>Install and start <a href="http://tomcat.apache.org/">Tomcat</a> 6 or 7</li>
+</ul>
+
+<h4 id="building">Building</h4>
+
+<p>Switch to the project directory and run the following:</p>
+
+<pre><code>mvn -DskipTests package
+</code></pre>
+
+<h4 id="installing">Installing</h4>
+
+<p>After building move the generated WAR file to th webapps folder of your Tomcat installation (e.g. <code>/var/lib/tomcat6/webapps</code>).</p>
+
+<pre><code>sudo mv target/fmt.war ${webapps}
+</code></pre>
+
+<p>This job can also be done by uploading the WAR file to the manager application using the GUI or CLI interface:</p>
+
+<pre><code>curl -u ${user}:${pass} http://localhost:8080/manager/deploy?path=/fmt&amp;war=${path_to_project}/target/fmt.war
+</code></pre>
+
+<h4 id="developing">Developing</h4>
+
+<ul>
+<li>Install <a href="http://netbeans.org/">Netbeans</a> and import the project folder</li>
+<li>Install <a href="http://www.eclipse.org/">Eclipse</a>
+
+<ul>
+<li>Install <a href="http://www.sonatype.org/m2eclipse/">m2eclipse</a> and import the project folder as a Maven project</li>
+<li>Run <code>mvn eclipse:eclipse</code> and import the project folder as a Java project</li>
+</ul></li>
+</ul>
+
+</body>
+</html>
