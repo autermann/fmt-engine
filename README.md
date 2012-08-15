@@ -3,7 +3,7 @@ Author: Christian Autermann
 Date: August 11, 2012
 Base Header Level: 3
 
-# Flashmob Toolkit Service Installation Guide
+# Flashmob Toolkit Service Installation Guide #
 
 ## Installing Dependencies ##
 - Install [Maven][1]
