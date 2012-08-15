@@ -359,6 +359,7 @@
 				<version>2.12</version>
 				<configuration>
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
+					<skipTests>true</skipTests>
 					<includes>
 						<include>**/*Test.java</include>
 						<include>**/*Tests.java</include>
