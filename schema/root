@@ -1,0 +1,17 @@
+{
+	"$schema": "http://json-schema.org/draft-03/schema", 
+	"id": "http://giv-flashmob.uni-muenster.de/schema/root#", 
+	"properties": {
+		"users": {
+			"type": "string",
+			"format": "uri",
+			"required": true
+		}, 
+		"flashmobs": {
+			"type": "string",
+			"format": "uri",
+			"required": true
+		}
+	}, 
+	"type": "object"
+}
